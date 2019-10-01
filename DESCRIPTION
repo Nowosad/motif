@@ -1,5 +1,5 @@
 Package: lopata
-Title: What the Package Does (One Line, Title Case)
+Title: Local Pattern Analysis
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Jakub", family = "Nowosad", 
