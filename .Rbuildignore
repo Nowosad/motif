@@ -1,0 +1,10 @@
+^lopata\.Rproj$
+^\.Rproj\.user$
+^README\.Rmd$
+^\.travis\.yml$
+^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^LICENSE\.md$
+^\.circleci/config\.yml$
