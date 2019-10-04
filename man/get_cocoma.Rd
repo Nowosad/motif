@@ -2,9 +2,13 @@
 % Please edit documentation in R/get_cocoma.R
 \name{get_cocoma}
 \alias{get_cocoma}
+\alias{get_cocoma.RasterLayer}
 \title{Create a co-located co-occurrence matrix (cocoma)}
 \usage{
-get_cocoma(x, y, neighbourhood = 4, size = NULL, shift = NULL)
+get_cocoma(x, y, neighbourhood, size, shift)
+
+\method{get_cocoma}{RasterLayer}(x, y, neighbourhood = 4, size = NULL,
+  shift = NULL)
 }
 \arguments{
 \item{x}{A RasterLayer with categories}
@@ -23,12 +27,12 @@ Create a co-located co-occurrence matrix (cocoma)
 \examples{
 library(comat)
 library(raster)
-l1 = raster(matrix(sample(1:2, size = 100, replace = TRUE), ncol = 10))
-l2 = raster(matrix(sample(c(9, 6, 3), size = 100, replace = TRUE), ncol = 10))
+l1 = raster(matrix(sample(1:2, size = 10000, replace = TRUE), ncol = 100))
+l2 = raster(matrix(sample(c(9, 6, 3), size = 10000, replace = TRUE), ncol = 100))
 
 coom = get_cocoma(l1, l2)
 coom
 
-coom2 = get_cocoma(l1, l2, size = 100, shift = 100)
+coom2 = get_cocoma(l1, l2, size = 10, shift = 10)
 coom2
 }

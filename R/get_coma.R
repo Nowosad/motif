@@ -5,7 +5,9 @@
 #' 4 (rook's case) or 8 (queen's case). The default is 4.
 #'
 #' @return A co-occurrence matrix
-#' @export
+#'
+#' @aliases get_coma
+#' @rdname get_coma
 #'
 #' @examples
 #' library(comat)
@@ -18,7 +20,13 @@
 #'
 #' com2 = get_coma(x, neighbourhood = 4, size = 2, shift = 2)
 #' com2
-get_coma = function(x, neighbourhood = 4, size = NULL, shift = NULL){
+#'
+#' @export
+get_coma = function(x, neighbourhood, size, shift) UseMethod("get_coma")
+
+#' @name get_coma
+#' @export
+get_coma.RasterLayer = function(x, neighbourhood = 4, size = NULL, shift = NULL){
   x = raster::as.matrix(x)
   directions = as.matrix(neighbourhood)
 
@@ -34,8 +42,7 @@ get_coma = function(x, neighbourhood = 4, size = NULL, shift = NULL){
                         size = size,
                         shift = shift)
   n = tibble::as_tibble(n)
-  n
-  # structure(n, class = c(class(n), "coma"))
+  structure(n, class = c("coma", class(n)))
 }
 
 # get_coma = function(x, neighbourhood = 4){

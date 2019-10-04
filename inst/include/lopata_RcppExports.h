@@ -25,48 +25,6 @@ namespace lopata {
         }
     }
 
-    inline int get_motifel_size(int num_r, int num_c, int shift) {
-        typedef SEXP(*Ptr_get_motifel_size)(SEXP,SEXP,SEXP);
-        static Ptr_get_motifel_size p_get_motifel_size = NULL;
-        if (p_get_motifel_size == NULL) {
-            validateSignature("int(*get_motifel_size)(int,int,int)");
-            p_get_motifel_size = (Ptr_get_motifel_size)R_GetCCallable("lopata", "_lopata_get_motifel_size");
-        }
-        RObject rcpp_result_gen;
-        {
-            RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_get_motifel_size(Shield<SEXP>(Rcpp::wrap(num_r)), Shield<SEXP>(Rcpp::wrap(num_c)), Shield<SEXP>(Rcpp::wrap(shift)));
-        }
-        if (rcpp_result_gen.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
-            throw Rcpp::LongjumpException(rcpp_result_gen);
-        if (rcpp_result_gen.inherits("try-error"))
-            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<int >(rcpp_result_gen);
-    }
-
-    inline List get_motifels_coma(IntegerMatrix x, const arma::imat directions, int size, int shift, const std::string fun = "mean", const std::string na_action = "replace") {
-        typedef SEXP(*Ptr_get_motifels_coma)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_get_motifels_coma p_get_motifels_coma = NULL;
-        if (p_get_motifels_coma == NULL) {
-            validateSignature("List(*get_motifels_coma)(IntegerMatrix,const arma::imat,int,int,const std::string,const std::string)");
-            p_get_motifels_coma = (Ptr_get_motifels_coma)R_GetCCallable("lopata", "_lopata_get_motifels_coma");
-        }
-        RObject rcpp_result_gen;
-        {
-            RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_get_motifels_coma(Shield<SEXP>(Rcpp::wrap(x)), Shield<SEXP>(Rcpp::wrap(directions)), Shield<SEXP>(Rcpp::wrap(size)), Shield<SEXP>(Rcpp::wrap(shift)), Shield<SEXP>(Rcpp::wrap(fun)), Shield<SEXP>(Rcpp::wrap(na_action)));
-        }
-        if (rcpp_result_gen.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
-            throw Rcpp::LongjumpException(rcpp_result_gen);
-        if (rcpp_result_gen.inherits("try-error"))
-            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<List >(rcpp_result_gen);
-    }
-
     inline List get_motifels_wecoma(IntegerMatrix x, NumericMatrix w, const arma::imat directions, int size, int shift, const std::string fun = "mean", const std::string na_action = "replace") {
         typedef SEXP(*Ptr_get_motifels_wecoma)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_get_motifels_wecoma p_get_motifels_wecoma = NULL;

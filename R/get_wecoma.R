@@ -8,7 +8,9 @@
 #' @param na_action "replace", "omit", or "keep". The default is "replace".
 #'
 #' @return A weighted co-occurrence matrix
-#' @export
+#'
+#' @aliases get_wecoma
+#' @rdname get_wecoma
 #'
 #' @examples
 #' library(comat)
@@ -22,8 +24,13 @@
 #' wom
 #' wom2 = get_wecoma(x, w, size = 2, shift = 2)
 #' wom2
-#'
-get_wecoma = function(x, y, neighbourhood = 4, size = NULL, shift = NULL, fun = "mean", na_action = "replace"){
+#' @export
+get_wecoma = function(x, y, neighbourhood, size, shift, fun, na_action) UseMethod("get_wecoma")
+
+#' @name get_wecoma
+#' @export
+get_wecoma.RasterLayer = function(x, y, neighbourhood = 4, size = NULL, shift = NULL,
+                                  fun = "mean", na_action = "replace"){
   x = raster::as.matrix(x)
   w = raster::as.matrix(w)
   directions = as.matrix(neighbourhood)
@@ -35,8 +42,8 @@ get_wecoma = function(x, y, neighbourhood = 4, size = NULL, shift = NULL, fun = 
     shift = size
   }
 
-  n = get_motifels_wecoma(x,
-                   w,
+  n = get_motifels_wecoma(x = x,
+                   w = w,
                    directions = directions,
                    size = size,
                    shift = shift,
@@ -45,7 +52,7 @@ get_wecoma = function(x, y, neighbourhood = 4, size = NULL, shift = NULL, fun = 
   n = tibble::as_tibble(n)
 
   # n
-  structure(n, class = c(class(n), "coma"))
+  structure(n, class = c("coma", class(n)))
 }
 
 # get_wecoma = function(x, w, neighbourhood = 4, fun = "mean", na_action = "replace"){

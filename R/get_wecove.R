@@ -9,7 +9,9 @@
 #' The default is TRUE.
 #'
 #' @return A weighted co-occurrence vector
-#' @export
+#'
+#' @aliases get_wecove
+#' @rdname get_wecove
 #'
 #' @examples
 #' library(comat)
@@ -22,7 +24,23 @@
 #'
 #' wov = get_wecove(wom)
 #' wov
-get_wecove = function(x, ordered = TRUE){
-  y = rcpp_get_vec(x, ordered)
-  structure(y, class = c("numeric", "wecove"))
+#'
+#' @export
+get_wecove = function(x, type, normalization) UseMethod("get_wecove")
+
+#' @name get_wecove
+#' @export
+get_wecove.wecoma = function(x, type = "ordered", normalization = "none"){
+  y = lapply(x$matrix,
+             comat:::rcpp_get_wecove,
+             type = type,
+             normalization = normalization)
+  x$matrix = NULL
+  x$vector = y
+  structure(x, class = c("wecove", class(x)))
 }
+
+# get_wecove = function(x, ordered = TRUE){
+#   y = rcpp_get_vec(x, ordered)
+#   structure(y, class = c("numeric", "wecove"))
+# }

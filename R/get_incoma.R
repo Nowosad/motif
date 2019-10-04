@@ -5,7 +5,9 @@
 #' 4 (rook's case) or 8 (queen's case). The default is 4.
 #'
 #' @return An integrated co-occurrence matrix
-#' @export
+#'
+#' @aliases get_incoma
+#' @rdname get_incoma
 #'
 #' @examples
 #' library(raster)
@@ -17,8 +19,12 @@
 #'
 #' get_incoma(x)
 #' get_incoma(x, size = 100, shift = 100)
-#'
-get_incoma = function(x, neighbourhood = 4, size = NULL, shift = NULL){
+#' @export
+get_incoma = function(x, neighbourhood, size, shift) UseMethod("get_incoma")
+
+#' @name get_incoma
+#' @export
+get_incoma.RasterLayer = function(x, neighbourhood = 4, size = NULL, shift = NULL){
   rasters = lapply(raster::as.list(x), raster::as.matrix)
   directions = as.matrix(neighbourhood)
 
@@ -29,12 +35,14 @@ get_incoma = function(x, neighbourhood = 4, size = NULL, shift = NULL){
     shift = size
   }
 
-  n = get_motifels_incoma(rasters, directions = directions,
-                          size = size, shift = shift)
+  n = get_motifels_incoma(rasters,
+                          directions = directions,
+                          size = size,
+                          shift = shift)
   n = tibble::as_tibble(n)
 
   # n
-  structure(n, class = c(class(n), "incoma"))
+  structure(n, class = c("incoma", class(n)))
 }
 
 # get_incoma = function(x, neighbourhood = 4){

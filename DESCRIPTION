@@ -17,8 +17,10 @@ LinkingTo:
     Rcpp,
     RcppArmadillo
 Imports: 
+    comat,
     Rcpp,
-    raster
+    raster,
+    tibble
 Suggests: 
     covr
 URL: https://github.com/Nowosad/lopata

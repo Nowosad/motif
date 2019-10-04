@@ -2,9 +2,13 @@
 % Please edit documentation in R/get_cocove.R
 \name{get_cocove}
 \alias{get_cocove}
+\alias{get_cocove.cocoma}
 \title{Create a co-located co-occurrence vector (cocove)}
 \usage{
-get_cocove(x, ordered = TRUE)
+get_cocove(x, type, normalization)
+
+\method{get_cocove}{cocoma}(x, type = "ordered",
+  normalization = "none")
 }
 \arguments{
 \item{x}{A matrix - an output of the \code{\link[=get_cocoma]{get_cocoma()}} function}
@@ -21,7 +25,7 @@ Converts a co-located co-occurrence matrix (cocoma) to
 a co-located co-occurrence vector (cocove)
 }
 \examples{
-library(comat)
+library(lopata)
 library(raster)
 data(x, package = "comat")
 data(x_na, package = "comat")
@@ -33,4 +37,5 @@ coom
 
 coov = get_cocove(coom)
 coov
+
 }

@@ -1,7 +1,7 @@
-#' Create an integrated co-occurrence vector (wecove)
+#' Create an integrated co-occurrence vector (incove)
 #'
-#' Converts an integrated co-occurrence matrix (wecoma) to
-#' an integrated co-occurrence vector (wecove)
+#' Converts an integrated co-occurrence matrix (incoma) to
+#' an integrated co-occurrence vector (incove)
 #'
 #' @param x A matrix - an output of the [get_incoma()] function
 #' @param ordered The type of pairs considered.
@@ -9,7 +9,9 @@
 #' The default is TRUE.
 #'
 #' @return An integrated co-occurrence vector
-#' @export
+#'
+#' @aliases get_incove
+#' @rdname get_incove
 #'
 #' @examples
 #' library(comat)
@@ -26,9 +28,27 @@
 #'
 #' incov2 = get_incove(incom, ordered = FALSE)
 #' incov2
-get_incove = function(x, ordered = TRUE){
-  x = raster::as.matrix(x)
-  y = rcpp_get_vec(x, ordered)
-  structure(y, class = c("numeric", "incove"))
+#'
+#' @export
+get_incove = function(x, type, normalization) UseMethod("get_incove")
+
+#' @name get_wecove
+#' @export
+get_incove.wecoma = function(x, type = "ordered", normalization = "none"){
+  y = lapply(x$matrix,
+             comat:::rcpp_get_incove,
+             type = type,
+             normalization = normalization)
+  x$matrix = NULL
+  x$vector = y
+  structure(x, class = c("incove", class(x)))
 }
+
+
+
+# get_incove = function(x, ordered = TRUE){
+#   x = raster::as.matrix(x)
+#   y = rcpp_get_vec(x, ordered)
+#   structure(y, class = c("numeric", "incove"))
+# }
 

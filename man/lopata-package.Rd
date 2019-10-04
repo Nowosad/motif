@@ -4,7 +4,7 @@
 \name{lopata-package}
 \alias{lopata}
 \alias{lopata-package}
-\title{lopata: What the Package Does (One Line, Title Case)}
+\title{lopata: Local Pattern Analysis}
 \description{
 What the package does (one paragraph).
 }

@@ -9,36 +9,39 @@
 #' The default is TRUE.
 #'
 #' @return A co-occurrence vector
-#' @export
+#'
+#' @aliases get_cove
+#' @rdname get_cove
 #'
 #' @examples
 #' library(comat)
 #' library(raster)
 #' data(x, package = "comat")
 #'
-#' com = get_coma2(x)
+#' com = get_coma(x)
 #' com
 #'
-#' cov = get_cove(com$matrix[[1]])
+#' cov = get_cove(com)
 #' cov
 #'
-#' get_cove2(com)
-get_cove = function(x, ordered = TRUE){
-  # x = raster::as.matrix(x)
-  y = rcpp_get_vec(x, ordered)
-  structure(y, class = c("numeric", "cove"))
+#' @export
+get_cove = function(x, type, normalization) UseMethod("get_cove")
+
+#' @name get_cove
+#' @export
+get_cove.coma = function(x, type = "ordered", normalization = "none"){
+  y = lapply(x$matrix,
+             comat:::rcpp_get_cove,
+             type = type,
+             normalization = normalization)
+  x$matrix = NULL
+  x$vector = y
+  structure(x, class = c("cove", class(x)))
 }
 
-#' @export
-get_cove2 = function(x, ordered = TRUE, normalization = NULL){
-  y = lapply(x$matrix, rcpp_get_vec, ordered = ordered)
-  x$matrix = NULL
-  if(missing(normalization)){
-    y
-  } else{
-    y = lapply(y, get_normalized, normalization = normalization)
-  }
-  x$vector = y
-  return(x)
-  # structure(y, class = c("numeric", "cove"))
-}
+
+# get_cove = function(x, ordered = TRUE){
+#   # x = raster::as.matrix(x)
+#   y = rcpp_get_vec(x, ordered)
+#   structure(y, class = c("numeric", "cove"))
+# }

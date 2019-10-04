@@ -2,9 +2,12 @@
 % Please edit documentation in R/get_cove.R
 \name{get_cove}
 \alias{get_cove}
+\alias{get_cove.coma}
 \title{Create a co-occurrence vector (wecove)}
 \usage{
-get_cove(x, ordered = TRUE)
+get_cove(x, type, normalization)
+
+\method{get_cove}{coma}(x, type = "ordered", normalization = "none")
 }
 \arguments{
 \item{x}{A matrix - an output of the \code{\link[=get_coma]{get_coma()}} function}
@@ -25,11 +28,10 @@ library(comat)
 library(raster)
 data(x, package = "comat")
 
-com = get_coma2(x)
+com = get_coma(x)
 com
 
-cov = get_cove(com$matrix[[1]])
+cov = get_cove(com)
 cov
 
-get_cove2(com)
 }

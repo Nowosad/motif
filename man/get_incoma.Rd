@@ -2,9 +2,13 @@
 % Please edit documentation in R/get_incoma.R
 \name{get_incoma}
 \alias{get_incoma}
+\alias{get_incoma.RasterLayer}
 \title{Create an integrated co-occurrence matrix (wecoma)}
 \usage{
-get_incoma(x, neighbourhood = 4, size = NULL, shift = NULL)
+get_incoma(x, neighbourhood, size, shift)
+
+\method{get_incoma}{RasterLayer}(x, neighbourhood = 4, size = NULL,
+  shift = NULL)
 }
 \arguments{
 \item{x}{A RasterStack object containing categorical rasters}
@@ -28,5 +32,4 @@ x = stack(l1, l2, l1)
 
 get_incoma(x)
 get_incoma(x, size = 100, shift = 100)
-
 }

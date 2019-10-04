@@ -2,10 +2,13 @@
 % Please edit documentation in R/get_wecoma.R
 \name{get_wecoma}
 \alias{get_wecoma}
+\alias{get_wecoma.RasterLayer}
 \title{Create a weighted co-occurrence matrix (wecoma)}
 \usage{
-get_wecoma(x, y, neighbourhood = 4, size = NULL, shift = NULL,
-  fun = "mean", na_action = "replace")
+get_wecoma(x, y, neighbourhood, size, shift, fun, na_action)
+
+\method{get_wecoma}{RasterLayer}(x, y, neighbourhood = 4, size = NULL,
+  shift = NULL, fun = "mean", na_action = "replace")
 }
 \arguments{
 \item{x}{A RasterLayer with categories}
@@ -37,5 +40,4 @@ wom = get_wecoma(x, w)
 wom
 wom2 = get_wecoma(x, w, size = 2, shift = 2)
 wom2
-
 }

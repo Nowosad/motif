@@ -2,9 +2,13 @@
 % Please edit documentation in R/get_coma.R
 \name{get_coma}
 \alias{get_coma}
+\alias{get_coma.RasterLayer}
 \title{Create a co-occurrence matrix (coma)}
 \usage{
-get_coma(x, neighbourhood = 4, size = NULL, shift = NULL)
+get_coma(x, neighbourhood, size, shift)
+
+\method{get_coma}{RasterLayer}(x, neighbourhood = 4, size = NULL,
+  shift = NULL)
 }
 \arguments{
 \item{x}{A RasterLayer with categories}
@@ -29,4 +33,5 @@ com
 
 com2 = get_coma(x, neighbourhood = 4, size = 2, shift = 2)
 com2
+
 }
