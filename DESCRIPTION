@@ -25,3 +25,5 @@ Suggests:
     covr
 URL: https://github.com/Nowosad/lopata
 BugReports: https://github.com/Nowosad/lopata/issues
+Remotes:
+    nowosad/comat
