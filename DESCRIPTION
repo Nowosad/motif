@@ -25,8 +25,5 @@ Suggests:
     covr
 URL: https://github.com/Nowosad/lopata
 BugReports: https://github.com/Nowosad/lopata/issues
-<<<<<<< HEAD
-=======
 Remotes:
     nowosad/comat
->>>>>>> parent of 21f0cb4... Initial gh-pages commit
