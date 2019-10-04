@@ -9,20 +9,20 @@ get_motifel_size <- function(num_r, num_c, shift) {
     .Call(`_lopata_get_motifel_size`, num_r, num_c, shift)
 }
 
-get_motifels_wecoma <- function(x, w, directions, size, shift, fun = "mean", na_action = "replace") {
-    .Call(`_lopata_get_motifels_wecoma`, x, w, directions, size, shift, fun, na_action)
-}
-
 get_motifels_cocoma <- function(x, y, directions, size, shift) {
     .Call(`_lopata_get_motifels_cocoma`, x, y, directions, size, shift)
 }
 
-get_motifels_incoma <- function(input, directions, size, shift, fun = "mean", na_action = "replace") {
-    .Call(`_lopata_get_motifels_incoma`, input, directions, size, shift, fun, na_action)
-}
-
 get_motifels_coma <- function(x, directions, size, shift) {
     .Call(`_lopata_get_motifels_coma`, x, directions, size, shift)
+}
+
+get_motifels_incoma <- function(input, directions, size, shift) {
+    .Call(`_lopata_get_motifels_incoma`, input, directions, size, shift)
+}
+
+get_motifels_wecoma <- function(x, w, directions, size, shift, fun = "mean", na_action = "replace") {
+    .Call(`_lopata_get_motifels_wecoma`, x, w, directions, size, shift, fun, na_action)
 }
 
 # Register entry points for exported C++ functions

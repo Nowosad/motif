@@ -2,16 +2,17 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-List get_motifels_coma(IntegerMatrix x,
-                       const arma::imat directions,
-                       int size,
-                       int shift) {
+List get_motifels_incoma(const List input,
+                         const arma::imat directions,
+                         int size,
+                         int shift) {
 
-  const int num_r = x.nrow();
-  const int num_c = x.ncol();
+  int num_l = input.length();
+  List classes(num_l);
 
-  List classes(1);
-  classes(0) = comat::get_unique_values(x, true);
+  IntegerMatrix x = input(0);
+  int num_r = x.nrow();
+  int num_c = x.ncol();
 
   int nr_of_motifels;
   if (size == 0){
@@ -29,14 +30,19 @@ List get_motifels_coma(IntegerMatrix x,
   int m_row = 1;
   int m_col = 1;
 
+  for (int l = 0; l < num_l; l++){
+    classes(l) = comat::get_unique_values(input[l], true);
+  }
+
   if (size == 0){
     all_nr_of_motifels(0) = 1;
     all_m_row(0) = m_row;
     all_m_col(0) = m_col;
-    result[0] = comat::rcpp_get_coma_internal(x, directions, classes(0));
-  } else {
+    result[0] = comat::rcpp_get_incoma_list(input, directions, classes);
 
-    // IntegerMatrix motifel_x;
+  } else {
+    List motifel_input(num_l);
+    // IntegerMatrix layer_l(num_r, num_c);
 
     for (int i = 0; i < num_r; i = i + shift){
       for (int j = 0; j < num_c; j = j + shift){
@@ -52,10 +58,14 @@ List get_motifels_coma(IntegerMatrix x,
         if (j_max >= num_c){
           j_max = num_c - 1;
         }
-        IntegerMatrix motifel_x = x(Range(i, i_max), Range(j, j_max));
-        // Rcout << "The value of motifel_x : " << motifel_x << "\n";
 
-        result[nr_of_motifels2] = comat::rcpp_get_coma_internal(motifel_x, directions, classes(0));
+        for (int l = 0; l < num_l; l++){
+          // IntegerMatrix layer_l;
+
+          IntegerMatrix layer_l = wrap(input(l));
+          motifel_input(l) = layer_l(Range(i, i_max), Range(j, j_max));
+        }
+        result[nr_of_motifels2] = comat::rcpp_get_incoma_list(motifel_input, directions, classes);
 
         // double na_perc = na_prop(motifel_x);
 
@@ -77,20 +87,7 @@ List get_motifels_coma(IntegerMatrix x,
 
   CharacterVector my_class(2);
   my_class(0) = "list";
-  my_class(1) = "coma";
+  my_class(1) = "incoma";
   df.attr("class") = my_class;
   return df;
 }
-
-
-/***R
-data(x, package = "comat")
-x = raster::as.matrix(x)
-# com2 = get_motifels_coma(x, directions = matrix(4), size = 0, shift = 0)
-com2 = get_motifels_coma(x, directions = matrix(4), size = 2, shift = 2)
-get_motifels_coma3(x, directions = matrix(4), size = 2, shift = 2)
-
-x = matrix(sample(1:2, size = 1000000, replace = TRUE), ncol = 1000)
-
-bench::mark(get_motifels_coma(x, directions = matrix(4), size = 100, shift = 100))
-*/

@@ -25,69 +25,6 @@ namespace lopata {
         }
     }
 
-    inline List get_motifels_wecoma(IntegerMatrix x, NumericMatrix w, const arma::imat directions, int size, int shift, const std::string fun = "mean", const std::string na_action = "replace") {
-        typedef SEXP(*Ptr_get_motifels_wecoma)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_get_motifels_wecoma p_get_motifels_wecoma = NULL;
-        if (p_get_motifels_wecoma == NULL) {
-            validateSignature("List(*get_motifels_wecoma)(IntegerMatrix,NumericMatrix,const arma::imat,int,int,const std::string,const std::string)");
-            p_get_motifels_wecoma = (Ptr_get_motifels_wecoma)R_GetCCallable("lopata", "_lopata_get_motifels_wecoma");
-        }
-        RObject rcpp_result_gen;
-        {
-            RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_get_motifels_wecoma(Shield<SEXP>(Rcpp::wrap(x)), Shield<SEXP>(Rcpp::wrap(w)), Shield<SEXP>(Rcpp::wrap(directions)), Shield<SEXP>(Rcpp::wrap(size)), Shield<SEXP>(Rcpp::wrap(shift)), Shield<SEXP>(Rcpp::wrap(fun)), Shield<SEXP>(Rcpp::wrap(na_action)));
-        }
-        if (rcpp_result_gen.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
-            throw Rcpp::LongjumpException(rcpp_result_gen);
-        if (rcpp_result_gen.inherits("try-error"))
-            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<List >(rcpp_result_gen);
-    }
-
-    inline List get_motifels_cocoma(IntegerMatrix x, IntegerMatrix y, const arma::imat directions, int size, int shift) {
-        typedef SEXP(*Ptr_get_motifels_cocoma)(SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_get_motifels_cocoma p_get_motifels_cocoma = NULL;
-        if (p_get_motifels_cocoma == NULL) {
-            validateSignature("List(*get_motifels_cocoma)(IntegerMatrix,IntegerMatrix,const arma::imat,int,int)");
-            p_get_motifels_cocoma = (Ptr_get_motifels_cocoma)R_GetCCallable("lopata", "_lopata_get_motifels_cocoma");
-        }
-        RObject rcpp_result_gen;
-        {
-            RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_get_motifels_cocoma(Shield<SEXP>(Rcpp::wrap(x)), Shield<SEXP>(Rcpp::wrap(y)), Shield<SEXP>(Rcpp::wrap(directions)), Shield<SEXP>(Rcpp::wrap(size)), Shield<SEXP>(Rcpp::wrap(shift)));
-        }
-        if (rcpp_result_gen.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
-            throw Rcpp::LongjumpException(rcpp_result_gen);
-        if (rcpp_result_gen.inherits("try-error"))
-            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<List >(rcpp_result_gen);
-    }
-
-    inline List get_motifels_incoma(const List input, const arma::imat directions, int size, int shift, const std::string fun = "mean", const std::string na_action = "replace") {
-        typedef SEXP(*Ptr_get_motifels_incoma)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_get_motifels_incoma p_get_motifels_incoma = NULL;
-        if (p_get_motifels_incoma == NULL) {
-            validateSignature("List(*get_motifels_incoma)(const List,const arma::imat,int,int,const std::string,const std::string)");
-            p_get_motifels_incoma = (Ptr_get_motifels_incoma)R_GetCCallable("lopata", "_lopata_get_motifels_incoma");
-        }
-        RObject rcpp_result_gen;
-        {
-            RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_get_motifels_incoma(Shield<SEXP>(Rcpp::wrap(input)), Shield<SEXP>(Rcpp::wrap(directions)), Shield<SEXP>(Rcpp::wrap(size)), Shield<SEXP>(Rcpp::wrap(shift)), Shield<SEXP>(Rcpp::wrap(fun)), Shield<SEXP>(Rcpp::wrap(na_action)));
-        }
-        if (rcpp_result_gen.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
-            throw Rcpp::LongjumpException(rcpp_result_gen);
-        if (rcpp_result_gen.inherits("try-error"))
-            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<List >(rcpp_result_gen);
-    }
-
 }
 
 #endif // RCPP_lopata_RCPPEXPORTS_H_GEN_
