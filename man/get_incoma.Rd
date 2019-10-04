@@ -2,12 +2,12 @@
 % Please edit documentation in R/get_incoma.R
 \name{get_incoma}
 \alias{get_incoma}
-\alias{get_incoma.RasterLayer}
+\alias{get_incoma.RasterStack}
 \title{Create an integrated co-occurrence matrix (wecoma)}
 \usage{
 get_incoma(x, neighbourhood, size, shift)
 
-\method{get_incoma}{RasterLayer}(x, neighbourhood = 4, size = NULL,
+\method{get_incoma}{RasterStack}(x, neighbourhood = 4, size = NULL,
   shift = NULL)
 }
 \arguments{

@@ -24,7 +24,7 @@ get_incoma = function(x, neighbourhood, size, shift) UseMethod("get_incoma")
 
 #' @name get_incoma
 #' @export
-get_incoma.RasterLayer = function(x, neighbourhood = 4, size = NULL, shift = NULL){
+get_incoma.RasterStack = function(x, neighbourhood = 4, size = NULL, shift = NULL){
   rasters = lapply(raster::as.list(x), raster::as.matrix)
   directions = as.matrix(neighbourhood)
 

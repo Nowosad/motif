@@ -26,7 +26,7 @@
 #' incov1 = get_incove(incom)
 #' incov1
 #'
-#' incov2 = get_incove(incom, ordered = FALSE)
+#' incov2 = get_incove(incom, type = "unordered")
 #' incov2
 #'
 #' @export
@@ -34,7 +34,7 @@ get_incove = function(x, type, normalization) UseMethod("get_incove")
 
 #' @name get_wecove
 #' @export
-get_incove.wecoma = function(x, type = "ordered", normalization = "none"){
+get_incove.incoma = function(x, type = "ordered", normalization = "none"){
   y = lapply(x$matrix,
              comat:::rcpp_get_incove,
              type = type,

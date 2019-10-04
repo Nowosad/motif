@@ -52,7 +52,7 @@ get_wecoma.RasterLayer = function(x, y, neighbourhood = 4, size = NULL, shift = 
   n = tibble::as_tibble(n)
 
   # n
-  structure(n, class = c("coma", class(n)))
+  structure(n, class = c("wecoma", class(n)))
 }
 
 # get_wecoma = function(x, w, neighbourhood = 4, fun = "mean", na_action = "replace"){

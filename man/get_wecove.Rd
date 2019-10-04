@@ -2,11 +2,11 @@
 % Please edit documentation in R/get_incove.R, R/get_wecove.R
 \name{get_wecove}
 \alias{get_wecove}
-\alias{get_incove.wecoma}
+\alias{get_incove.incoma}
 \alias{get_wecove.wecoma}
 \title{Create a weighted co-occurrence vector (wecove)}
 \usage{
-\method{get_incove}{wecoma}(x, type = "ordered",
+\method{get_incove}{incoma}(x, type = "ordered",
   normalization = "none")
 
 get_wecove(x, type, normalization)

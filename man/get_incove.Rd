@@ -33,7 +33,7 @@ incom = get_incoma(x)
 incov1 = get_incove(incom)
 incov1
 
-incov2 = get_incove(incom, ordered = FALSE)
+incov2 = get_incove(incom, type = "unordered")
 incov2
 
 }
