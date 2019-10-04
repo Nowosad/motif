@@ -9,9 +9,9 @@ get_incove(x, type, normalization)
 \arguments{
 \item{x}{A matrix - an output of the \code{\link[=get_incoma]{get_incoma()}} function}
 
-\item{ordered}{The type of pairs considered.
-Either ordered (TRUE) or unordered (FALSE).
-The default is TRUE.}
+\item{type}{...}
+
+\item{normalization}{...}
 }
 \value{
 An integrated co-occurrence vector

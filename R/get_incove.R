@@ -4,9 +4,8 @@
 #' an integrated co-occurrence vector (incove)
 #'
 #' @param x A matrix - an output of the [get_incoma()] function
-#' @param ordered The type of pairs considered.
-#' Either ordered (TRUE) or unordered (FALSE).
-#' The default is TRUE.
+#' @param type ...
+#' @param normalization ...
 #'
 #' @return An integrated co-occurrence vector
 #'

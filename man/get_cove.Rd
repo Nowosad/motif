@@ -12,9 +12,9 @@ get_cove(x, type, normalization)
 \arguments{
 \item{x}{A matrix - an output of the \code{\link[=get_coma]{get_coma()}} function}
 
-\item{ordered}{The type of pairs considered.
-Either ordered (TRUE) or unordered (FALSE).
-The default is TRUE.}
+\item{type}{...}
+
+\item{normalization}{...}
 }
 \value{
 A co-occurrence vector

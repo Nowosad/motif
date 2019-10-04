@@ -4,9 +4,8 @@
 #' a co-located co-occurrence vector (cocove)
 #'
 #' @param x A matrix - an output of the [get_cocoma()] function
-#' @param ordered The type of pairs considered.
-#' Either ordered (TRUE) or unordered (FALSE).
-#' The default is TRUE.
+#' @param type ...
+#' @param normalization ...
 #'
 #' @return A co-located co-occurrence vector
 #'
