@@ -18,6 +18,7 @@ LinkingTo:
     RcppArmadillo
 Imports: 
     comat,
+    philentropy,
     Rcpp,
     raster,
     tibble
