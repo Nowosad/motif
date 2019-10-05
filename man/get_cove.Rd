@@ -3,7 +3,7 @@
 \name{get_cove}
 \alias{get_cove}
 \alias{get_cove.coma}
-\title{Create a co-occurrence vector (wecove)}
+\title{Create a co-occurrence vector (cove)}
 \usage{
 get_cove(x, type, normalization)
 
@@ -20,8 +20,8 @@ get_cove(x, type, normalization)
 A co-occurrence vector
 }
 \description{
-Converts a co-occurrence matrix (wecoma) to
-a co-occurrence vector (wecove)
+Converts a co-occurrence matrix (coma) to
+a co-occurrence vector (cove)
 }
 \examples{
 library(comat)

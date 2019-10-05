@@ -1,7 +1,7 @@
-#' Create a co-occurrence vector (wecove)
+#' Create a co-occurrence vector (cove)
 #'
-#' Converts a co-occurrence matrix (wecoma) to
-#' a co-occurrence vector (wecove)
+#' Converts a co-occurrence matrix (coma) to
+#' a co-occurrence vector (cove)
 #'
 #' @param x A matrix - an output of the [get_coma()] function
 #' @param type ...
