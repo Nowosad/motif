@@ -4,6 +4,7 @@
 // [[Rcpp::depends(comat)]]
 #include "create_attributes.h"
 #include "get_motifel_size.h"
+#include "na_prop.h"
 
 Rcpp::List get_motifels_coma(Rcpp::IntegerMatrix x,
                        const arma::imat directions,

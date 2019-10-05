@@ -1,4 +1,4 @@
-#include "get_motifels_coma.h"
+#include "get_motifels_cocoma.h"
 using namespace Rcpp;
 
 // [[Rcpp::export]]
@@ -26,6 +26,7 @@ List get_motifels_cocoma(IntegerMatrix x,
   IntegerVector all_nr_of_motifels(nr_of_motifels);
   IntegerVector all_m_row(nr_of_motifels);
   IntegerVector all_m_col(nr_of_motifels);
+  NumericVector na_perc(nr_of_motifels);
 
   int nr_of_motifels2 = 0;
   int m_row = 1;
@@ -35,6 +36,7 @@ List get_motifels_cocoma(IntegerMatrix x,
     all_nr_of_motifels(0) = 1;
     all_m_row(0) = m_row;
     all_m_col(0) = m_col;
+    na_perc(0) = na_prop(x);
     result[0] = comat::rcpp_get_cocoma_internal(x, y, directions, classes(0), classes(1));
   } else {
 
@@ -60,7 +62,7 @@ List get_motifels_cocoma(IntegerMatrix x,
         IntegerMatrix motifel_y = y(Range(i, i_max), Range(j, j_max));
         result[nr_of_motifels2] = comat::rcpp_get_cocoma_internal(motifel_x, motifel_y, directions, classes(0), classes(1));
 
-        // double na_perc = na_prop(motifel_x);
+        na_perc(nr_of_motifels2) = na_prop(motifel_x);
 
         nr_of_motifels2 ++;
         m_col++;
@@ -74,6 +76,7 @@ List get_motifels_cocoma(IntegerMatrix x,
   List df = List::create(Named("id") = all_nr_of_motifels,
                          Named("row") = all_m_row,
                          Named("col") = all_m_col,
+                         Named("na_prop") = na_perc,
                          Named("matrix") = result);
   df.attr("metadata") = attr;
 

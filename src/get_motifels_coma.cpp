@@ -24,6 +24,8 @@ List get_motifels_coma(IntegerMatrix x,
   IntegerVector all_nr_of_motifels(nr_of_motifels);
   IntegerVector all_m_row(nr_of_motifels);
   IntegerVector all_m_col(nr_of_motifels);
+  NumericVector na_perc(nr_of_motifels);
+
 
   int nr_of_motifels2 = 0;
   int m_row = 1;
@@ -33,6 +35,7 @@ List get_motifels_coma(IntegerMatrix x,
     all_nr_of_motifels(0) = 1;
     all_m_row(0) = m_row;
     all_m_col(0) = m_col;
+    na_perc(0) = na_prop(x);
     result[0] = comat::rcpp_get_coma_internal(x, directions, classes(0));
   } else {
 
@@ -57,7 +60,7 @@ List get_motifels_coma(IntegerMatrix x,
 
         result[nr_of_motifels2] = comat::rcpp_get_coma_internal(motifel_x, directions, classes(0));
 
-        // double na_perc = na_prop(motifel_x);
+        na_perc(nr_of_motifels2) = na_prop(motifel_x);
 
         nr_of_motifels2 ++;
         m_col++;
@@ -72,6 +75,7 @@ List get_motifels_coma(IntegerMatrix x,
   List df = List::create(Named("id") = all_nr_of_motifels,
                          Named("row") = all_m_row,
                          Named("col") = all_m_col,
+                         Named("na_prop") = na_perc,
                          Named("matrix") = result);
   df.attr("metadata") = attr;
 

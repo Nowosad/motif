@@ -21,11 +21,11 @@ get_motifels_incoma <- function(input, directions, size, shift) {
     .Call(`_lopata_get_motifels_incoma`, input, directions, size, shift)
 }
 
-get_motifels_wecoma <- function(x, w, directions, size, shift, fun = "mean", na_action = "replace") {
+get_motifels_wecoma <- function(x, w, directions, size, shift, fun, na_action) {
     .Call(`_lopata_get_motifels_wecoma`, x, w, directions, size, shift, fun, na_action)
 }
 
-# Register entry points for exported C++ functions
-methods::setLoadAction(function(ns) {
-    .Call('_lopata_RcppExport_registerCCallable', PACKAGE = 'lopata')
-})
+na_prop <- function(x) {
+    .Call(`_lopata_na_prop`, x)
+}
+
