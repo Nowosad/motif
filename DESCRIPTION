@@ -13,7 +13,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 LinkingTo: 
-    comat,
+    comat (>= 0.7.0),
     Rcpp,
     RcppArmadillo
 Imports: 
