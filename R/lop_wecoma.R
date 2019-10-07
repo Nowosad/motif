@@ -11,27 +11,30 @@
 #'
 #' @return A weighted co-occurrence matrix
 #'
-#' @aliases get_wecoma
-#' @rdname get_wecoma
+#' @aliases lop_wecoma
+#' @rdname lop_wecoma
 #'
 #' @examples
 #' library(comat)
 #' library(raster)
-#' data(x, package = "comat")
-#' data(w, package = "comat")
-#' plot(x)
-#' plot(w)
+#' data(raster_x, package = "comat")
+#' data(raster_w_na, package = "comat")
+#' raster_x = raster(raster_x)
+#' raster_w_na = raster(raster_w_na)
 #'
-#' wom = get_wecoma(x, w)
+#' plot(raster_x)
+#' plot(raster_w_na)
+#'
+#' wom = lop_wecoma(raster_x, raster_w_na)
 #' wom
-#' wom2 = get_wecoma(x, w, size = 2, shift = 2)
+#' wom2 = lop_wecoma(raster_x, raster_w_na, size = 2, shift = 2)
 #' wom2
 #' @export
-get_wecoma = function(x, w, neighbourhood, size, shift, fun, na_action) UseMethod("get_wecoma")
+lop_wecoma = function(x, w, neighbourhood, size, shift, fun, na_action) UseMethod("lop_wecoma")
 
-#' @name get_wecoma
+#' @name lop_wecoma
 #' @export
-get_wecoma.RasterLayer = function(x, w, neighbourhood = 4, size = NULL, shift = NULL,
+lop_wecoma.RasterLayer = function(x, w, neighbourhood = 4, size = NULL, shift = NULL,
                                   fun = "mean", na_action = "replace"){
   x = raster::as.matrix(x)
   w = raster::as.matrix(w)
@@ -57,11 +60,11 @@ get_wecoma.RasterLayer = function(x, w, neighbourhood = 4, size = NULL, shift = 
   structure(n, class = c("wecoma", class(n)))
 }
 
-# get_wecoma = function(x, w, neighbourhood = 4, fun = "mean", na_action = "replace"){
+# lop_wecoma = function(x, w, neighbourhood = 4, fun = "mean", na_action = "replace"){
 #   x = raster::as.matrix(x)
 #   w = raster::as.matrix(w)
 #   directions = as.matrix(neighbourhood)
 #
-#   n = rcpp_get_wecoma(x, w, directions, fun, na_action)
+#   n = rcpp_lop_wecoma(x, w, directions, fun, na_action)
 #   structure(n, class = c(class(n), "wecoma"))
 # }

@@ -8,27 +8,28 @@
 #'
 #' @return A co-occurrence matrix
 #'
-#' @aliases get_coma
-#' @rdname get_coma
+#' @aliases lop_coma
+#' @rdname lop_coma
 #'
 #' @examples
 #' library(comat)
 #' library(raster)
-#' data(x, package = "comat")
-#' plot(x)
+#' data(raster_x, package = "comat")
+#' raster_x = raster(raster_x)
+#' plot(raster_x)
 #'
-#' com = get_coma(x)
+#' com = lop_coma(raster_x)
 #' com
 #'
-#' com2 = get_coma(x, neighbourhood = 4, size = 2, shift = 2)
+#' com2 = lop_coma(raster_x, neighbourhood = 4, size = 2, shift = 2)
 #' com2
 #'
 #' @export
-get_coma = function(x, neighbourhood, size, shift) UseMethod("get_coma")
+lop_coma = function(x, neighbourhood, size, shift) UseMethod("lop_coma")
 
-#' @name get_coma
+#' @name lop_coma
 #' @export
-get_coma.RasterLayer = function(x, neighbourhood = 4, size = NULL, shift = NULL){
+lop_coma.RasterLayer = function(x, neighbourhood = 4, size = NULL, shift = NULL){
   x = raster::as.matrix(x)
   directions = as.matrix(neighbourhood)
 
@@ -47,10 +48,10 @@ get_coma.RasterLayer = function(x, neighbourhood = 4, size = NULL, shift = NULL)
   structure(n, class = c("coma", class(n)))
 }
 
-# get_coma = function(x, neighbourhood = 4){
+# lop_coma = function(x, neighbourhood = 4){
 #   x = raster::as.matrix(x)
 #   directions = as.matrix(neighbourhood)
 #
-#   n = rcpp_get_coma(x, directions)
+#   n = rcpp_lop_coma(x, directions)
 #   structure(n, class = c(class(n), "coma"))
 # }

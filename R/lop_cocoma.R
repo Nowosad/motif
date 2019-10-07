@@ -9,8 +9,8 @@
 #'
 #' @return A co-located co-occurrence matrix
 #'
-#' @aliases get_cocoma
-#' @rdname get_cocoma
+#' @aliases lop_cocoma
+#' @rdname lop_cocoma
 #'
 #' @examples
 #' library(comat)
@@ -18,17 +18,17 @@
 #' l1 = raster(matrix(sample(1:2, size = 10000, replace = TRUE), ncol = 100))
 #' l2 = raster(matrix(sample(c(9, 6, 3), size = 10000, replace = TRUE), ncol = 100))
 #'
-#' coom = get_cocoma(l1, l2)
+#' coom = lop_cocoma(l1, l2)
 #' coom
 #'
-#' coom2 = get_cocoma(l1, l2, size = 10, shift = 10)
+#' coom2 = lop_cocoma(l1, l2, size = 10, shift = 10)
 #' coom2
 #' @export
-get_cocoma = function(x, y, neighbourhood, size, shift) UseMethod("get_cocoma")
+lop_cocoma = function(x, y, neighbourhood, size, shift) UseMethod("lop_cocoma")
 
-#' @name get_cocoma
+#' @name lop_cocoma
 #' @export
-get_cocoma.RasterLayer = function(x, y, neighbourhood = 4, size = NULL, shift = NULL){
+lop_cocoma.RasterLayer = function(x, y, neighbourhood = 4, size = NULL, shift = NULL){
   x = raster::as.matrix(x)
   y = raster::as.matrix(y)
   directions = as.matrix(neighbourhood)

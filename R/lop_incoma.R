@@ -8,8 +8,8 @@
 #'
 #' @return An integrated co-occurrence matrix
 #'
-#' @aliases get_incoma
-#' @rdname get_incoma
+#' @aliases lop_incoma
+#' @rdname lop_incoma
 #'
 #' @examples
 #' library(raster)
@@ -19,14 +19,14 @@
 #' l2 = raster(matrix(sample(c(9, 6, 3), size = 1000000, replace = TRUE), ncol = 1000))
 #' x = stack(l1, l2, l1)
 #'
-#' get_incoma(x)
-#' get_incoma(x, size = 100, shift = 100)
+#' lop_incoma(x)
+#' lopata::lop_incoma(x, size = 100, shift = 100)
 #' @export
-get_incoma = function(x, neighbourhood, size, shift) UseMethod("get_incoma")
+lop_incoma = function(x, neighbourhood, size, shift) UseMethod("lop_incoma")
 
-#' @name get_incoma
+#' @name lop_incoma
 #' @export
-get_incoma.RasterStack = function(x, neighbourhood = 4, size = NULL, shift = NULL){
+lop_incoma.RasterStack = function(x, neighbourhood = 4, size = NULL, shift = NULL){
   rasters = lapply(raster::as.list(x), raster::as.matrix)
   directions = as.matrix(neighbourhood)
 
@@ -47,10 +47,10 @@ get_incoma.RasterStack = function(x, neighbourhood = 4, size = NULL, shift = NUL
   structure(n, class = c("incoma", class(n)))
 }
 
-# get_incoma = function(x, neighbourhood = 4){
+# lop_incoma = function(x, neighbourhood = 4){
 #   rasters = lapply(raster::as.list(x), raster::as.matrix)
 #   directions = as.matrix(neighbourhood)
 #
-#   n = rcpp_get_incoma(rasters, directions)
+#   n = rcpp_lop_incoma(rasters, directions)
 #   structure(n, class = c(class(n), "incoma"))
 # }
