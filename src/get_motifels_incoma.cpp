@@ -43,6 +43,7 @@ List get_motifels_incoma(const List input,
       na_perc(l) = na_prop(input[l]);
     }
     result[0] = comat::rcpp_get_incoma_list(input, directions, classes);
+    result[0] = comat::rcpp_get_incoma_matrix(result[0]);
 
   } else {
     List motifel_input(num_l);
@@ -70,7 +71,7 @@ List get_motifels_incoma(const List input,
           motifel_input(l) = layer_l(Range(i, i_max), Range(j, j_max));
         }
         result[nr_of_motifels2] = comat::rcpp_get_incoma_list(motifel_input, directions, classes);
-
+        result[nr_of_motifels2] = comat::rcpp_get_incoma_matrix(result[nr_of_motifels2]);
         // double na_perc = na_prop(motifel_x);
 
         nr_of_motifels2 ++;
