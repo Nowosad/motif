@@ -3,6 +3,7 @@
 #include "Rcpp.h"
 #include <algorithm>     // for count_if
 // [[Rcpp::plugins(cpp11)]]
+using namespace Rcpp;
 
 // [[Rcpp::export]]
 double na_prop(Rcpp::IntegerMatrix x);

@@ -1,5 +1,4 @@
 #include "get_motifels_incoma.h"
-using namespace Rcpp;
 
 // [[Rcpp::export]]
 List get_motifels_incoma(const List input,

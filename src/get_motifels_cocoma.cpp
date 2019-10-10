@@ -1,5 +1,4 @@
 #include "get_motifels_cocoma.h"
-using namespace Rcpp;
 
 // [[Rcpp::export]]
 List get_motifels_cocoma(IntegerMatrix x,

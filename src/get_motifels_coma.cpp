@@ -1,5 +1,4 @@
 #include "get_motifels_coma.h"
-using namespace Rcpp;
 
 // [[Rcpp::export]]
 List get_motifels_coma(IntegerMatrix x,

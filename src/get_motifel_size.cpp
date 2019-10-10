@@ -1,5 +1,4 @@
 #include "get_motifel_size.h"
-using namespace Rcpp;
 
 // [[Rcpp::export]]
 int get_motifel_size(int num_r, int num_c, int shift){

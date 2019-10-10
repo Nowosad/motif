@@ -1,5 +1,4 @@
 #include "create_attributes.h"
-using namespace Rcpp;
 
 // [[Rcpp::export]]
 List create_attributes(List x) {

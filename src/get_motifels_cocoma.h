@@ -5,6 +5,7 @@
 #include "create_attributes.h"
 #include "get_motifel_size.h"
 #include "na_prop.h"
+using namespace Rcpp;
 
 Rcpp::List get_motifels_incoma(const Rcpp::List input,
                                const arma::imat directions,

@@ -1,5 +1,4 @@
 #include "na_prop.h"
-using namespace Rcpp;
 
 // calculates a proportion of cells with NA's
 double na_prop(IntegerMatrix x) {
