@@ -25,6 +25,14 @@ get_motifels_wecoma <- function(x, w, directions, size, shift, fun, na_action) {
     .Call(`_lopata_get_motifels_wecoma`, x, w, directions, size, shift, fun, na_action)
 }
 
+get_mask_coma <- function(x, m) {
+    .Call(`_lopata_get_mask_coma`, x, m)
+}
+
+matrix_locs <- function(M, locs) {
+    .Call(`_lopata_matrix_locs`, M, locs)
+}
+
 na_prop <- function(x) {
     .Call(`_lopata_na_prop`, x)
 }

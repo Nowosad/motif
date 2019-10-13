@@ -90,6 +90,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// get_mask_coma
+List get_mask_coma(IntegerMatrix x, IntegerMatrix m);
+RcppExport SEXP _lopata_get_mask_coma(SEXP xSEXP, SEXP mSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type m(mSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_mask_coma(x, m));
+    return rcpp_result_gen;
+END_RCPP
+}
+// matrix_locs
+arma::mat matrix_locs(arma::mat M, arma::umat locs);
+RcppExport SEXP _lopata_matrix_locs(SEXP MSEXP, SEXP locsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type M(MSEXP);
+    Rcpp::traits::input_parameter< arma::umat >::type locs(locsSEXP);
+    rcpp_result_gen = Rcpp::wrap(matrix_locs(M, locs));
+    return rcpp_result_gen;
+END_RCPP
+}
 // na_prop
 double na_prop(Rcpp::IntegerMatrix x);
 RcppExport SEXP _lopata_na_prop(SEXP xSEXP) {
@@ -109,6 +133,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lopata_get_motifels_coma", (DL_FUNC) &_lopata_get_motifels_coma, 4},
     {"_lopata_get_motifels_incoma", (DL_FUNC) &_lopata_get_motifels_incoma, 4},
     {"_lopata_get_motifels_wecoma", (DL_FUNC) &_lopata_get_motifels_wecoma, 7},
+    {"_lopata_get_mask_coma", (DL_FUNC) &_lopata_get_mask_coma, 2},
+    {"_lopata_matrix_locs", (DL_FUNC) &_lopata_matrix_locs, 2},
     {"_lopata_na_prop", (DL_FUNC) &_lopata_na_prop, 1},
     {NULL, NULL, 0}
 };
