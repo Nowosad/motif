@@ -1,5 +1,6 @@
 # x = lop_grid(lc, size = 100)
 # ids = cutree(coma_hclust, k = 12)
+#' lop_clusters
 #' @export
 lop_clusters = function(x, ids){
   x[["clust"]] = ids
@@ -10,6 +11,7 @@ lop_clusters = function(x, ids){
   df_sum = tidyr::nest(st_drop_geometry(x), data = c(motifels))
   dplyr::left_join(x_sum, df_sum, by = "clust")
 }
+#' lop_segments
 #' @export
 lop_segments = function(x, ids){
   x[["clust"]] = ids

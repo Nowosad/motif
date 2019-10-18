@@ -14,6 +14,7 @@
 # mean(lop_inhomogeneity(x_clu, cove_dist))
 # mean(lop_isolation(x_seg, cove_dist))
 # mean(lop_inhomogeneity(x_seg, cove_dist))
+#' lop_isolation
 #' @export
 lop_isolation = function(x, x_dist){
   x_dist = as.matrix(x_dist)
@@ -36,7 +37,7 @@ get_isolation = function(x_clust, x, x_dist, x_grid_neigh){
   }
   mean(x_clust_dist)
 }
-
+#' lop_inhomogeneity
 #' @export
 lop_inhomogeneity = function(x, x_dist){
   x_dist = as.matrix(x_dist)
