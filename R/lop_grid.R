@@ -51,11 +51,11 @@ lop_grid.RasterLayer = function(x, size, shift = NULL){
   # if (raster::nlayers(x) == 1){
   #   df_ids = create_motifels_ids(raster::as.matrix(x), size, shift)
   # } else {
-  df_ids = create_motifels_ids(raster::as.matrix(x[[1]]), size, shift)
-  # }
-
-  my_grid = cbind(df_ids, my_grid)
-  colnames(my_grid) = c("row", "col", "geom")
+  # df_ids = create_motifels_ids(raster::as.matrix(x[[1]]), size, shift)
+  # # }
+  #
+  # my_grid = cbind(df_ids, my_grid)
+  # colnames(my_grid) = c("row", "col", "geom")
 
   # my_grid$area = sf::st_area(my_grid)
 
