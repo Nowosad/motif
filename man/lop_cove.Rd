@@ -31,11 +31,10 @@ a co-occurrence vector (cove)
 \examples{
 library(comat)
 library(raster)
-data(raster_x, package = "comat")
-raster_x = raster(raster_x)
-plot(raster_x)
+landcover = raster(system.file("raster/landcover.tif", package = "lopata"))
+# plot(landcover)
 
-com = lop_coma(raster_x)
+com = lop_coma(landcover, size = 100)
 com
 
 cov = lop_cove(com)

@@ -4,7 +4,8 @@
 List get_motifels_coma(IntegerMatrix x,
                        const arma::imat directions,
                        int size,
-                       int shift) {
+                       int shift,
+                       double threshold) {
 
   const int num_r = x.nrow();
   const int num_c = x.ncol();
@@ -25,7 +26,6 @@ List get_motifels_coma(IntegerMatrix x,
   IntegerVector all_m_col(nr_of_motifels);
   NumericVector na_perc(nr_of_motifels);
 
-
   int nr_of_motifels2 = 0;
   int m_row = 1;
   int m_col = 1;
@@ -35,7 +35,9 @@ List get_motifels_coma(IntegerMatrix x,
     all_m_row(0) = m_row;
     all_m_col(0) = m_col;
     na_perc(0) = na_prop(x);
-    result[0] = comat::rcpp_get_coma_internal(x, directions, classes(0));
+    if (na_perc(0) <= threshold){
+      result[0] = comat::rcpp_get_coma_internal(x, directions, classes(0));
+    }
   } else {
 
     // IntegerMatrix motifel_x;
@@ -57,9 +59,10 @@ List get_motifels_coma(IntegerMatrix x,
         IntegerMatrix motifel_x = x(Range(i, i_max), Range(j, j_max));
         // Rcout << "The value of motifel_x : " << motifel_x << "\n";
 
-        result[nr_of_motifels2] = comat::rcpp_get_coma_internal(motifel_x, directions, classes(0));
-
         na_perc(nr_of_motifels2) = na_prop(motifel_x);
+        if (na_perc(nr_of_motifels2) <= threshold){
+          result[nr_of_motifels2] = comat::rcpp_get_coma_internal(motifel_x, directions, classes(0));
+        }
 
         nr_of_motifels2 ++;
         m_col++;
@@ -69,13 +72,14 @@ List get_motifels_coma(IntegerMatrix x,
     }
   }
 
-  List attr = create_attributes(classes);
+  LogicalVector na_perc_below_thres = na_perc <= threshold;
+  List df = List::create(Named("id") = all_nr_of_motifels[na_perc_below_thres],
+                         Named("row") = all_m_row[na_perc_below_thres],
+                         Named("col") = all_m_col[na_perc_below_thres],
+                         Named("na_prop") = na_perc[na_perc_below_thres],
+                         Named("matrix") = result[na_perc_below_thres]);
 
-  List df = List::create(Named("id") = all_nr_of_motifels,
-                         Named("row") = all_m_row,
-                         Named("col") = all_m_col,
-                         Named("na_prop") = na_perc,
-                         Named("matrix") = result);
+  List attr = create_attributes(classes);
   df.attr("metadata") = attr;
 
   CharacterVector my_class(2);
@@ -87,10 +91,21 @@ List get_motifels_coma(IntegerMatrix x,
 
 
 /***R
-data(x, package = "comat")
-x = raster::as.matrix(x)
-# com2 = get_motifels_coma(x, directions = matrix(4), size = 0, shift = 0)
-com2 = get_motifels_coma(x, directions = matrix(4), size = 2, shift = 2)
+library(comat)
+library(raster)
+x = raster(system.file("raster/landcover.tif", package = "lopata"))
+# plot(landcover)
+system.time({com2 = get_motifels_coma(as.matrix(x), directions = matrix(4), size = 100, shift = 100, threshold = 0.9)})
+
+bench::mark(
+  com12 = get_motifels_coma(as.matrix(x), directions = matrix(4), size = 100, shift = 100, threshold = 0.1),
+  com22 = get_motifels_coma(as.matrix(x), directions = matrix(4), size = 100, shift = 100, threshold = 0.5),
+  com32 = get_motifels_coma(as.matrix(x), directions = matrix(4), size = 100, shift = 100, threshold = 1),
+  check = FALSE
+)
+
+
+
 get_motifels_coma3(x, directions = matrix(4), size = 2, shift = 2)
 
 x = matrix(sample(1:2, size = 1000000, replace = TRUE), ncol = 1000)

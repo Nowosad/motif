@@ -5,10 +5,10 @@
 \alias{lop_coma.RasterLayer}
 \title{Create a co-occurrence matrix (coma)}
 \usage{
-lop_coma(x, neighbourhood, size, shift)
+lop_coma(x, neighbourhood, size, shift, threshold)
 
 \method{lop_coma}{RasterLayer}(x, neighbourhood = 4, size = NULL,
-  shift = NULL)
+  shift = NULL, threshold = 0.5)
 }
 \arguments{
 \item{x}{A RasterLayer with categories}
@@ -19,6 +19,8 @@ lop_coma(x, neighbourhood, size, shift)
 \item{size}{Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If \code{size=NULL} calculations are performed for a whole area}
 
 \item{shift}{Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift < size - results in the grid of overlapping square windows.}
+
+\item{threshold}{The share of NA cells to allow calculation in a square-shaped window.}
 }
 \value{
 A co-occurrence matrix
@@ -29,14 +31,13 @@ Create a co-occurrence matrix (coma)
 \examples{
 library(comat)
 library(raster)
-data(raster_x, package = "comat")
-raster_x = raster(raster_x)
-plot(raster_x)
+landcover = raster(system.file("raster/landcover.tif", package = "lopata"))
+# plot(landcover)
 
-com = lop_coma(raster_x)
+com = lop_coma(landcover)
 com
 
-com2 = lop_coma(raster_x, neighbourhood = 4, size = 2, shift = 2)
+com2 = lop_coma(landcover, size = 100)
 com2
 
 }

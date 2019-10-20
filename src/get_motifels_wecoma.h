@@ -12,6 +12,7 @@ Rcpp::List get_motifels_wecoma(Rcpp::IntegerMatrix x,
                          const arma::imat directions,
                          int size,
                          int shift,
+                         double threshold,
                          const std::string fun = "mean",
                          const std::string na_action = "replace");
 

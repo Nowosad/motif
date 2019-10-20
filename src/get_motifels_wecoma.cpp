@@ -6,6 +6,7 @@ List get_motifels_wecoma(IntegerMatrix x,
                          const arma::imat directions,
                          int size,
                          int shift,
+                         double threshold,
                          const std::string fun,
                          const std::string na_action) {
 
@@ -37,7 +38,9 @@ List get_motifels_wecoma(IntegerMatrix x,
     all_m_row(0) = m_row;
     all_m_col(0) = m_col;
     na_perc(0) = na_prop(x);
-    result[0] = comat::rcpp_get_wecoma_internal(x, w, directions, classes(0), fun, na_action);
+    if (na_perc(0) <= threshold){
+      result[0] = comat::rcpp_get_wecoma_internal(x, w, directions, classes(0), fun, na_action);
+    }
   } else {
 
     // IntegerMatrix motifel_x;
@@ -59,10 +62,12 @@ List get_motifels_wecoma(IntegerMatrix x,
         }
 
         IntegerMatrix motifel_x = x(Range(i, i_max), Range(j, j_max));
-        NumericMatrix motifel_w = w(Range(i, i_max), Range(j, j_max));
-        result[nr_of_motifels2] = comat::rcpp_get_wecoma_internal(motifel_x, motifel_w, directions, classes(0), fun, na_action);
-
         na_perc(nr_of_motifels2) = na_prop(motifel_x);
+
+        if (na_perc(nr_of_motifels2) <= threshold){
+          NumericMatrix motifel_w = w(Range(i, i_max), Range(j, j_max));
+          result[nr_of_motifels2] = comat::rcpp_get_wecoma_internal(motifel_x, motifel_w, directions, classes(0), fun, na_action);
+        }
 
         nr_of_motifels2 ++;
         m_col++;
@@ -72,13 +77,15 @@ List get_motifels_wecoma(IntegerMatrix x,
     }
 
   }
-  List attr = create_attributes(classes);
 
-  List df = List::create(Named("id") = all_nr_of_motifels,
-                         Named("row") = all_m_row,
-                         Named("col") = all_m_col,
-                         Named("na_prop") = na_perc,
-                         Named("matrix") = result);
+  LogicalVector na_perc_below_thres = na_perc <= threshold;
+  List df = List::create(Named("id") = all_nr_of_motifels[na_perc_below_thres],
+                         Named("row") = all_m_row[na_perc_below_thres],
+                         Named("col") = all_m_col[na_perc_below_thres],
+                         Named("na_prop") = na_perc[na_perc_below_thres],
+                         Named("matrix") = result[na_perc_below_thres]);
+
+  List attr = create_attributes(classes);
   df.attr("metadata") = attr;
 
   CharacterVector my_class(2);
