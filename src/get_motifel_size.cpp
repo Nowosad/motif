@@ -10,3 +10,4 @@ int get_motifel_size(int num_r, int num_c, int shift){
   }
   return nr_of_motifels;
 }
+

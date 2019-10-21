@@ -61,6 +61,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// get_motifels_ids
+IntegerMatrix get_motifels_ids(int num_r, int num_c, int size, int shift);
+RcppExport SEXP _lopata_get_motifels_ids(SEXP num_rSEXP, SEXP num_cSEXP, SEXP sizeSEXP, SEXP shiftSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type num_r(num_rSEXP);
+    Rcpp::traits::input_parameter< int >::type num_c(num_cSEXP);
+    Rcpp::traits::input_parameter< int >::type size(sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type shift(shiftSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_motifels_ids(num_r, num_c, size, shift));
+    return rcpp_result_gen;
+END_RCPP
+}
 // get_motifels_incoma
 List get_motifels_incoma(const List input, const arma::imat directions, int size, int shift, double threshold);
 RcppExport SEXP _lopata_get_motifels_incoma(SEXP inputSEXP, SEXP directionsSEXP, SEXP sizeSEXP, SEXP shiftSEXP, SEXP thresholdSEXP) {
@@ -135,6 +149,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lopata_get_motifel_size", (DL_FUNC) &_lopata_get_motifel_size, 3},
     {"_lopata_get_motifels_cocoma", (DL_FUNC) &_lopata_get_motifels_cocoma, 6},
     {"_lopata_get_motifels_coma", (DL_FUNC) &_lopata_get_motifels_coma, 5},
+    {"_lopata_get_motifels_ids", (DL_FUNC) &_lopata_get_motifels_ids, 4},
     {"_lopata_get_motifels_incoma", (DL_FUNC) &_lopata_get_motifels_incoma, 5},
     {"_lopata_get_motifels_wecoma", (DL_FUNC) &_lopata_get_motifels_wecoma, 8},
     {"_lopata_get_mask_coma", (DL_FUNC) &_lopata_get_mask_coma, 2},

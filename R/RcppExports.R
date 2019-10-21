@@ -17,6 +17,10 @@ get_motifels_coma <- function(x, directions, size, shift, threshold) {
     .Call(`_lopata_get_motifels_coma`, x, directions, size, shift, threshold)
 }
 
+get_motifels_ids <- function(num_r, num_c, size, shift) {
+    .Call(`_lopata_get_motifels_ids`, num_r, num_c, size, shift)
+}
+
 get_motifels_incoma <- function(input, directions, size, shift, threshold) {
     .Call(`_lopata_get_motifels_incoma`, input, directions, size, shift, threshold)
 }
