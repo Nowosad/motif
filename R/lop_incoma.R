@@ -41,7 +41,8 @@ lop_incoma.RasterStack = function(x, neighbourhood = 4, size = NULL, shift = NUL
   n = get_motifels_incoma(rasters,
                           directions = directions,
                           size = size,
-                          shift = shift)
+                          shift = shift,
+                          threshold = threshold)
   n = tibble::as_tibble(n)
 
   # n

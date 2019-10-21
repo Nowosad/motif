@@ -45,7 +45,8 @@ lop_cocoma.RasterLayer = function(x, y, neighbourhood = 4, size = NULL, shift = 
                    y,
                    directions = directions,
                    size = size,
-                   shift = shift)
+                   shift = shift,
+                   threshold = threshold)
   n = tibble::as_tibble(n)
 
   # n

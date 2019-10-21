@@ -43,7 +43,8 @@ lop_coma.RasterLayer = function(x, neighbourhood = 4, size = NULL, shift = NULL,
   n = get_motifels_coma(x,
                         directions = directions,
                         size = size,
-                        shift = shift)
+                        shift = shift,
+                        threshold = threshold)
   n = tibble::as_tibble(n)
   structure(n, class = c("coma", class(n)))
 }

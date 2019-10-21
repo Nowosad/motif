@@ -54,6 +54,7 @@ lop_wecoma.RasterLayer = function(x, w, neighbourhood = 4, size = NULL, shift = 
                    directions = directions,
                    size = size,
                    shift = shift,
+                   threshold = threshold,
                    fun = fun,
                    na_action = na_action)
   n = tibble::as_tibble(n)
