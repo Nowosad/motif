@@ -23,6 +23,12 @@ An sf polygon object
 Create a grid of square-shaped windows
 }
 \examples{
-y = lop_grid(x, size = 10)
-y
+library(comat)
+library(raster)
+landcover = raster(system.file("raster/landcover.tif", package = "lopata"))
+# plot(landcover)
+
+landcover_grid = lop_centroids(landcover, size = 100)
+landcover_grid
+
 }

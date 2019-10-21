@@ -10,8 +10,14 @@
 #' @rdname lop_centroids
 #'
 #' @examples
-#' y = lop_grid(x, size = 10)
-#' y
+#' library(comat)
+#' library(raster)
+#' landcover = raster(system.file("raster/landcover.tif", package = "lopata"))
+#' # plot(landcover)
+#'
+#' landcover_grid = lop_centroids(landcover, size = 100)
+#' landcover_grid
+#'
 #' @export
 lop_centroids = function(x, size, shift = NULL) UseMethod("lop_centroids")
 
@@ -43,6 +49,15 @@ lop_centroids.RasterLayer = function(x, size, shift = NULL){
   my_centr = sf::st_sf(geom = my_centr)
   sf::st_crs(my_centr) = NA
   sf::st_crs(my_centr) = sf::st_crs(x)
+
+  if (raster::nlayers(x) == 1){
+    df_ids = get_motifels_ids(raster::nrow(x), raster::ncol(x), size, shift)
+  } else {
+    df_ids = get_motifels_ids(raster::nrow(x[[1]]), raster::ncol(x[[1]]), size, shift)
+  }
+
+  my_centr = cbind(df_ids, my_centr)
+  colnames(my_centr) = c("row", "col", "geom")
 
 
   # df_ids = raceland:::create_motifels_ids(raster::as.matrix(x[[1]]), size, shift)
