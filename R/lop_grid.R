@@ -60,6 +60,7 @@ lop_grid.RasterLayer = function(x, size, shift = NULL){
     df_ids = get_motifels_ids(raster::nrow(x[[1]]), raster::ncol(x[[1]]), size, shift)
   }
 
+  # df_ids = cbind(matrix(seq_len(nrow(df_ids))), df_ids)
   my_grid = cbind(df_ids, my_grid)
   colnames(my_grid) = c("row", "col", "geom")
 

@@ -58,6 +58,7 @@ get_isolation = function(x_clust, x, x_dist, x_grid_neigh){
   } else {
     x_clust_dist = vector(mode = "numeric", length = length(x_clust_neigh))
     for (i in seq_along(x_clust_neigh)){
+      # print(i)
       x_clust_dist[i] = mean(x_dist[x[["data"]][(x[["clust"]] == x_clust)][[1]][["motifels"]],
                                     x[["data"]][(x[["clust"]] == x_clust_neigh[i])][[1]][["motifels"]]])
     }
