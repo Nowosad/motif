@@ -4,11 +4,15 @@
 // [[Rcpp::depends(comat)]]
 using namespace Rcpp;
 
+// https://stackoverflow.com/questions/31691130/conversion-of-r-matrices-to-armadillo-is-really-slow
+
 // [[Rcpp::export]]
-arma::imat get_polygons_coma(arma::imat x,
-                             arma::imat y,
+List get_polygons_coma(const arma::imat& x,
+                             const arma::imat& y,
                              const arma::imat directions,
                              double threshold) {
+
+  std::vector<int> classes_x = comat::get_unique_values(wrap(x), true);
 
   arma::imat classes_y = unique(y);
   classes_y = classes_y.elem(find(classes_y != NA_INTEGER));
@@ -30,7 +34,7 @@ arma::imat get_polygons_coma(arma::imat x,
 
   // arma::uvec u;
   for (int i = 0; i < classes_y_size; i++){
-    std::cout << "class:   "  << classes_y[i]<< "\n";
+    // std::cout << "class:   "  << classes_y[i]<< "\n";
     q = find(y == classes_y[i]);
     // std::cout << q << "\n";
 
@@ -48,17 +52,20 @@ arma::imat get_polygons_coma(arma::imat x,
 
     zy = y.submat(min_row, min_col, max_row, max_col);
 
-    std::cout << "na prop:   " << na_perc << std::endl;
+    // std::cout << "na prop:   " << na_perc << std::endl;
 
     q2 = find(zy != classes_y[i]);
 
-    std::cout << "q2:   " << q2.size() << std::endl;
+    // std::cout << "q2:   " << q2.size() << std::endl;
 
 
     arma::ivec replacer(q2.size());
     replacer.fill(NA_INTEGER);
     z.elem(q2) = replacer;
 
+    // if (na_perc(0) <= threshold){
+      result[i] = comat::rcpp_get_coma_internal(wrap(z), directions, classes_x);
+    // }
 
     //
     // std::cout << "min row:   " << min_coords(0) << std::endl;
@@ -73,12 +80,16 @@ arma::imat get_polygons_coma(arma::imat x,
 library(raster)
 a = as.matrix(raster("inst/raster/landcover.tif"))
 b = as.matrix(raster("inst/raster/ecoregions.tif"))
+u = get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5)
+u
 
 set.seed(1111)
 a = matrix(sample(c(NA, 1:3), size = 20, replace = TRUE), ncol = 4)
 b = matrix(c(2, 2, 2, 2, 3, 2, 2, 2, 3, 4, NA, NA, 4, 4, 4, 4, 4, 4, 4, 4), ncol = 4)
 u = get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5)
 u
+
+bench::mark(get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5))
 lopata::lop_coma(raster::raster(u), threshold = 0.9)$matrix
 
 */
