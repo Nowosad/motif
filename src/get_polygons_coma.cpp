@@ -1,6 +1,7 @@
 #include <RcppArmadillo.h>
 #include <comat.h>
 #include "na_prop.h"
+#include "create_attributes.h"
 // [[Rcpp::depends(comat)]]
 using namespace Rcpp;
 
@@ -8,14 +9,15 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 List get_polygons_coma(const arma::imat& x,
-                             const arma::imat& y,
-                             const arma::imat directions,
-                             double threshold) {
+                       const arma::imat& y,
+                       const arma::imat directions,
+                       double threshold) {
 
   // get unique values of x and y
-  std::vector<int> classes_x = comat::get_unique_values(wrap(x), true);
+  List classes_x(1);
+  classes_x(0) = comat::get_unique_values(wrap(x), true);
 
-  arma::imat classes_y = unique(y);
+  arma::ivec classes_y = unique(y);
   classes_y = classes_y.elem(find(classes_y != NA_INTEGER));
   int classes_y_size = classes_y.size();
 
@@ -26,7 +28,7 @@ List get_polygons_coma(const arma::imat& x,
   arma::umat coords_classes_y;
   arma::imat submatrix_x;
   arma::imat submatrix_y;
-  double na_perc;
+  NumericVector na_perc(classes_y_size);
 
   // for each class in y
   for (int i = 0; i < classes_y_size; i++){
@@ -47,9 +49,6 @@ List get_polygons_coma(const arma::imat& x,
 
     // create a submatrix of x
     submatrix_x = x.submat(min_row, min_col, max_row, max_col);
-    // na_perc = na_prop(wrap(submatrix_x));
-    na_perc = na_prop2(submatrix_x);
-    // std::cout << "na prop:   " << na_perc << std::endl;
 
     // create a submatrix of y
     submatrix_y = y.submat(min_row, min_col, max_row, max_col);
@@ -62,16 +61,30 @@ List get_polygons_coma(const arma::imat& x,
     replacer.fill(NA_INTEGER);
     submatrix_x.elem(ind_not_classes_y) = replacer;
 
+    // calculate share of NAs
+    na_perc(i) = na_prop_polygon(submatrix_x, ind_not_classes_y.size());
+    // std::cout << "na prop:   " << na_perc(i) << std::endl;
+
     // wrap used here is very memory costly
     // try to think how it can be fixed
     // IntegerMatrix p = wrap(submatrix_x);
     // calculate coma
-    // if (na_perc(0) <= threshold){
-      result[i] = comat::rcpp_get_coma_internal(wrap(submatrix_x), directions, classes_x);
-    // }
+    result[i] = comat::rcpp_get_coma_internal(wrap(submatrix_x), directions, classes_x(0));
 
   }
-  return result;
+  // IntegerVector classes_y_rcpp = wrap(classes_y);
+  List df = List::create(Named("id") = as<std::vector<int> >(wrap(classes_y)),
+                         Named("na_prop") = na_perc,
+                         Named("matrix") = result);
+
+  List attr = create_attributes(classes_x);
+  df.attr("metadata") = attr;
+
+  CharacterVector my_class(2);
+  my_class(0) = "list";
+  my_class(1) = "coma";
+  df.attr("class") = my_class;
+  return df;
 }
 
 
@@ -85,9 +98,17 @@ u2 = lopata:::get_motifels_coma(a, directions = matrix(4), size = 650, shift = 6
 u2
 
 bench::mark(get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5),
-            get_polygons_coma2(a, b, directions = matrix(4), threshold = 0.5),
             lopata:::get_motifels_coma(a, directions = matrix(4), size = 650, shift = 650, threshold = 0.5),
             check = FALSE)
+
+
+# n = tibble::as_tibble(u)
+# n = structure(n, class = c("coma", class(n)))
+n2 = lopata::lop_cove(n)
+# library(sf)
+# eco = read_sf("inst/vector/ecoregions.gpkg")
+# new = dplyr::bind_cols(eco, n)
+# write_sf(new, "test.gpkg")
 
 bench::mark(get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5),
             get_polygons_coma2(a, b, directions = matrix(4), threshold = 0.5))
