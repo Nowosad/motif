@@ -7,8 +7,7 @@
 \usage{
 lop_coma(x, neighbourhood, size, shift, threshold)
 
-\method{lop_coma}{RasterLayer}(x, neighbourhood = 4, size = NULL,
-  shift = NULL, threshold = 0.5)
+\method{lop_coma}{RasterLayer}(x, neighbourhood = 4, size = NULL, shift = NULL, threshold = 0.5)
 }
 \arguments{
 \item{x}{A RasterLayer with categories}

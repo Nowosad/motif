@@ -68,3 +68,45 @@ incove$dist = unlist(lapply(incove$vector, jensen_shannon,
 my_grid2 = dplyr::left_join(my_grid, incove[c("row", "col", "dist")])
 
 plot(my_grid2["dist"])
+
+# function ----------------------------------------------------------------
+library(lopata)
+library(raster)
+library(philentropy)
+ext = extent(c(xmin = -249797.344531127, xmax = -211162.693944285,
+               ymin = -597280.143035389, ymax = -558645.492448547))
+
+lc = raster("inst/raster/landcover.tif")
+lf = raster("inst/raster/landform.tif")
+
+lc_ext = crop(lc, ext)
+lf_ext = crop(lf, ext)
+
+list_sample = list(as.matrix(lc_ext), as.matrix(lf_ext))
+list_all = list(as.matrix(lc), as.matrix(lf))
+
+lop_search = function(list_sample, list_all, directions = matrix(4), ordered = FALSE, repeated = FALSE, normalization = "pdf", size = 128, threshold = 0.5, dist_fun = jensen_shannon, ...){
+
+  if (is.null(size)){
+    size = 0
+  }
+  if (missing(shift)){
+    shift = size
+  }
+
+  unique_classes_all = lapply(list_all, comat:::get_unique_values, TRUE)
+
+  incoma_sample = comat:::rcpp_get_incoma_list(list_sample, directions = directions, unique_classes_all)
+  incove_sample = comat:::rcpp_get_incove(incoma_sample, ordered = ordered, repeated = repeated, normalization = normalization)
+
+  incoma = lopata:::get_motifels_incoma(list_all, size = size, shift = shift, directions = directions, threshold = threshold)
+  incoma = tibble::as_tibble(incoma)
+  incoma = structure(incoma, class = c("incoma", class(incoma)))
+  incove = lopata::lop_incove(incoma, ordered = ordered, repeated = repeated, normalization = normalization)
+
+  incove$dist = unlist(lapply(incove$vector, dist_fun,
+                              P = incove_sample, testNA = FALSE,
+                              unit = "log2"))
+  incove
+}
+

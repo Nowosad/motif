@@ -7,9 +7,16 @@
 \usage{
 lop_wecoma(x, w, neighbourhood, size, shift, threshold, fun, na_action)
 
-\method{lop_wecoma}{RasterLayer}(x, w, neighbourhood = 4, size = NULL,
-  shift = NULL, threshold = 0.5, fun = "mean",
-  na_action = "replace")
+\method{lop_wecoma}{RasterLayer}(
+  x,
+  w,
+  neighbourhood = 4,
+  size = NULL,
+  shift = NULL,
+  threshold = 0.5,
+  fun = "mean",
+  na_action = "replace"
+)
 }
 \arguments{
 \item{x}{A RasterLayer with categories}

@@ -7,8 +7,7 @@
 \usage{
 lop_cocoma(x, y, neighbourhood, size, shift, threshold)
 
-\method{lop_cocoma}{RasterLayer}(x, y, neighbourhood = 4, size = NULL,
-  shift = NULL, threshold = 0.5)
+\method{lop_cocoma}{RasterLayer}(x, y, neighbourhood = 4, size = NULL, shift = NULL, threshold = 0.5)
 }
 \arguments{
 \item{x}{A RasterLayer with categories}

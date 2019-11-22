@@ -7,8 +7,7 @@
 \usage{
 lop_incove(x, ordered, repeated, normalization)
 
-\method{lop_incove}{incoma}(x, ordered = TRUE, repeated = TRUE,
-  normalization = "none")
+\method{lop_incove}{incoma}(x, ordered = TRUE, repeated = TRUE, normalization = "none")
 }
 \arguments{
 \item{x}{A matrix - an output of the \code{\link[=lop_incoma]{lop_incoma()}} function}

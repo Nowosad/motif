@@ -7,8 +7,7 @@
 \usage{
 lop_incoma(x, neighbourhood, size, shift, threshold)
 
-\method{lop_incoma}{RasterStack}(x, neighbourhood = 4, size = NULL,
-  shift = NULL, threshold = 0.5)
+\method{lop_incoma}{RasterStack}(x, neighbourhood = 4, size = NULL, shift = NULL, threshold = 0.5)
 }
 \arguments{
 \item{x}{A RasterStack object containing categorical rasters}

@@ -25,7 +25,7 @@ lop_to_dist(x, method, unit, p)
 the \code{\link[philentropy:getDistMethods]{philentropy::getDistMethods()}} function}
 
 \item{unit}{A character string specifying the logarithm unit that should be used to
-compute distances that depend on log computations: \code{"log", "log2", "log10"}.
+compute distances that depend on log computations: \verb{"log", "log2", "log10"}.
 The default is \code{"log"}.}
 
 \item{p}{Power of the Minkowski distance}

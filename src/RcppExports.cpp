@@ -61,6 +61,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// get_motifels_fun
+List get_motifels_fun(IntegerMatrix x, Function f, int size, int shift, double threshold);
+RcppExport SEXP _lopata_get_motifels_fun(SEXP xSEXP, SEXP fSEXP, SEXP sizeSEXP, SEXP shiftSEXP, SEXP thresholdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< Function >::type f(fSEXP);
+    Rcpp::traits::input_parameter< int >::type size(sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type shift(shiftSEXP);
+    Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_motifels_fun(x, f, size, shift, threshold));
+    return rcpp_result_gen;
+END_RCPP
+}
 // get_motifels_ids
 IntegerMatrix get_motifels_ids(int num_r, int num_c, int size, int shift);
 RcppExport SEXP _lopata_get_motifels_ids(SEXP num_rSEXP, SEXP num_cSEXP, SEXP sizeSEXP, SEXP shiftSEXP) {
@@ -108,38 +123,40 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// get_mask_coma
-List get_mask_coma(IntegerMatrix x, IntegerMatrix m);
-RcppExport SEXP _lopata_get_mask_coma(SEXP xSEXP, SEXP mSEXP) {
+// get_polygons_coma
+List get_polygons_coma(const arma::imat& x, const arma::imat& y, const arma::imat directions, double threshold);
+RcppExport SEXP _lopata_get_polygons_coma(SEXP xSEXP, SEXP ySEXP, SEXP directionsSEXP, SEXP thresholdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerMatrix >::type x(xSEXP);
-    Rcpp::traits::input_parameter< IntegerMatrix >::type m(mSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_mask_coma(x, m));
-    return rcpp_result_gen;
-END_RCPP
-}
-// matrix_locs
-arma::mat matrix_locs(arma::mat M, arma::umat locs);
-RcppExport SEXP _lopata_matrix_locs(SEXP MSEXP, SEXP locsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type M(MSEXP);
-    Rcpp::traits::input_parameter< arma::umat >::type locs(locsSEXP);
-    rcpp_result_gen = Rcpp::wrap(matrix_locs(M, locs));
+    Rcpp::traits::input_parameter< const arma::imat& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::imat& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
+    Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_polygons_coma(x, y, directions, threshold));
     return rcpp_result_gen;
 END_RCPP
 }
 // na_prop
-double na_prop(Rcpp::IntegerMatrix x);
+double na_prop(const IntegerMatrix& x);
 RcppExport SEXP _lopata_na_prop(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::IntegerMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const IntegerMatrix& >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(na_prop(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// na_prop_polygon
+double na_prop_polygon(const arma::imat& x, const double& no_of_outside_cells);
+RcppExport SEXP _lopata_na_prop_polygon(SEXP xSEXP, SEXP no_of_outside_cellsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::imat& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const double& >::type no_of_outside_cells(no_of_outside_cellsSEXP);
+    rcpp_result_gen = Rcpp::wrap(na_prop_polygon(x, no_of_outside_cells));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -149,12 +166,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lopata_get_motifel_size", (DL_FUNC) &_lopata_get_motifel_size, 3},
     {"_lopata_get_motifels_cocoma", (DL_FUNC) &_lopata_get_motifels_cocoma, 6},
     {"_lopata_get_motifels_coma", (DL_FUNC) &_lopata_get_motifels_coma, 5},
+    {"_lopata_get_motifels_fun", (DL_FUNC) &_lopata_get_motifels_fun, 5},
     {"_lopata_get_motifels_ids", (DL_FUNC) &_lopata_get_motifels_ids, 4},
     {"_lopata_get_motifels_incoma", (DL_FUNC) &_lopata_get_motifels_incoma, 5},
     {"_lopata_get_motifels_wecoma", (DL_FUNC) &_lopata_get_motifels_wecoma, 8},
-    {"_lopata_get_mask_coma", (DL_FUNC) &_lopata_get_mask_coma, 2},
-    {"_lopata_matrix_locs", (DL_FUNC) &_lopata_matrix_locs, 2},
+    {"_lopata_get_polygons_coma", (DL_FUNC) &_lopata_get_polygons_coma, 4},
     {"_lopata_na_prop", (DL_FUNC) &_lopata_na_prop, 1},
+    {"_lopata_na_prop_polygon", (DL_FUNC) &_lopata_na_prop_polygon, 2},
     {NULL, NULL, 0}
 };
 
