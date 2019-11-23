@@ -8,14 +8,18 @@ using namespace Rcpp;
 // https://stackoverflow.com/questions/31691130/conversion-of-r-matrices-to-armadillo-is-really-slow
 
 // [[Rcpp::export]]
-List get_polygons_coma(const arma::imat& x,
-                       const arma::imat& m,
-                       const arma::imat directions,
-                       double threshold) {
+List get_polygons_cocoma(const arma::imat& x,
+                         const arma::imat& y,
+                         const arma::imat& m,
+                         const arma::imat directions,
+                         double threshold) {
 
   // get unique values of x and y
-  List classes_x(1);
-  classes_x(0) = comat::get_unique_values(wrap(x), true);
+  List classes(2);
+
+  classes(0) = comat::get_unique_values(wrap(x), true);
+  classes(1) = comat::get_unique_values(wrap(y), true);
+
 
   arma::ivec classes_m = unique(m);
   classes_m = classes_m.elem(find(classes_m != NA_INTEGER));
@@ -27,10 +31,11 @@ List get_polygons_coma(const arma::imat& x,
   arma::uvec ind_not_classes_m;
   arma::umat coords_classes_m;
   arma::imat submatrix_x;
+  arma::imat submatrix_y;
   arma::imat submatrix_m;
   NumericVector na_perc(classes_m_size);
 
-  // for each class in y
+  // for each class in m
   for (int i = 0; i < classes_m_size; i++){
 
     // get class ind
@@ -65,26 +70,24 @@ List get_polygons_coma(const arma::imat& x,
     na_perc(i) = na_prop_polygon(submatrix_x, ind_not_classes_m.size());
     // std::cout << "na prop:   " << na_perc(i) << std::endl;
 
-    // wrap used here is very memory costly
-    // try to think how it can be fixed
-    // IntegerMatrix p = wrap(submatrix_x);
-    // calculate coma
     if (na_perc(i) <= threshold){
-      result[i] = comat::rcpp_get_coma_internal(wrap(submatrix_x), directions, classes_x(0));
+      submatrix_y = y.submat(min_row, min_col, max_row, max_col);
+      result[i] = comat::rcpp_get_cocoma_internal(wrap(submatrix_x), wrap(submatrix_y), directions, classes(0), classes(1));
     }
+
   }
   LogicalVector na_perc_below_thres = na_perc <= threshold;
   IntegerVector ids = (wrap(classes_m));
   List df = List::create(Named("id") = ids[na_perc_below_thres],
                          Named("na_prop") = na_perc[na_perc_below_thres],
-                                                   Named("matrix") = result[na_perc_below_thres]);
+                         Named("matrix") = result[na_perc_below_thres]);
 
-  List attr = create_attributes(classes_x);
+  List attr = create_attributes(classes);
   df.attr("metadata") = attr;
 
   CharacterVector my_class(2);
   my_class(0) = "list";
-  my_class(1) = "coma";
+  my_class(1) = "cocoma";
   df.attr("class") = my_class;
   return df;
 }
@@ -93,34 +96,10 @@ List get_polygons_coma(const arma::imat& x,
 /***R
 library(raster)
 a = as.matrix(raster("inst/raster/landcover.tif"))
-b = as.matrix(raster("inst/raster/ecoregions.tif"))
-u = get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5)
+b = as.matrix(raster("inst/raster/landform.tif"))
+m = as.matrix(raster("inst/raster/ecoregions.tif"))
+u = get_polygons_coma(a, m, directions = matrix(4), threshold = 0.5)
 u
-u2 = lopata:::get_motifels_coma(a, directions = matrix(4), size = 650, shift = 650, threshold = 0.5)
-u2
-
-bench::mark(lopata:::get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5),
-            lopata:::get_motifels_coma(a, directions = matrix(4), size = 650, shift = 650, threshold = 0.5),
-            check = FALSE)
-
-
-tibble::as_tibble(u)
-# n = structure(n, class = c("coma", class(n)))
-n2 = lopata::lop_cove(n)
-# library(sf)
-# eco = read_sf("inst/vector/ecoregions.gpkg")
-# new = dplyr::bind_cols(eco, n)
-# write_sf(new, "test.gpkg")
-
-bench::mark(get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5),
-            get_polygons_coma2(a, b, directions = matrix(4), threshold = 0.5))
-
-set.seed(1111)
-a = matrix(sample(c(NA, 1:3), size = 20, replace = TRUE), ncol = 4)
-b = matrix(c(2, 2, 2, 2, 3, 2, 2, 2, 3, 4, NA, NA, 4, 4, 4, 4, 4, 4, 4, 4), ncol = 4)
-u = get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5)
-u
-
-bench::mark(get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5))
-lopata::lop_coma(raster::raster(u), threshold = 0.9)$matrix
+u2 = get_polygons_cocoma(a, b, m, directions = matrix(4), threshold = 0.5)
+tibble::as_tibble(u2)
 */
