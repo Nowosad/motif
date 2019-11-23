@@ -7,17 +7,22 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-List get_motifels_fun(IntegerMatrix x,
-                      Function f,
+List get_motifels_fun(const List input,
                       int size,
                       int shift,
+                      Function f,
                       double threshold) {
 
+  int num_l = input.length();
+  List classes(num_l);
+
+  for (int l = 0; l < num_l; l++){
+    classes(l) = comat::get_unique_values(input[l], true);
+  }
+
+  IntegerMatrix x = input(0);
   const int num_r = x.nrow();
   const int num_c = x.ncol();
-
-  List classes(1);
-  classes(0) = comat::get_unique_values(x, true);
 
   int nr_of_motifels;
   if (size == 0){
@@ -30,6 +35,7 @@ List get_motifels_fun(IntegerMatrix x,
   IntegerVector all_nr_of_motifels(nr_of_motifels);
   IntegerVector all_m_row(nr_of_motifels);
   IntegerVector all_m_col(nr_of_motifels);
+  NumericVector na_perc_all(num_l);
   NumericVector na_perc(nr_of_motifels);
 
   int nr_of_motifels2 = 0;
@@ -40,13 +46,15 @@ List get_motifels_fun(IntegerMatrix x,
     all_nr_of_motifels(0) = 1;
     all_m_row(0) = m_row;
     all_m_col(0) = m_col;
-    na_perc(0) = na_prop(x);
+    for (int l = 0; l < num_l; l++){
+      na_perc_all(l) = na_prop(input[l]);
+    }
+    na_perc[0] = mean(na_perc_all);
     if (na_perc(0) <= threshold){
       result[0] = f(x);
     }
   } else {
-
-    // IntegerMatrix motifel_x;
+    List motifel_input(num_l);
 
     for (int i = 0; i < num_r; i = i + shift){
       for (int j = 0; j < num_c; j = j + shift){
@@ -62,12 +70,17 @@ List get_motifels_fun(IntegerMatrix x,
         if (j_max >= num_c){
           j_max = num_c - 1;
         }
-        IntegerMatrix motifel_x = x(Range(i, i_max), Range(j, j_max));
-        // Rcout << "The value of motifel_x : " << motifel_x << "\n";
+        for (int l = 0; l < num_l; l++){
+          // IntegerMatrix layer_l;
+          IntegerMatrix layer_l = wrap(input(l));
+          motifel_input(l) = layer_l(Range(i, i_max), Range(j, j_max));
+          na_perc_all(l) = na_prop(motifel_input[l]);
+        }
 
-        na_perc(nr_of_motifels2) = na_prop(motifel_x);
+        na_perc[nr_of_motifels2] = mean(na_perc_all);
+
         if (na_perc(nr_of_motifels2) <= threshold){
-          result[nr_of_motifels2] = f(motifel_x);
+          result[nr_of_motifels2] = f(motifel_input);
         }
 
         nr_of_motifels2 ++;
