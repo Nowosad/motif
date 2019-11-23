@@ -1,28 +1,38 @@
-library(comat)
-library(raster)
-landcover = raster(system.file("raster/landcover.tif", package = "lopata"))
-plot(landcover)
-landform = raster(system.file("raster/landform.tif", package = "lopata"))
-plot(landform)
-npp = raster("npp.tif")
-plot(npp)
-lop_thumbprint(landcover, type = "coma", threshold = 0.9)
-lop_thumbprint(landcover, type = "cove", threshold = 0.9)
-lop_thumbprint(landcover, landform, type = "cocoma", threshold = 0.9)
-lop_thumbprint(landcover, landform, type = "cocove", threshold = 0.9)
-lop_thumbprint(landcover, npp, type = "wecoma", threshold = 0.9)
-lop_thumbprint(landcover, npp, type = "wecove", threshold = 0.9)
-lop_thumbprint(landcover, landform, type = "incoma", threshold = 0.9)
-lop_thumbprint(landcover, landform, type = "incove", threshold = 0.9)
-lop_thumbprint(list(landcover, landform), type = "incove", threshold = 0.9)
-
-
-# lop_wecoma(landcover, npp, threshold = 0.9)
-#
-# x = list(as.matrix(landcover), as.matrix(npp)); neighbourhood = 4; size = 0; shift = 0;
-# threshold = 0.9; ordered = TRUE; repeated = TRUE;
-# normalization = "none"; fun = "mean"; na_action = "replace"
-
+#' Title
+#'
+#' @param ...
+#' @param type
+#' @param neighbourhood
+#' @param size
+#' @param shift
+#' @param threshold
+#' @param ordered
+#' @param repeated
+#' @param normalization
+#' @param fun
+#' @param na_action
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' library(comat)
+#' library(raster)
+#' landcover = raster(system.file("raster/landcover.tif", package = "lopata"))
+#' plot(landcover)
+#' landform = raster(system.file("raster/landform.tif", package = "lopata"))
+#' plot(landform)
+#' #npp = raster("npp.tif")
+#' #plot(npp)
+#' lop_thumbprint(landcover, type = "coma", threshold = 0.9)
+#' lop_thumbprint(landcover, type = "cove", threshold = 0.9)
+#' lop_thumbprint(landcover, landform, type = "cocoma", threshold = 0.9)
+#' lop_thumbprint(landcover, landform, type = "cocove", threshold = 0.9)
+#' #lop_thumbprint(landcover, npp, type = "wecoma", threshold = 0.9)
+#' #lop_thumbprint(landcover, npp, type = "wecove", threshold = 0.9)
+#' lop_thumbprint(landcover, landform, type = "incoma", threshold = 0.9)
+#' lop_thumbprint(landcover, landform, type = "incove", threshold = 0.9)
+#' lop_thumbprint(list(landcover, landform), type = "incove", threshold = 0.9)
 lop_thumbprint = function(..., type, neighbourhood = 4, size = NULL, shift = NULL,
                           threshold = 0.5, ordered = TRUE, repeated = TRUE,
                           normalization = "none", fun = "mean", na_action = "replace"){
