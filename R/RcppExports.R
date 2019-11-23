@@ -17,6 +17,10 @@ get_motifels_coma <- function(x, directions, size, shift, threshold) {
     .Call(`_lopata_get_motifels_coma`, x, directions, size, shift, threshold)
 }
 
+get_motifels_fun <- function(input, size, shift, f, threshold) {
+    .Call(`_lopata_get_motifels_fun`, input, size, shift, f, threshold)
+}
+
 get_motifels_ids <- function(num_r, num_c, size, shift) {
     .Call(`_lopata_get_motifels_ids`, num_r, num_c, size, shift)
 }
@@ -29,15 +33,31 @@ get_motifels_wecoma <- function(x, w, directions, size, shift, threshold, fun, n
     .Call(`_lopata_get_motifels_wecoma`, x, w, directions, size, shift, threshold, fun, na_action)
 }
 
-get_mask_coma <- function(x, m) {
-    .Call(`_lopata_get_mask_coma`, x, m)
+get_polygons_cocoma <- function(x, y, m, directions, threshold) {
+    .Call(`_lopata_get_polygons_cocoma`, x, y, m, directions, threshold)
 }
 
-matrix_locs <- function(M, locs) {
-    .Call(`_lopata_matrix_locs`, M, locs)
+get_polygons_coma <- function(x, m, directions, threshold) {
+    .Call(`_lopata_get_polygons_coma`, x, m, directions, threshold)
+}
+
+get_polygons_fun <- function(input, m, f, threshold) {
+    .Call(`_lopata_get_polygons_fun`, input, m, f, threshold)
+}
+
+get_polygons_incoma <- function(input, m, directions, threshold) {
+    .Call(`_lopata_get_polygons_incoma`, input, m, directions, threshold)
+}
+
+get_polygons_wecoma <- function(x, w, m, directions, threshold, fun, na_action) {
+    .Call(`_lopata_get_polygons_wecoma`, x, w, m, directions, threshold, fun, na_action)
 }
 
 na_prop <- function(x) {
     .Call(`_lopata_na_prop`, x)
+}
+
+na_prop_polygon <- function(x, no_of_outside_cells) {
+    .Call(`_lopata_na_prop_polygon`, x, no_of_outside_cells)
 }
 
