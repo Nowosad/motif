@@ -7,15 +7,16 @@
 lop_thumbprint(
   ...,
   type,
+  window,
+  window_size = NULL,
+  window_shift = NULL,
   neighbourhood = 4,
-  size = NULL,
-  shift = NULL,
   threshold = 0.5,
   ordered = TRUE,
   repeated = TRUE,
   normalization = "none",
-  fun = "mean",
-  na_action = "replace"
+  wecoma_fun = "mean",
+  wecoma_na_action = "replace"
 )
 }
 \arguments{
@@ -36,6 +37,8 @@ landform = raster(system.file("raster/landform.tif", package = "lopata"))
 plot(landform)
 #npp = raster("npp.tif")
 #plot(npp)
+ecoregions = raster(system.file("raster/ecoregions.tif", package = "lopata"))
+plot(ecoregions)
 lop_thumbprint(landcover, type = "coma", threshold = 0.9)
 lop_thumbprint(landcover, type = "cove", threshold = 0.9)
 lop_thumbprint(landcover, landform, type = "cocoma", threshold = 0.9)
@@ -45,4 +48,24 @@ lop_thumbprint(landcover, landform, type = "cocove", threshold = 0.9)
 lop_thumbprint(landcover, landform, type = "incoma", threshold = 0.9)
 lop_thumbprint(landcover, landform, type = "incove", threshold = 0.9)
 lop_thumbprint(list(landcover, landform), type = "incove", threshold = 0.9)
+
+lop_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
+lop_thumbprint(landcover, type = "cove", window_size = 100, window_shift = 100, threshold = 0.9)
+lop_thumbprint(landcover, landform, type = "cocoma", window_size = 100, window_shift = 100, threshold = 0.9)
+lop_thumbprint(landcover, landform, type = "cocove", window_size = 100, window_shift = 100, threshold = 0.9)
+#lop_thumbprint(landcover, npp, type = "wecoma", window_size = 100, window_shift = 100, threshold = 0.9)
+#lop_thumbprint(landcover, npp, type = "wecove", window_size = 100, window_shift = 100, threshold = 0.9)
+lop_thumbprint(landcover, landform, type = "incoma", window_size = 100, window_shift = 100, threshold = 0.9)
+lop_thumbprint(landcover, landform, type = "incove", window_size = 100, window_shift = 100, threshold = 0.9)
+lop_thumbprint(list(landcover, landform), type = "incove", window_size = 100, window_shift = 100, threshold = 0.9)
+
+lop_thumbprint(landcover, type = "coma", window = ecoregions, threshold = 0.9)
+lop_thumbprint(landcover, type = "cove", window = ecoregions, threshold = 0.9)
+lop_thumbprint(landcover, landform, type = "cocoma", window = ecoregions, threshold = 0.9)
+lop_thumbprint(landcover, landform, type = "cocove", window = ecoregions, threshold = 0.9)
+#lop_thumbprint(landcover, npp, type = "wecoma", window = ecoregions, threshold = 0.9)
+#lop_thumbprint(landcover, npp, type = "wecove", window = ecoregions, threshold = 0.9)
+lop_thumbprint(landcover, landform, type = "incoma", window = ecoregions, threshold = 0.9)
+lop_thumbprint(landcover, landform, type = "incove", window = ecoregions, threshold = 0.9)
+lop_thumbprint(list(landcover, landform), type = "incove", window = ecoregions, threshold = 0.9)
 }

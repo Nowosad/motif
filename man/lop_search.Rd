@@ -10,14 +10,14 @@ lop_search(
   type,
   dist_fun,
   neighbourhood = 4,
-  size = NULL,
-  shift = NULL,
+  window_size = NULL,
+  window_shift = NULL,
   threshold = 0.5,
   ordered = TRUE,
   repeated = TRUE,
   normalization = "pdf",
-  fun = "mean",
-  na_action = "replace"
+  wecoma_fun = "mean",
+  wecoma_na_action = "replace"
 )
 }
 \arguments{
