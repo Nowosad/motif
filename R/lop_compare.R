@@ -28,9 +28,9 @@
 #' lf = raster(system.file("raster/landform.tif", package = "lopata"))
 #'
 #' s1 = lop_compare(list(lc), list(lc), type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s2 = lop_compare(list(lc_ext, lf_ext), list(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s3 = lop_compare(list(lc_ext, lf_ext), list(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s4 = lop_compare(list(lc_ext, lf_ext), list(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s2 = lop_compare(list(lc, lf), list(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s3 = lop_compare(list(lc, lf), list(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s4 = lop_compare(list(lc, lf), list(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
 lop_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, window_shift = NULL,
                        neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                        normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace"){
