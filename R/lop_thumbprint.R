@@ -1,6 +1,6 @@
 #' Title
 #'
-#' @param ...
+#' @param x
 #' @param type
 #' @param neighbourhood
 #' @param window_size
@@ -17,64 +17,53 @@
 #'
 #' @examples
 #' library(comat)
-#' library(raster)
-#' landcover = raster(system.file("raster/landcover2015.tif", package = "lopata"))
+#' library(stars)
+#' landcover = read_stars(system.file("raster/landcover2015.tif", package = "lopata"))
 #' plot(landcover)
-#' landform = raster(system.file("raster/landform.tif", package = "lopata"))
+#' landform = read_stars(system.file("raster/landform.tif", package = "lopata"))
 #' plot(landform)
-#' #npp = raster("npp.tif")
+#' #npp = read_stars("npp.tif")
 #' #plot(npp)
-#' ecoregions = raster(system.file("raster/ecoregions.tif", package = "lopata"))
+#' ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "lopata"))
 #' plot(ecoregions)
-#'
-#' my_mean = function(x) mean(x[[1]], na.rm = TRUE)
 #'
 #' lop_thumbprint(landcover, type = "coma", threshold = 0.9)
 #' lop_thumbprint(landcover, type = "cove", threshold = 0.9)
-#' lop_thumbprint(landcover, landform, type = "cocoma", threshold = 0.9)
-#' lop_thumbprint(landcover, landform, type = "cocove", threshold = 0.9)
-#' #lop_thumbprint(landcover, npp, type = "wecoma", threshold = 0.9)
-#' #lop_thumbprint(landcover, npp, type = "wecove", threshold = 0.9)
-#' lop_thumbprint(landcover, landform, type = "incoma", threshold = 0.9)
-#' lop_thumbprint(landcover, landform, type = "incove", threshold = 0.9)
-#' lop_thumbprint(list(landcover, landform), type = "incove", threshold = 0.9)
-#' lop_thumbprint(landcover, type = my_mean, threshold = 1)
+#' lop_thumbprint(c(landcover, landform), type = "cocoma", threshold = 0.9)
+#' lop_thumbprint(c(landcover, landform), type = "cocove", threshold = 0.9)
+#' #lop_thumbprint(c(landcover, npp), type = "wecoma", threshold = 0.9)
+#' #lop_thumbprint(c(landcover, npp), type = "wecove", threshold = 0.9)
+#' lop_thumbprint(c(landcover, landform), type = "incoma", threshold = 0.9)
+#' lop_thumbprint(c(landcover, landform), type = "incove", threshold = 0.9)
 #'
 #' lop_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
 #' lop_thumbprint(landcover, type = "cove", window_size = 100, window_shift = 100, threshold = 0.9)
-#' lop_thumbprint(landcover, landform, type = "cocoma", window_size = 100, window_shift = 100, threshold = 0.9)
-#' lop_thumbprint(landcover, landform, type = "cocove", window_size = 100, window_shift = 100, threshold = 0.9)
-#' #lop_thumbprint(landcover, npp, type = "wecoma", window_size = 100, window_shift = 100, threshold = 0.9)
-#' #lop_thumbprint(landcover, npp, type = "wecove", window_size = 100, window_shift = 100, threshold = 0.9)
-#' lop_thumbprint(landcover, landform, type = "incoma", window_size = 100, window_shift = 100, threshold = 0.9)
-#' lop_thumbprint(landcover, landform, type = "incove", window_size = 100, window_shift = 100, threshold = 0.9)
-#' lop_thumbprint(list(landcover, landform), type = "incove", window_size = 100, window_shift = 100, threshold = 0.9)
-#' system.time({lop_thumbprint(landcover, type = my_mean, window_size = 100, window_shift = 100, threshold = 1)})
-#' system.time({lop_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)})
+#' lop_thumbprint(c(landcover, landform), type = "cocoma", window_size = 100, window_shift = 100, threshold = 0.9)
+#' lop_thumbprint(c(landcover, landform), type = "cocove", window_size = 100, window_shift = 100, threshold = 0.9)
+#' #lop_thumbprint(c(landcover, npp), type = "wecoma", window_size = 100, window_shift = 100, threshold = 0.9)
+#' #lop_thumbprint(c(landcover, npp), type = "wecove", window_size = 100, window_shift = 100, threshold = 0.9)
+#' lop_thumbprint(c(landcover, landform), type = "incoma", window_size = 100, window_shift = 100, threshold = 0.9)
+#' lop_thumbprint(c(landcover, landform), type = "incove", window_size = 100, window_shift = 100, threshold = 0.9)
 #'
 #' lop_thumbprint(landcover, type = "coma", window = ecoregions, threshold = 0.9)
 #' lop_thumbprint(landcover, type = "cove", window = ecoregions, threshold = 0.9)
-#' lop_thumbprint(landcover, landform, type = "cocoma", window = ecoregions, threshold = 0.9)
-#' lop_thumbprint(landcover, landform, type = "cocove", window = ecoregions, threshold = 0.9)
-#' #lop_thumbprint(landcover, npp, type = "wecoma", window = ecoregions, threshold = 0.9)
-#' #lop_thumbprint(landcover, npp, type = "wecove", window = ecoregions, threshold = 0.9)
-#' lop_thumbprint(landcover, landform, type = "incoma", window = ecoregions, threshold = 0.9)
-#' lop_thumbprint(landcover, landform, type = "incove", window = ecoregions, threshold = 0.9)
-#' lop_thumbprint(list(landcover, landform), type = "incove", window = ecoregions, threshold = 0.9)
-#' lop_thumbprint(landcover, type = my_mean, window = ecoregions, threshold = 1)
-#'
-#' lsm = function(x) landscapemetrics::lsm_l_ent(x[1], neighbourhood = 4, base = "log2")$value
-#' lop_thumbprint(landcover, type = lsm, window = ecoregions, threshold = 1)
-lop_thumbprint = function(..., type, window = NULL, window_size = NULL, window_shift = NULL,
+#' lop_thumbprint(c(landcover, landform), type = "cocoma", window = ecoregions, threshold = 0.9)
+#' lop_thumbprint(c(landcover, landform), type = "cocove", window = ecoregions, threshold = 0.9)
+#' #lop_thumbprint(c(landcover, npp), type = "wecoma", window = ecoregions, threshold = 0.9)
+#' #lop_thumbprint(c(landcover, npp), type = "wecove", window = ecoregions, threshold = 0.9)
+#' lop_thumbprint(c(landcover, landform), type = "incoma", window = ecoregions, threshold = 0.9)
+#' lop_thumbprint(c(landcover, landform), type = "incove", window = ecoregions, threshold = 0.9)
+lop_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
                           neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                           normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace"){
 
-  x = list(...)
-  if (length(x) == 1 && is.list(x[[1]])){
-    x = x[[1]]
-  }
+  # x = c(landcover, landform)
 
-  x = lapply(x, raster::as.matrix)
+  # attr_x = attributes(x)
+
+  x = lapply(x, function(x) `mode<-`(x, "integer"))
+
+  # attributes(x) = attr_x
 
   directions = as.matrix(neighbourhood)
 
@@ -125,34 +114,35 @@ lop_thumbprint = function(..., type, window = NULL, window_size = NULL, window_s
     }
   } else {
     window = raster::as.matrix(window)
+
     if (is.function(type)){
       x = get_polygons_fun(x,
-                           m = window,
+                           m = window[[1]],
                            f = type,
                            threshold = threshold)
     } else if (type == "coma" || type == "cove"){
       x = get_polygons_coma(x[[1]],
                             directions = directions,
-                            m = window,
+                            m = window[[1]],
                             threshold = threshold)
     } else if (type == "cocoma" || type == "cocove"){
       x = get_polygons_cocoma(x[[1]],
                               x[[2]],
                               directions = directions,
-                              m = window,
+                              m = window[[1]],
                               threshold = threshold)
     } else if (type == "wecoma" || type == "wecove"){
       x = get_polygons_wecoma(x = x[[1]],
                               w = x[[2]],
                               directions = directions,
-                              m = window,
+                              m = window[[1]],
                               threshold = threshold,
                               fun = wecoma_fun,
                               na_action = wecoma_na_action)
     } else if (type == "incoma" || type == "incove"){
       x = get_polygons_incoma(x,
                               directions = directions,
-                              m = window,
+                              m = window[[1]],
                               threshold = threshold)
     }
   }
@@ -184,7 +174,6 @@ lop_thumbprint = function(..., type, window = NULL, window_size = NULL, window_s
       )
     }
   }
-
 
   return(x)
 }
