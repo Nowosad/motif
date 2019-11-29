@@ -50,6 +50,6 @@ lop_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
 
   output = cbind(output_x[c("id", "row", "col", "na_prop_x")], output_y["na_prop_y"])
 
-  output$dist = mapply(philentropy::jensen_shannon, output_x$matrix, output_y$matrix, testNA = FALSE, unit = "log10")
+  output$dist = mapply(philentropy::jensen_shannon, output_x$signature, output_y$signature, testNA = FALSE, unit = "log10")
   return(output)
 }

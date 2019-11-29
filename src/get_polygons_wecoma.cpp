@@ -80,7 +80,7 @@ List get_polygons_wecoma(const arma::imat& x,
   IntegerVector ids = (wrap(classes_m));
   List df = List::create(Named("id") = ids[na_perc_below_thres],
                          Named("na_prop") = na_perc[na_perc_below_thres],
-                         Named("matrix") = result[na_perc_below_thres]);
+                         Named("signature") = result[na_perc_below_thres]);
 
   List attr = create_attributes(classes);
   df.attr("metadata") = attr;

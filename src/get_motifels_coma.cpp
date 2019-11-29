@@ -77,7 +77,7 @@ List get_motifels_coma(IntegerMatrix x,
                          Named("row") = all_m_row[na_perc_below_thres],
                          Named("col") = all_m_col[na_perc_below_thres],
                          Named("na_prop") = na_perc[na_perc_below_thres],
-                         Named("matrix") = result[na_perc_below_thres]);
+                         Named("signature") = result[na_perc_below_thres]);
 
   List attr = create_attributes(classes);
   df.attr("metadata") = attr;

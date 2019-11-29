@@ -52,10 +52,10 @@ lop_search = function(x, y, type, dist_fun, window, window_size = NULL, window_s
                                          ordered = ordered, repeated = repeated, normalization = normalization)
   }
 
-  output$dist = unlist(lapply(output$matrix, dist_fun,
+  output$dist = unlist(lapply(output$signature, dist_fun,
                               P = input_thumbprint, testNA = FALSE,
                               unit = "log2"))
-  output$matrix = NULL
+  output$signature = NULL
   return(output)
 }
 

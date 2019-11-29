@@ -7,7 +7,7 @@
 lop_thumbprint(
   ...,
   type,
-  window,
+  window = NULL,
   window_size = NULL,
   window_shift = NULL,
   neighbourhood = 4,
@@ -39,6 +39,7 @@ plot(landform)
 #plot(npp)
 ecoregions = raster(system.file("raster/ecoregions.tif", package = "lopata"))
 plot(ecoregions)
+
 lop_thumbprint(landcover, type = "coma", threshold = 0.9)
 lop_thumbprint(landcover, type = "cove", threshold = 0.9)
 lop_thumbprint(landcover, landform, type = "cocoma", threshold = 0.9)

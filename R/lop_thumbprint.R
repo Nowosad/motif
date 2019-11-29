@@ -141,22 +141,22 @@ lop_thumbprint = function(..., type, window = NULL, window_size = NULL, window_s
   x = tibble::as_tibble(x)
 
   if (type == "cove"){
-    x$matrix = lapply(x$matrix,
+    x$signature = lapply(x$signature,
                comat::get_cove,
                ordered = ordered,
                normalization = normalization)
   } else if (type == "cocove"){
-    x$matrix = lapply(x$matrix,
+    x$signature = lapply(x$signature,
                       comat::get_cocove,
                       ordered = ordered,
                       normalization = normalization)
   } else if (type == "wecove"){
-    x$matrix = lapply(x$matrix,
+    x$signature = lapply(x$signature,
                       comat::get_wecove,
                       ordered = ordered,
                       normalization = normalization)
   } else if (type == "incove"){
-    x$matrix = lapply(x$matrix,
+    x$signature = lapply(x$signature,
                       comat::get_incove,
                       ordered = ordered,
                       repeated = repeated,
