@@ -37,19 +37,48 @@ lop_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
 
   #test if x == y
 
-  output_x = lop_thumbprint(x, type = type, neighbourhood = neighbourhood, window = window, window_size = window_size, window_shift = window_shift,
-                          threshold = threshold, ordered = ordered, repeated = repeated,
-                          normalization = normalization, wecoma_fun = wecoma_fun, wecoma_na_action = wecoma_na_action)
+  # use lapply here?
+  output_x = lop_thumbprint(
+    x,
+    type = type,
+    neighbourhood = neighbourhood,
+    window = window,
+    window_size = window_size,
+    window_shift = window_shift,
+    threshold = threshold,
+    ordered = ordered,
+    repeated = repeated,
+    normalization = normalization,
+    wecoma_fun = wecoma_fun,
+    wecoma_na_action = wecoma_na_action
+  )
 
-  output_y = lop_thumbprint(y, type = type, neighbourhood = neighbourhood, window = window, window_size = window_size, window_shift = window_shift,
-                          threshold = threshold, ordered = ordered, repeated = repeated,
-                          normalization = normalization, wecoma_fun = wecoma_fun, wecoma_na_action = wecoma_na_action)
+  output_y = lop_thumbprint(
+    y,
+    type = type,
+    neighbourhood = neighbourhood,
+    window = window,
+    window_size = window_size,
+    window_shift = window_shift,
+    threshold = threshold,
+    ordered = ordered,
+    repeated = repeated,
+    normalization = normalization,
+    wecoma_fun = wecoma_fun,
+    wecoma_na_action = wecoma_na_action
+  )
 
   colnames(output_x)[which(colnames(output_x) == "na_prop")] = "na_prop_x"
   colnames(output_y)[which(colnames(output_y) == "na_prop")] = "na_prop_y"
 
   output = cbind(output_x[c("id", "row", "col", "na_prop_x")], output_y["na_prop_y"])
 
-  output$dist = mapply(philentropy::jensen_shannon, output_x$signature, output_y$signature, testNA = FALSE, unit = "log10")
+  output$dist = mapply(
+    philentropy::jensen_shannon,
+    output_x$signature,
+    output_y$signature,
+    testNA = FALSE,
+    unit = "log10"
+  )
   return(output)
 }
