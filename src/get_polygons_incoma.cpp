@@ -100,11 +100,11 @@ List get_polygons_incoma(const List input,
 
 /***R
 library(raster)
-a = as.matrix(raster("inst/raster/landcover.tif"))
+a = as.matrix(raster("inst/raster/landcover2015.tif"))
 b = as.matrix(raster("inst/raster/landform.tif"))
 m = as.matrix(raster("inst/raster/ecoregions.tif"))
 u = get_polygons_coma(a, m, directions = matrix(4), threshold = 0.5)
 u
-u2 = get_polygons_incoma(list(a, b), m, directions = matrix(4), threshold = 0.5)
+system.time({u2 = get_polygons_incoma(list(a, b), m, directions = matrix(4), threshold = 0.5)})
 tibble::as_tibble(u2)
 */

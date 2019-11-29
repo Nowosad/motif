@@ -111,8 +111,22 @@ List get_motifels_incoma(const List input,
 /***R
 library(comat)
 library(raster)
-x = raster(system.file("raster/landcover.tif", package = "lopata"))
+x = raster(system.file("raster/landcover2015.tif", package = "lopata"))
 y = raster(system.file("raster/landform.tif", package = "lopata"))
+
+library(stars)
+x2 = read_stars("inst/raster/landcover2015.tif")
+y2 = read_stars("inst/raster/landform.tif")
+
+xx = c(x2, y2)
+xx$landcover2015.tif[is.na(xx$landform.tif)] = NA
+xx
+
+incom2 = get_motifels_incoma(xx,
+                             directions = matrix(4),
+                             size = 100, shift = 100,
+                             threshold = 1)
+
 # plot(landcover)
 incom2 = get_motifels_incoma(list(as.matrix(x), as.matrix(y)),
                                              directions = matrix(4),
