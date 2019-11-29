@@ -18,7 +18,7 @@
 #' @examples
 #' library(comat)
 #' library(raster)
-#' landcover = raster(system.file("raster/landcover.tif", package = "lopata"))
+#' landcover = raster(system.file("raster/landcover2015.tif", package = "lopata"))
 #' plot(landcover)
 #' landform = raster(system.file("raster/landform.tif", package = "lopata"))
 #' plot(landform)
@@ -26,6 +26,8 @@
 #' #plot(npp)
 #' ecoregions = raster(system.file("raster/ecoregions.tif", package = "lopata"))
 #' plot(ecoregions)
+#'
+#' my_mean = function(x) mean(x[[1]], na.rm = TRUE)
 #'
 #' lop_thumbprint(landcover, type = "coma", threshold = 0.9)
 #' lop_thumbprint(landcover, type = "cove", threshold = 0.9)
@@ -36,6 +38,7 @@
 #' lop_thumbprint(landcover, landform, type = "incoma", threshold = 0.9)
 #' lop_thumbprint(landcover, landform, type = "incove", threshold = 0.9)
 #' lop_thumbprint(list(landcover, landform), type = "incove", threshold = 0.9)
+#' lop_thumbprint(landcover, type = my_mean, threshold = 1)
 #'
 #' lop_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
 #' lop_thumbprint(landcover, type = "cove", window_size = 100, window_shift = 100, threshold = 0.9)
@@ -46,6 +49,8 @@
 #' lop_thumbprint(landcover, landform, type = "incoma", window_size = 100, window_shift = 100, threshold = 0.9)
 #' lop_thumbprint(landcover, landform, type = "incove", window_size = 100, window_shift = 100, threshold = 0.9)
 #' lop_thumbprint(list(landcover, landform), type = "incove", window_size = 100, window_shift = 100, threshold = 0.9)
+#' system.time({lop_thumbprint(landcover, type = my_mean, window_size = 100, window_shift = 100, threshold = 1)})
+#' system.time({lop_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)})
 #'
 #' lop_thumbprint(landcover, type = "coma", window = ecoregions, threshold = 0.9)
 #' lop_thumbprint(landcover, type = "cove", window = ecoregions, threshold = 0.9)
@@ -56,6 +61,10 @@
 #' lop_thumbprint(landcover, landform, type = "incoma", window = ecoregions, threshold = 0.9)
 #' lop_thumbprint(landcover, landform, type = "incove", window = ecoregions, threshold = 0.9)
 #' lop_thumbprint(list(landcover, landform), type = "incove", window = ecoregions, threshold = 0.9)
+#' lop_thumbprint(landcover, type = my_mean, window = ecoregions, threshold = 1)
+#'
+#' lsm = function(x) landscapemetrics::lsm_l_ent(x[1], neighbourhood = 4, base = "log2")$value
+#' lop_thumbprint(landcover, type = lsm, window = ecoregions, threshold = 1)
 lop_thumbprint = function(..., type, window = NULL, window_size = NULL, window_shift = NULL,
                           neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                           normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace"){
@@ -79,7 +88,13 @@ lop_thumbprint = function(..., type, window = NULL, window_size = NULL, window_s
   }
 
   if (missing(window) || is.null(window)){
-    if (type == "coma" || type == "cove"){
+    if (is.function(type)){
+      x = get_motifels_fun(x,
+                           size = window_size,
+                           shift = window_shift,
+                           f = type,
+                           threshold = threshold)
+    } else if (type == "coma" || type == "cove"){
       x = get_motifels_coma(x[[1]],
                             directions = directions,
                             size = window_size,
@@ -110,8 +125,12 @@ lop_thumbprint = function(..., type, window = NULL, window_size = NULL, window_s
     }
   } else {
     window = raster::as.matrix(window)
-
-    if (type == "coma" || type == "cove"){
+    if (is.function(type)){
+      x = get_polygons_fun(x,
+                           m = window,
+                           f = type,
+                           threshold = threshold)
+    } else if (type == "coma" || type == "cove"){
       x = get_polygons_coma(x[[1]],
                             directions = directions,
                             m = window,
@@ -140,29 +159,32 @@ lop_thumbprint = function(..., type, window = NULL, window_size = NULL, window_s
 
   x = tibble::as_tibble(x)
 
-  if (type == "cove"){
-    x$signature = lapply(x$signature,
-               comat::get_cove,
-               ordered = ordered,
-               normalization = normalization)
-  } else if (type == "cocove"){
-    x$signature = lapply(x$signature,
-                      comat::get_cocove,
-                      ordered = ordered,
-                      normalization = normalization)
-  } else if (type == "wecove"){
-    x$signature = lapply(x$signature,
-                      comat::get_wecove,
-                      ordered = ordered,
-                      normalization = normalization)
-  } else if (type == "incove"){
-    x$signature = lapply(x$signature,
-                      comat::get_incove,
-                      ordered = ordered,
-                      repeated = repeated,
-                      normalization = normalization
-    )
+  if (!is.function(type)){
+    if (type == "cove"){
+      x$signature = lapply(x$signature,
+                           comat::get_cove,
+                           ordered = ordered,
+                           normalization = normalization)
+    } else if (type == "cocove"){
+      x$signature = lapply(x$signature,
+                           comat::get_cocove,
+                           ordered = ordered,
+                           normalization = normalization)
+    } else if (type == "wecove"){
+      x$signature = lapply(x$signature,
+                           comat::get_wecove,
+                           ordered = ordered,
+                           normalization = normalization)
+    } else if (type == "incove"){
+      x$signature = lapply(x$signature,
+                           comat::get_incove,
+                           ordered = ordered,
+                           repeated = repeated,
+                           normalization = normalization
+      )
+    }
   }
+
 
   return(x)
 }
