@@ -29,6 +29,9 @@ lop_search = function(x, y, type, dist_fun, window, window_size = NULL, window_s
                       neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                       normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace"){
 
+  x = lapply(x, function(x) `mode<-`(x, "integer"))
+  y = lapply(y, function(x) `mode<-`(x, "integer"))
+
   output = lop_thumbprint(
     y,
     type = type,
@@ -45,8 +48,6 @@ lop_search = function(x, y, type, dist_fun, window, window_size = NULL, window_s
   )
 
   unique_classes_all = attributes(output)[["metadata"]][["vals"]]
-
-  x = lapply(x, raster::as.matrix)
 
   if (type == "coma" || type == "cove") {
     input_thumbprint = comat::get_cove(
