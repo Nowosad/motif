@@ -51,7 +51,7 @@ List get_motifels_fun(const List input,
     }
     na_perc[0] = mean(na_perc_all);
     if (na_perc(0) <= threshold){
-      result[0] = f(x);
+      result[0] = f(input);
     }
   } else {
     List motifel_input(num_l);
