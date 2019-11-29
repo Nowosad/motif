@@ -74,6 +74,8 @@ lop_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
     if (missing(window_shift) || is.null(window_shift)){
       window_shift = window_size
     }
+  } else {
+    window = lapply(window, function(x) `mode<-`(x, "integer"))
   }
 
   if (missing(window) || is.null(window)){
