@@ -33,6 +33,10 @@
 #' s2 = lop_compare(c(lc01, lf), c(lc15, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
 #' s3 = lop_compare(c(lc01, lf), c(lc15, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
 #' s4 = lop_compare(c(lc01, lf), c(lc15, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
+#'
+#' library(sf)
+#' eco_sf = read_sf(system.file("vector/ecoregions.gpkg", package = "lopata"))
+#' eco_sf = dplyr::bind_cols(eco_sf, s1b)
 lop_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, window_shift = NULL,
                        neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                        normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace"){
