@@ -19,7 +19,7 @@
 #'
 #' plot(output["values2"])
 #'
-lop_add_spatial = function(x, window = NULL, window_size = NULL, window_shift = NULL){
+lop_add_spatial = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
 
   if (missing(window) || is.null(window)){
     x_crs = st_crs(x)
@@ -56,7 +56,7 @@ lop_add_spatial = function(x, window = NULL, window_size = NULL, window_shift = 
                          ny = output_n_col,
                          values = as.integer(seq_len(output_n_row * output_n_col)))
     output = st_set_crs(output, value = x_crs)
-    names(output) = "ids"
+    names(output) = "id"
 
     # df_ids = get_motifels_ids(x_nrow, x_ncol, size, shift)
     # output$col = df_ids[, 1]
@@ -64,6 +64,7 @@ lop_add_spatial = function(x, window = NULL, window_size = NULL, window_shift = 
 
     return(output)
   } else {
+    names(window) = "id"
     return(window)
   }
 }
