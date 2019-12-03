@@ -53,8 +53,8 @@ List get_motifels_incoma(const List input,
     List motifel_input(num_l);
     // IntegerMatrix layer_l(num_r, num_c);
 
-    for (int i = 0; i < num_r; i = i + shift){
-      for (int j = 0; j < num_c; j = j + shift){
+    for (int j = 0; j < num_c; j = j + shift){
+      for (int i = 0; i < num_r; i = i + shift){
         all_nr_of_motifels(nr_of_motifels2) = nr_of_motifels2 + 1;
         all_m_row(nr_of_motifels2) = m_row;
         all_m_col(nr_of_motifels2) = m_col;
@@ -83,10 +83,10 @@ List get_motifels_incoma(const List input,
         }
 
         nr_of_motifels2 ++;
-        m_col++;
+        m_row++;
       }
-      m_col = 1;
-      m_row++;
+      m_row = 1;
+      m_col++;
     }
   }
 
