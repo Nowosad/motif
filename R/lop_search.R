@@ -20,6 +20,8 @@
 #'                 ymin = -597280.143035389, ymax = -558645.492448547),
 #'                 crs = st_crs(lc))
 #'
+#' ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "lopata"))
+#' plot(ecoregions)
 #'
 #' lc_ext = lc[ext]
 #' lf_ext = lf[ext]
@@ -28,9 +30,14 @@
 #' s2 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
 #' s3 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
 #' s4 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
-lop_search = function(x, y, type, dist_fun, window, window_size = NULL, window_shift = NULL,
+#' s5 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window_size = 250)
+#' s6 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window = ecoregions)
+#'
+lop_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, window_shift = NULL,
                       neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                       normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace"){
+
+  y_metadata = st_dimensions(y)
 
   x = lapply(x, function(x) `mode<-`(x, "integer"))
   y = lapply(y, function(x) `mode<-`(x, "integer"))
@@ -39,7 +46,7 @@ lop_search = function(x, y, type, dist_fun, window, window_size = NULL, window_s
     y,
     type = type,
     neighbourhood = neighbourhood,
-    window,
+    window = window,
     window_size = window_size,
     window_shift = window_shift,
     threshold = threshold,
@@ -95,5 +102,18 @@ lop_search = function(x, y, type, dist_fun, window, window_size = NULL, window_s
   ))
 
   output$signature = NULL
-  return(output)
+
+  output_stars = lop_add_spatial(y_metadata,
+                                 window = window,
+                                 window_size = window_size, window_shift = window_shift)
+
+  # output_stars$na_prop = NA
+  # output_stars$na_prop[which(output_stars$id %in% output$id)] = output$na_prop
+  output_stars$na_prop = output$na_prop[match(output_stars$id, output$id)]
+
+  # output_stars$dist = NA
+  # output_stars$dist[which(output_stars$id %in% output$id)] = output$dist
+  output_stars$dist = output$dist[match(output_stars$id, output$id)]
+
+  return(output_stars)
 }
