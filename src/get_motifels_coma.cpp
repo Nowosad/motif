@@ -5,13 +5,11 @@ List get_motifels_coma(IntegerMatrix x,
                        const arma::imat directions,
                        int size,
                        int shift,
-                       double threshold) {
+                       double threshold,
+                       List classes) {
 
   const int num_r = x.nrow();
   const int num_c = x.ncol();
-
-  List classes(1);
-  classes(0) = comat::get_unique_values(x, true);
 
   int nr_of_motifels;
   if (size == 0){

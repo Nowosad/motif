@@ -11,6 +11,7 @@ Rcpp::List get_motifels_incoma(const Rcpp::List input,
                                const arma::imat directions,
                                int size,
                                int shift,
-                               double threshold);
+                               double threshold,
+                               List classes);
 
 #endif // get_motifels_incoma_H

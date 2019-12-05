@@ -11,6 +11,7 @@ Rcpp::List get_motifels_coma(Rcpp::IntegerMatrix x,
                        const arma::imat directions,
                        int size,
                        int shift,
-                       double threshold);
+                       double threshold,
+                       List classes);
 
 #endif // get_motifels_coma_H

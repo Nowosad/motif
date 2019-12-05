@@ -5,10 +5,14 @@ List get_motifels_incoma(const List input,
                          const arma::imat directions,
                          int size,
                          int shift,
-                         double threshold) {
+                         double threshold,
+                         List classes) {
 
   int num_l = input.length();
-  List classes(num_l);
+  // List classes(num_l);
+  // for (int l = 0; l < num_l; l++){
+  //   classes(l) = comat::get_unique_values(input[l], true);
+  // }
 
   IntegerMatrix x = input(0);
   int num_r = x.nrow();
@@ -31,10 +35,6 @@ List get_motifels_incoma(const List input,
   int nr_of_motifels2 = 0;
   int m_row = 1;
   int m_col = 1;
-
-  for (int l = 0; l < num_l; l++){
-    classes(l) = comat::get_unique_values(input[l], true);
-  }
 
   if (size == 0){
     all_nr_of_motifels(0) = 1;

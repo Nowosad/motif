@@ -13,6 +13,7 @@ Rcpp::List get_motifels_wecoma(Rcpp::IntegerMatrix x,
                          int size,
                          int shift,
                          double threshold,
+                         List classes,
                          const std::string fun = "mean",
                          const std::string na_action = "replace");
 

@@ -1,6 +1,5 @@
 #include "get_unique_values.h"
 using namespace Rcpp;
-// [[Rcpp::interfaces(r, cpp)]]
 
 // [[Rcpp::export]]
 std::vector<int> get_unique_values(const Rcpp::IntegerVector &x, bool na_omit)

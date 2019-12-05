@@ -11,11 +11,12 @@ using namespace Rcpp;
 List get_polygons_coma(const arma::imat& x,
                        const arma::imat& m,
                        const arma::imat directions,
-                       double threshold) {
+                       double threshold,
+                       List classes) {
 
   // get unique values of x and y
-  List classes_x(1);
-  classes_x(0) = comat::get_unique_values(wrap(x), true);
+  // List classes_x(1);
+  // classes_x(0) = comat::get_unique_values(wrap(x), true);
 
   arma::ivec classes_m = unique(m);
   classes_m = classes_m.elem(find(classes_m != NA_INTEGER));
@@ -70,7 +71,7 @@ List get_polygons_coma(const arma::imat& x,
     // IntegerMatrix p = wrap(submatrix_x);
     // calculate coma
     if (na_perc(i) <= threshold){
-      result[i] = comat::rcpp_get_coma_internal(wrap(submatrix_x), directions, classes_x(0));
+      result[i] = comat::rcpp_get_coma_internal(wrap(submatrix_x), directions, classes(0));
     }
   }
   LogicalVector na_perc_below_thres = na_perc <= threshold;
@@ -79,7 +80,7 @@ List get_polygons_coma(const arma::imat& x,
                          Named("na_prop") = na_perc[na_perc_below_thres],
                          Named("signature") = result[na_perc_below_thres]);
 
-  List attr = create_attributes(classes_x);
+  List attr = create_attributes(classes);
   df.attr("metadata") = attr;
 
   CharacterVector my_class(2);

@@ -6,12 +6,13 @@ List get_motifels_cocoma(IntegerMatrix x,
                          const arma::imat directions,
                          int size,
                          int shift,
-                         double threshold) {
+                         double threshold,
+                         List classes) {
 
-  List classes(2);
-
-  classes(0) = comat::get_unique_values(x, true);
-  classes(1) = comat::get_unique_values(y, true);
+  // List classes(2);
+  //
+  // classes(0) = comat::get_unique_values(x, true);
+  // classes(1) = comat::get_unique_values(y, true);
   int num_r = x.nrow();
   int num_c = x.ncol();
 

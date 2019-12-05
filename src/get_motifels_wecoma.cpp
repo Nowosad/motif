@@ -7,11 +7,12 @@ List get_motifels_wecoma(IntegerMatrix x,
                          int size,
                          int shift,
                          double threshold,
+                         List classes,
                          const std::string fun,
                          const std::string na_action) {
 
-  List classes(1);
-  classes(0) = comat::get_unique_values(x, true);
+  // List classes(1);
+  // classes(0) = comat::get_unique_values(x, true);
 
   int num_r = x.nrow();
   int num_c = x.ncol();
