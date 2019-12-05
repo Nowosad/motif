@@ -43,6 +43,12 @@ lop_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
 
   #test if x == y
 
+  classes_x = lapply(x, get_unique_values, TRUE)
+  classes_y = lapply(y, get_unique_values, TRUE)
+
+  classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
+  classes = lapply(classes, unique)
+
   # use lapply here?
   output_x = lop_thumbprint(
     x,
@@ -56,7 +62,8 @@ lop_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
     repeated = repeated,
     normalization = normalization,
     wecoma_fun = wecoma_fun,
-    wecoma_na_action = wecoma_na_action
+    wecoma_na_action = wecoma_na_action,
+    classes = classes
   )
 
   output_y = lop_thumbprint(
@@ -71,7 +78,8 @@ lop_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
     repeated = repeated,
     normalization = normalization,
     wecoma_fun = wecoma_fun,
-    wecoma_na_action = wecoma_na_action
+    wecoma_na_action = wecoma_na_action,
+    classes = classes
   )
 
   colnames(output_x)[which(colnames(output_x) == "na_prop")] = "na_prop_x"
@@ -79,12 +87,15 @@ lop_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
 
   output = cbind(output_x[!names(output_x) == "signature"], output_y["na_prop_y"])
 
+  # unify signatures
+  attributes(output_x)
+
   output$dist = mapply(
     dist_fun,
     output_x$signature,
     output_y$signature,
     testNA = TRUE,
-    unit = "log10"
+    unit = "log2"
   )
   return(output)
 }
