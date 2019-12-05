@@ -21,7 +21,7 @@
 #'
 lop_add_spatial = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
 
-  if (missing(window) || is.null(window)){
+  if (!missing(window_size) && !is.null(window_size)){
     x_crs = st_crs(x)
     x_nrow = nrow(x)
     x_ncol = ncol(x)
@@ -63,6 +63,15 @@ lop_add_spatial = function(x = NULL, window = NULL, window_size = NULL, window_s
     # output$row = df_ids[, 2]
 
     return(output)
+  } else if (missing(window) || is.null(window)){
+    x_bb = sf::st_bbox(x)
+    x_crs = st_crs(x)
+
+    output = st_as_stars(x_bb, nx = 1, ny = 1, values = 1)
+    names(output) = "id"
+
+    return(output)
+
   } else {
     names(window) = "id"
     return(window)
