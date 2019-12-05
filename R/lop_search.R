@@ -42,6 +42,12 @@ lop_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, w
   x = lapply(x, function(x) `mode<-`(x, "integer"))
   y = lapply(y, function(x) `mode<-`(x, "integer"))
 
+  classes_x = lapply(x, get_unique_values, TRUE)
+  classes_y = lapply(y, get_unique_values, TRUE)
+
+  classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
+  classes = lapply(classes, unique)
+
   output = lop_thumbprint(
     y,
     type = type,
@@ -54,20 +60,21 @@ lop_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, w
     repeated = repeated,
     normalization = normalization,
     wecoma_fun = wecoma_fun,
-    wecoma_na_action = wecoma_na_action
+    wecoma_na_action = wecoma_na_action,
+    classes = classes
   )
 
-  unique_classes_all = attributes(output)[["metadata"]][["vals"]]
+  # unique_classes_all = attributes(output)[["metadata"]][["vals"]]
 
   if (type == "coma" || type == "cove") {
     input_thumbprint = comat::get_cove(
-      comat::get_coma(x[[1]], neighbourhood = neighbourhood, classes = unique_classes_all),
+      comat::get_coma(x[[1]], neighbourhood = neighbourhood, classes = classes),
       ordered = ordered,
       normalization = normalization
     )
   } else if (type == "cocoma" || type == "cocove") {
     input_thumbprint = comat::get_cocove(
-      comat::get_cocoma(x[[1]], x[[2]], neighbourhood = neighbourhood, classes = unique_classes_all),
+      comat::get_cocoma(x[[1]], x[[2]], neighbourhood = neighbourhood, classes = classes),
       ordered = ordered,
       normalization = normalization
     )
@@ -77,7 +84,7 @@ lop_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, w
         x[[1]],
         x[[2]],
         neighbourhood = neighbourhood,
-        classes = unique_classes_all,
+        classes = classes,
         fun = wecoma_fun,
         na_action = wecoma_na_action
       ),
@@ -86,7 +93,7 @@ lop_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, w
     )
   } else if (type == "incoma" || type == "incove") {
     input_thumbprint = comat::get_incove(
-      comat::get_incoma(x, neighbourhood = neighbourhood, classes = unique_classes_all),
+      comat::get_incoma(x, neighbourhood = neighbourhood, classes = classes),
       ordered = ordered,
       repeated = repeated,
       normalization = normalization
