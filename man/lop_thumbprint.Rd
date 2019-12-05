@@ -16,7 +16,8 @@ lop_thumbprint(
   repeated = TRUE,
   normalization = "none",
   wecoma_fun = "mean",
-  wecoma_na_action = "replace"
+  wecoma_na_action = "replace",
+  classes = NULL
 )
 }
 \arguments{
@@ -42,6 +43,7 @@ plot(ecoregions)
 
 lop_thumbprint(landcover, type = "coma", threshold = 0.9)
 lop_thumbprint(landcover, type = "cove", threshold = 0.9)
+lop_thumbprint(landcover, type = "cove", threshold = 0.9, classes = 10)
 lop_thumbprint(c(landcover, landform), type = "cocoma", threshold = 0.9)
 lop_thumbprint(c(landcover, landform), type = "cocove", threshold = 0.9)
 #lop_thumbprint(c(landcover, npp), type = "wecoma", threshold = 0.9)

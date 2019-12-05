@@ -29,6 +29,7 @@
 #'
 #' lop_thumbprint(landcover, type = "coma", threshold = 0.9)
 #' lop_thumbprint(landcover, type = "cove", threshold = 0.9)
+#' lop_thumbprint(landcover, type = "cove", threshold = 0.9, classes = 10)
 #' lop_thumbprint(c(landcover, landform), type = "cocoma", threshold = 0.9)
 #' lop_thumbprint(c(landcover, landform), type = "cocove", threshold = 0.9)
 #' #lop_thumbprint(c(landcover, npp), type = "wecoma", threshold = 0.9)
@@ -55,7 +56,8 @@
 #' lop_thumbprint(c(landcover, landform), type = "incove", window = ecoregions, threshold = 0.9)
 lop_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
                           neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
-                          normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace"){
+                          normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
+                          classes = NULL){
 
   # x = c(landcover, landform)
 
@@ -64,6 +66,13 @@ lop_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
   x = lapply(x, function(x) `mode<-`(x, "integer"))
 
   # attributes(x) = attr_x
+
+  if (is.null(classes)){
+    classes = lapply(x, get_unique_values, TRUE)
+  }
+  if (inherits(classes, "integer")){
+    classes = list(classes)
+  }
 
   directions = as.matrix(neighbourhood)
 
@@ -84,20 +93,23 @@ lop_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
                            size = window_size,
                            shift = window_shift,
                            f = type,
-                           threshold = threshold)
+                           threshold = threshold,
+                           classes = classes)
     } else if (type == "coma" || type == "cove"){
       x = get_motifels_coma(x[[1]],
                             directions = directions,
                             size = window_size,
                             shift = window_shift,
-                            threshold = threshold)
+                            threshold = threshold,
+                            classes = classes)
     } else if (type == "cocoma" || type == "cocove"){
       x = get_motifels_cocoma(x[[1]],
                               x[[2]],
                               directions = directions,
                               size = window_size,
                               shift = window_shift,
-                              threshold = threshold)
+                              threshold = threshold,
+                              classes = classes)
     } else if (type == "wecoma" || type == "wecove"){
       x = get_motifels_wecoma(x = x[[1]],
                               w = x[[2]],
@@ -105,6 +117,7 @@ lop_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
                               size = window_size,
                               shift = window_shift,
                               threshold = threshold,
+                              classes = classes,
                               fun = wecoma_fun,
                               na_action = wecoma_na_action)
     } else if (type == "incoma" || type == "incove"){
@@ -112,7 +125,8 @@ lop_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
                               directions = directions,
                               size = window_size,
                               shift = window_shift,
-                              threshold = threshold)
+                              threshold = threshold,
+                              classes = classes)
     }
   } else {
     window = raster::as.matrix(window)
@@ -121,31 +135,36 @@ lop_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
       x = get_polygons_fun(x,
                            m = window[[1]],
                            f = type,
-                           threshold = threshold)
+                           threshold = threshold,
+                           classes = classes)
     } else if (type == "coma" || type == "cove"){
       x = get_polygons_coma(x[[1]],
                             directions = directions,
                             m = window[[1]],
-                            threshold = threshold)
+                            threshold = threshold,
+                            classes = classes)
     } else if (type == "cocoma" || type == "cocove"){
       x = get_polygons_cocoma(x[[1]],
                               x[[2]],
                               directions = directions,
                               m = window[[1]],
-                              threshold = threshold)
+                              threshold = threshold,
+                              classes = classes)
     } else if (type == "wecoma" || type == "wecove"){
       x = get_polygons_wecoma(x = x[[1]],
                               w = x[[2]],
                               directions = directions,
                               m = window[[1]],
                               threshold = threshold,
+                              classes = classes,
                               fun = wecoma_fun,
                               na_action = wecoma_na_action)
     } else if (type == "incoma" || type == "incove"){
       x = get_polygons_incoma(x,
                               directions = directions,
                               m = window[[1]],
-                              threshold = threshold)
+                              threshold = threshold,
+                              classes = classes)
     }
   }
 
@@ -172,8 +191,7 @@ lop_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
                            comat::get_incove,
                            ordered = ordered,
                            repeated = repeated,
-                           normalization = normalization
-      )
+                           normalization = normalization)
     }
   }
 
