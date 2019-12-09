@@ -10,30 +10,53 @@
 #' @export
 #'
 #' @examples
-#' library(raster)
+#' library(stars)
 #' library(philentropy)
-#' ext = extent(c(xmin = -249797.344531127, xmax = -211162.693944285,
-#'                ymin = -597280.143035389, ymax = -558645.492448547))
 #'
-#' lc = raster(system.file("raster/landcover.tif", package = "lopata"))
-#' lf = raster(system.file("raster/landform.tif", package = "lopata"))
+#' lc = read_stars(system.file("raster/landcover2015.tif", package = "lopata"))
+#' lf = read_stars(system.file("raster/landform.tif", package = "lopata"))
 #'
-#' lc_ext = crop(lc, ext)
-#' lf_ext = crop(lf, ext)
+#' ext = st_bbox(c(xmin = -249797.344531127, xmax = -211162.693944285,
+#'                 ymin = -597280.143035389, ymax = -558645.492448547),
+#'                 crs = st_crs(lc))
 #'
-#' s1 = lop_search(list(lc_ext), list(lc), type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s2 = lop_search(list(lc_ext, lf_ext), list(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s3 = lop_search(list(lc_ext, lf_ext), list(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s4 = lop_search(list(lc_ext, lf_ext), list(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
-lop_search = function(x, y, type, dist_fun, window, window_size = NULL, window_shift = NULL,
+#' ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "lopata"))
+#' plot(ecoregions)
+#'
+#' lc_ext = lc[ext]
+#' lf_ext = lf[ext]
+#'
+#' s1 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s2 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s3 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s4 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s5 = lop_search(lf_ext, lf, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window_size = 250)
+#' s6 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window = ecoregions)
+#'
+lop_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, window_shift = NULL,
                       neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                       normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace"){
+
+  x_metadata = st_dimensions(x)
+  y_metadata = st_dimensions(y)
+
+  x = lapply(x, function(x) `mode<-`(x, "integer"))
+  y = lapply(y, function(x) `mode<-`(x, "integer"))
+
+  y = st_as_stars(y)
+  attr(y, "dimensions") = y_metadata
+
+  classes_x = lapply(x, get_unique_values, TRUE)
+  classes_y = lapply(y, get_unique_values, TRUE)
+
+  classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
+  classes = lapply(classes, unique)
 
   output = lop_thumbprint(
     y,
     type = type,
     neighbourhood = neighbourhood,
-    window,
+    window = window,
     window_size = window_size,
     window_shift = window_shift,
     threshold = threshold,
@@ -41,22 +64,21 @@ lop_search = function(x, y, type, dist_fun, window, window_size = NULL, window_s
     repeated = repeated,
     normalization = normalization,
     wecoma_fun = wecoma_fun,
-    wecoma_na_action = wecoma_na_action
+    wecoma_na_action = wecoma_na_action,
+    classes = classes
   )
 
-  unique_classes_all = attributes(output)[["metadata"]][["vals"]]
-
-  x = lapply(x, raster::as.matrix)
+  # unique_classes_all = attributes(output)[["metadata"]][["vals"]]
 
   if (type == "coma" || type == "cove") {
     input_thumbprint = comat::get_cove(
-      comat::get_coma(x[[1]], neighbourhood = neighbourhood, classes = unique_classes_all),
+      comat::get_coma(x[[1]], neighbourhood = neighbourhood, classes = classes),
       ordered = ordered,
       normalization = normalization
     )
   } else if (type == "cocoma" || type == "cocove") {
     input_thumbprint = comat::get_cocove(
-      comat::get_cocoma(x[[1]], x[[2]], neighbourhood = neighbourhood, classes = unique_classes_all),
+      comat::get_cocoma(x[[1]], x[[2]], neighbourhood = neighbourhood, classes = classes),
       ordered = ordered,
       normalization = normalization
     )
@@ -66,7 +88,7 @@ lop_search = function(x, y, type, dist_fun, window, window_size = NULL, window_s
         x[[1]],
         x[[2]],
         neighbourhood = neighbourhood,
-        classes = unique_classes_all,
+        classes = classes,
         fun = wecoma_fun,
         na_action = wecoma_na_action
       ),
@@ -75,7 +97,7 @@ lop_search = function(x, y, type, dist_fun, window, window_size = NULL, window_s
     )
   } else if (type == "incoma" || type == "incove") {
     input_thumbprint = comat::get_incove(
-      comat::get_incoma(x, neighbourhood = neighbourhood, classes = unique_classes_all),
+      comat::get_incoma(x, neighbourhood = neighbourhood, classes = classes),
       ordered = ordered,
       repeated = repeated,
       normalization = normalization
@@ -91,8 +113,18 @@ lop_search = function(x, y, type, dist_fun, window, window_size = NULL, window_s
   ))
 
   output$signature = NULL
-  return(output)
+
+  output_stars = lop_add_spatial(y_metadata,
+                                 window = window,
+                                 window_size = window_size, window_shift = window_shift)
+
+  # output_stars$na_prop = NA
+  # output_stars$na_prop[which(output_stars$id %in% output$id)] = output$na_prop
+  output_stars$na_prop = output$na_prop[match(output_stars$id, output$id)]
+
+  # output_stars$dist = NA
+  # output_stars$dist[which(output_stars$id %in% output$id)] = output$dist
+  output_stars$dist = output$dist[match(output_stars$id, output$id)]
+
+  return(output_stars)
 }
-
-
-

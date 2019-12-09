@@ -9,7 +9,7 @@ lop_search(
   y,
   type,
   dist_fun,
-  window,
+  window = NULL,
   window_size = NULL,
   window_shift = NULL,
   neighbourhood = 4,
@@ -31,19 +31,27 @@ lop_search(
 Title
 }
 \examples{
-library(raster)
+library(stars)
 library(philentropy)
-ext = extent(c(xmin = -249797.344531127, xmax = -211162.693944285,
-               ymin = -597280.143035389, ymax = -558645.492448547))
 
-lc = raster(system.file("raster/landcover.tif", package = "lopata"))
-lf = raster(system.file("raster/landform.tif", package = "lopata"))
+lc = read_stars(system.file("raster/landcover2015.tif", package = "lopata"))
+lf = read_stars(system.file("raster/landform.tif", package = "lopata"))
 
-lc_ext = crop(lc, ext)
-lf_ext = crop(lf, ext)
+ext = st_bbox(c(xmin = -249797.344531127, xmax = -211162.693944285,
+                ymin = -597280.143035389, ymax = -558645.492448547),
+                crs = st_crs(lc))
 
-s1 = lop_search(list(lc_ext), list(lc), type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
-s2 = lop_search(list(lc_ext, lf_ext), list(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
-s3 = lop_search(list(lc_ext, lf_ext), list(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
-s4 = lop_search(list(lc_ext, lf_ext), list(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
+ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "lopata"))
+plot(ecoregions)
+
+lc_ext = lc[ext]
+lf_ext = lf[ext]
+
+s1 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
+s2 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
+s3 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
+s4 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
+s5 = lop_search(lf_ext, lf, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window_size = 250)
+s6 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window = ecoregions)
+
 }

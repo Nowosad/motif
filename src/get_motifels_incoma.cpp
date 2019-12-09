@@ -5,10 +5,14 @@ List get_motifels_incoma(const List input,
                          const arma::imat directions,
                          int size,
                          int shift,
-                         double threshold) {
+                         double threshold,
+                         List classes) {
 
   int num_l = input.length();
-  List classes(num_l);
+  // List classes(num_l);
+  // for (int l = 0; l < num_l; l++){
+  //   classes(l) = comat::get_unique_values(input[l], true);
+  // }
 
   IntegerMatrix x = input(0);
   int num_r = x.nrow();
@@ -32,10 +36,6 @@ List get_motifels_incoma(const List input,
   int m_row = 1;
   int m_col = 1;
 
-  for (int l = 0; l < num_l; l++){
-    classes(l) = comat::get_unique_values(input[l], true);
-  }
-
   if (size == 0){
     all_nr_of_motifels(0) = 1;
     all_m_row(0) = m_row;
@@ -53,8 +53,8 @@ List get_motifels_incoma(const List input,
     List motifel_input(num_l);
     // IntegerMatrix layer_l(num_r, num_c);
 
-    for (int i = 0; i < num_r; i = i + shift){
-      for (int j = 0; j < num_c; j = j + shift){
+    for (int j = 0; j < num_c; j = j + shift){
+      for (int i = 0; i < num_r; i = i + shift){
         all_nr_of_motifels(nr_of_motifels2) = nr_of_motifels2 + 1;
         all_m_row(nr_of_motifels2) = m_row;
         all_m_col(nr_of_motifels2) = m_col;
@@ -83,10 +83,10 @@ List get_motifels_incoma(const List input,
         }
 
         nr_of_motifels2 ++;
-        m_col++;
+        m_row++;
       }
-      m_col = 1;
-      m_row++;
+      m_row = 1;
+      m_col++;
     }
   }
 
@@ -111,8 +111,22 @@ List get_motifels_incoma(const List input,
 /***R
 library(comat)
 library(raster)
-x = raster(system.file("raster/landcover.tif", package = "lopata"))
+x = raster(system.file("raster/landcover2015.tif", package = "lopata"))
 y = raster(system.file("raster/landform.tif", package = "lopata"))
+
+library(stars)
+x2 = read_stars("inst/raster/landcover2015.tif")
+y2 = read_stars("inst/raster/landform.tif")
+
+xx = c(x2, y2)
+xx$landcover2015.tif[is.na(xx$landform.tif)] = NA
+xx
+
+incom2 = get_motifels_incoma(xx,
+                             directions = matrix(4),
+                             size = 100, shift = 100,
+                             threshold = 1)
+
 # plot(landcover)
 incom2 = get_motifels_incoma(list(as.matrix(x), as.matrix(y)),
                                              directions = matrix(4),

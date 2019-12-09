@@ -19,23 +19,35 @@
 #' @export
 #'
 #' @examples
-#' library(raster)
+#' library(stars)
 #' library(philentropy)
-#' ext = extent(c(xmin = -249797.344531127, xmax = -211162.693944285,
-#'                ymin = -597280.143035389, ymax = -558645.492448547))
 #'
-#' lc = raster(system.file("raster/landcover.tif", package = "lopata"))
-#' lf = raster(system.file("raster/landform.tif", package = "lopata"))
+#' lc15 = read_stars(system.file("raster/landcover2015.tif", package = "lopata"))
+#' lc01 = read_stars(system.file("raster/landcover2001.tif", package = "lopata"))
+#' lf = read_stars(system.file("raster/landform.tif", package = "lopata"))
+#' ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "lopata"))
 #'
-#' s1 = lop_compare(list(lc), list(lc), type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s2 = lop_compare(list(lc, lf), list(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s3 = lop_compare(list(lc, lf), list(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s4 = lop_compare(list(lc, lf), list(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s1 = lop_compare(lc01, lc15, type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s1b = lop_compare(lc01, lc15, type = "cove", dist_fun = jensen_shannon, window = ecoregions, threshold = 0.9)
+#' s1c = lop_compare(lc01, lc15, type = "cove", dist_fun = jensen_shannon, window_size = 1000, threshold = 0.9)
+#' s2 = lop_compare(c(lc01, lf), c(lc15, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s3 = lop_compare(c(lc01, lf), c(lc15, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s4 = lop_compare(c(lc01, lf), c(lc15, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
+#'
+#' library(sf)
+#' eco_sf = read_sf(system.file("vector/ecoregions.gpkg", package = "lopata"))
+#' eco_sf = dplyr::bind_cols(eco_sf, s1b)
 lop_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, window_shift = NULL,
                        neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                        normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace"){
 
   #test if x == y
+
+  classes_x = lapply(x, get_unique_values, TRUE)
+  classes_y = lapply(y, get_unique_values, TRUE)
+
+  classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
+  classes = lapply(classes, unique)
 
   # use lapply here?
   output_x = lop_thumbprint(
@@ -50,7 +62,8 @@ lop_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
     repeated = repeated,
     normalization = normalization,
     wecoma_fun = wecoma_fun,
-    wecoma_na_action = wecoma_na_action
+    wecoma_na_action = wecoma_na_action,
+    classes = classes
   )
 
   output_y = lop_thumbprint(
@@ -65,20 +78,24 @@ lop_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
     repeated = repeated,
     normalization = normalization,
     wecoma_fun = wecoma_fun,
-    wecoma_na_action = wecoma_na_action
+    wecoma_na_action = wecoma_na_action,
+    classes = classes
   )
 
   colnames(output_x)[which(colnames(output_x) == "na_prop")] = "na_prop_x"
   colnames(output_y)[which(colnames(output_y) == "na_prop")] = "na_prop_y"
 
-  output = cbind(output_x[c("id", "row", "col", "na_prop_x")], output_y["na_prop_y"])
+  output = cbind(output_x[!names(output_x) == "signature"], output_y["na_prop_y"])
+
+  # unify signatures
+  attributes(output_x)
 
   output$dist = mapply(
-    philentropy::jensen_shannon,
+    dist_fun,
     output_x$signature,
     output_y$signature,
-    testNA = FALSE,
-    unit = "log10"
+    testNA = TRUE,
+    unit = "log2"
   )
   return(output)
 }

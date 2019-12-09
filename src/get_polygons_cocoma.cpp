@@ -12,14 +12,14 @@ List get_polygons_cocoma(const arma::imat& x,
                          const arma::imat& y,
                          const arma::imat& m,
                          const arma::imat directions,
-                         double threshold) {
+                         double threshold,
+                         List classes) {
 
   // get unique values of x and y
-  List classes(2);
-
-  classes(0) = comat::get_unique_values(wrap(x), true);
-  classes(1) = comat::get_unique_values(wrap(y), true);
-
+  // List classes(2);
+  //
+  // classes(0) = comat::get_unique_values(wrap(x), true);
+  // classes(1) = comat::get_unique_values(wrap(y), true);
 
   arma::ivec classes_m = unique(m);
   classes_m = classes_m.elem(find(classes_m != NA_INTEGER));

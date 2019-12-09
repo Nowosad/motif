@@ -10,13 +10,14 @@ using namespace Rcpp;
 List get_polygons_fun(const List input,
                       const arma::imat& m,
                       Function f,
-                      double threshold) {
+                      double threshold,
+                      List classes) {
 
   int num_l = input.length();
-  List classes(num_l);
-  for (int l = 0; l < num_l; l++){
-    classes(l) = comat::get_unique_values(input[l], true);
-  }
+  // List classes(num_l);
+  // for (int l = 0; l < num_l; l++){
+  //   classes(l) = comat::get_unique_values(input[l], true);
+  // }
 
   arma::ivec classes_m = unique(m);
   classes_m = classes_m.elem(find(classes_m != NA_INTEGER));

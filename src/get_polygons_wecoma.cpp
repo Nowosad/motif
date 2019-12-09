@@ -14,12 +14,12 @@ List get_polygons_wecoma(const arma::imat& x,
                          const arma::imat directions,
                          double threshold,
                          const std::string fun,
-                         const std::string na_action) {
+                         const std::string na_action,
+                         List classes) {
 
   // get unique values of x and y
-  List classes(1);
-
-  classes(0) = comat::get_unique_values(wrap(x), true);
+  // List classes(1);
+  // classes(0) = comat::get_unique_values(wrap(x), true);
 
   arma::ivec classes_m = unique(m);
   classes_m = classes_m.elem(find(classes_m != NA_INTEGER));

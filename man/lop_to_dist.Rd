@@ -2,26 +2,14 @@
 % Please edit documentation in R/lop_to_dist.R
 \name{lop_to_dist}
 \alias{lop_to_dist}
-\alias{lop_to_dist.cove}
-\alias{lop_to_dist.cocove}
-\alias{lop_to_dist.wecove}
-\alias{lop_to_dist.incoma}
 \title{Calculate Distance Matrix on COMA}
 \usage{
-lop_to_dist(x, method, unit, p)
-
-\method{lop_to_dist}{cove}(x, method, unit = "log", p = NULL)
-
-\method{lop_to_dist}{cocove}(x, method, unit = "log", p = NULL)
-
-\method{lop_to_dist}{wecove}(x, method, unit = "log", p = NULL)
-
-\method{lop_to_dist}{incoma}(x, method, unit = "log", p = NULL)
+lop_to_dist(x, dist_fun, unit = "log2", p = NULL)
 }
 \arguments{
 \item{x}{An object of class \code{cove}, \code{cocove}, \code{wecove}, or \code{incove}}
 
-\item{method}{A distance/dissimilarity method used. All possible values can be found using
+\item{dist_fun}{A distance/dissimilarity method used. All possible values can be found using
 the \code{\link[philentropy:getDistMethods]{philentropy::getDistMethods()}} function}
 
 \item{unit}{A character string specifying the logarithm unit that should be used to
@@ -38,17 +26,13 @@ Calculates a distance matrix based on an object of class \code{cove}, \code{coco
 }
 \examples{
 library(comat)
-library(raster)
+library(stars)
 data(raster_x, package = "comat")
-raster_x = raster(raster_x)
+raster_x = st_as_stars(raster_x)
 plot(raster_x)
 
-com = lop_coma(raster_x, size = 2)
-com
+cov = lop_thumbprint(raster_x, window_size = 2, type = "cove")
 
-cov = lop_cove(com)
-cov
-
-dist_cov = lop_to_dist(cov, method = "jensen-shannon")
+dist_cov = lop_to_dist(cov, dist_fun = "jensen-shannon")
 dist_cov
 }
