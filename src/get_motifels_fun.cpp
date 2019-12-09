@@ -111,7 +111,7 @@ List get_motifels_fun(const List input,
 /***R
 library(comat)
 library(raster)
-x = raster(system.file("raster/landcover2015.tif", package = "lopata"))
+x = raster(system.file("raster/landcover2015.tif", package = "motif"))
 # plot(landcover)
 system.time({com2 = get_motifels_fun(as.matrix(x), f = fun2, size = 100, shift = 100, threshold = 0.9)})
 

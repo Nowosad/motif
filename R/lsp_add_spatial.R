@@ -1,21 +1,21 @@
 #' @examples
 #' library(stars)
-#' landcover = read_stars(system.file("raster/landcover2015.tif", package = "lopata"))
+#' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 #' plot(landcover)
-#' lop_add_spatial(landcover, window_size = 100)
+#' lsp_add_spatial(landcover, window_size = 100)
 #'
-#' lc_cove = lop_thumbprint(landcover, type = "cove", window_size = 200, normalization = "pdf")
-#' lop_add_spatial(lc_cove)
+#' lc_cove = lsp_thumbprint(landcover, type = "cove", window_size = 200, normalization = "pdf")
+#' lsp_add_spatial(lc_cove)
 #'
 #' # ?fill_na
-#' landform = read_stars(system.file("raster/landform.tif", package = "lopata"))
+#' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #'
-#' lf_cove = lop_thumbprint(landform, type = "cove", window_size = 200, normalization = "pdf")
-#' lop_add_spatial(lf_cove)
+#' lf_cove = lsp_thumbprint(landform, type = "cove", window_size = 200, normalization = "pdf")
+#' lsp_add_spatial(lf_cove)
 #'
 #'
 #' my_fun = function(x) landscapemetrics::lsm_l_ent(x, neighbourhood = 4, base = "log2")[["value"]]
-#' ee = lop_thumbprint(landform, type = my_fun, threshold = 0.2, window_size = 100)
+#' ee = lsp_thumbprint(landform, type = my_fun, threshold = 0.2, window_size = 100)
 #'
 #' output$values2 = NA
 #' output$values2[which(output$values %in% ee$id)] = unlist(ee$signature)
@@ -25,15 +25,15 @@
 #'
 #' plot(output["values2"])
 #'
-#' @aliases lop_add_spatial
-#' @rdname lop_add_spatial
+#' @aliases lsp_add_spatial
+#' @rdname lsp_add_spatial
 #'
 #' @export
-lop_add_spatial = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL) UseMethod("lop_add_spatial")
+lsp_add_spatial = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL) UseMethod("lsp_add_spatial")
 
-#' @name lop_add_spatial
+#' @name lsp_add_spatial
 #' @export
-lop_add_spatial.default = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
+lsp_add_spatial.default = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
 
   if (!missing(window_size) && !is.null(window_size)){
     x_crs = st_crs(x)
@@ -49,7 +49,7 @@ lop_add_spatial.default = function(x = NULL, window = NULL, window_size = NULL, 
       window_shift = window_size
     }
 
-    output = lop_create_grid(x_crs = x_crs, x_bb = x_bb,
+    output = lsp_create_grid(x_crs = x_crs, x_bb = x_bb,
                              x_delta_row = x_delta_row, x_delta_col = x_delta_col,
                              window_shift = window_shift)
 
@@ -73,12 +73,12 @@ lop_add_spatial.default = function(x = NULL, window = NULL, window_size = NULL, 
   }
 }
 
-#' @name lop_add_spatial
+#' @name lsp_add_spatial
 #' @export
-lop_add_spatial.lsp = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
+lsp_add_spatial.lsp = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
   metadata = attr(x, "metadata")
 
-  output_stars = lop_create_grid(x_crs = metadata$crs, x_bb = metadata$bb,
+  output_stars = lsp_create_grid(x_crs = metadata$crs, x_bb = metadata$bb,
                            x_delta_row = metadata$delta_y, x_delta_col = metadata$delta_x,
                            window_shift = metadata$window_shift)
 
@@ -101,7 +101,7 @@ lop_add_spatial.lsp = function(x = NULL, window = NULL, window_size = NULL, wind
 }
 
 
-lop_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
+lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
 
 
   cellshift = c(window_shift * x_delta_row,

@@ -1,10 +1,10 @@
-citHeader("To cite lopata in publications, please use:")
+citHeader("To cite motif in publications, please use:")
 
 citEntry(entry = "manual",
   author = c(person("Jakub", "Nowosad")),
-  title = "lopata: Local Pattern Analysis",
+  title = "motif: Local Pattern Analysis",
   year = "2019",
   note = "R package version 0.1.0",
-  url = "https://nowosad.github.io/lopata/",
-  textVersion = "Nowosad, J. (2019). lopata: Local Pattern Analysis. R package version 0.1.0. https://nowosad.github.io/lopata/"
+  url = "https://nowosad.github.io/motif/",
+  textVersion = "Nowosad, J. (2019). motif: Local Pattern Analysis. R package version 0.1.0. https://nowosad.github.io/motif/"
 )

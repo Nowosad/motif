@@ -13,27 +13,27 @@
 #' library(stars)
 #' library(philentropy)
 #'
-#' lc = read_stars(system.file("raster/landcover2015.tif", package = "lopata"))
-#' lf = read_stars(system.file("raster/landform.tif", package = "lopata"))
+#' lc = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
+#' lf = read_stars(system.file("raster/landform.tif", package = "motif"))
 #'
 #' ext = st_bbox(c(xmin = -249797.344531127, xmax = -211162.693944285,
 #'                 ymin = -597280.143035389, ymax = -558645.492448547),
 #'                 crs = st_crs(lc))
 #'
-#' ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "lopata"))
+#' ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
 #' plot(ecoregions)
 #'
 #' lc_ext = lc[ext]
 #' lf_ext = lf[ext]
 #'
-#' s1 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s2 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s3 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s4 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s5 = lop_search(lf_ext, lf, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window_size = 250)
-#' s6 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window = ecoregions)
+#' s1 = lsp_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s2 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s3 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s4 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s5 = lsp_search(lf_ext, lf, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window_size = 250)
+#' s6 = lsp_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window = ecoregions)
 #'
-lop_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, window_shift = NULL,
+lsp_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, window_shift = NULL,
                       neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                       normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace"){
 
@@ -52,7 +52,7 @@ lop_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, w
   classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
   classes = lapply(classes, unique)
 
-  output = lop_thumbprint(
+  output = lsp_thumbprint(
     y,
     type = type,
     neighbourhood = neighbourhood,
@@ -114,7 +114,7 @@ lop_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, w
 
   output$signature = NULL
 
-  output_stars = lop_add_spatial(y_metadata,
+  output_stars = lsp_add_spatial(y_metadata,
                                  window = window,
                                  window_size = window_size, window_shift = window_shift)
 

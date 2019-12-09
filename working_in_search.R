@@ -19,7 +19,7 @@ comp_x = as.matrix(comp)
 all_x = comat:::rcpp_get_coma_internal(input_x, directions = matrix(4), comat:::get_unique_values(comp_x, TRUE))
 all_cove_x = comat::get_cove(all_x, normalization = "pdf")
 
-library(lopata)
+library(motif)
 comp_coma = lop_coma(comp, size = 128)
 # comp_coma$matrix
 
@@ -70,7 +70,7 @@ my_grid2 = dplyr::left_join(my_grid, incove[c("row", "col", "dist")])
 plot(my_grid2["dist"])
 
 # function ----------------------------------------------------------------
-library(lopata)
+library(motif)
 library(raster)
 library(philentropy)
 ext = extent(c(xmin = -249797.344531127, xmax = -211162.693944285,
@@ -99,10 +99,10 @@ lop_search = function(list_sample, list_all, directions = matrix(4), ordered = F
   incoma_sample = comat:::rcpp_get_incoma_list(list_sample, directions = directions, unique_classes_all)
   incove_sample = comat:::rcpp_get_incove(incoma_sample, ordered = ordered, repeated = repeated, normalization = normalization)
 
-  incoma = lopata:::get_motifels_incoma(list_all, size = size, shift = shift, directions = directions, threshold = threshold)
+  incoma = motif:::get_motifels_incoma(list_all, size = size, shift = shift, directions = directions, threshold = threshold)
   incoma = tibble::as_tibble(incoma)
   incoma = structure(incoma, class = c("incoma", class(incoma)))
-  incove = lopata::lop_incove(incoma, ordered = ordered, repeated = repeated, normalization = normalization)
+  incove = motif::lop_incove(incoma, ordered = ordered, repeated = repeated, normalization = normalization)
 
   incove$dist = unlist(lapply(incove$vector, dist_fun,
                               P = incove_sample, testNA = FALSE,

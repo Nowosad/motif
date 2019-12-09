@@ -1,8 +1,27 @@
+#' @examples
+#' library(comat)
+#' library(stars)
+#' library(dplyr)
+#' library(rcartocolor)
+#' library(sf)
+#' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
+#' # plot(landcover)
+#' lc_cove = lsp_thumbprint(landcover, type = "cove", window_size = 100, normalization = "pdf")
+#' lc_dist = lsp_to_dist(lc_cove, dist_fun = "jensen-shannon")
+#' lc_hclust = hclust(lc_dist, method = "ward.D2")
+#' lc_cove$clust = cutree(lc_hclust, k = 12)
+#'
+#' lc_grid = lsp_add_spatial(lc_cove)
+#' plot(lc_grid["clust"], col = carto_pal(12, "Safe"))
+#'
+#' lc_grid$iso = lop_isolation(lc_grid, lc_dist)
+#' lc_grid$inh = lop_inhomogeneity(lc_grid, lc_dist)
+
 # library(comat)
 # library(raster)
 # library(dplyr)
 # library(sf)
-# landcover = raster(system.file("raster/landcover.tif", package = "lopata"))
+# landcover = raster(system.file("raster/landcover.tif", package = "motif"))
 # # plot(landcover)
 # lc_coma = lop_coma(landcover, size = 100)
 # lc_grid = lop_grid(landcover, size = 100) %>%
@@ -41,13 +60,17 @@
 lop_isolation = function(x, x_dist){
   x_dist = as.matrix(x_dist)
 
-  x_grid_neigh = spdep::poly2nb(x, queen = TRUE)
+  x_merged = st_as_sf(x["clust"], merge = TRUE)
+  x_merged = aggregate(x_merged, list(x_merged[["clust"]]), function(x) x[1])
+  x = st_as_sf(x[c("id", "clust")], merge = FALSE)
 
-  unique_clust = seq_len(nrow(x))
+  x_grid_neigh = spdep::poly2nb(x_merged, queen = TRUE)
+  unique_clust = seq_len(length(unique(x[["clust"]])))
 
-  vapply(unique_clust, get_isolation, x = x, x_dist = x_dist,
-         x_grid_neigh = x_grid_neigh, FUN.VALUE = 1.0)
-
+  vapply(unique_clust, get_isolation,
+         x = x, x_dist = x_dist,
+         x_grid_neigh = x_grid_neigh,
+         FUN.VALUE = 1.0)
 }
 
 get_isolation = function(x_clust, x, x_dist, x_grid_neigh){
@@ -59,8 +82,10 @@ get_isolation = function(x_clust, x, x_dist, x_grid_neigh){
     x_clust_dist = vector(mode = "numeric", length = length(x_clust_neigh))
     for (i in seq_along(x_clust_neigh)){
       # print(i)
-      x_clust_dist[i] = mean(x_dist[x[["data"]][(x[["clust"]] == x_clust)][[1]][["motifels"]],
-                                    x[["data"]][(x[["clust"]] == x_clust_neigh[i])][[1]][["motifels"]]])
+      x_clust_dist[i] = mean(x_dist[
+        x[["id"]][(x[["clust"]] == x_clust)],
+        x[["id"]][(x[["clust"]] == x_clust_neigh[i])]
+                                    ])
     }
     return(mean(x_clust_dist))
   }

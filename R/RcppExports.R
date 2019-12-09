@@ -2,66 +2,66 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 create_attributes <- function(x) {
-    .Call(`_lopata_create_attributes`, x)
+    .Call(`_motif_create_attributes`, x)
 }
 
 get_motifel_size <- function(num_r, num_c, shift) {
-    .Call(`_lopata_get_motifel_size`, num_r, num_c, shift)
+    .Call(`_motif_get_motifel_size`, num_r, num_c, shift)
 }
 
 get_motifels_cocoma <- function(x, y, directions, size, shift, threshold, classes) {
-    .Call(`_lopata_get_motifels_cocoma`, x, y, directions, size, shift, threshold, classes)
+    .Call(`_motif_get_motifels_cocoma`, x, y, directions, size, shift, threshold, classes)
 }
 
 get_motifels_coma <- function(x, directions, size, shift, threshold, classes) {
-    .Call(`_lopata_get_motifels_coma`, x, directions, size, shift, threshold, classes)
+    .Call(`_motif_get_motifels_coma`, x, directions, size, shift, threshold, classes)
 }
 
 get_motifels_fun <- function(input, size, shift, f, threshold, classes) {
-    .Call(`_lopata_get_motifels_fun`, input, size, shift, f, threshold, classes)
+    .Call(`_motif_get_motifels_fun`, input, size, shift, f, threshold, classes)
 }
 
 get_motifels_ids <- function(num_r, num_c, size, shift) {
-    .Call(`_lopata_get_motifels_ids`, num_r, num_c, size, shift)
+    .Call(`_motif_get_motifels_ids`, num_r, num_c, size, shift)
 }
 
 get_motifels_incoma <- function(input, directions, size, shift, threshold, classes) {
-    .Call(`_lopata_get_motifels_incoma`, input, directions, size, shift, threshold, classes)
+    .Call(`_motif_get_motifels_incoma`, input, directions, size, shift, threshold, classes)
 }
 
 get_motifels_wecoma <- function(x, w, directions, size, shift, threshold, classes, fun, na_action) {
-    .Call(`_lopata_get_motifels_wecoma`, x, w, directions, size, shift, threshold, classes, fun, na_action)
+    .Call(`_motif_get_motifels_wecoma`, x, w, directions, size, shift, threshold, classes, fun, na_action)
 }
 
 get_polygons_cocoma <- function(x, y, m, directions, threshold, classes) {
-    .Call(`_lopata_get_polygons_cocoma`, x, y, m, directions, threshold, classes)
+    .Call(`_motif_get_polygons_cocoma`, x, y, m, directions, threshold, classes)
 }
 
 get_polygons_coma <- function(x, m, directions, threshold, classes) {
-    .Call(`_lopata_get_polygons_coma`, x, m, directions, threshold, classes)
+    .Call(`_motif_get_polygons_coma`, x, m, directions, threshold, classes)
 }
 
 get_polygons_fun <- function(input, m, f, threshold, classes) {
-    .Call(`_lopata_get_polygons_fun`, input, m, f, threshold, classes)
+    .Call(`_motif_get_polygons_fun`, input, m, f, threshold, classes)
 }
 
 get_polygons_incoma <- function(input, m, directions, threshold, classes) {
-    .Call(`_lopata_get_polygons_incoma`, input, m, directions, threshold, classes)
+    .Call(`_motif_get_polygons_incoma`, input, m, directions, threshold, classes)
 }
 
 get_polygons_wecoma <- function(x, w, m, directions, threshold, fun, na_action, classes) {
-    .Call(`_lopata_get_polygons_wecoma`, x, w, m, directions, threshold, fun, na_action, classes)
+    .Call(`_motif_get_polygons_wecoma`, x, w, m, directions, threshold, fun, na_action, classes)
 }
 
 get_unique_values <- function(x, na_omit) {
-    .Call(`_lopata_get_unique_values`, x, na_omit)
+    .Call(`_motif_get_unique_values`, x, na_omit)
 }
 
 na_prop <- function(x) {
-    .Call(`_lopata_na_prop`, x)
+    .Call(`_motif_na_prop`, x)
 }
 
 na_prop_polygon <- function(x, no_of_outside_cells) {
-    .Call(`_lopata_na_prop_polygon`, x, no_of_outside_cells)
+    .Call(`_motif_na_prop_polygon`, x, no_of_outside_cells)
 }
 

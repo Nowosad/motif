@@ -1,26 +1,26 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# lopata
+# motif
 
 <!-- badges: start -->
 
 [![Travis build
-status](https://travis-ci.org/Nowosad/lopata.svg?branch=master)](https://travis-ci.org/Nowosad/lopata)
+status](https://travis-ci.org/Nowosad/motif.svg?branch=master)](https://travis-ci.org/Nowosad/motif)
 [![Codecov test
-coverage](https://codecov.io/gh/Nowosad/lopata/branch/master/graph/badge.svg)](https://codecov.io/gh/Nowosad/lopata?branch=master)
+coverage](https://codecov.io/gh/Nowosad/motif/branch/master/graph/badge.svg)](https://codecov.io/gh/Nowosad/motif?branch=master)
 <!-- badges: end -->
 
-The goal of lopata is to
+The goal of motif is to
 …
 
 ## Installation
 
-<!-- You can install the released version of lopata from [CRAN](https://CRAN.R-project.org) with: -->
+<!-- You can install the released version of motif from [CRAN](https://CRAN.R-project.org) with: -->
 
 <!-- ``` r -->
 
-<!-- install.packages("lopata") -->
+<!-- install.packages("motif") -->
 
 <!-- ``` -->
 
@@ -28,7 +28,7 @@ And the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("Nowosad/lopata")
+remotes::install_github("Nowosad/motif")
 ```
 
 ## Example

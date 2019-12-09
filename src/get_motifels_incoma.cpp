@@ -111,8 +111,8 @@ List get_motifels_incoma(const List input,
 /***R
 library(comat)
 library(raster)
-x = raster(system.file("raster/landcover2015.tif", package = "lopata"))
-y = raster(system.file("raster/landform.tif", package = "lopata"))
+x = raster(system.file("raster/landcover2015.tif", package = "motif"))
+y = raster(system.file("raster/landform.tif", package = "motif"))
 
 library(stars)
 x2 = read_stars("inst/raster/landcover2015.tif")

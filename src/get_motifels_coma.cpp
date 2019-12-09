@@ -91,7 +91,7 @@ List get_motifels_coma(IntegerMatrix x,
 /***R
 library(comat)
 library(raster)
-x = raster(system.file("raster/landcover.tif", package = "lopata"))
+x = raster(system.file("raster/landcover.tif", package = "motif"))
 # plot(landcover)
 system.time({com2 = get_motifels_coma(as.matrix(x), directions = matrix(4), size = 100, shift = 100, threshold = 0.9)})
 

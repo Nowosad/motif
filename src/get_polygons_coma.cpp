@@ -97,17 +97,17 @@ a = as.matrix(raster("inst/raster/landcover.tif"))
 b = as.matrix(raster("inst/raster/ecoregions.tif"))
 u = get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5)
 u
-u2 = lopata:::get_motifels_coma(a, directions = matrix(4), size = 650, shift = 650, threshold = 0.5)
+u2 = motif:::get_motifels_coma(a, directions = matrix(4), size = 650, shift = 650, threshold = 0.5)
 u2
 
-bench::mark(lopata:::get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5),
-            lopata:::get_motifels_coma(a, directions = matrix(4), size = 650, shift = 650, threshold = 0.5),
+bench::mark(motif:::get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5),
+            motif:::get_motifels_coma(a, directions = matrix(4), size = 650, shift = 650, threshold = 0.5),
             check = FALSE)
 
 
 tibble::as_tibble(u)
 # n = structure(n, class = c("coma", class(n)))
-n2 = lopata::lop_cove(n)
+n2 = motif::lop_cove(n)
 # library(sf)
 # eco = read_sf("inst/vector/ecoregions.gpkg")
 # new = dplyr::bind_cols(eco, n)
@@ -123,5 +123,5 @@ u = get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5)
 u
 
 bench::mark(get_polygons_coma(a, b, directions = matrix(4), threshold = 0.5))
-lopata::lop_coma(raster::raster(u), threshold = 0.9)$matrix
+motif::lop_coma(raster::raster(u), threshold = 0.9)$matrix
 */

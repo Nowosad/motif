@@ -12,8 +12,8 @@
 #'
 #' @return An object of class `"dist"``
 #'
-#' @aliases lop_to_dist
-#' @rdname lop_to_dist
+#' @aliases lsp_to_dist
+#' @rdname lsp_to_dist
 #'
 #' @examples
 #' library(comat)
@@ -22,12 +22,12 @@
 #' raster_x = st_as_stars(raster_x)
 #' plot(raster_x)
 #'
-#' cov = lop_thumbprint(raster_x, window_size = 2, type = "cove")
+#' cov = lsp_thumbprint(raster_x, window_size = 2, type = "cove")
 #'
-#' dist_cov = lop_to_dist(cov, dist_fun = "jensen-shannon")
+#' dist_cov = lsp_to_dist(cov, dist_fun = "jensen-shannon")
 #' dist_cov
 #' @export
-lop_to_dist = function(x, dist_fun, unit = "log2", p = NULL){
+lsp_to_dist = function(x, dist_fun, unit = "log2", p = NULL){
   vec_to_dist(vec = x$signature, dist_fun = dist_fun, unit = unit, p = p)
 }
 
