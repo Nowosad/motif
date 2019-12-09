@@ -51,7 +51,7 @@ s1 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold 
 s2 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
 s3 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
 s4 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
-s5 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window_size = 250)
+s5 = lop_search(lf_ext, lf, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window_size = 250)
 s6 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window = ecoregions)
 
 }

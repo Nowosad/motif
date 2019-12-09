@@ -30,17 +30,21 @@
 #' s2 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
 #' s3 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
 #' s4 = lop_search(c(lc_ext, lf_ext), c(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s5 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window_size = 250)
+#' s5 = lop_search(lf_ext, lf, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window_size = 250)
 #' s6 = lop_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window = ecoregions)
 #'
 lop_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, window_shift = NULL,
                       neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                       normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace"){
 
+  x_metadata = st_dimensions(x)
   y_metadata = st_dimensions(y)
 
   x = lapply(x, function(x) `mode<-`(x, "integer"))
   y = lapply(y, function(x) `mode<-`(x, "integer"))
+
+  y = st_as_stars(y)
+  attr(y, "dimensions") = y_metadata
 
   classes_x = lapply(x, get_unique_values, TRUE)
   classes_y = lapply(y, get_unique_values, TRUE)
