@@ -61,6 +61,10 @@ lop_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
 
   # x = c(landcover, landform)
 
+  x_crs = sf::st_crs(x)
+  x_bb = sf::st_bbox(x)
+  x_delta_row = st_dimensions(x)[[1]][["delta"]]
+  x_delta_col = st_dimensions(x)[[2]][["delta"]]
   # attr_x = attributes(x)
 
   x = lapply(x, function(x) `mode<-`(x, "integer"))
@@ -195,5 +199,15 @@ lop_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
     }
   }
 
-  return(x)
+  # add spatial metadata
+  attr(x, "metadata") = c(attr(x, "metadata"),
+                          crs = list(x_crs),
+                          bb = list(x_bb),
+                          delta_x = x_delta_col,
+                          delta_y = x_delta_row,
+                          window_size = window_size,
+                          window_shift = window_shift,
+                          use_window = !missing(window))
+
+  return(structure(x, class = c("lsp", class(x))))
 }
