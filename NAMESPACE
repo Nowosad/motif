@@ -2,8 +2,8 @@
 
 S3method(lsp_add_spatial,default)
 S3method(lsp_add_spatial,lsp)
-export(lop_inhomogeneity)
-export(lop_isolation)
+export(lsp_add_clusters)
+export(lsp_add_quality)
 export(lsp_add_spatial)
 export(lsp_compare)
 export(lsp_search)
