@@ -4,14 +4,33 @@
 #' @param clust_var
 #' @param regions
 #'
+#' @examples
+#' library(stars)
+#' library(rcartocolor)
+#'
+#' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
+#' # plot(landcover)
+#' lc_cove = lsp_thumbprint(landcover, type = "cove", window_size = 100, normalization = "pdf")
+#' lc_dist = lsp_to_dist(lc_cove, dist_fun = "jensen-shannon")
+#' lc_hclust = hclust(lc_dist, method = "ward.D2")
+#' clusters = cutree(lc_hclust, k = 12)
+#'
+#' lc_grid = lsp_add_clusters(lc_cove, clusters)
+#' plot(lc_grid["clust"], col = carto_pal(12, "Safe"))
+#'
+#' lc_grid = lsp_add_quality(lc_grid, lc_dist, "clust")
+#' plot(lc_grid["inhomogeneity"])
+#' plot(lc_grid["isolation"])
+#' plot(lc_grid["quality"])
+#'
 #' @export
 lsp_add_quality = function(x, x_dist, clust_var, regions = FALSE){
   x_dist = as.matrix(x_dist)
   inh = lsp_inhomogeneity(x, x_dist = x_dist, clust_var = clust_var, regions = regions)
   iso = lsp_isolation(x, x_dist = x_dist, clust_var = clust_var, regions = regions)
 
-  x$inhomogeneity = inh[match(x[[clust_var]], seq_along(inh))]
-  x$isolation = iso[match(x[[clust_var]], seq_along(iso))]
+  x$inhomogeneity = inh[match(x[[clust_var]], as.integer(names(inh)))]
+  x$isolation = iso[match(x[[clust_var]], as.integer(names(iso)))]
   x$quality = get_quality(x$inhomogeneity, x$isolation)
 
   x
@@ -35,11 +54,14 @@ lsp_isolation = function(x, x_dist, clust_var, regions){
   x_grid_neigh = spdep::poly2nb(x_merged, queen = TRUE)
   unique_clust = na.exclude(unique(x[[clust_var]]))
 
-  vapply(unique_clust, get_isolation,
+  iso = vapply(unique_clust, get_isolation,
          x = x, x_dist = x_dist,
          x_grid_neigh = x_grid_neigh,
          clust_var = clust_var,
          FUN.VALUE = 1.0)
+
+  names(iso) = unique_clust
+  return(iso)
 }
 
 get_isolation = function(x_clust, x, x_dist, x_grid_neigh, clust_var){
@@ -64,10 +86,12 @@ lsp_inhomogeneity = function(x, x_dist, clust_var, regions){
 
   unique_clust = na.exclude(unique(c(x[[clust_var]])))
 
-  vapply(unique_clust, get_inhomogeneity,
+  inh = vapply(unique_clust, get_inhomogeneity,
          x = x, x_dist = x_dist,
          clust_var = clust_var,
          FUN.VALUE = 1.0)
+  names(inh) = unique_clust
+  return(inh)
 }
 
 get_inhomogeneity = function(x, x_dist, x_clust, clust_var){
