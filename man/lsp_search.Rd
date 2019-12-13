@@ -47,8 +47,8 @@ lc_ext = lc[ext]
 lf_ext = lf[ext]
 
 s1 = lsp_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
-s2 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
-s3 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
+#s2 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
+#s3 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
 s4 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
 s5 = lsp_search(lf_ext, lf, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window_size = 250)
 s6 = lsp_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window = ecoregions)

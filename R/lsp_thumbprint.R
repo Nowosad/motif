@@ -22,38 +22,17 @@
 #' plot(landcover)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' plot(landform)
-#' #npp = read_stars("npp.tif")
-#' #plot(npp)
 #' ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
 #' plot(ecoregions)
 #'
 #' lsp_thumbprint(landcover, type = "coma", threshold = 0.9)
 #' lsp_thumbprint(landcover, type = "cove", threshold = 0.9)
 #' lsp_thumbprint(landcover, type = "cove", threshold = 0.9, classes = 10)
-#' lsp_thumbprint(c(landcover, landform), type = "cocoma", threshold = 0.9)
-#' lsp_thumbprint(c(landcover, landform), type = "cocove", threshold = 0.9)
-#' #lsp_thumbprint(c(landcover, npp), type = "wecoma", threshold = 0.9)
-#' #lsp_thumbprint(c(landcover, npp), type = "wecove", threshold = 0.9)
-#' lsp_thumbprint(c(landcover, landform), type = "incoma", threshold = 0.9)
 #' lsp_thumbprint(c(landcover, landform), type = "incove", threshold = 0.9)
 #'
 #' lsp_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
-#' lsp_thumbprint(landcover, type = "cove", window_size = 100, window_shift = 100, threshold = 0.9)
-#' lsp_thumbprint(c(landcover, landform), type = "cocoma", window_size = 100, window_shift = 100, threshold = 0.9)
-#' lsp_thumbprint(c(landcover, landform), type = "cocove", window_size = 100, window_shift = 100, threshold = 0.9)
-#' #lsp_thumbprint(c(landcover, npp), type = "wecoma", window_size = 100, window_shift = 100, threshold = 0.9)
-#' #lsp_thumbprint(c(landcover, npp), type = "wecove", window_size = 100, window_shift = 100, threshold = 0.9)
-#' lsp_thumbprint(c(landcover, landform), type = "incoma", window_size = 100, window_shift = 100, threshold = 0.9)
-#' lsp_thumbprint(c(landcover, landform), type = "incove", window_size = 100, window_shift = 100, threshold = 0.9)
 #'
 #' lsp_thumbprint(landcover, type = "coma", window = ecoregions, threshold = 0.9)
-#' lsp_thumbprint(landcover, type = "cove", window = ecoregions, threshold = 0.9)
-#' lsp_thumbprint(c(landcover, landform), type = "cocoma", window = ecoregions, threshold = 0.9)
-#' lsp_thumbprint(c(landcover, landform), type = "cocove", window = ecoregions, threshold = 0.9)
-#' #lsp_thumbprint(c(landcover, npp), type = "wecoma", window = ecoregions, threshold = 0.9)
-#' #lsp_thumbprint(c(landcover, npp), type = "wecove", window = ecoregions, threshold = 0.9)
-#' lsp_thumbprint(c(landcover, landform), type = "incoma", window = ecoregions, threshold = 0.9)
-#' lsp_thumbprint(c(landcover, landform), type = "incove", window = ecoregions, threshold = 0.9)
 lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
                           neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                           normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
