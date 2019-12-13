@@ -23,12 +23,17 @@ Imports:
     philentropy,
     Rcpp,
     sf,
-    sfheaders,
+    spdep,
+    stars,
     tibble
 Suggests: 
     covr,
-    raster
+    raster,
+    rcartocolor,
+    knitr,
+    rmarkdown
 URL: https://github.com/Nowosad/motif
 BugReports: https://github.com/Nowosad/motif/issues
 Remotes:
     nowosad/comat
+VignetteBuilder: knitr

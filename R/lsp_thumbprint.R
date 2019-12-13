@@ -16,8 +16,8 @@
 #' @export
 #'
 #' @examples
-#' library(comat)
 #' library(stars)
+#'
 #' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 #' plot(landcover)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))

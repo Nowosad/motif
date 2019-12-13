@@ -20,7 +20,6 @@
 #'
 #' @examples
 #' library(stars)
-#' library(philentropy)
 #'
 #' lc15 = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 #' lc01 = read_stars(system.file("raster/landcover2001.tif", package = "motif"))
