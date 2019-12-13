@@ -1,3 +1,5 @@
+#' Title
+#'
 #' @param x
 #'
 #' @param clust

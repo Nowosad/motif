@@ -1,29 +1,22 @@
+#' Title
+#'
+#' @param x
+#'
+#' @param window
+#' @param window_size
+#' @param window_shift
+#'
 #' @examples
 #' library(stars)
-#' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-#' plot(landcover)
-#' lsp_add_spatial(landcover, window_size = 100)
-#'
-#' lc_cove = lsp_thumbprint(landcover, type = "cove", window_size = 200, normalization = "pdf")
-#' lsp_add_spatial(lc_cove)
-#'
-#' # ?fill_na
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
+#' plot(landform)
+#' landform_lsp = lsp_add_spatial(landform, window_size = 100)
+#' plot(landform_lsp)
 #'
-#' lf_cove = lsp_thumbprint(landform, type = "cove", window_size = 200, normalization = "pdf")
-#' lsp_add_spatial(lf_cove)
-#'
-#'
-#' my_fun = function(x) landscapemetrics::lsm_l_ent(x, neighbourhood = 4, base = "log2")[["value"]]
-#' ee = lsp_thumbprint(landform, type = my_fun, threshold = 0.2, window_size = 100)
-#'
-#' output$values2 = NA
-#' output$values2[which(output$values %in% ee$id)] = unlist(ee$signature)
-#' output$values2
-#'
-#' #write_stars(output["values2"], "aa.tif")
-#'
-#' plot(output["values2"])
+#' lc_cove = lsp_thumbprint(landform, type = "cove", window_size = 200, normalization = "pdf")
+#' lc_cove_lsp = lsp_add_spatial(lc_cove)
+#' plot(lc_cove_lsp)
+#' plot(lc_cove_lsp["na_prop"])
 #'
 #' @aliases lsp_add_spatial
 #' @rdname lsp_add_spatial
