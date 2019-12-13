@@ -19,20 +19,20 @@
 #' library(stars)
 #'
 #' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-#' plot(landcover)
-#' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
-#' plot(landform)
-#' ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
-#' plot(ecoregions)
+#' #plot(landcover)
+#' #landform = read_stars(system.file("raster/landform.tif", package = "motif"))
+#' #plot(landform)
+#' #ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
+#' #plot(ecoregions)
 #'
 #' lsp_thumbprint(landcover, type = "coma", threshold = 0.9)
-#' lsp_thumbprint(landcover, type = "cove", threshold = 0.9)
-#' lsp_thumbprint(landcover, type = "cove", threshold = 0.9, classes = 10)
-#' lsp_thumbprint(c(landcover, landform), type = "incove", threshold = 0.9)
+#' #lsp_thumbprint(landcover, type = "cove", threshold = 0.9)
+#' #lsp_thumbprint(landcover, type = "cove", threshold = 0.9, classes = 10)
+#' #lsp_thumbprint(c(landcover, landform), type = "incove", threshold = 0.9)
 #'
-#' lsp_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
+#' #lsp_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
 #'
-#' lsp_thumbprint(landcover, type = "coma", window = ecoregions, threshold = 0.9)
+#' #lsp_thumbprint(landcover, type = "coma", window = ecoregions, threshold = 0.9)
 lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
                           neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                           normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
@@ -42,8 +42,8 @@ lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
 
   x_crs = sf::st_crs(x)
   x_bb = sf::st_bbox(x)
-  x_delta_row = st_dimensions(x)[[1]][["delta"]]
-  x_delta_col = st_dimensions(x)[[2]][["delta"]]
+  x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]
+  x_delta_col = stars::st_dimensions(x)[[2]][["delta"]]
   # attr_x = attributes(x)
 
   x = lapply(x, function(x) `mode<-`(x, "integer"))

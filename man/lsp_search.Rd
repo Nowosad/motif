@@ -18,7 +18,8 @@ lsp_search(
   repeated = TRUE,
   normalization = "pdf",
   wecoma_fun = "mean",
-  wecoma_na_action = "replace"
+  wecoma_na_action = "replace",
+  ...
 )
 }
 \arguments{
@@ -34,23 +35,29 @@ Title
 library(stars)
 
 lc = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-lf = read_stars(system.file("raster/landform.tif", package = "motif"))
+#lf = read_stars(system.file("raster/landform.tif", package = "motif"))
 
 ext = st_bbox(c(xmin = -249797.344531127, xmax = -211162.693944285,
                 ymin = -597280.143035389, ymax = -558645.492448547),
                 crs = st_crs(lc))
 
-ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
-plot(ecoregions)
+#ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
+#plot(ecoregions)
 
 lc_ext = lc[ext]
-lf_ext = lf[ext]
+#lf_ext = lf[ext]
 
-s1 = lsp_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
-#s2 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
-#s3 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
-s4 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
-s5 = lsp_search(lf_ext, lf, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window_size = 250)
-s6 = lsp_search(lc_ext, lc, type = "cove", dist_fun = jensen_shannon, threshold = 0.5, window = ecoregions)
+s1 = lsp_search(lc_ext, lc, type = "cove",
+  dist_fun = "jensen-shannon", threshold = 0.9)
+#s2 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "cocove",
+#  dist_fun = "jensen-shannon", threshold = 0.9)
+#s3 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "wecove",
+#  dist_fun = "jensen-shannon", threshold = 0.9)
+#s4 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "incove",
+#  dist_fun = "jensen-shannon", threshold = 0.9)
+#s5 = lsp_search(lf_ext, lf, type = "cove",
+#  dist_fun = "jensen-shannon", threshold = 0.5, window_size = 250)
+#s6 = lsp_search(lc_ext, lc, type = "cove",
+#  dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions)
 
 }

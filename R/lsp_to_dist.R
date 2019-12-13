@@ -33,6 +33,6 @@ lsp_to_dist = function(x, dist_fun, unit = "log2", p = NULL){
 
 vec_to_dist = function(vec, dist_fun, unit, p){
   mat = do.call(rbind, vec)
-  mat = philentropy::distance(mat, method = dist_fun, p = p, test.na = FALSE, unit = unit)
+  mat = philentropy::distance(mat, method = dist_fun, p = p, test.na = FALSE, unit = unit, est.prob = NULL)
   stats::as.dist(mat)
 }

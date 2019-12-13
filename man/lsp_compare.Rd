@@ -18,7 +18,8 @@ lsp_compare(
   repeated = TRUE,
   normalization = "pdf",
   wecoma_fun = "mean",
-  wecoma_na_action = "replace"
+  wecoma_na_action = "replace",
+  ...
 )
 }
 \arguments{
@@ -38,11 +39,17 @@ lc01 = read_stars(system.file("raster/landcover2001.tif", package = "motif"))
 lf = read_stars(system.file("raster/landform.tif", package = "motif"))
 ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
 
-s1 = lsp_compare(lc01, lc15, type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
-s1b = lsp_compare(lc01, lc15, type = "cove", dist_fun = jensen_shannon, window = ecoregions, threshold = 0.9)
-s1c = lsp_compare(lc01, lc15, type = "cove", dist_fun = jensen_shannon, window_size = 1000, threshold = 0.9)
-#s2 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
-#s3 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
-s4 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
+s1 = lsp_compare(lc01, lc15, type = "cove",
+ dist_fun = "jensen-shannon", threshold = 0.9)
+#s1b = lsp_compare(lc01, lc15, type = "cove",
+#  dist_fun = "jensen-shannon", window = ecoregions, threshold = 0.9)
+#s1c = lsp_compare(lc01, lc15, type = "cove",
+#  dist_fun = "jensen-shannon", window_size = 100, threshold = 0.9)
+#s2 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "cocove",
+#  dist_fun = "jensen-shannon", threshold = 0.9)
+#s3 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "wecove",
+#  dist_fun = "jensen-shannon", threshold = 0.9)
+#s4 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "incove",
+#  dist_fun = "jensen-shannon", threshold = 0.9)
 
 }

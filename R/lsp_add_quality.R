@@ -12,7 +12,7 @@
 #'
 #' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 #' # plot(landcover)
-#' lc_cove = lsp_thumbprint(landcover, type = "cove", window_size = 100, normalization = "pdf")
+#' lc_cove = lsp_thumbprint(landcover, type = "cove", window_size = 1000, normalization = "pdf")
 #' lc_dist = lsp_to_dist(lc_cove, dist_fun = "jensen-shannon")
 #' lc_hclust = hclust(lc_dist, method = "ward.D2")
 #' clusters = cutree(lc_hclust, k = 12)
@@ -44,17 +44,17 @@ get_quality = function(inh, iso){
 
 lsp_isolation = function(x, x_dist, clust_var, regions){
 
-  x_merged = st_as_sf(x[clust_var], merge = TRUE, connect8 = TRUE)
+  x_merged = sf::st_as_sf(x[clust_var], merge = TRUE, connect8 = TRUE)
 
   if (!regions){
-    x_merged = aggregate(x_merged, list(x_merged[[clust_var]]), function(x) x[1])
+    x_merged = stats::aggregate(x_merged, list(x_merged[[clust_var]]), function(x) x[1])
   } else {
     stop("This option is not yet implemented.")
   }
-  x = st_as_sf(x[c("id", clust_var)], merge = FALSE)
+  x = sf::st_as_sf(x[c("id", clust_var)], merge = FALSE)
 
   x_grid_neigh = spdep::poly2nb(x_merged, queen = TRUE)
-  unique_clust = na.exclude(unique(x[[clust_var]]))
+  unique_clust = stats::na.exclude(unique(x[[clust_var]]))
 
   iso = vapply(unique_clust, get_isolation,
          x = x, x_dist = x_dist,
@@ -86,7 +86,7 @@ get_isolation = function(x_clust, x, x_dist, x_grid_neigh, clust_var){
 
 lsp_inhomogeneity = function(x, x_dist, clust_var, regions){
 
-  unique_clust = na.exclude(unique(c(x[[clust_var]])))
+  unique_clust = stats::na.exclude(unique(c(x[[clust_var]])))
 
   inh = vapply(unique_clust, get_inhomogeneity,
          x = x, x_dist = x_dist,
@@ -103,7 +103,7 @@ get_inhomogeneity = function(x, x_dist, x_clust, clust_var){
     ]
 
   if (sum(x_clust_dist) != 0){
-    x_clust_dist = as.dist(x_clust_dist)
+    x_clust_dist = stats::as.dist(x_clust_dist)
     return(mean(x_clust_dist))
   } else {
     return(0)

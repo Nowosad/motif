@@ -29,14 +29,14 @@ lsp_add_spatial = function(x = NULL, window = NULL, window_size = NULL, window_s
 lsp_add_spatial.default = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
 
   if (!missing(window_size) && !is.null(window_size)){
-    x_crs = st_crs(x)
+    x_crs = sf::st_crs(x)
     x_nrow = nrow(x)
     x_ncol = ncol(x)
 
     x_bb = sf::st_bbox(x)
 
-    x_delta_row = st_dimensions(x)[[1]][["delta"]]
-    x_delta_col = st_dimensions(x)[[2]][["delta"]]
+    x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]
+    x_delta_col = stars::st_dimensions(x)[[2]][["delta"]]
 
     if (is.null(window_shift)){
       window_shift = window_size
@@ -53,9 +53,9 @@ lsp_add_spatial.default = function(x = NULL, window = NULL, window_size = NULL, 
     return(output)
   } else if (missing(window) || is.null(window)){
     x_bb = sf::st_bbox(x)
-    x_crs = st_crs(x)
+    x_crs = sf::st_crs(x)
 
-    output = st_as_stars(x_bb, nx = 1, ny = 1, values = 1)
+    output = stars::st_as_stars(x_bb, nx = 1, ny = 1, values = 1)
     names(output) = "id"
 
     return(output)
@@ -106,18 +106,18 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
   new_xmax = x_bb["xmin"] + (output_n_row * cellshift[1])
   new_ymin = x_bb["ymax"] + (output_n_col * cellshift[2])
 
-  output_bb = st_bbox(c(
+  output_bb = sf::st_bbox(c(
     xmin = unname(x_bb["xmin"]),
     ymin = unname(new_ymin),
     xmax = unname(new_xmax),
     ymax = unname(x_bb["ymax"])
   ))
 
-  output = st_as_stars(output_bb,
+  output = stars::st_as_stars(output_bb,
                        nx = output_n_row,
                        ny = output_n_col,
                        values = as.integer(seq_len(output_n_row * output_n_col)))
-  output = st_set_crs(output, value = x_crs)
+  output = sf::st_set_crs(output, value = x_crs)
   names(output) = "id"
 
   return(output)

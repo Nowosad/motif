@@ -26,18 +26,24 @@
 #' lf = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
 #'
-#' s1 = lsp_compare(lc01, lc15, type = "cove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s1b = lsp_compare(lc01, lc15, type = "cove", dist_fun = jensen_shannon, window = ecoregions, threshold = 0.9)
-#' s1c = lsp_compare(lc01, lc15, type = "cove", dist_fun = jensen_shannon, window_size = 1000, threshold = 0.9)
-#' #s2 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "cocove", dist_fun = jensen_shannon, threshold = 0.9)
-#' #s3 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "wecove", dist_fun = jensen_shannon, threshold = 0.9)
-#' s4 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "incove", dist_fun = jensen_shannon, threshold = 0.9)
+#' s1 = lsp_compare(lc01, lc15, type = "cove",
+#'  dist_fun = "jensen-shannon", threshold = 0.9)
+#' #s1b = lsp_compare(lc01, lc15, type = "cove",
+#' #  dist_fun = "jensen-shannon", window = ecoregions, threshold = 0.9)
+#' #s1c = lsp_compare(lc01, lc15, type = "cove",
+#' #  dist_fun = "jensen-shannon", window_size = 100, threshold = 0.9)
+#' #s2 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "cocove",
+#' #  dist_fun = "jensen-shannon", threshold = 0.9)
+#' #s3 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "wecove",
+#' #  dist_fun = "jensen-shannon", threshold = 0.9)
+#' #s4 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "incove",
+#' #  dist_fun = "jensen-shannon", threshold = 0.9)
 #'
 lsp_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, window_shift = NULL,
                        neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
-                       normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace"){
+                       normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
 
-  x_metadata = st_dimensions(x)
+  x_metadata = stars::st_dimensions(x)
 
   #test if x == y
 
@@ -89,11 +95,12 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
   # attributes(output_x)
 
   output$dist = mapply(
-    dist_fun,
+    distance2,
     output_x$signature,
     output_y$signature,
-    testNA = TRUE,
-    unit = "log2"
+    method = dist_fun,
+    unit = "log2",
+    ...
   )
 
   output_stars = lsp_add_spatial(x_metadata,

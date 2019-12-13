@@ -33,18 +33,18 @@ Title
 library(stars)
 
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-plot(landcover)
-landform = read_stars(system.file("raster/landform.tif", package = "motif"))
-plot(landform)
-ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
-plot(ecoregions)
+#plot(landcover)
+#landform = read_stars(system.file("raster/landform.tif", package = "motif"))
+#plot(landform)
+#ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
+#plot(ecoregions)
 
 lsp_thumbprint(landcover, type = "coma", threshold = 0.9)
-lsp_thumbprint(landcover, type = "cove", threshold = 0.9)
-lsp_thumbprint(landcover, type = "cove", threshold = 0.9, classes = 10)
-lsp_thumbprint(c(landcover, landform), type = "incove", threshold = 0.9)
+#lsp_thumbprint(landcover, type = "cove", threshold = 0.9)
+#lsp_thumbprint(landcover, type = "cove", threshold = 0.9, classes = 10)
+#lsp_thumbprint(c(landcover, landform), type = "incove", threshold = 0.9)
 
-lsp_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
+#lsp_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
 
-lsp_thumbprint(landcover, type = "coma", window = ecoregions, threshold = 0.9)
+#lsp_thumbprint(landcover, type = "coma", window = ecoregions, threshold = 0.9)
 }
