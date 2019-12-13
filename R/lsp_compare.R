@@ -41,6 +41,8 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
                        neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                        normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace"){
 
+  x_metadata = st_dimensions(x)
+
   #test if x == y
 
   classes_x = lapply(x, get_unique_values, TRUE)
@@ -88,7 +90,7 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
   output = cbind(output_x[!names(output_x) == "signature"], output_y["na_prop_y"])
 
   # unify signatures
-  attributes(output_x)
+  # attributes(output_x)
 
   output$dist = mapply(
     dist_fun,
@@ -97,5 +99,14 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
     testNA = TRUE,
     unit = "log2"
   )
-  return(output)
+
+  output_stars = lsp_add_spatial(x_metadata,
+                                 window = window,
+                                 window_size = window_size, window_shift = window_shift)
+
+  output_stars$na_prop_x = output$na_prop_x[match(output_stars$id, output$id)]
+  output_stars$na_prop_y = output$na_prop_y[match(output_stars$id, output$id)]
+  output_stars$dist = output$dist[match(output_stars$id, output$id)]
+
+  return(output_stars)
 }
