@@ -72,8 +72,8 @@ List get_motifels_coma(IntegerMatrix x,
 
   LogicalVector na_perc_below_thres = na_perc <= threshold;
   List df = List::create(Named("id") = all_nr_of_motifels[na_perc_below_thres],
-                         Named("row") = all_m_row[na_perc_below_thres],
-                         Named("col") = all_m_col[na_perc_below_thres],
+                         // Named("row") = all_m_row[na_perc_below_thres],
+                         // Named("col") = all_m_col[na_perc_below_thres],
                          Named("na_prop") = na_perc[na_perc_below_thres],
                          Named("signature") = result[na_perc_below_thres]);
 
