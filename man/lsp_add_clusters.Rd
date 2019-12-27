@@ -4,7 +4,7 @@
 \alias{lsp_add_clusters}
 \title{Title}
 \usage{
-lsp_add_clusters(x, clust)
+lsp_add_clusters(x, clust, output)
 }
 \arguments{
 \item{x}{}
