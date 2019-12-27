@@ -23,7 +23,7 @@
 #' #landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' #plot(landform)
 #' #ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
-#' #plot(ecoregions)
+#' #plot(ecoregions["id"])
 #'
 #' lsp_thumbprint(landcover, type = "coma", threshold = 0.9)
 #' #lsp_thumbprint(landcover, type = "cove", threshold = 0.9)
@@ -32,7 +32,7 @@
 #'
 #' #lsp_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
 #'
-#' #lsp_thumbprint(landcover, type = "coma", window = ecoregions, threshold = 0.9)
+#' #lsp_thumbprint(landcover, type = "coma", window = ecoregions["id"], threshold = 0.9)
 lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
                           neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                           normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
@@ -60,8 +60,8 @@ lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, wind
     }
   } else {
     # check for one column
-    window1 = st_rasterize(window["id"],
-                           template = st_as_stars(st_bbox(x), values = NA_integer_, dx = x_delta_row, dy = x_delta_col))
+    window = stars::st_rasterize(window[1],
+                           template = stars::st_as_stars(sf::st_bbox(x), values = NA_integer_, dx = x_delta_row, dy = x_delta_col))
     window = lapply(window, function(x) `mode<-`(x, "integer"))
   }
 
