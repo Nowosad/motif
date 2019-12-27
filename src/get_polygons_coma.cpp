@@ -6,13 +6,12 @@
 using namespace Rcpp;
 
 // https://stackoverflow.com/questions/31691130/conversion-of-r-matrices-to-armadillo-is-really-slow
-
 // [[Rcpp::export]]
 List get_polygons_coma(const arma::imat& x,
                        const arma::imat& m,
                        const arma::imat directions,
                        double threshold,
-                       List classes) {
+                       List classes){
 
   // get unique values of x and y
   // List classes_x(1);
@@ -20,6 +19,22 @@ List get_polygons_coma(const arma::imat& x,
 
   arma::ivec classes_m = unique(m);
   classes_m = classes_m.elem(find(classes_m != NA_INTEGER));
+
+  result = get_polygons_coma_internal(x, m, directions, threshold, classes, classes_m);
+
+  return result;
+
+}
+
+// [[Rcpp::export]]
+List get_polygons_coma_internal(const arma::imat& x,
+                       const arma::imat& m,
+                       const arma::imat directions,
+                       double threshold,
+                       List classes,
+                       arma::ivec classes_m) {
+
+
   int classes_m_size = classes_m.size();
 
   // initialize objects
