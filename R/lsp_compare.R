@@ -103,7 +103,7 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, window_size = NULL, 
     ...
   )
 
-  output_stars = lsp_add_spatial(x_metadata,
+  output_stars = lsp_add_stars(x_metadata,
                                  window = window,
                                  window_size = window_size, window_shift = window_shift)
 

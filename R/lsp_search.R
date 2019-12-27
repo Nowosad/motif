@@ -120,7 +120,7 @@ lsp_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, w
 
   output$signature = NULL
 
-  output_stars = lsp_add_spatial(y_metadata,
+  output_stars = lsp_add_stars(y_metadata,
                                  window = window,
                                  window_size = window_size, window_shift = window_shift)
 

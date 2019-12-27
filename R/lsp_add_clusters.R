@@ -21,6 +21,6 @@
 #' @export
 lsp_add_clusters = function(x, clust){
   x$clust = clust
-  x = lsp_add_spatial(x)
+  x = lsp_add_stars(x)
   return(x)
 }
