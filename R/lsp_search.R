@@ -37,22 +37,34 @@
 #' #  dist_fun = "jensen-shannon", threshold = 0.5, window_size = 250)
 #' #s6 = lsp_search(lc_ext, lc, type = "cove",
 #' #  dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions)
-#'
 lsp_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, window_shift = NULL,
+                      neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
+                      normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...) UseMethod("lsp_search")
+
+#' @name lsp_search
+#' @export
+lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = NULL, window_shift = NULL,
                       neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                       normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
 
   x_metadata = stars::st_dimensions(x)
   y_metadata = stars::st_dimensions(y)
 
-  x = lapply(x, function(x) `mode<-`(x, "integer"))
-  y = lapply(y, function(x) `mode<-`(x, "integer"))
+  if (inherits(y, "stars_proxy")){
 
-  y = stars::st_as_stars(y)
-  attr(y, "dimensions") = y_metadata
+    classes_x = get_unique_values_proxy(x, window_size, nrow(x), ncol(x))
+    classes_y = get_unique_values_proxy(y, window_size, nrow(y), ncol(y))
 
-  classes_x = lapply(x, get_unique_values, TRUE)
-  classes_y = lapply(y, get_unique_values, TRUE)
+  } else {
+    x = lapply(x, function(x) `mode<-`(x, "integer"))
+    y = lapply(y, function(x) `mode<-`(x, "integer"))
+
+    y = stars::st_as_stars(y)
+    attr(y, "dimensions") = y_metadata
+
+    classes_x = lapply(x, get_unique_values, TRUE)
+    classes_y = lapply(y, get_unique_values, TRUE)
+  }
 
   classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
   classes = lapply(classes, unique)
@@ -134,4 +146,3 @@ lsp_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, w
 
   return(output_stars)
 }
-

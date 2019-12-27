@@ -2,9 +2,47 @@
 % Please edit documentation in R/lsp_compare.R
 \name{lsp_compare}
 \alias{lsp_compare}
+\alias{lsp_compare.stars}
+\alias{lsp_compare.stars_proxy}
 \title{Title}
 \usage{
 lsp_compare(
+  x,
+  y,
+  type,
+  dist_fun,
+  window = NULL,
+  window_size = NULL,
+  window_shift = NULL,
+  neighbourhood = 4,
+  threshold = 0.5,
+  ordered = TRUE,
+  repeated = TRUE,
+  normalization = "pdf",
+  wecoma_fun = "mean",
+  wecoma_na_action = "replace",
+  ...
+)
+
+\method{lsp_compare}{stars}(
+  x,
+  y,
+  type,
+  dist_fun,
+  window = NULL,
+  window_size = NULL,
+  window_shift = NULL,
+  neighbourhood = 4,
+  threshold = 0.5,
+  ordered = TRUE,
+  repeated = TRUE,
+  normalization = "pdf",
+  wecoma_fun = "mean",
+  wecoma_na_action = "replace",
+  ...
+)
+
+\method{lsp_compare}{stars_proxy}(
   x,
   y,
   type,
@@ -51,5 +89,4 @@ s1 = lsp_compare(lc01, lc15, type = "cove",
 #  dist_fun = "jensen-shannon", threshold = 0.9)
 #s4 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "incove",
 #  dist_fun = "jensen-shannon", threshold = 0.9)
-
 }

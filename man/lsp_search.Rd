@@ -2,9 +2,28 @@
 % Please edit documentation in R/lsp_search.R
 \name{lsp_search}
 \alias{lsp_search}
+\alias{lsp_search.stars}
 \title{Title}
 \usage{
 lsp_search(
+  x,
+  y,
+  type,
+  dist_fun,
+  window = NULL,
+  window_size = NULL,
+  window_shift = NULL,
+  neighbourhood = 4,
+  threshold = 0.5,
+  ordered = TRUE,
+  repeated = TRUE,
+  normalization = "pdf",
+  wecoma_fun = "mean",
+  wecoma_na_action = "replace",
+  ...
+)
+
+\method{lsp_search}{stars}(
   x,
   y,
   type,
@@ -59,5 +78,4 @@ s1 = lsp_search(lc_ext, lc, type = "cove",
 #  dist_fun = "jensen-shannon", threshold = 0.5, window_size = 250)
 #s6 = lsp_search(lc_ext, lc, type = "cove",
 #  dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions)
-
 }
