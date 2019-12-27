@@ -15,8 +15,8 @@ get_unique_values_proxy = function(x, window_size, nr, nc){
                     nYOff = i,
                     nXSize = nr,
                     nYSize = ifelse(i + window_size > nc, nc - i + 1, window_size))
-    x_vals = read_stars(x_path, RasterIO = rasterio)
-    lapply(x_vals, motif:::get_unique_values, TRUE)
+    x_vals = stars::read_stars(x_path, RasterIO = rasterio)
+    lapply(x_vals, get_unique_values, TRUE)
   }
   layer_guv = function(x_path, window_size, nr, nc){
     yoffs = seq(1, nc, by = window_size)
