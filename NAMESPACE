@@ -2,6 +2,8 @@
 
 S3method(lsp_add_spatial,default)
 S3method(lsp_add_spatial,lsp)
+S3method(lsp_thumbprint,stars)
+S3method(lsp_thumbprint,stars_proxy)
 export(lsp_add_clusters)
 export(lsp_add_quality)
 export(lsp_add_spatial)

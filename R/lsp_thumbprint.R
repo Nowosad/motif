@@ -22,7 +22,7 @@
 #' #plot(landcover)
 #' #landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' #plot(landform)
-#' #ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
+#' #ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
 #' #plot(ecoregions)
 #'
 #' lsp_thumbprint(landcover, type = "coma", threshold = 0.9)
@@ -36,28 +36,20 @@
 lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
                           neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                           normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
+                          classes = NULL) UseMethod("lsp_thumbprint")
+
+#' @name lsp_thumbprint
+#' @export
+lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
+                          neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
+                          normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
                           classes = NULL){
 
-  # x = c(landcover, landform)
 
   x_crs = sf::st_crs(x)
   x_bb = sf::st_bbox(x)
   x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]
   x_delta_col = stars::st_dimensions(x)[[2]][["delta"]]
-  # attr_x = attributes(x)
-
-  x = lapply(x, function(x) `mode<-`(x, "integer"))
-
-  # attributes(x) = attr_x
-
-  if (is.null(classes)){
-    classes = lapply(x, get_unique_values, TRUE)
-  }
-  if (inherits(classes, "integer")){
-    classes = list(classes)
-  }
-
-  directions = as.matrix(neighbourhood)
 
   if (missing(window) || is.null(window)){
     if (is.null(window_size)){
@@ -67,8 +59,22 @@ lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
       window_shift = window_size
     }
   } else {
+    # check for one column
+    window1 = st_rasterize(window["id"],
+                           template = st_as_stars(st_bbox(x), values = NA_integer_, dx = x_delta_row, dy = x_delta_col))
     window = lapply(window, function(x) `mode<-`(x, "integer"))
   }
+
+  x = lapply(x, function(x) `mode<-`(x, "integer"))
+
+  if (is.null(classes)){
+    classes = lapply(x, get_unique_values, TRUE)
+  }
+  if (inherits(classes, "integer")){
+    classes = list(classes)
+  }
+
+  directions = as.matrix(neighbourhood)
 
   if (missing(window) || is.null(window)){
     if (is.function(type)){
@@ -186,7 +192,157 @@ lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
                           delta_y = x_delta_row,
                           window_size = window_size,
                           window_shift = window_shift,
-                          use_window = !missing(window))
+                          use_window = !(missing(window) || is.null(window)))
+
+  return(structure(x, class = c("lsp", class(x))))
+}
+
+#' @name lsp_thumbprint
+#' @export
+lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
+                                neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
+                                normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
+                                classes = NULL){
+
+  x_crs = sf::st_crs(x)
+  x_bb = sf::st_bbox(x)
+  x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]
+  x_delta_col = stars::st_dimensions(x)[[2]][["delta"]]
+
+  nc = ncol(x)
+  nr = nrow(x)
+
+  if (missing(window) || is.null(window)){
+    if (is.null(window_size)){
+      window_size = 0
+    }
+    if (missing(window_shift) || is.null(window_shift)){
+      window_shift = window_size
+    }
+  } else {
+    stop("window option is not implemented for stars_proxy yet")
+    window = lapply(window, function(x) `mode<-`(x, "integer"))
+  }
+
+  if (is.null(classes)){
+    classes = get_unique_values_proxy(x, window_size, nr, nc)
+  }
+  if (inherits(classes, "integer")){
+    classes = list(classes)
+  }
+
+  directions = as.matrix(neighbourhood)
+
+  if (missing(window) || is.null(window)){
+    yoffs = seq(1, nc, by = window_size)
+
+    if (is.function(type)){
+
+      x = lapply(yoffs,
+                 get_motifels_fun_single_proxy,
+                 x,
+                 window_size = window_size,
+                 window_shift = window_shift,
+                 f = type,
+                 threshold = threshold,
+                 classes = classes,
+                 nr = nr,
+                 nc = nc)
+
+    } else if (type == "coma" || type == "cove"){
+
+      x = lapply(yoffs,
+                 get_motifels_coma_single_proxy,
+                 x[[1]],
+                 directions = directions,
+                 window_size = window_size,
+                 window_shift = window_shift,
+                 threshold = threshold,
+                 classes = classes,
+                 nr = nr,
+                 nc = nc)
+
+    } else if (type == "cocoma" || type == "cocove"){
+
+      x = lapply(yoffs,
+                 get_motifels_cocoma_single_proxy,
+                 x,
+                 directions = directions,
+                 window_size = window_size,
+                 window_shift = window_shift,
+                 threshold = threshold,
+                 classes = classes,
+                 nr = nr,
+                 nc = nc)
+
+    } else if (type == "wecoma" || type == "wecove"){
+
+      x = lapply(yoffs,
+                 get_motifels_wecoma_single_proxy,
+                 x,
+                 directions = directions,
+                 window_size = window_size,
+                 window_shift = window_shift,
+                 threshold = threshold,
+                 classes = classes,
+                 nr = nr,
+                 nc = nc)
+
+    } else if (type == "incoma" || type == "incove"){
+
+      x = lapply(yoffs,
+                 get_motifels_incoma_single_proxy,
+                 x,
+                 directions = directions,
+                 window_size = window_size,
+                 window_shift = window_shift,
+                 threshold = threshold,
+                 classes = classes,
+                 nr = nr,
+                 nc = nc)
+
+    }
+  } else {
+
+    stop("window option is not implemented for stars_proxy yet")
+  }
+
+  x = merge_and_update(x, window_size, nr)
+
+  if (!is.function(type)){
+    if (type == "cove"){
+      x$signature = lapply(x$signature,
+                           comat::get_cove,
+                           ordered = ordered,
+                           normalization = normalization)
+    } else if (type == "cocove"){
+      x$signature = lapply(x$signature,
+                           comat::get_cocove,
+                           ordered = ordered,
+                           normalization = normalization)
+    } else if (type == "wecove"){
+      x$signature = lapply(x$signature,
+                           comat::get_wecove,
+                           ordered = ordered,
+                           normalization = normalization)
+    } else if (type == "incove"){
+      x$signature = lapply(x$signature,
+                           comat::get_incove,
+                           ordered = ordered,
+                           repeated = repeated,
+                           normalization = normalization)
+    }
+  }
+
+  # add spatial metadata
+  attr(x, "metadata") = c(attr(x, "metadata"),
+                          crs = list(x_crs),
+                          bb = list(x_bb),
+                          delta_x = x_delta_col,
+                          delta_y = x_delta_row,
+                          window_size = window_size,
+                          window_shift = window_shift,
+                          use_window = !(missing(window) || is.null(window)))
 
   return(structure(x, class = c("lsp", class(x))))
 }
