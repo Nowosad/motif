@@ -10,23 +10,23 @@
 #' library(stars)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' plot(landform)
-#' landform_lsp = lsp_add_spatial(landform, window_size = 100)
+#' landform_lsp = lsp_add_stars(landform, window_size = 100)
 #' plot(landform_lsp)
 #'
 #' lc_cove = lsp_thumbprint(landform, type = "cove", window_size = 200, normalization = "pdf")
-#' lc_cove_lsp = lsp_add_spatial(lc_cove)
+#' lc_cove_lsp = lsp_add_stars(lc_cove)
 #' plot(lc_cove_lsp)
 #' plot(lc_cove_lsp["na_prop"])
 #'
-#' @aliases lsp_add_spatial
-#' @rdname lsp_add_spatial
+#' @aliases lsp_add_stars
+#' @rdname lsp_add_stars
 #'
 #' @export
-lsp_add_spatial = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL) UseMethod("lsp_add_spatial")
+lsp_add_stars = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL) UseMethod("lsp_add_stars")
 
-#' @name lsp_add_spatial
+#' @name lsp_add_stars
 #' @export
-lsp_add_spatial.default = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
+lsp_add_stars.default = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
 
   if (!missing(window_size) && !is.null(window_size)){
     x_crs = sf::st_crs(x)
@@ -61,14 +61,17 @@ lsp_add_spatial.default = function(x = NULL, window = NULL, window_size = NULL, 
     return(output)
 
   } else {
+    window = stars::st_rasterize(window["1"],
+                                 template = stars::st_as_stars(sf::st_bbox(x), values = NA_integer_,
+                                                               dx = x_delta_row, dy = x_delta_col))
     names(window) = "id"
     return(window)
   }
 }
 
-#' @name lsp_add_spatial
+#' @name lsp_add_stars
 #' @export
-lsp_add_spatial.lsp = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
+lsp_add_stars.lsp = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
   metadata = attr(x, "metadata")
 
   output_stars = lsp_create_grid(x_crs = metadata$crs, x_bb = metadata$bb,
@@ -96,7 +99,6 @@ lsp_add_spatial.lsp = function(x = NULL, window = NULL, window_size = NULL, wind
 
 lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
 
-
   cellshift = c(window_shift * x_delta_row,
                 window_shift * x_delta_col)
 
@@ -117,8 +119,81 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
                        nx = output_n_row,
                        ny = output_n_col,
                        values = as.integer(seq_len(output_n_row * output_n_col)))
+
   output = sf::st_set_crs(output, value = x_crs)
   names(output) = "id"
 
   return(output)
+}
+
+#' Title
+#'
+#' @param x
+#'
+#' @param window
+#' @param window_size
+#' @param window_shift
+#'
+#' @aliases lsp_add_sf
+#' @rdname lsp_add_sf
+#'
+#' @export
+lsp_add_sf = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL) UseMethod("lsp_add_sf")
+
+#' @name lsp_add_sf
+#' @export
+lsp_add_sf.default = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
+
+  if (!missing(window_size) && !is.null(window_size)){
+    x_crs = sf::st_crs(x)
+    x_nrow = nrow(x)
+    x_ncol = ncol(x)
+
+    x_bb = sf::st_bbox(x)
+
+    x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]
+    x_delta_col = stars::st_dimensions(x)[[2]][["delta"]]
+
+    if (is.null(window_shift)){
+      window_shift = window_size
+    }
+
+    output = lsp_create_grid(x_crs = x_crs, x_bb = x_bb,
+                             x_delta_row = x_delta_row, x_delta_col = x_delta_col,
+                             window_shift = window_shift)
+
+    output = sf::st_as_sf(output)
+
+    return(output)
+  } else if (missing(window) || is.null(window)){
+    x_bb = sf::st_bbox(x)
+    x_crs = sf::st_crs(x)
+
+    output = stars::st_as_stars(x_bb, nx = 1, ny = 1, values = 1)
+    names(output) = "id"
+
+    output = sf::st_as_sf(output)
+
+    return(output)
+
+  } else {
+
+    names(window) = "id"
+    return(window)
+  }
+}
+
+#' @name lsp_add_sf
+#' @export
+lsp_add_sf.lsp = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
+  metadata = attr(x, "metadata")
+
+  output_stars = lsp_create_grid(x_crs = metadata$crs, x_bb = metadata$bb,
+                                 x_delta_row = metadata$delta_y, x_delta_col = metadata$delta_x,
+                                 window_shift = metadata$window_shift)
+
+  output_sf = sf::st_as_sf(output_stars)
+  output_sf = merge(output_sf, x, by = "id", all.y = TRUE)
+  output_sf = tibble::as.tibble(output_sf)
+  return(output_sf)
 }
