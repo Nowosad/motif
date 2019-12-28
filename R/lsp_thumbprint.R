@@ -220,12 +220,15 @@ lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL
       window_shift = window_size
     }
   } else {
-    stop("window option is not implemented for stars_proxy yet")
-    window = lapply(window, function(x) `mode<-`(x, "integer"))
+    # stop("window option is not implemented for stars_proxy yet")
   }
 
   if (is.null(classes)){
-    classes = get_unique_values_proxy(x, window_size, nr, nc)
+
+    classes = get_unique_values_proxy(x,
+                                      ifelse(is.null(window_size), ceiling(nr / nrow(window)), window_size),
+                                      nr,
+                                      nc)
   }
   if (inherits(classes, "integer")){
     classes = list(classes)
@@ -302,12 +305,20 @@ lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL
                  nc = nc)
 
     }
+    x = merge_and_update(x, window_size, nr)
   } else {
+    # stop("window option is not implemented for stars_proxy yet")
 
-    stop("window option is not implemented for stars_proxy yet")
+    window_ids = seq_len(nrow(window))
+    threshold = 1
+    x = lapply(window_ids, get_window_single_proxy, x = x, type = type, window = window,
+               window_size = window_size, window_shift = window_shift,
+               neighbourhood = neighbourhood, threshold = threshold, ordered = ordered, repeated = repeated,
+               normalization = normalization, wecoma_fun = wecoma_fun, wecoma_na_action = wecoma_na_action,
+               classes = classes)
+    x = do.call(rbind, x)
+
   }
-
-  x = merge_and_update(x, window_size, nr)
 
   if (!is.function(type)){
     if (type == "cove"){

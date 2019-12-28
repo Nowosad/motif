@@ -87,6 +87,16 @@ get_motifels_incoma_single_proxy = function(i, x_path, directions, window_size, 
   x
 }
 
+get_window_single_proxy = function(window_id, x, window, ...){
+  # print(window_id)
+  result = lsp_thumbprint(stars::st_as_stars(x[window[window_id, ]]), ...)
+  if (nrow(result) == 1){
+    result$id = window[[window_id, 1]]
+    result$na_prop = NA
+  }
+  return(result)
+}
+
 
 # get_motifels_coma_single_proxy = function(i, x_path, directions, m, threshold, classes, nr, nc){
 #   rasterio = list(nXOff = 1,
