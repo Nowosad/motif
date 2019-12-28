@@ -99,14 +99,18 @@ lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, window_size = 
   # unify signatures
   # attributes(output_x)
 
+  unit = "log2"
+
   output$dist = mapply(
     distance2,
     output_x$signature,
     output_y$signature,
     method = dist_fun,
-    unit = "log2",
+    unit = unit,
     ...
   )
+
+  message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
   output_stars = lsp_add_stars(x_metadata,
                                  window = window,
@@ -176,14 +180,18 @@ lsp_compare.stars_proxy = function(x, y, type, dist_fun, window = NULL, window_s
   # unify signatures
   # attributes(output_x)
 
+  unit = "log2"
+
   output$dist = mapply(
     distance2,
     output_x$signature,
     output_y$signature,
     method = dist_fun,
-    unit = "log2",
+    unit = unit,
     ...
   )
+
+  message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
   output_stars = lsp_add_stars(x_metadata,
                                window = window,

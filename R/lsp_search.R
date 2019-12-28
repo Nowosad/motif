@@ -121,14 +121,18 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = N
     )
   }
 
+  unit = "log2"
+
   output$dist = unlist(lapply(
     output$signature,
     distance2,
     P = input_thumbprint,
     method = dist_fun,
-    unit = "log2",
+    unit = unit,
     ...
   ))
+
+  message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
   output$signature = NULL
 
