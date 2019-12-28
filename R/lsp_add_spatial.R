@@ -53,7 +53,7 @@ lsp_add_stars.default = function(x = NULL, window = NULL, window_size = NULL, wi
     return(output)
   } else if (missing(window) || is.null(window)){
     x_bb = sf::st_bbox(x)
-    x_crs = sf::st_crs(x)
+    # x_crs = sf::st_crs(x)
 
     output = stars::st_as_stars(x_bb, nx = 1, ny = 1, values = 1)
     names(output) = "id"
@@ -61,7 +61,10 @@ lsp_add_stars.default = function(x = NULL, window = NULL, window_size = NULL, wi
     return(output)
 
   } else {
-    window = stars::st_rasterize(window["1"],
+    x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]
+    x_delta_col = stars::st_dimensions(x)[[2]][["delta"]]
+
+    window = stars::st_rasterize(window,
                                  template = stars::st_as_stars(sf::st_bbox(x), values = NA_integer_,
                                                                dx = x_delta_row, dy = x_delta_col))
     names(window) = "id"
