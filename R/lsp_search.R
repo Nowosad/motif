@@ -50,32 +50,33 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = N
   x_metadata = stars::st_dimensions(x)
   y_metadata = stars::st_dimensions(y)
 
+  x = lapply(x, function(x) `mode<-`(x, "integer"))
+  classes_x = lapply(x, get_unique_values, TRUE)
+
   if (inherits(y, "stars_proxy")){
-
-    classes_x = get_unique_values_proxy(x, window_size, nrow(x), ncol(x))
-    classes_y = get_unique_values_proxy(y, window_size, nrow(y), ncol(y))
-
+    classes_y = get_unique_values_proxy(y,
+                                        ifelse(is.null(window_size), ceiling(nrow(y) / nrow(window)), window_size),
+                                        nrow(y), ncol(y))
   } else {
-    x = lapply(x, function(x) `mode<-`(x, "integer"))
     y = lapply(y, function(x) `mode<-`(x, "integer"))
 
     y = stars::st_as_stars(y)
     attr(y, "dimensions") = y_metadata
 
-    classes_x = lapply(x, get_unique_values, TRUE)
     classes_y = lapply(y, get_unique_values, TRUE)
   }
 
   classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
   classes = lapply(classes, unique)
+  classes = lapply(classes, sort)
 
   output = lsp_thumbprint(
-    y,
+    x = y,
     type = type,
-    neighbourhood = neighbourhood,
     window = window,
     window_size = window_size,
     window_shift = window_shift,
+    neighbourhood = neighbourhood,
     threshold = threshold,
     ordered = ordered,
     repeated = repeated,
