@@ -306,43 +306,41 @@ lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL
 
     }
     x = merge_and_update(x, window_size, nr)
-  } else {
-    # stop("window option is not implemented for stars_proxy yet")
-
-    window_ids = seq_len(nrow(window))
-    threshold = 1
-    x = lapply(window_ids, get_window_single_proxy, x = x, type = type, window = window,
-               window_size = window_size, window_shift = window_shift,
-               neighbourhood = neighbourhood, threshold = threshold, ordered = ordered, repeated = repeated,
-               normalization = normalization, wecoma_fun = wecoma_fun, wecoma_na_action = wecoma_na_action,
-               classes = classes)
-    x = do.call(rbind, x)
-
-  }
-
-  if (!is.function(type)){
-    if (type == "cove"){
-      x$signature = lapply(x$signature,
-                           comat::get_cove,
-                           ordered = ordered,
-                           normalization = normalization)
-    } else if (type == "cocove"){
-      x$signature = lapply(x$signature,
-                           comat::get_cocove,
-                           ordered = ordered,
-                           normalization = normalization)
-    } else if (type == "wecove"){
-      x$signature = lapply(x$signature,
-                           comat::get_wecove,
-                           ordered = ordered,
-                           normalization = normalization)
-    } else if (type == "incove"){
-      x$signature = lapply(x$signature,
-                           comat::get_incove,
-                           ordered = ordered,
-                           repeated = repeated,
-                           normalization = normalization)
+    if (!is.function(type)){
+      if (type == "cove"){
+        x$signature = lapply(x$signature,
+                             comat::get_cove,
+                             ordered = ordered,
+                             normalization = normalization)
+      } else if (type == "cocove"){
+        x$signature = lapply(x$signature,
+                             comat::get_cocove,
+                             ordered = ordered,
+                             normalization = normalization)
+      } else if (type == "wecove"){
+        x$signature = lapply(x$signature,
+                             comat::get_wecove,
+                             ordered = ordered,
+                             normalization = normalization)
+      } else if (type == "incove"){
+        x$signature = lapply(x$signature,
+                             comat::get_incove,
+                             ordered = ordered,
+                             repeated = repeated,
+                             normalization = normalization)
+      }
     }
+  } else {
+      # stop("window option is not implemented for stars_proxy yet")
+
+      window_ids = seq_len(nrow(window))
+      threshold = 1
+      x = lapply(window_ids, get_window_single_proxy, x = x, type = type, window = window,
+                 window_size = window_size, window_shift = window_shift,
+                 neighbourhood = neighbourhood, threshold = threshold, ordered = ordered, repeated = repeated,
+                 normalization = normalization, wecoma_fun = wecoma_fun, wecoma_na_action = wecoma_na_action,
+                 classes = classes)
+      x = do.call(rbind, x)
   }
 
   # add spatial metadata
