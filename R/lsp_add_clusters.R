@@ -19,7 +19,7 @@
 #' plot(lc_grid["clust"], col = carto_pal(12, "Safe"))
 #'
 #' @export
-lsp_add_clusters = function(x, clust, output){
+lsp_add_clusters = function(x, clust, output = "stars"){
   x$clust = clust
   if (output == "stars"){
     x = lsp_add_stars(x)
