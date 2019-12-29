@@ -56,8 +56,8 @@ s7 = lsp_search(lf_ext, lfp, type = "cove",
 s8 = lsp_search(lc_ext, lcp, type = "cove",
                 dist_fun = "jensen-shannon", threshold = 1, window = ecoregions["id"])
 
-all.equal(s6, s8)
-bench::mark(lsp_search(lf_ext, lf, type = "cove",
-                       dist_fun = "jensen-shannon", threshold = 0.5, window_size = 250),
-            lsp_search(lf_ext, lfp, type = "cove",
-                       dist_fun = "jensen-shannon", threshold = 0.5, window_size = 250))
+# all.equal(s6, s8)
+# bench::mark(lsp_search(lf_ext, lf, type = "cove",
+#                        dist_fun = "jensen-shannon", threshold = 0.5, window_size = 250),
+#             lsp_search(lf_ext, lfp, type = "cove",
+#                        dist_fun = "jensen-shannon", threshold = 0.5, window_size = 250))
