@@ -35,3 +35,4 @@ merge_and_update = function(result, window_size, nr){
   result = do.call(rbind, result)
   result
 }
+

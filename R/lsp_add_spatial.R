@@ -81,22 +81,30 @@ lsp_add_stars.lsp = function(x = NULL, window = NULL, window_size = NULL, window
                            x_delta_row = metadata$delta_y, x_delta_col = metadata$delta_x,
                            window_shift = metadata$window_shift)
 
-  true_dim = dim(output_stars$id)
-  matched_ids = match(output_stars$id, x$id)
+  output_stars = join_stars(output_stars, x, by = "id")
+
+  return(output_stars)
+}
+
+join_stars = function(stars, df, by){
+  true_dim = dim(stars[[by]])
+  matched_ids = match(stars[[by]], df[[by]])
   # matched_ids = matched_ids[-1]
 
-  for (i in 2:ncol(x)){
-    selected_colnames = colnames(x)[i]
-    selected_vals = x[[selected_colnames]][matched_ids]
+  nonid_colnames = colnames(df)[-which(colnames(df) == by)]
+
+  for (i in seq_along(nonid_colnames)){
+    selected_colnames = nonid_colnames[i]
+    selected_vals = df[[selected_colnames]][matched_ids]
     if (inherits(selected_vals, "list")){
       warning("Column ", selected_colnames, " is of a list class and will be dropped from the output object.",
-      call. = FALSE)
+              call. = FALSE)
     } else {
-      output_stars[[selected_colnames]] = selected_vals
-      dim(output_stars[[selected_colnames]]) = true_dim
+      stars[[selected_colnames]] = selected_vals
+      dim(stars[[selected_colnames]]) = true_dim
     }
   }
-  return(output_stars)
+  return(stars)
 }
 
 
