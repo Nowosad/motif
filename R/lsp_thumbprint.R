@@ -1,18 +1,34 @@
-#' Title
+#' Creates a spatial signature
 #'
-#' @param x
-#' @param type
-#' @param neighbourhood
-#' @param window_size
-#' @param window_shift
-#' @param threshold
-#' @param ordered
-#' @param repeated
-#' @param normalization
-#' @param fun
-#' @param na_action
+#' EXPAND
 #'
-#' @return
+#' @param x Object of class `stars`. EXPAND
+#' @param type Type of the calculated signature. It can be `"coma"` (co-occurrence matrix), `"cove"` (co-occurrence vector), `"cocoma"` (co-located co-occurrence matrix), `"cocove"` (co-located co-occurrence vector), `"wecoma"` (weighted co-occurrence matrix), `"wecove"` (weighted co-occurrence vector), `"incoma"` (integrated co-occurrence matrix), `"incove"` (integrated co-occurrence vector), or any function that can summarize `stars` objects.
+#' @param window Specifies areas for analysis. Either `window` or `window_size` argument can be used. Object of class `sf` with one attribute (otherwise the first attibute is used as an id).
+#' @param window_size Specifies areas for analysis. Either `window` or `window_size` argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If `size=NULL` calculations are performed for a whole area.
+#' @param window_shift Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift < size - results in the grid of overlapping square windows.
+#' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
+#' 4 (rook's case) or 8 (queen's case). The default is 4.
+#' @param threshold The share of NA cells to allow metrics calculation.
+#' @param ordered The type of pairs considered.
+#' Either "ordered" (TRUE) or "unordered" (FALSE).
+#' The default is TRUE.
+#' @param repeated Should the repeated co-located co-occurrence matrices be used?
+#' Either "ordered" (TRUE) or "unordered" (FALSE).
+#' The default is TRUE.
+#' @param normalization Should the output vector be normalized?
+#' Either "none" or "pdf".
+#' The "pdf" option normalizes a vector to sum to one.
+#' The default is "none".
+#' @param wecoma_fun Function to calculate values from adjacent cells to contribute to exposure matrix, `"mean"` - calculate average values of local population densities from adjacent cells, `"geometric_mean"` - calculate geometric mean values of local population densities from adjacent cells, or `"focal"` assign value from the focal cell
+#' @param wecoma_na_action Decides on how to behave in the presence of missing values in `w`. Possible options are `"replace"`, `"omit"`, `"keep"`. The default, `"replace"`, replaces missing values with 0, `"omit"` does not use cells with missing values, and `"keep"` keeps missing values.
+#' @param classes Which classes (categories) should be analyzed? This parameter expects a list of the same lenght as the numer of attributes in `x`, where each element of the list contains integer vector. The default is `NULL`, which means that the classes are calculated directly from the input data and all of them are used in the calculations.
+#'
+#' @return Object of class `lsp`.
+#' It has three columns: (1) `id` - an id of each window.
+#' For irregular windows, it is the values provided in the `window` argument,
+#' (2) `na_prop` - a share (0-1) of `NA` cells for each window,
+#' (3) `signature` - a list-column containing with calculated signatures
 #' @export
 #'
 #' @examples
@@ -41,9 +57,9 @@ lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
 #' @name lsp_thumbprint
 #' @export
 lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
-                          neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
-                          normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
-                          classes = NULL){
+                                neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
+                                normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
+                                classes = NULL){
 
 
   x_crs = sf::st_crs(x)
@@ -61,7 +77,7 @@ lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, wind
   } else {
     # check for one column
     window = stars::st_rasterize(window[1],
-                           template = stars::st_as_stars(sf::st_bbox(x), values = NA_integer_, dx = x_delta_row, dy = x_delta_col))
+                                 template = stars::st_as_stars(sf::st_bbox(x), values = NA_integer_, dx = x_delta_row, dy = x_delta_col))
     window = lapply(window, function(x) `mode<-`(x, "integer"))
   }
 
@@ -200,9 +216,9 @@ lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, wind
 #' @name lsp_thumbprint
 #' @export
 lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
-                                neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
-                                normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
-                                classes = NULL){
+                                      neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
+                                      normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
+                                      classes = NULL){
 
   x_crs = sf::st_crs(x)
   x_bb = sf::st_bbox(x)
@@ -331,16 +347,16 @@ lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL
       }
     }
   } else {
-      # stop("window option is not implemented for stars_proxy yet")
+    # stop("window option is not implemented for stars_proxy yet")
 
-      window_ids = seq_len(nrow(window))
-      threshold = 1
-      x = lapply(window_ids, get_window_single_proxy, x = x, type = type, window = window,
-                 window_size = window_size, window_shift = window_shift,
-                 neighbourhood = neighbourhood, threshold = threshold, ordered = ordered, repeated = repeated,
-                 normalization = normalization, wecoma_fun = wecoma_fun, wecoma_na_action = wecoma_na_action,
-                 classes = classes)
-      x = do.call(rbind, x)
+    window_ids = seq_len(nrow(window))
+    threshold = 1
+    x = lapply(window_ids, get_window_single_proxy, x = x, type = type, window = window,
+               window_size = window_size, window_shift = window_shift,
+               neighbourhood = neighbourhood, threshold = threshold, ordered = ordered, repeated = repeated,
+               normalization = normalization, wecoma_fun = wecoma_fun, wecoma_na_action = wecoma_na_action,
+               classes = classes)
+    x = do.call(rbind, x)
   }
 
   # add spatial metadata
