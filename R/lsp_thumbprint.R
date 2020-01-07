@@ -1,8 +1,8 @@
 #' Creates a spatial signature
 #'
-#' EXPAND
+#' Calculates selected spatial signatures based on categorical raster data. It allows also for calculations for any defined regular and irregular areas. It has several build-in signatures, but also allows for any user-defined functions.
 #'
-#' @param x Object of class `stars`. EXPAND
+#' @param x Object of class `stars` or `stars_proxy`. It should have one attribute (for `"coma"`, `"cove"`), two attributes (`"cocoma"`, `"cocove"`, `"wecoma"`, `"wecove"`), two or more attributes (`"incoma"`, `"incove"`), or any number of attrubutes suitable for user-defined functions.
 #' @param type Type of the calculated signature. It can be `"coma"` (co-occurrence matrix), `"cove"` (co-occurrence vector), `"cocoma"` (co-located co-occurrence matrix), `"cocove"` (co-located co-occurrence vector), `"wecoma"` (weighted co-occurrence matrix), `"wecove"` (weighted co-occurrence vector), `"incoma"` (integrated co-occurrence matrix), `"incove"` (integrated co-occurrence vector), or any function that can summarize `stars` objects.
 #' @param window Specifies areas for analysis. Either `window` or `window_size` argument can be used. Object of class `sf` with one attribute (otherwise the first attibute is used as an id).
 #' @param window_size Specifies areas for analysis. Either `window` or `window_size` argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If `size=NULL` calculations are performed for a whole area.
