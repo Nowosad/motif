@@ -1,10 +1,12 @@
 #' Title
 #'
-#' @param x
+#' EXPAND
 #'
-#' @param window
-#' @param window_size
-#' @param window_shift
+#' @param x Object of class `stars` or `lsp`.
+#' For `stars`, `window` or `window_size` can be used.
+#' @param window Specifies areas for analysis. Either `window` or `window_size` argument can be used. Object of class `sf` with one attribute (otherwise the first attibute is used as an id).
+#' @param window_size Specifies areas for analysis. Either `window` or `window_size` argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If `size=NULL` calculations are performed for a whole area.
+#' @param window_shift Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift < size - results in the grid of overlapping square windows.
 #'
 #' @examples
 #' library(stars)
