@@ -3,8 +3,18 @@
 #' @param x
 #' @param y
 #' @param type
-#' @param normalization
 #' @param dist_fun
+#' @param window
+#' @param window_size
+#' @param window_shift
+#' @param neighbourhood
+#' @param threshold
+#' @param ordered
+#' @param repeated
+#' @param normalization
+#' @param wecoma_fun
+#' @param wecoma_na_action
+#' @param ...
 #'
 #' @return
 #' @export
@@ -41,6 +51,8 @@ lsp_search = function(x, y, type, dist_fun, window = NULL, window_size = NULL, w
                       neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                       normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...) UseMethod("lsp_search")
 
+
+#'
 #' @name lsp_search
 #' @export
 lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = NULL, window_shift = NULL,
