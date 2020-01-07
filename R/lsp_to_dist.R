@@ -1,8 +1,8 @@
-#' Calculate Distance Matrix on COMA
+#' Calculate Distance Matrix
 #'
-#' Calculates a distance matrix based on an object of class `cove`, `cocove`, `wecove`, or `incove`
+#' Calculates a distance matrix based on an object of class `lsp`,
 #'
-#' @param x An object of class `cove`, `cocove`, `wecove`, or `incove`
+#' @param x An object of class `lsp`.
 #' @param dist_fun A distance/dissimilarity method used. All possible values can be found using
 #' the [philentropy::getDistMethods()] function
 #' @param unit A character string specifying the logarithm unit that should be used to
