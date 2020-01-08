@@ -10,10 +10,10 @@
 #' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
 #' 4 (rook's case) or 8 (queen's case). The default is 4.
 #' @param threshold The share of NA cells to allow metrics calculation.
-#' @param ordered The type of pairs considered.
+#' @param ordered For `"cove"`, `"cocove"`, `"wecove"` and `"incove"` only. The type of pairs considered.
 #' Either "ordered" (TRUE) or "unordered" (FALSE).
 #' The default is TRUE.
-#' @param repeated Should the repeated co-located co-occurrence matrices be used?
+#' @param repeated For `"incove"` only. Should the repeated co-located co-occurrence matrices be used?
 #' Either "ordered" (TRUE) or "unordered" (FALSE).
 #' The default is TRUE.
 #' @param normalization For `"cove"`, `"cocove"`, `"wecove"` and `"incove"` only. Should the output vector be normalized?
