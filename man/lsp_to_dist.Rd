@@ -2,12 +2,12 @@
 % Please edit documentation in R/lsp_to_dist.R
 \name{lsp_to_dist}
 \alias{lsp_to_dist}
-\title{Calculate Distance Matrix on COMA}
+\title{Calculate Distance Matrix}
 \usage{
 lsp_to_dist(x, dist_fun, unit = "log2", p = NULL)
 }
 \arguments{
-\item{x}{An object of class \code{cove}, \code{cocove}, \code{wecove}, or \code{incove}}
+\item{x}{An object of class \code{lsp}.}
 
 \item{dist_fun}{A distance/dissimilarity method used. All possible values can be found using
 the \code{\link[philentropy:getDistMethods]{philentropy::getDistMethods()}} function}
@@ -22,7 +22,7 @@ The default is \code{"log"}.}
 An object of class `"dist"``
 }
 \description{
-Calculates a distance matrix based on an object of class \code{cove}, \code{cocove}, \code{wecove}, or \code{incove}
+Calculates a distance matrix based on an object of class \code{lsp},
 }
 \examples{
 library(comat)

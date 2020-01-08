@@ -4,7 +4,7 @@
 \alias{lsp_compare}
 \alias{lsp_compare.stars}
 \alias{lsp_compare.stars_proxy}
-\title{Title}
+\title{Comparision between spatial patterns}
 \usage{
 lsp_compare(
   x,
@@ -61,13 +61,55 @@ lsp_compare(
 )
 }
 \arguments{
-\item{wecoma_na_action}{}
+\item{x}{Object of class \code{stars} or \code{stars_proxy}. It should have one attribute (for \code{"coma"}, \code{"cove"}), two attributes (\code{"cocoma"}, \code{"cocove"}, \code{"wecoma"}, \code{"wecove"}), two or more attributes (\code{"incoma"}, \code{"incove"}), or any number of attributes suitable for user-defined functions.}
+
+\item{y}{Object of class \code{stars} or \code{stars_proxy}. It should have one attribute (for \code{"coma"}, \code{"cove"}), two attributes (\code{"cocoma"}, \code{"cocove"}, \code{"wecoma"}, \code{"wecove"}), two or more attributes (\code{"incoma"}, \code{"incove"}), or any number of attributes suitable for user-defined functions.}
+
+\item{type}{Type of the calculated signature. It can be \code{"coma"} (co-occurrence matrix), \code{"cove"} (co-occurrence vector), \code{"cocoma"} (co-located co-occurrence matrix), \code{"cocove"} (co-located co-occurrence vector), \code{"wecoma"} (weighted co-occurrence matrix), \code{"wecove"} (weighted co-occurrence vector), \code{"incoma"} (integrated co-occurrence matrix), \code{"incove"} (integrated co-occurrence vector), or any function that can summarize \code{stars} objects.}
+
+\item{dist_fun}{Distance measure used. This function uses the \code{philentropy::distance} function in the background. Run \code{philentropy::getDistMethods()} to find possible distance measures.}
+
+\item{window}{Specifies areas for analysis. Either \code{window} or \code{window_size} argument can be used. An object of class \code{sf} with one attribute (otherwise, the first attribute is used as an id).}
+
+\item{window_size}{Specifies areas for analysis. Either \code{window} or \code{window_size} argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If \code{size=NULL} calculations are performed for a whole area.}
+
+\item{window_shift}{Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift < size - results in the grid of overlapping square windows.}
+
+\item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
+4 (rook's case) or 8 (queen's case). The default is 4.}
+
+\item{threshold}{The share of NA cells to allow metrics calculation.}
+
+\item{ordered}{For \code{"cove"}, \code{"cocove"}, \code{"wecove"} and \code{"incove"} only. The type of pairs considered.
+Either "ordered" (TRUE) or "unordered" (FALSE).
+The default is TRUE.}
+
+\item{repeated}{For \code{"incove"} only. Should the repeated co-located co-occurrence matrices be used?
+Either "ordered" (TRUE) or "unordered" (FALSE).
+The default is TRUE.}
+
+\item{normalization}{For \code{"cove"}, \code{"cocove"}, \code{"wecove"} and \code{"incove"} only. Should the output vector be normalized?
+Either "none" or "pdf".
+The "pdf" option normalizes a vector to sum to one.
+The default is "none".}
+
+\item{wecoma_fun}{For \code{"wecoma"} and \code{"wecove"} only. Function to calculate values from adjacent cells to contribute to exposure matrix, \code{"mean"} - calculate average values of local population densities from adjacent cells, \code{"geometric_mean"} - calculate geometric mean values of local population densities from adjacent cells, or \code{"focal"} assign a value from the focal cell}
+
+\item{wecoma_na_action}{For \code{"wecoma"} and \code{"wecove"} only. Decides on how to behave in the presence of missing values in \code{w}. Possible options are \code{"replace"}, \code{"omit"}, \code{"keep"}. The default, \code{"replace"}, replaces missing values with 0, \code{"omit"} does not use cells with missing values, and \code{"keep"} keeps missing values.}
+
+\item{...}{Additional arguments for the \code{philentropy::distance} function.}
 }
 \value{
-
+Object of class \code{stars}.
+It has four attributes:
+(1) \code{id} - an id of each window.
+For irregular windows, it is the values provided in the \code{window} argument,
+(2) \code{na_prop_x} - share (0-1) of \code{NA} cells for each window in the \code{x} object,
+(3) \code{na_prop_y} - share (0-1) of \code{NA} cells for each window in the \code{y} object,
+(4) \code{dist}- calculated distance between signatures for each window
 }
 \description{
-Title
+Compares two spatial objects containing categorical raster data.
 }
 \examples{
 library(stars)
