@@ -1,21 +1,39 @@
-#' Title
+#' Comparision between spatial patterns
 #'
-#' @param x
-#' @param y
-#' @param type
-#' @param dist_fun
-#' @param window
-#' @param window_size
-#' @param window_shift
-#' @param neighbourhood
-#' @param threshold
-#' @param ordered
-#' @param repeated
-#' @param normalization
-#' @param wecoma_fun
-#' @param wecoma_na_action
+#' Compares two spatial objects containing categorical raster data.
 #'
-#' @return
+#' @param x Object of class `stars` or `stars_proxy`. It should have one attribute (for `"coma"`, `"cove"`), two attributes (`"cocoma"`, `"cocove"`, `"wecoma"`, `"wecove"`), two or more attributes (`"incoma"`, `"incove"`), or any number of attributes suitable for user-defined functions.
+#' @param y Object of class `stars` or `stars_proxy`. It should have one attribute (for `"coma"`, `"cove"`), two attributes (`"cocoma"`, `"cocove"`, `"wecoma"`, `"wecove"`), two or more attributes (`"incoma"`, `"incove"`), or any number of attributes suitable for user-defined functions.
+#' @param type Type of the calculated signature. It can be `"coma"` (co-occurrence matrix), `"cove"` (co-occurrence vector), `"cocoma"` (co-located co-occurrence matrix), `"cocove"` (co-located co-occurrence vector), `"wecoma"` (weighted co-occurrence matrix), `"wecove"` (weighted co-occurrence vector), `"incoma"` (integrated co-occurrence matrix), `"incove"` (integrated co-occurrence vector), or any function that can summarize `stars` objects.
+#' @param dist_fun Distance measure used. This function uses the `philentropy::distance` function in the background. Run `philentropy::getDistMethods()` to find possible distance measures.
+#' @param window Specifies areas for analysis. Either `window` or `window_size` argument can be used. An object of class `sf` with one attribute (otherwise, the first attribute is used as an id).
+#' @param window_size Specifies areas for analysis. Either `window` or `window_size` argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If `size=NULL` calculations are performed for a whole area.
+#' @param window_shift Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift < size - results in the grid of overlapping square windows.
+#' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
+#' 4 (rook's case) or 8 (queen's case). The default is 4.
+#' @param threshold The share of NA cells to allow metrics calculation.
+#' @param ordered For `"cove"`, `"cocove"`, `"wecove"` and `"incove"` only. The type of pairs considered.
+#' Either "ordered" (TRUE) or "unordered" (FALSE).
+#' The default is TRUE.
+#' @param repeated For `"incove"` only. Should the repeated co-located co-occurrence matrices be used?
+#' Either "ordered" (TRUE) or "unordered" (FALSE).
+#' The default is TRUE.
+#' @param normalization For `"cove"`, `"cocove"`, `"wecove"` and `"incove"` only. Should the output vector be normalized?
+#' Either "none" or "pdf".
+#' The "pdf" option normalizes a vector to sum to one.
+#' The default is "none".
+#' @param wecoma_fun For `"wecoma"` and `"wecove"` only. Function to calculate values from adjacent cells to contribute to exposure matrix, `"mean"` - calculate average values of local population densities from adjacent cells, `"geometric_mean"` - calculate geometric mean values of local population densities from adjacent cells, or `"focal"` assign a value from the focal cell
+#' @param wecoma_na_action For `"wecoma"` and `"wecove"` only. Decides on how to behave in the presence of missing values in `w`. Possible options are `"replace"`, `"omit"`, `"keep"`. The default, `"replace"`, replaces missing values with 0, `"omit"` does not use cells with missing values, and `"keep"` keeps missing values.
+#' @param ... Additional arguments for the `philentropy::distance` function.
+#'
+#' @return Object of class `stars`.
+#' It has four attributes:
+#' (1) `id` - an id of each window.
+#' For irregular windows, it is the values provided in the `window` argument,
+#' (2) `na_prop_x` - share (0-1) of `NA` cells for each window in the `x` object,
+#' (3) `na_prop_y` - share (0-1) of `NA` cells for each window in the `y` object,
+#' (4) `dist`- calculated distance between signatures for each window
+#'
 #' @export
 #'
 #' @examples
