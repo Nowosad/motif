@@ -5,8 +5,12 @@ create_attributes <- function(x) {
     .Call(`_motif_create_attributes`, x)
 }
 
-get_composition <- function(x, classes) {
-    .Call(`_motif_get_composition`, x, classes)
+get_composition <- function(x) {
+    .Call(`_motif_get_composition`, x)
+}
+
+get_composition_list <- function(x) {
+    .Call(`_motif_get_composition_list`, x)
 }
 
 get_motifel_size <- function(num_r, num_c, shift) {

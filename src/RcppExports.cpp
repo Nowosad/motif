@@ -18,14 +18,24 @@ BEGIN_RCPP
 END_RCPP
 }
 // get_composition
-IntegerVector get_composition(const IntegerMatrix& x, std::vector<int> classes);
-RcppExport SEXP _motif_get_composition(SEXP xSEXP, SEXP classesSEXP) {
+IntegerVector get_composition(const IntegerMatrix& x);
+RcppExport SEXP _motif_get_composition(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const IntegerMatrix& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< std::vector<int> >::type classes(classesSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_composition(x, classes));
+    rcpp_result_gen = Rcpp::wrap(get_composition(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_composition_list
+IntegerVector get_composition_list(List x);
+RcppExport SEXP _motif_get_composition_list(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_composition_list(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -257,7 +267,8 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_motif_create_attributes", (DL_FUNC) &_motif_create_attributes, 1},
-    {"_motif_get_composition", (DL_FUNC) &_motif_get_composition, 2},
+    {"_motif_get_composition", (DL_FUNC) &_motif_get_composition, 1},
+    {"_motif_get_composition_list", (DL_FUNC) &_motif_get_composition_list, 1},
     {"_motif_get_motifel_size", (DL_FUNC) &_motif_get_motifel_size, 3},
     {"_motif_get_motifels_cocoma", (DL_FUNC) &_motif_get_motifels_cocoma, 7},
     {"_motif_get_motifels_coma", (DL_FUNC) &_motif_get_motifels_coma, 6},

@@ -37,6 +37,15 @@ IntegerVector get_composition(const IntegerMatrix& x){
 
   return v;
 }
+
+// [[Rcpp::export]]
+IntegerVector get_composition_list(List x){
+  if (x.size() > 1){
+    warning("Composition is calculated for the first layer only");
+  }
+  IntegerMatrix m = x(0);
+  return get_composition(m);
+}
 //
 // // [[Rcpp::export]]
 // IntegerVector rcpp_get_composition_vector(const Rcpp::NumericVector & x)
@@ -52,5 +61,6 @@ new_m = as.matrix(new_r)
 classes = motif:::get_unique_values(new_m, TRUE)
 aaa = get_composition(new_m)
 aaa
+get_composition_list(list(new_m))
 # rcpp_get_composition_vector(new_m)
 */
