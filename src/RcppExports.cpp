@@ -18,24 +18,26 @@ BEGIN_RCPP
 END_RCPP
 }
 // get_composition
-IntegerVector get_composition(const IntegerMatrix& x);
-RcppExport SEXP _motif_get_composition(SEXP xSEXP) {
+IntegerVector get_composition(const IntegerMatrix& x, std::vector<int> classes);
+RcppExport SEXP _motif_get_composition(SEXP xSEXP, SEXP classesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const IntegerMatrix& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_composition(x));
+    Rcpp::traits::input_parameter< std::vector<int> >::type classes(classesSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_composition(x, classes));
     return rcpp_result_gen;
 END_RCPP
 }
 // get_composition_list
-IntegerVector get_composition_list(List x);
-RcppExport SEXP _motif_get_composition_list(SEXP xSEXP) {
+IntegerVector get_composition_list(List x, std::vector<int> classes);
+RcppExport SEXP _motif_get_composition_list(SEXP xSEXP, SEXP classesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< List >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_composition_list(x));
+    Rcpp::traits::input_parameter< std::vector<int> >::type classes(classesSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_composition_list(x, classes));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -82,6 +84,21 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP);
     Rcpp::traits::input_parameter< List >::type classes(classesSEXP);
     rcpp_result_gen = Rcpp::wrap(get_motifels_coma(x, directions, size, shift, threshold, classes));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_motifels_composition
+List get_motifels_composition(IntegerMatrix x, int size, int shift, double threshold, List classes);
+RcppExport SEXP _motif_get_motifels_composition(SEXP xSEXP, SEXP sizeSEXP, SEXP shiftSEXP, SEXP thresholdSEXP, SEXP classesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type size(sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type shift(shiftSEXP);
+    Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP);
+    Rcpp::traits::input_parameter< List >::type classes(classesSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_motifels_composition(x, size, shift, threshold, classes));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -181,6 +198,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// get_polygons_composition
+List get_polygons_composition(const arma::imat& x, const arma::imat& m, double threshold, List classes);
+RcppExport SEXP _motif_get_polygons_composition(SEXP xSEXP, SEXP mSEXP, SEXP thresholdSEXP, SEXP classesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::imat& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::imat& >::type m(mSEXP);
+    Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP);
+    Rcpp::traits::input_parameter< List >::type classes(classesSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_polygons_composition(x, m, threshold, classes));
+    return rcpp_result_gen;
+END_RCPP
+}
 // get_polygons_fun
 List get_polygons_fun(const List input, const arma::imat& m, Function f, double threshold, List classes);
 RcppExport SEXP _motif_get_polygons_fun(SEXP inputSEXP, SEXP mSEXP, SEXP fSEXP, SEXP thresholdSEXP, SEXP classesSEXP) {
@@ -267,17 +298,19 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_motif_create_attributes", (DL_FUNC) &_motif_create_attributes, 1},
-    {"_motif_get_composition", (DL_FUNC) &_motif_get_composition, 1},
-    {"_motif_get_composition_list", (DL_FUNC) &_motif_get_composition_list, 1},
+    {"_motif_get_composition", (DL_FUNC) &_motif_get_composition, 2},
+    {"_motif_get_composition_list", (DL_FUNC) &_motif_get_composition_list, 2},
     {"_motif_get_motifel_size", (DL_FUNC) &_motif_get_motifel_size, 3},
     {"_motif_get_motifels_cocoma", (DL_FUNC) &_motif_get_motifels_cocoma, 7},
     {"_motif_get_motifels_coma", (DL_FUNC) &_motif_get_motifels_coma, 6},
+    {"_motif_get_motifels_composition", (DL_FUNC) &_motif_get_motifels_composition, 5},
     {"_motif_get_motifels_fun", (DL_FUNC) &_motif_get_motifels_fun, 6},
     {"_motif_get_motifels_ids", (DL_FUNC) &_motif_get_motifels_ids, 4},
     {"_motif_get_motifels_incoma", (DL_FUNC) &_motif_get_motifels_incoma, 6},
     {"_motif_get_motifels_wecoma", (DL_FUNC) &_motif_get_motifels_wecoma, 9},
     {"_motif_get_polygons_cocoma", (DL_FUNC) &_motif_get_polygons_cocoma, 6},
     {"_motif_get_polygons_coma", (DL_FUNC) &_motif_get_polygons_coma, 5},
+    {"_motif_get_polygons_composition", (DL_FUNC) &_motif_get_polygons_composition, 4},
     {"_motif_get_polygons_fun", (DL_FUNC) &_motif_get_polygons_fun, 5},
     {"_motif_get_polygons_incoma", (DL_FUNC) &_motif_get_polygons_incoma, 5},
     {"_motif_get_polygons_wecoma", (DL_FUNC) &_motif_get_polygons_wecoma, 8},

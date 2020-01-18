@@ -1,9 +1,4 @@
-#include <RcppArmadillo.h>
-#include "get_unique_values.h"
-#include <vector>
-#include <map>
-
-using namespace Rcpp;
+#include "get_composition.h"
 
 std::map<int, unsigned> get_class_index_map(const std::vector<int> &classes)
 {
@@ -15,9 +10,9 @@ std::map<int, unsigned> get_class_index_map(const std::vector<int> &classes)
 }
 
 // [[Rcpp::export]]
-IntegerVector get_composition(const IntegerMatrix& x){
+IntegerVector get_composition(const IntegerMatrix& x, std::vector<int> classes){
 
-  std::vector<int> classes = get_unique_values(x, true);
+  //std::vector<int> classes = get_unique_values(x, true);
 
   const std::map<int, unsigned> class_index = get_class_index_map(classes);
 
@@ -39,12 +34,12 @@ IntegerVector get_composition(const IntegerMatrix& x){
 }
 
 // [[Rcpp::export]]
-IntegerVector get_composition_list(List x){
+IntegerVector get_composition_list(List x, std::vector<int> classes){
   if (x.size() > 1){
     warning("Composition is calculated for the first layer only");
   }
   IntegerMatrix m = x(0);
-  return get_composition(m);
+  return get_composition(m, classes);
 }
 //
 // // [[Rcpp::export]]
@@ -59,8 +54,8 @@ new_r = raster(nrows = 3, ncols = 3, vals = c(rep(1, 7), NA, 3))
 plot(new_r)
 new_m = as.matrix(new_r)
 classes = motif:::get_unique_values(new_m, TRUE)
-aaa = get_composition(new_m)
+aaa = get_composition(new_m, classes)
 aaa
-get_composition_list(list(new_m))
+get_composition_list(list(new_m), classes)
 # rcpp_get_composition_vector(new_m)
 */

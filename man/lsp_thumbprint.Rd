@@ -110,11 +110,13 @@ landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"
 #plot(ecoregions["id"])
 
 lsp_thumbprint(landcover, type = "coma", threshold = 0.9)
+lsp_thumbprint(landcover, type = "composition", threshold = 0.9)
 #lsp_thumbprint(landcover, type = "cove", threshold = 0.9)
 #lsp_thumbprint(landcover, type = "cove", threshold = 0.9, classes = 10)
 #lsp_thumbprint(c(landcover, landform), type = "incove", threshold = 0.9)
 
 #lsp_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
+#lsp_thumbprint(landcover, type = "composition", window_size = 100, window_shift = 100, threshold = 0.9)
 
 #lsp_thumbprint(landcover, type = "coma", window = ecoregions["id"], threshold = 0.9)
 }

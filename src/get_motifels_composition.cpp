@@ -1,26 +1,18 @@
-#include <RcppArmadillo.h>
 #include <comat.h>
 // [[Rcpp::depends(comat)]]
 #include "create_attributes.h"
+#include "get_composition.h"
 #include "get_motifel_size.h"
 #include "na_prop.h"
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-List get_motifels_fun(const List input,
-                      int size,
-                      int shift,
-                      Function f,
-                      double threshold,
-                      List classes) {
+List get_motifels_composition(IntegerMatrix x,
+                       int size,
+                       int shift,
+                       double threshold,
+                       List classes) {
 
-  int num_l = input.length();
-  // List classes(num_l);
-  // for (int l = 0; l < num_l; l++){
-  //   classes(l) = comat::get_unique_values(input[l], true);
-  // }
-
-  IntegerMatrix x = input(0);
   const int num_r = x.nrow();
   const int num_c = x.ncol();
 
@@ -35,7 +27,6 @@ List get_motifels_fun(const List input,
   IntegerVector all_nr_of_motifels(nr_of_motifels);
   IntegerVector all_m_row(nr_of_motifels);
   IntegerVector all_m_col(nr_of_motifels);
-  NumericVector na_perc_all(num_l);
   NumericVector na_perc(nr_of_motifels);
 
   int nr_of_motifels2 = 0;
@@ -46,15 +37,13 @@ List get_motifels_fun(const List input,
     all_nr_of_motifels(0) = 1;
     all_m_row(0) = m_row;
     all_m_col(0) = m_col;
-    for (int l = 0; l < num_l; l++){
-      na_perc_all(l) = na_prop(input[l]);
-    }
-    na_perc[0] = mean(na_perc_all);
+    na_perc(0) = na_prop(x);
     if (na_perc(0) <= threshold){
-      result[0] = f(input);
+      result[0] = get_composition(x, classes(0));
     }
   } else {
-    List motifel_input(num_l);
+
+    // IntegerMatrix motifel_x;
 
     for (int j = 0; j < num_c; j = j + shift){
       for (int i = 0; i < num_r; i = i + shift){
@@ -70,17 +59,12 @@ List get_motifels_fun(const List input,
         if (j_max >= num_c){
           j_max = num_c - 1;
         }
-        for (int l = 0; l < num_l; l++){
-          // IntegerMatrix layer_l;
-          IntegerMatrix layer_l = wrap(input(l));
-          motifel_input(l) = layer_l(Range(i, i_max), Range(j, j_max));
-          na_perc_all(l) = na_prop(motifel_input[l]);
-        }
+        IntegerMatrix motifel_x = x(Range(i, i_max), Range(j, j_max));
+        // Rcout << "The value of motifel_x : " << motifel_x << "\n";
 
-        na_perc[nr_of_motifels2] = mean(na_perc_all);
-
+        na_perc(nr_of_motifels2) = na_prop(motifel_x);
         if (na_perc(nr_of_motifels2) <= threshold){
-          result[nr_of_motifels2] = f(motifel_input);
+          result[nr_of_motifels2] = get_composition(motifel_x, classes(0));
         }
 
         nr_of_motifels2 ++;
@@ -103,26 +87,27 @@ List get_motifels_fun(const List input,
 
   CharacterVector my_class(2);
   my_class(0) = "list";
-  my_class(1) = "fun";
+  my_class(1) = "coma";
   df.attr("class") = my_class;
   return df;
 }
+
 
 /***R
 library(comat)
 library(raster)
 x = raster(system.file("raster/landcover2015.tif", package = "motif"))
 # plot(landcover)
-system.time({com2 = get_motifels_fun(as.matrix(x), f = fun2, size = 100, shift = 100, threshold = 0.9)})
 
-sum2 = function(x, na.rm = TRUE) sum(x, na.rm = TRUE)
+classes = list(motif:::get_unique_values(as.matrix(x), TRUE))
+
+system.time({com2 = get_motifels_composition(as.matrix(x), directions = matrix(4), size = 100, shift = 100, threshold = 0.9, classes = classes)})
 
 bench::mark(
-  com1 = get_motifels_fun(list(as.matrix(x)), f = sum, size = 100, shift = 100, threshold = 0.9, 3),
-  com2 = get_motifels_fun(list(as.matrix(x)), f = sum2, size = 100, shift = 100, threshold = 0.9, 1),
+  com12 = get_motifels_composition(as.matrix(x), directions = matrix(4), size = 100, shift = 100, threshold = 0.1, list(classes)),
+  com22 = get_motifels_composition(as.matrix(x), directions = matrix(4), size = 100, shift = 100, threshold = 0.5, list(classes)),
+  com32 = get_motifels_composition(as.matrix(x), directions = matrix(4), size = 100, shift = 100, threshold = 1, classes),
   check = FALSE
 )
 
-lsm_l_ent2 = function(x) landscapemetrics::lsm_l_ent(list(x))
-com3 = get_motifels_fun(as.matrix(x), f = lsm_l_ent2, size = 100, shift = 100, threshold = 0.9)
 */

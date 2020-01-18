@@ -5,12 +5,12 @@ create_attributes <- function(x) {
     .Call(`_motif_create_attributes`, x)
 }
 
-get_composition <- function(x) {
-    .Call(`_motif_get_composition`, x)
+get_composition <- function(x, classes) {
+    .Call(`_motif_get_composition`, x, classes)
 }
 
-get_composition_list <- function(x) {
-    .Call(`_motif_get_composition_list`, x)
+get_composition_list <- function(x, classes) {
+    .Call(`_motif_get_composition_list`, x, classes)
 }
 
 get_motifel_size <- function(num_r, num_c, shift) {
@@ -23,6 +23,10 @@ get_motifels_cocoma <- function(x, y, directions, size, shift, threshold, classe
 
 get_motifels_coma <- function(x, directions, size, shift, threshold, classes) {
     .Call(`_motif_get_motifels_coma`, x, directions, size, shift, threshold, classes)
+}
+
+get_motifels_composition <- function(x, size, shift, threshold, classes) {
+    .Call(`_motif_get_motifels_composition`, x, size, shift, threshold, classes)
 }
 
 get_motifels_fun <- function(input, size, shift, f, threshold, classes) {
@@ -47,6 +51,10 @@ get_polygons_cocoma <- function(x, y, m, directions, threshold, classes) {
 
 get_polygons_coma <- function(x, m, directions, threshold, classes) {
     .Call(`_motif_get_polygons_coma`, x, m, directions, threshold, classes)
+}
+
+get_polygons_composition <- function(x, m, threshold, classes) {
+    .Call(`_motif_get_polygons_composition`, x, m, threshold, classes)
 }
 
 get_polygons_fun <- function(input, m, f, threshold, classes) {

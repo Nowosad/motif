@@ -42,11 +42,13 @@
 #' #plot(ecoregions["id"])
 #'
 #' lsp_thumbprint(landcover, type = "coma", threshold = 0.9)
+#' lsp_thumbprint(landcover, type = "composition", threshold = 0.9)
 #' #lsp_thumbprint(landcover, type = "cove", threshold = 0.9)
 #' #lsp_thumbprint(landcover, type = "cove", threshold = 0.9, classes = 10)
 #' #lsp_thumbprint(c(landcover, landform), type = "incove", threshold = 0.9)
 #'
 #' #lsp_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
+#' #lsp_thumbprint(landcover, type = "composition", window_size = 100, window_shift = 100, threshold = 0.9)
 #'
 #' #lsp_thumbprint(landcover, type = "coma", window = ecoregions["id"], threshold = 0.9)
 lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
@@ -100,6 +102,13 @@ lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, wind
                            f = type,
                            threshold = threshold,
                            classes = classes)
+    } else if (type == "composition"){
+      #if (length(x) > 1) warning("Only the first layer will be used")
+      x = get_motifels_composition(x[[1]],
+                            size = window_size,
+                            shift = window_shift,
+                            threshold = threshold,
+                            classes = classes)
     } else if (type == "coma" || type == "cove"){
       x = get_motifels_coma(x[[1]],
                             directions = directions,
@@ -140,6 +149,12 @@ lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, wind
       x = get_polygons_fun(x,
                            m = window[[1]],
                            f = type,
+                           threshold = threshold,
+                           classes = classes)
+    } else if (type == "composition"){
+      if (length(x) > 1) warning("Only the first layer will be used")
+      x = get_polygons_composition(x[[1]],
+                           m = window[[1]],
                            threshold = threshold,
                            classes = classes)
     } else if (type == "coma" || type == "cove"){
@@ -263,6 +278,18 @@ lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL
                  window_size = window_size,
                  window_shift = window_shift,
                  f = type,
+                 threshold = threshold,
+                 classes = classes,
+                 nr = nr,
+                 nc = nc)
+
+    } else if (type == "composition"){
+
+      x = lapply(yoffs,
+                 get_motifels_composition_single_proxy,
+                 x,
+                 window_size = window_size,
+                 window_shift = window_shift,
                  threshold = threshold,
                  classes = classes,
                  nr = nr,
