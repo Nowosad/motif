@@ -116,7 +116,8 @@ lsp_thumbprint(landcover, type = "composition", threshold = 0.9)
 #lsp_thumbprint(c(landcover, landform), type = "incove", threshold = 0.9)
 
 #lsp_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
-#lsp_thumbprint(landcover, type = "composition", window_size = 100, window_shift = 100, threshold = 0.9)
+#lsp_thumbprint(landcover, type = "composition",
+     window_size = 100, window_shift = 100, threshold = 0.9)
 
 #lsp_thumbprint(landcover, type = "coma", window = ecoregions["id"], threshold = 0.9)
 }

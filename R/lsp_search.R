@@ -4,7 +4,7 @@
 #' It accepts a categorical raster dataset with one or more attributes, and compares it to the second (usually larger) dataset with the same attributes.
 #' The first dataset is either compared to a whole area, areas divided into regular windows (with the `window_size` argument), or areas divided into irregular windows (with the `window` argument) from the second dataset.
 #' This function allows for several types of comparisons using different representations of spatial patterns, including "coma" (co-occurrence matrix), "cove" (co-occurrence vector), "cocoma" (co-located co-occurrence matrix), "cocove" (co-located co-occurrence vector), "wecoma" (weighted co-occurrence matrix), "wecove" (weighted co-occurrence vector), "incoma" (integrated co-occurrence matrix), "incove" (integrated co-occurrence vector). These representations are created for both datasets, and next a distance between them is calculated using a selected measure from the `philentropy::distance` function.
-#' Additional parameters, such as neighbourhood or normalization type, are also available.
+#' Additional parameters, such as neighbourhood or normalization types, are also available.
 #'
 #' @param x Object of class `stars` or `stars_proxy`. It should have one attribute (for `"coma"`, `"cove"`), two attributes (`"cocoma"`, `"cocove"`, `"wecoma"`, `"wecove"`), two or more attributes (`"incoma"`, `"incove"`), or any number of attributes suitable for user-defined functions.
 #' @param y Object of class `stars` or `stars_proxy`. It should have one attribute (for `"coma"`, `"cove"`), two attributes (`"cocoma"`, `"cocove"`, `"wecoma"`, `"wecove"`), two or more attributes (`"incoma"`, `"incove"`), or any number of attributes suitable for user-defined functions.
