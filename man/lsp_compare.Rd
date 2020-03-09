@@ -109,7 +109,11 @@ For irregular windows, it is the values provided in the \code{window} argument,
 (4) \code{dist}- calculated distance between signatures for each window
 }
 \description{
-Compares two spatial objects containing categorical raster data.
+Compares two spatial datasets containing categorical raster data.
+It accepts a categorical raster dataset with one or more attributes, and compares it to the second dataset with the same attributes and dimensions.
+The both dataset are either compared to as whole areas, areas divided into regular windows (with the \code{window_size} argument), or areas divided into irregular windows (with the \code{window} argument).
+This function allows for several types of comparisons using different representations of spatial patterns, including "coma" (co-occurrence matrix), "cove" (co-occurrence vector), "cocoma" (co-located co-occurrence matrix), "cocove" (co-located co-occurrence vector), "wecoma" (weighted co-occurrence matrix), "wecove" (weighted co-occurrence vector), "incoma" (integrated co-occurrence matrix), "incove" (integrated co-occurrence vector). These representations are created for both datasets, and next a distance between them is calculated using a selected measure from the \code{philentropy::distance} function.
+Additional parameters, such as neighbourhood or normalization types, are also available.
 }
 \examples{
 library(stars)
