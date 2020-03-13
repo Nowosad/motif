@@ -89,7 +89,7 @@ lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, wind
   if (is.null(classes)){
     classes = lapply(x, get_unique_values, TRUE)
   }
-  if (inherits(classes, "integer")){
+  if (inherits(classes, "numeric") || inherits(classes, "integer")){
     classes = list(classes)
   }
 
@@ -262,7 +262,7 @@ lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL
                                       nr,
                                       nc)
   }
-  if (inherits(classes, "integer")){
+  if (inherits(classes, "numeric") || inherits(classes, "integer")){
     classes = list(classes)
   }
 
