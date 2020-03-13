@@ -17,6 +17,10 @@ get_motifel_size <- function(num_r, num_c, shift) {
     .Call(`_motif_get_motifel_size`, num_r, num_c, shift)
 }
 
+get_motifels <- function(input, type, directions, size, shift, f, threshold, classes, fun, na_action) {
+    .Call(`_motif_get_motifels`, input, type, directions, size, shift, f, threshold, classes, fun, na_action)
+}
+
 get_motifels_cocoma <- function(x, y, directions, size, shift, threshold, classes) {
     .Call(`_motif_get_motifels_cocoma`, x, y, directions, size, shift, threshold, classes)
 }
@@ -43,6 +47,10 @@ get_motifels_incoma <- function(input, directions, size, shift, threshold, class
 
 get_motifels_wecoma <- function(x, w, directions, size, shift, threshold, classes, fun, na_action) {
     .Call(`_motif_get_motifels_wecoma`, x, w, directions, size, shift, threshold, classes, fun, na_action)
+}
+
+get_polygons <- function(input, type, m, directions, threshold, fun, na_action, classes) {
+    .Call(`_motif_get_polygons`, input, type, m, directions, threshold, fun, na_action, classes)
 }
 
 get_polygons_cocoma <- function(x, y, m, directions, threshold, classes) {

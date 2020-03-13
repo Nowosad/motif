@@ -95,56 +95,40 @@ lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, wind
 
   directions = as.matrix(neighbourhood)
 
-  if (missing(window) || is.null(window)){
-    if (is.function(type)){
-      x = get_motifels_fun(x,
-                           size = window_size,
-                           shift = window_shift,
-                           f = type,
-                           threshold = threshold,
-                           classes = classes)
-    } else if (type == "composition"){
-      if (length(x) > 1) warning("Only the first layer will be used", call. = FALSE)
-      x = get_motifels_composition(x[[1]],
-                            size = window_size,
-                            shift = window_shift,
-                            threshold = threshold,
-                            classes = classes)
-    } else if (type == "coma" || type == "cove"){
-      x = get_motifels_coma(x[[1]],
-                            directions = directions,
-                            size = window_size,
-                            shift = window_shift,
-                            threshold = threshold,
-                            classes = classes)
-    } else if (type == "cocoma" || type == "cocove"){
-      x = get_motifels_cocoma(x[[1]],
-                              x[[2]],
-                              directions = directions,
-                              size = window_size,
-                              shift = window_shift,
-                              threshold = threshold,
-                              classes = classes)
-    } else if (type == "wecoma" || type == "wecove"){
-      x = get_motifels_wecoma(x = x[[1]],
-                              w = x[[2]],
-                              directions = directions,
-                              size = window_size,
-                              shift = window_shift,
-                              threshold = threshold,
-                              classes = classes,
-                              fun = wecoma_fun,
-                              na_action = wecoma_na_action)
-    } else if (type == "incoma" || type == "incove"){
-      x = get_motifels_incoma(x,
-                              directions = directions,
-                              size = window_size,
-                              shift = window_shift,
-                              threshold = threshold,
-                              classes = classes)
-    }
+  if (is.function(type)){
+    f = type; type = "fun"
   } else {
-    window = raster::as.matrix(window)
+    f = function(){}
+  }
+
+  if (type == "cove"){
+    type2 = type; type = "coma"
+  } else if (type == "cocove"){
+    type2 = type; type = "cocoma"
+  } else if (type == "wecove"){
+    type2 = type; type = "wecoma"
+  } else if (type == "incove"){
+    type2 = type; type = "incoma"
+  } else {
+    type2 = type
+  }
+
+  if (missing(window) || is.null(window)){
+    if (type == "composition" && length(x) > 1){
+      warning("Only the first layer will be used", call. = FALSE)
+    }
+    x = get_motifels(x,
+                     type = type,
+                     directions = directions,
+                     size = window_size,
+                     shift = window_shift,
+                     f = f,
+                     threshold = threshold,
+                     classes = classes,
+                     fun = wecoma_fun,
+                     na_action = wecoma_na_action)
+  } else {
+    # window = raster::as.matrix(window)
 
     if (is.function(type)){
       x = get_polygons_fun(x,
@@ -191,23 +175,23 @@ lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, wind
 
   x = tibble::as_tibble(x)
 
-  if (!is.function(type)){
-    if (type == "cove"){
+  if (!is.function(type2)){
+    if (type2 == "cove"){
       x$signature = lapply(x$signature,
                            comat::get_cove,
                            ordered = ordered,
                            normalization = normalization)
-    } else if (type == "cocove"){
+    } else if (type2 == "cocove"){
       x$signature = lapply(x$signature,
                            comat::get_cocove,
                            ordered = ordered,
                            normalization = normalization)
-    } else if (type == "wecove"){
+    } else if (type2 == "wecove"){
       x$signature = lapply(x$signature,
                            comat::get_wecove,
                            ordered = ordered,
                            normalization = normalization)
-    } else if (type == "incove"){
+    } else if (type2 == "incove"){
       x$signature = lapply(x$signature,
                            comat::get_incove,
                            ordered = ordered,

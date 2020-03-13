@@ -87,7 +87,7 @@ List get_motifels_composition(IntegerMatrix x,
 
   CharacterVector my_class(2);
   my_class(0) = "list";
-  my_class(1) = "coma";
+  my_class(1) = "composition";
   df.attr("class") = my_class;
   return df;
 }

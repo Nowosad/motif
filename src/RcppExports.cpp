@@ -54,6 +54,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// get_motifels
+List get_motifels(const List input, std::string type, const arma::imat directions, int size, int shift, Function f, double threshold, List classes, const std::string fun, const std::string na_action);
+RcppExport SEXP _motif_get_motifels(SEXP inputSEXP, SEXP typeSEXP, SEXP directionsSEXP, SEXP sizeSEXP, SEXP shiftSEXP, SEXP fSEXP, SEXP thresholdSEXP, SEXP classesSEXP, SEXP funSEXP, SEXP na_actionSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List >::type input(inputSEXP);
+    Rcpp::traits::input_parameter< std::string >::type type(typeSEXP);
+    Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
+    Rcpp::traits::input_parameter< int >::type size(sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type shift(shiftSEXP);
+    Rcpp::traits::input_parameter< Function >::type f(fSEXP);
+    Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP);
+    Rcpp::traits::input_parameter< List >::type classes(classesSEXP);
+    Rcpp::traits::input_parameter< const std::string >::type fun(funSEXP);
+    Rcpp::traits::input_parameter< const std::string >::type na_action(na_actionSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_motifels(input, type, directions, size, shift, f, threshold, classes, fun, na_action));
+    return rcpp_result_gen;
+END_RCPP
+}
 // get_motifels_cocoma
 List get_motifels_cocoma(IntegerMatrix x, IntegerMatrix y, const arma::imat directions, int size, int shift, double threshold, List classes);
 RcppExport SEXP _motif_get_motifels_cocoma(SEXP xSEXP, SEXP ySEXP, SEXP directionsSEXP, SEXP sizeSEXP, SEXP shiftSEXP, SEXP thresholdSEXP, SEXP classesSEXP) {
@@ -164,6 +184,24 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::string >::type fun(funSEXP);
     Rcpp::traits::input_parameter< const std::string >::type na_action(na_actionSEXP);
     rcpp_result_gen = Rcpp::wrap(get_motifels_wecoma(x, w, directions, size, shift, threshold, classes, fun, na_action));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_polygons
+List get_polygons(const List input, std::string type, const arma::imat& m, const arma::imat directions, double threshold, const std::string fun, const std::string na_action, List classes);
+RcppExport SEXP _motif_get_polygons(SEXP inputSEXP, SEXP typeSEXP, SEXP mSEXP, SEXP directionsSEXP, SEXP thresholdSEXP, SEXP funSEXP, SEXP na_actionSEXP, SEXP classesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List >::type input(inputSEXP);
+    Rcpp::traits::input_parameter< std::string >::type type(typeSEXP);
+    Rcpp::traits::input_parameter< const arma::imat& >::type m(mSEXP);
+    Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
+    Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP);
+    Rcpp::traits::input_parameter< const std::string >::type fun(funSEXP);
+    Rcpp::traits::input_parameter< const std::string >::type na_action(na_actionSEXP);
+    Rcpp::traits::input_parameter< List >::type classes(classesSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_polygons(input, type, m, directions, threshold, fun, na_action, classes));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -301,6 +339,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_motif_get_composition", (DL_FUNC) &_motif_get_composition, 2},
     {"_motif_get_composition_list", (DL_FUNC) &_motif_get_composition_list, 2},
     {"_motif_get_motifel_size", (DL_FUNC) &_motif_get_motifel_size, 3},
+    {"_motif_get_motifels", (DL_FUNC) &_motif_get_motifels, 10},
     {"_motif_get_motifels_cocoma", (DL_FUNC) &_motif_get_motifels_cocoma, 7},
     {"_motif_get_motifels_coma", (DL_FUNC) &_motif_get_motifels_coma, 6},
     {"_motif_get_motifels_composition", (DL_FUNC) &_motif_get_motifels_composition, 5},
@@ -308,6 +347,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_motif_get_motifels_ids", (DL_FUNC) &_motif_get_motifels_ids, 4},
     {"_motif_get_motifels_incoma", (DL_FUNC) &_motif_get_motifels_incoma, 6},
     {"_motif_get_motifels_wecoma", (DL_FUNC) &_motif_get_motifels_wecoma, 9},
+    {"_motif_get_polygons", (DL_FUNC) &_motif_get_polygons, 8},
     {"_motif_get_polygons_cocoma", (DL_FUNC) &_motif_get_polygons_cocoma, 6},
     {"_motif_get_polygons_coma", (DL_FUNC) &_motif_get_polygons_coma, 5},
     {"_motif_get_polygons_composition", (DL_FUNC) &_motif_get_polygons_composition, 4},
