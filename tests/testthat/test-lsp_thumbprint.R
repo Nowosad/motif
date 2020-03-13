@@ -18,6 +18,13 @@ result_wecove = lsp_thumbprint(c(landform, random_ndvi),
 result_incove = lsp_thumbprint(c(landcover, landform),
                                type = "incove", threshold = 0.9)
 
+
+test_that("tests composition", {
+  expect_warning({result_composition = lsp_thumbprint(c(landcover, landform),
+                                      type = "composition", threshold = 0.9)})
+  expect_equal(ncol(result_composition$signature[[1]]), length(unique(c(landcover$landcover2015.tif))))
+})
+
 test_that("the output structure is correct", {
   expect_equal(dim(result_coma), c(1, 3))
   expect_equal(dim(result_coma500), c(34, 3))

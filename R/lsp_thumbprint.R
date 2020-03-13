@@ -104,7 +104,7 @@ lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, wind
                            threshold = threshold,
                            classes = classes)
     } else if (type == "composition"){
-      if (length(x) > 1) warning("Only the first layer will be used")
+      if (length(x) > 1) warning("Only the first layer will be used", call. = FALSE)
       x = get_motifels_composition(x[[1]],
                             size = window_size,
                             shift = window_shift,
@@ -285,7 +285,7 @@ lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL
                  nc = nc)
 
     } else if (type == "composition"){
-      if (length(x) > 1) warning("Only the first layer will be used")
+      if (length(x) > 1) warning("Only the first layer will be used", call. = FALSE)
       x = lapply(yoffs,
                  get_motifels_composition_single_proxy,
                  x,
