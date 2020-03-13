@@ -17,6 +17,9 @@ result_wecove = lsp_thumbprint(c(landform, random_ndvi),
                                type = "wecove", threshold = 0.9)
 result_incove = lsp_thumbprint(c(landcover, landform),
                                type = "incove", threshold = 0.9)
+result_incove_p = lsp_thumbprint(c(landcover_p, landform_p),
+                               type = "incoma", threshold = 0.9,
+                               window_size = 500)
 my_fun = function(x){unlist(lapply(x, mean, na.rm = TRUE))}
 result_fun = lsp_thumbprint(landform, type = my_fun, threshold = 0.9)
 

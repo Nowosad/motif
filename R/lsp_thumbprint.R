@@ -252,87 +252,45 @@ lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL
 
   directions = as.matrix(neighbourhood)
 
+  if (is.function(type)){
+    f = type; type = "fun"
+  } else {
+    f = function(){}
+  }
+
+  if (type == "cove"){
+    type2 = type; type = "coma"
+  } else if (type == "cocove"){
+    type2 = type; type = "cocoma"
+  } else if (type == "wecove"){
+    type2 = type; type = "wecoma"
+  } else if (type == "incove"){
+    type2 = type; type = "incoma"
+  } else {
+    type2 = type
+  }
+
   if (missing(window) || is.null(window)){
-    yoffs = seq(1, nc, by = window_size)
-
-    if (is.function(type)){
-
-      x = lapply(yoffs,
-                 get_motifels_fun_single_proxy,
-                 x,
-                 window_size = window_size,
-                 window_shift = window_shift,
-                 f = type,
-                 threshold = threshold,
-                 classes = classes,
-                 nr = nr,
-                 nc = nc)
-
-    } else if (type == "composition"){
-      if (length(x) > 1) warning("Only the first layer will be used", call. = FALSE)
-      x = lapply(yoffs,
-                 get_motifels_composition_single_proxy,
-                 x,
-                 window_size = window_size,
-                 window_shift = window_shift,
-                 threshold = threshold,
-                 classes = classes,
-                 nr = nr,
-                 nc = nc)
-
-    } else if (type == "coma" || type == "cove"){
-
-      x = lapply(yoffs,
-                 get_motifels_coma_single_proxy,
-                 x[[1]],
-                 directions = directions,
-                 window_size = window_size,
-                 window_shift = window_shift,
-                 threshold = threshold,
-                 classes = classes,
-                 nr = nr,
-                 nc = nc)
-
-    } else if (type == "cocoma" || type == "cocove"){
-
-      x = lapply(yoffs,
-                 get_motifels_cocoma_single_proxy,
-                 x,
-                 directions = directions,
-                 window_size = window_size,
-                 window_shift = window_shift,
-                 threshold = threshold,
-                 classes = classes,
-                 nr = nr,
-                 nc = nc)
-
-    } else if (type == "wecoma" || type == "wecove"){
-
-      x = lapply(yoffs,
-                 get_motifels_wecoma_single_proxy,
-                 x,
-                 directions = directions,
-                 window_size = window_size,
-                 window_shift = window_shift,
-                 threshold = threshold,
-                 classes = classes,
-                 nr = nr,
-                 nc = nc)
-
-    } else if (type == "incoma" || type == "incove"){
-
-      x = lapply(yoffs,
-                 get_motifels_incoma_single_proxy,
-                 x,
-                 directions = directions,
-                 window_size = window_size,
-                 window_shift = window_shift,
-                 threshold = threshold,
-                 classes = classes,
-                 nr = nr,
-                 nc = nc)
-
+    if (type == "composition" && length(x) > 1){
+      warning("Only the first layer will be used", call. = FALSE)
     }
+
+    yoffs = seq(1, nc, by = window_size)
+    x = lapply(yoffs,
+               FUN = get_motifels_single_proxy,
+               x_path = x,
+               type = type,
+               directions = directions,
+               window_size = window_size,
+               window_shift = window_shift,
+               f = f,
+               threshold = threshold,
+               classes = classes,
+               wecoma_fun = wecoma_fun,
+               wecoma_na_action = wecoma_na_action,
+               nr = nr,
+               nc = nc)
+
     x = merge_and_update(x, window_size, nr)
     if (!is.function(type)){
       if (type == "cove"){
