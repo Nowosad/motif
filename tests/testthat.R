@@ -1,5 +1,6 @@
 library(testthat)
 library(stars)
+library(sf)
 library(motif)
 
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
