@@ -44,21 +44,21 @@ test_that("stars results are equal to stars.proxy results", {
                result_comawindowp$signature[[1]])
 })
 
-test_that("thumprint works corectly for window"){
+test_that("thumprint works corectly for window", {
   expect_equal(nrow(result_comawindow),
                nrow(ecoregions))
   expect_equal(result_comawindow$id,
                ecoregions$id)
-}
+})
 
-test_that("wecoma works corectly"){
+test_that("wecoma works corectly", {
   expect_equal(result_wecove$na_prop,
                0.681, tolerance = .001)
   expect_equal(ncol(result_wecove$signature[[1]]), 225)
-}
+})
 
-test_that("incoma works corectly"){
+test_that("incoma works corectly", {
   expect_equal(result_incove$na_prop,
                0.340, tolerance = .001)
   expect_equal(ncol(result_incove$signature[[1]]), 1156)
-}
+})
