@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • motif</title>
+<title>Title — lsp_add_clusters • motif</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,9 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Title — lsp_add_clusters" />
+<meta property="og:description" content="Title" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +56,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -130,28 +132,51 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/Nowosad/motif/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Title</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Nowosad/motif/blob/master/R/lsp_add_clusters.R'><code>R/lsp_add_clusters.R</code></a></small>
+    <div class="hidden name"><code>lsp_add_clusters.Rd</code></div>
     </div>
 
-    <div id="motif-0-0-0-9000" class="section level1">
-<h1 class="page-header">
-<a href="#motif-0-0-0-9000" class="anchor"></a>motif 0.0.0.9000</h1>
-<ul>
-<li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Title</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>lsp_add_clusters</span>(<span class='no'>x</span>, <span class='no'>clust</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"stars"</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td></td>
+    </tr>
+    <tr>
+      <th>clust</th>
+      <td></td>
+    </tr>
+    </table>
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stars</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: abind</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: sf</span></div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.7.1, GDAL 2.2.2, PROJ 4.9.2</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>rcartocolor</span>)
+
+<span class='no'>landcover</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landcover2015.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
+<span class='co'># plot(landcover)</span>
+<span class='no'>lc_cove</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_thumbprint.html'>lsp_thumbprint</a></span>(<span class='no'>landcover</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"pdf"</span>)
+<span class='no'>lc_dist</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_to_dist.html'>lsp_to_dist</a></span>(<span class='no'>lc_cove</span>, <span class='kw'>dist_fun</span> <span class='kw'>=</span> <span class='st'>"jensen-shannon"</span>)</div><div class='output co'>#&gt; <span class='message'>Metric: 'jensen-shannon' using unit: 'log2'; comparing: 32 vectors.</span></div><div class='input'><span class='no'>lc_hclust</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></span>(<span class='no'>lc_dist</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"ward.D2"</span>)
+<span class='no'>clusters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/cutree.html'>cutree</a></span>(<span class='no'>lc_hclust</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>12</span>)
+
+<span class='no'>lc_grid</span> <span class='kw'>=</span> <span class='fu'>lsp_add_clusters</span>(<span class='no'>lc_cove</span>, <span class='no'>clusters</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column signature is of a list class and will be dropped from the output object.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>lc_grid</span>[<span class='st'>"clust"</span>], <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/rcartocolor/man/carto_pal.html'>carto_pal</a></span>(<span class='fl'>12</span>, <span class='st'>"Safe"</span>))</div><div class='img'><img src='lsp_add_clusters-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#motif-0-0-0-9000">0.0.0.9000</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
+  </div>
 </div>
 
 
