@@ -17,7 +17,13 @@ result_wecove = lsp_thumbprint(c(landform, random_ndvi),
                                type = "wecove", threshold = 0.9)
 result_incove = lsp_thumbprint(c(landcover, landform),
                                type = "incove", threshold = 0.9)
+my_fun = function(x){unlist(lapply(x, mean, na.rm = TRUE))}
+result_fun = lsp_thumbprint(landform, type = my_fun, threshold = 0.9)
 
+test_that("tests external function", {
+  expect_equivalent(result_fun$signature[[1]], 7.333453,
+               tolerance = .001)
+})
 
 test_that("tests composition", {
   expect_warning({result_composition = lsp_thumbprint(c(landcover, landform),
