@@ -1,13 +1,11 @@
 context("thumbprint")
 
-
 # landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 # plot(landcover)
-landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 # plot(landform)
-landform_p = read_stars(system.file("raster/landform.tif", package = "motif"), proxy = TRUE)
+
 # plot(landform_p)
-# ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
+#
 # plot(ecoregions["id"])
 # set.seed(222)
 # random_ndvi = landcover
@@ -16,17 +14,32 @@ landform_p = read_stars(system.file("raster/landform.tif", package = "motif"), p
 # plot(random_ndvi)
 # landcover_p = read_stars(system.file("raster/landcover2015.tif", package = "motif"), proxy = TRUE)
 
+simple_result_coma = lsp_thumbprint(landform, type = "coma", threshold = 1)
+simple_result_coma500 = lsp_thumbprint(landform, type = "coma",
+               threshold = 0.5, window_size = 500)
+simple_result_comawindow = lsp_thumbprint(landform, type = "coma",
+                                       threshold = 0.5, window = ecoregions)
+
+test_that("the output structure is correct", {
+  expect_equal(dim(simple_result_coma), c(1, 3))
+  expect_equal(dim(simple_result_coma500), c(34, 3))
+})
+
 test_that("thumprint works corectly for whole area", {
-  expect_equal(lsp_thumbprint(landform, type = "coma", threshold = 1)$signature[[1]],
+  expect_equal(simple_result_coma$signature[[1]],
                comat::get_coma(landform$landform.tif))
 })
 
 test_that("stars results are equal to stars.proxy results", {
-  expect_equal(lsp_thumbprint(landform, type = "coma",
-                              threshold = 0.5, window_size = 500)$signature[[1]],
+  expect_equal(simple_result_coma500$signature[[1]],
                lsp_thumbprint(landform_p, type = "coma",
                               threshold = 0.5, window_size = 500)$signature[[1]])
 })
+
+test_that("thumprint works corectly for window"){
+  expect_equal(nrow(simple_result_comawindow),
+               nrow(ecoregions))
+}
 
 # # check stars.proxy -------------------------------------------------------
 #
