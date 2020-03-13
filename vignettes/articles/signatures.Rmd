@@ -6,7 +6,7 @@ output:
     html_preview: false
 ---
 
-```{r}
+```{r, eval=FALSE}
 library(stars)
 
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
