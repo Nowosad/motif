@@ -188,20 +188,21 @@ BEGIN_RCPP
 END_RCPP
 }
 // get_polygons
-List get_polygons(const List input, std::string type, const arma::imat& m, const arma::imat directions, double threshold, const std::string fun, const std::string na_action, List classes);
-RcppExport SEXP _motif_get_polygons(SEXP inputSEXP, SEXP typeSEXP, SEXP mSEXP, SEXP directionsSEXP, SEXP thresholdSEXP, SEXP funSEXP, SEXP na_actionSEXP, SEXP classesSEXP) {
+List get_polygons(const List& input, std::string type, const arma::imat& m, const arma::imat& directions, Function f, double threshold, const std::string fun, const std::string na_action, List classes);
+RcppExport SEXP _motif_get_polygons(SEXP inputSEXP, SEXP typeSEXP, SEXP mSEXP, SEXP directionsSEXP, SEXP fSEXP, SEXP thresholdSEXP, SEXP funSEXP, SEXP na_actionSEXP, SEXP classesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const List >::type input(inputSEXP);
+    Rcpp::traits::input_parameter< const List& >::type input(inputSEXP);
     Rcpp::traits::input_parameter< std::string >::type type(typeSEXP);
     Rcpp::traits::input_parameter< const arma::imat& >::type m(mSEXP);
-    Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
+    Rcpp::traits::input_parameter< const arma::imat& >::type directions(directionsSEXP);
+    Rcpp::traits::input_parameter< Function >::type f(fSEXP);
     Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP);
     Rcpp::traits::input_parameter< const std::string >::type fun(funSEXP);
     Rcpp::traits::input_parameter< const std::string >::type na_action(na_actionSEXP);
     Rcpp::traits::input_parameter< List >::type classes(classesSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_polygons(input, type, m, directions, threshold, fun, na_action, classes));
+    rcpp_result_gen = Rcpp::wrap(get_polygons(input, type, m, directions, f, threshold, fun, na_action, classes));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -281,7 +282,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // get_polygons_wecoma
-List get_polygons_wecoma(const arma::imat& x, const arma::dmat& w, const arma::imat& m, const arma::imat directions, double threshold, const std::string fun, const std::string na_action, List classes);
+List get_polygons_wecoma(const arma::imat& x, const arma::dmat& w, const arma::imat& m, const arma::imat& directions, double threshold, const std::string fun, const std::string na_action, List classes);
 RcppExport SEXP _motif_get_polygons_wecoma(SEXP xSEXP, SEXP wSEXP, SEXP mSEXP, SEXP directionsSEXP, SEXP thresholdSEXP, SEXP funSEXP, SEXP na_actionSEXP, SEXP classesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -289,7 +290,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::imat& >::type x(xSEXP);
     Rcpp::traits::input_parameter< const arma::dmat& >::type w(wSEXP);
     Rcpp::traits::input_parameter< const arma::imat& >::type m(mSEXP);
-    Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
+    Rcpp::traits::input_parameter< const arma::imat& >::type directions(directionsSEXP);
     Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP);
     Rcpp::traits::input_parameter< const std::string >::type fun(funSEXP);
     Rcpp::traits::input_parameter< const std::string >::type na_action(na_actionSEXP);
@@ -347,7 +348,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_motif_get_motifels_ids", (DL_FUNC) &_motif_get_motifels_ids, 4},
     {"_motif_get_motifels_incoma", (DL_FUNC) &_motif_get_motifels_incoma, 6},
     {"_motif_get_motifels_wecoma", (DL_FUNC) &_motif_get_motifels_wecoma, 9},
-    {"_motif_get_polygons", (DL_FUNC) &_motif_get_polygons, 8},
+    {"_motif_get_polygons", (DL_FUNC) &_motif_get_polygons, 9},
     {"_motif_get_polygons_cocoma", (DL_FUNC) &_motif_get_polygons_cocoma, 6},
     {"_motif_get_polygons_coma", (DL_FUNC) &_motif_get_polygons_coma, 5},
     {"_motif_get_polygons_composition", (DL_FUNC) &_motif_get_polygons_composition, 4},

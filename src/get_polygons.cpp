@@ -1,17 +1,13 @@
-#include <RcppArmadillo.h>
-#include <comat.h>
-#include "na_prop.h"
-#include "create_attributes.h"
-// [[Rcpp::depends(comat)]]
-using namespace Rcpp;
+#include "get_polygons.h"
 
 // https://stackoverflow.com/questions/31691130/conversion-of-r-matrices-to-armadillo-is-really-slow
 
 // [[Rcpp::export]]
-List get_polygons(const List input,
+List get_polygons(const List& input,
                   std::string type,
                   const arma::imat& m,
-                  const arma::imat directions,
+                  const arma::imat& directions,
+                  Function f,
                   double threshold,
                   const std::string fun,
                   const std::string na_action,
@@ -35,8 +31,21 @@ List get_polygons(const List input,
   NumericVector na_perc(classes_m_size);
   NumericVector na_perc_all(num_l);
   List polygons_list(num_l);
+  arma::imat x;
+  arma::imat y;
+  arma::dmat w;
 
-  // for each class in y
+  if (type == "coma" | type == "cocoma" | type == "wecoma" | type == "composition"){
+    x = Rcpp::as<arma::imat>(input(0));
+  }
+  if (type == "cocoma"){
+    y = Rcpp::as<arma::imat>(input(1));
+  }
+  if (type == "wecoma"){
+    w = Rcpp::as<arma::dmat>(input(1));
+  }
+
+  // for each class in m
   for (int i = 0; i < classes_m_size; i++){
 
     // get class ind
@@ -62,7 +71,6 @@ List get_polygons(const List input,
     replacer.fill(NA_INTEGER);
 
     if (type == "coma"){
-      const arma::imat x = input(0);
       // create a submatrix of x
       submatrix_x = x.submat(min_row, min_col, max_row, max_col);
       submatrix_x.elem(ind_not_classes_m) = replacer;
@@ -79,9 +87,7 @@ List get_polygons(const List input,
         result[i] = comat::rcpp_get_coma_internal(wrap(submatrix_x), directions, classes(0));
       }
     } else if (type == "cocoma"){
-      const arma::imat x = input(0);
-      const arma::imat y = input(1);
-        // create a submatrix of x
+      // create a submatrix of x
       submatrix_x = x.submat(min_row, min_col, max_row, max_col);
       submatrix_x.elem(ind_not_classes_m) = replacer;
 
@@ -95,8 +101,6 @@ List get_polygons(const List input,
       }
 
     } else if (type == "wecoma"){
-      const arma::imat x = input(0);
-      const arma::dmat w = input(1);
       // create a submatrix of x
       submatrix_x = x.submat(min_row, min_col, max_row, max_col);
       submatrix_x.elem(ind_not_classes_m) = replacer;
@@ -127,8 +131,40 @@ List get_polygons(const List input,
         result[i] = comat::rcpp_get_incoma_list(polygons_list, directions, classes);
         result[i] = comat::rcpp_get_incoma_matrix(result[i]);
       }
-    }
+    } else if (type == "composition"){
+      // create a submatrix of x
+      submatrix_x = x.submat(min_row, min_col, max_row, max_col);
+      submatrix_x.elem(ind_not_classes_m) = replacer;
 
+      // calculate share of NAs
+      na_perc(i) = na_prop_polygon(submatrix_x, ind_not_classes_m.size());
+      // std::cout << "na prop:   " << na_perc(i) << std::endl;
+
+      // wrap used here is very memory costly
+      // try to think how it can be fixed
+      // IntegerMatrix p = wrap(submatrix_x);
+      // calculate coma
+      if (na_perc(i) <= threshold){
+        result[i] = get_composition(wrap(submatrix_x), classes(0));
+      }
+    } else if (type == "fun"){
+      arma::imat one_layer = submatrix_m;
+
+      for (int l = 0; l < num_l; l++){
+        arma::imat layer_l = input(l);
+        one_layer = layer_l.submat(min_row, min_col, max_row, max_col);
+        one_layer.elem(ind_not_classes_m) = replacer;
+
+        polygons_list(l) = one_layer;
+        na_perc_all(l) = na_prop_polygon(one_layer, ind_not_classes_m.size());
+      }
+
+      na_perc(i) = mean(na_perc_all);
+
+      if (na_perc(i) <= threshold){
+        result[i] = f(polygons_list);
+      }
+    }
   }
 
   LogicalVector na_perc_below_thres = na_perc <= threshold;
@@ -160,16 +196,20 @@ window = stars::st_rasterize(window[1],
 window = lapply(window, function(x) `mode<-`(x, "integer"))
 x = x[[1]]
 y = y[[1]]
+mode(x) = "integer"
+mode(y) = "integer"
 my_classes_x = motif:::get_unique_values(x, TRUE)
 my_classes_y = motif:::get_unique_values(y, TRUE)
 my_classes = list(my_classes_x, my_classes_y)
+
+my_fun = function(x) mean(x[[1]], na.rm = TRUE)
 
 # coma
 coma_bench = bench::mark(
   {coma1 = motif:::get_polygons_coma(x, m = window[[1]], directions = my_dir,
                                      threshold = 0.5, classes = my_classes[1])},
   {coma2 = get_polygons(list(x), type = "coma", m = window[[1]], directions = my_dir,
-                        threshold = 0.5, classes = my_classes[1],
+                        f = function(){}, threshold = 0.5, classes = my_classes[1],
                         fun = NA_character_, na_action = NA_character_)}
 )
 coma_bench[2:5]
@@ -179,7 +219,7 @@ cocoma_bench = bench::mark(
   {cocoma1 = motif:::get_polygons_cocoma(x, y, m = window[[1]], directions = my_dir,
                                      threshold = 0.5, classes = my_classes)},
   {cocoma2 = get_polygons(list(x, y), type = "cocoma", m = window[[1]], directions = my_dir,
-                        threshold = 0.5, classes = my_classes,
+                          f = function(){}, threshold = 0.5, classes = my_classes,
                         fun = NA_character_, na_action = NA_character_)}
 )
 cocoma_bench[2:5]
@@ -190,7 +230,7 @@ wecoma_bench = bench::mark(
                                          threshold = 0.5, classes = my_classes,
                                          fun = "mean", na_action = "replace")},
   {wecoma2 = get_polygons(list(x, y), type = "wecoma", m = window[[1]], directions = my_dir,
-                          threshold = 0.5, classes = my_classes,
+                          f = function(){}, threshold = 0.5, classes = my_classes,
                           fun = "mean", na_action = "replace")}
 )
 wecoma_bench[2:5]
@@ -200,8 +240,30 @@ incoma_bench = bench::mark(
   {incoma1 = motif:::get_polygons_incoma(list(x, y), m = window[[1]], directions = my_dir,
                                      threshold = 0.5, classes = my_classes)},
   {incoma2 = get_polygons(list(x, y), type = "incoma", m = window[[1]], directions = my_dir,
-                        threshold = 0.5, classes = my_classes,
+                          f = function(){}, threshold = 0.5, classes = my_classes,
                         fun = NA_character_, na_action = NA_character_)}
 )
 incoma_bench[2:5]
+
+# composition
+composition_bench = bench::mark(
+  {composition1 = motif:::get_polygons_composition(x, m = window[[1]],
+                                     threshold = 0.5, classes = my_classes[1])},
+  {composition2 = get_polygons(list(x), type = "composition", m = window[[1]],
+                               directions = matrix(NA), f = function(){},
+                               threshold = 0.5, classes = my_classes[1],
+                               fun = NA_character_, na_action = NA_character_)}
+)
+composition_bench[2:5]
+
+# fun
+fun_bench = bench::mark(
+  {fun1 = motif:::get_polygons_fun(list(x), m = window[[1]],
+                                   f = my_fun,
+                                   threshold = 0.5, classes = my_classes[1])},
+  {fun2 = get_polygons(list(x), type = "fun", m = window[[1]], directions = my_dir,
+                               f = my_fun, threshold = 0.5, classes = my_classes[1],
+                               fun = NA_character_, na_action = NA_character_)}
+)
+fun_bench[2:5]
 */
