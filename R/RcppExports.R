@@ -21,60 +21,12 @@ get_motifels <- function(input, type, directions, size, shift, f, threshold, cla
     .Call(`_motif_get_motifels`, input, type, directions, size, shift, f, threshold, classes, fun, na_action)
 }
 
-get_motifels_cocoma <- function(x, y, directions, size, shift, threshold, classes) {
-    .Call(`_motif_get_motifels_cocoma`, x, y, directions, size, shift, threshold, classes)
-}
-
-get_motifels_coma <- function(x, directions, size, shift, threshold, classes) {
-    .Call(`_motif_get_motifels_coma`, x, directions, size, shift, threshold, classes)
-}
-
-get_motifels_composition <- function(x, size, shift, threshold, classes) {
-    .Call(`_motif_get_motifels_composition`, x, size, shift, threshold, classes)
-}
-
-get_motifels_fun <- function(input, size, shift, f, threshold, classes) {
-    .Call(`_motif_get_motifels_fun`, input, size, shift, f, threshold, classes)
-}
-
 get_motifels_ids <- function(num_r, num_c, size, shift) {
     .Call(`_motif_get_motifels_ids`, num_r, num_c, size, shift)
 }
 
-get_motifels_incoma <- function(input, directions, size, shift, threshold, classes) {
-    .Call(`_motif_get_motifels_incoma`, input, directions, size, shift, threshold, classes)
-}
-
-get_motifels_wecoma <- function(x, w, directions, size, shift, threshold, classes, fun, na_action) {
-    .Call(`_motif_get_motifels_wecoma`, x, w, directions, size, shift, threshold, classes, fun, na_action)
-}
-
 get_polygons <- function(input, type, m, directions, f, threshold, fun, na_action, classes) {
     .Call(`_motif_get_polygons`, input, type, m, directions, f, threshold, fun, na_action, classes)
-}
-
-get_polygons_cocoma <- function(x, y, m, directions, threshold, classes) {
-    .Call(`_motif_get_polygons_cocoma`, x, y, m, directions, threshold, classes)
-}
-
-get_polygons_coma <- function(x, m, directions, threshold, classes) {
-    .Call(`_motif_get_polygons_coma`, x, m, directions, threshold, classes)
-}
-
-get_polygons_composition <- function(x, m, threshold, classes) {
-    .Call(`_motif_get_polygons_composition`, x, m, threshold, classes)
-}
-
-get_polygons_fun <- function(input, m, f, threshold, classes) {
-    .Call(`_motif_get_polygons_fun`, input, m, f, threshold, classes)
-}
-
-get_polygons_incoma <- function(input, m, directions, threshold, classes) {
-    .Call(`_motif_get_polygons_incoma`, input, m, directions, threshold, classes)
-}
-
-get_polygons_wecoma <- function(x, w, m, directions, threshold, fun, na_action, classes) {
-    .Call(`_motif_get_polygons_wecoma`, x, w, m, directions, threshold, fun, na_action, classes)
 }
 
 get_unique_values <- function(x, na_omit) {
