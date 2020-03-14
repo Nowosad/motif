@@ -49,8 +49,8 @@ get_motifels_wecoma <- function(x, w, directions, size, shift, threshold, classe
     .Call(`_motif_get_motifels_wecoma`, x, w, directions, size, shift, threshold, classes, fun, na_action)
 }
 
-get_polygons <- function(input, type, m, directions, threshold, fun, na_action, classes) {
-    .Call(`_motif_get_polygons`, input, type, m, directions, threshold, fun, na_action, classes)
+get_polygons <- function(input, type, m, directions, f, threshold, fun, na_action, classes) {
+    .Call(`_motif_get_polygons`, input, type, m, directions, f, threshold, fun, na_action, classes)
 }
 
 get_polygons_cocoma <- function(x, y, m, directions, threshold, classes) {

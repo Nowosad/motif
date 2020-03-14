@@ -11,7 +11,7 @@ using namespace Rcpp;
 List get_polygons_wecoma(const arma::imat& x,
                          const arma::dmat& w,
                          const arma::imat& m,
-                         const arma::imat directions,
+                         const arma::imat& directions,
                          double threshold,
                          const std::string fun,
                          const std::string na_action,
