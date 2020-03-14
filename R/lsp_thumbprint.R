@@ -52,14 +52,14 @@
 #' #    window_size = 100, window_shift = 100, threshold = 0.9)
 #'
 #' #lsp_thumbprint(landcover, type = "coma", window = ecoregions["id"], threshold = 0.9)
-lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
+lsp_thumbprint2 = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
                           neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                           normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
                           classes = NULL) UseMethod("lsp_thumbprint")
 
 #' @name lsp_thumbprint
 #' @export
-lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
+lsp_thumbprint2.stars = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
                                 neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                                 normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
                                 classes = NULL){
@@ -215,7 +215,7 @@ lsp_thumbprint.stars = function(x, type, window = NULL, window_size = NULL, wind
 
 #' @name lsp_thumbprint
 #' @export
-lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
+lsp_thumbprint2.stars_proxy = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
                                       neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                                       normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
                                       classes = NULL){
@@ -274,7 +274,6 @@ lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL
     if (type == "composition" && length(x) > 1){
       warning("Only the first layer will be used", call. = FALSE)
     }
-
     yoffs = seq(1, nc, by = window_size)
     x = lapply(yoffs,
                FUN = get_motifels_single_proxy,
@@ -290,7 +289,6 @@ lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL
                wecoma_na_action = wecoma_na_action,
                nr = nr,
                nc = nc)
-
     x = merge_and_update(x, window_size, nr)
     if (!is.function(type)){
       if (type == "cove"){
@@ -341,3 +339,140 @@ lsp_thumbprint.stars_proxy = function(x, type, window = NULL, window_size = NULL
 
   return(structure(x, class = c("lsp", class(x))))
 }
+
+
+
+
+prepare_window = function(){
+  if (missing(window) || is.null(window)){
+    if (is.null(window_size)){
+      window_size = 0
+    }
+    if (missing(window_shift) || is.null(window_shift)){
+      window_shift = window_size
+    }
+  } else {
+    # check for one column
+    window = stars::st_rasterize(window[1],
+                                 template = stars::st_as_stars(sf::st_bbox(x), values = NA_integer_, dx = x_delta_row, dy = x_delta_col))
+    window = lapply(window, function(x) `mode<-`(x, "integer"))
+    window = window[[1]]
+  }
+}
+
+
+#' @name lsp_thumbprint
+#' @export
+lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
+                                      neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
+                                      normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
+                                      classes = NULL){
+
+# get metadata ------------------------------------------------------------
+  x_crs = sf::st_crs(x)
+  x_bb = sf::st_bbox(x)
+  x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]
+  x_delta_col = stars::st_dimensions(x)[[2]][["delta"]]
+
+  nc = ncol(x)
+  nr = nrow(x)
+
+  directions = as.matrix(neighbourhood)
+
+# prepare window ----------------------------------------------------------
+  if (missing(window) || is.null(window)){
+    if (is.null(window_size)){
+      window_size = 0
+    }
+    if (missing(window_shift) || is.null(window_shift)){
+      window_shift = window_size
+    }
+  } else {
+    if (inherits(x, "stars_proxy")){
+      # stop("window option is not implemented for stars_proxy yet", .call = FALSE)
+    } else {
+      # check for one column
+      window = stars::st_rasterize(window[1],
+                                   template = stars::st_as_stars(sf::st_bbox(x),
+                                                                 values = NA_integer_,
+                                                                 dx = x_delta_row,
+                                                                 dy = x_delta_col))
+      window = lapply(window, function(x) `mode<-`(x, "integer"))
+      window = window[[1]]
+    }
+  }
+
+# prepare classes ---------------------------------------------------------
+  if (is.null(classes)){
+    if (inherits(x, "stars_proxy")){
+      classes = get_unique_values_proxy(x,
+                                        ifelse(is.null(window_size),
+                                               ceiling(nr / nrow(window)),
+                                               window_size),
+                                        nr, nc)
+    } else {
+      classes = lapply(x, get_unique_values, TRUE)
+    }
+  }
+  if (inherits(classes, "numeric") || inherits(classes, "integer")){
+    classes = list(classes)
+  }
+
+# prepare type ------------------------------------------------------------
+  if (is.function(type)){
+    f = type; type = "fun"
+  } else {
+    f = function(){}
+  }
+
+# calculate ---------------------------------------------------------------
+  if (missing(window) || is.null(window)){
+    if (type == "composition" && length(x) > 1){
+      warning("Only the first layer will be used", call. = FALSE)
+    }
+    x = get_motifels_all(x,
+                     type = type,
+                     directions = directions,
+                     window_size = window_size,
+                     window_shift = window_shift,
+                     f = f,
+                     threshold = threshold,
+                     classes = classes,
+                     ordered = ordered,
+                     repeated = repeated,
+                     normalization = normalization,
+                     wecoma_fun = wecoma_fun,
+                     wecoma_na_action = wecoma_na_action,
+                     nr = nr,
+                     nc = nc)
+
+  } else {
+    x = get_polygons_all(x,
+                         type = type,
+                         directions = directions,
+                         window = window,
+                         f = f,
+                         threshold = threshold,
+                         classes = classes,
+                         ordered = ordered,
+                         repeated = repeated,
+                         normalization = normalization,
+                         wecoma_fun = wecoma_fun,
+                         wecoma_na_action = wecoma_na_action)
+  }
+
+
+# add spatial metadata ----------------------------------------------------
+  attr(x, "metadata") = c(attr(x, "metadata"),
+                          crs = list(x_crs),
+                          bb = list(x_bb),
+                          delta_x = x_delta_col,
+                          delta_y = x_delta_row,
+                          window_size = window_size,
+                          window_shift = window_shift,
+                          use_window = !(missing(window) || is.null(window)))
+
+  return(structure(x, class = c("lsp", class(x))))
+
+}
+

@@ -1,11 +1,42 @@
-get_window_single_proxy = function(window_id, x, window, ...){
-  # print(window_id)
-  result = lsp_thumbprint(stars::st_as_stars(x[window[window_id, ]]), ...)
-  if (nrow(result) == 1){
-    result$id = window[[window_id, 1]]
-    result$na_prop = NA
+prepare_type = function(type){
+  if (type == "cove"){
+    type = "coma"
+  } else if (type == "cocove"){
+    typ2 = "cocoma"
+  } else if (type == "wecove"){
+    type = "wecoma"
+  } else if (type == "incove"){
+    type = "incoma"
   }
-  return(result)
+  return(type)
+}
+
+convert_signatures = function(x, type, ordered, repeated, normalization){
+  if (!is.function(type)){
+    if (type == "cove"){
+      x$signature = lapply(x$signature,
+                           comat::get_cove,
+                           ordered = ordered,
+                           normalization = normalization)
+    } else if (type == "cocove"){
+      x$signature = lapply(x$signature,
+                           comat::get_cocove,
+                           ordered = ordered,
+                           normalization = normalization)
+    } else if (type == "wecove"){
+      x$signature = lapply(x$signature,
+                           comat::get_wecove,
+                           ordered = ordered,
+                           normalization = normalization)
+    } else if (type == "incove"){
+      x$signature = lapply(x$signature,
+                           comat::get_incove,
+                           ordered = ordered,
+                           repeated = repeated,
+                           normalization = normalization)
+    }
+  }
+  return(x)
 }
 
 get_motifels_single_proxy = function(i, x_path, type, directions, window_size, window_shift, f, threshold, classes, wecoma_fun, wecoma_na_action, nr, nc){
@@ -27,4 +58,105 @@ get_motifels_single_proxy = function(i, x_path, type, directions, window_size, w
                    na_action = wecoma_na_action)
   x = tibble::as_tibble(x)
   x
+}
+
+get_motifels_all = function(x, type, directions, window_size, window_shift,
+                            f, threshold, classes,
+                            ordered, repeated, normalization,
+                            wecoma_fun, wecoma_na_action, nr, nc){
+  type2 = prepare_type(type)
+  if (inherits(x, "stars_proxy")){
+    yoffs = seq(1, nc, by = window_size)
+    x = lapply(yoffs,
+               FUN = get_motifels_single_proxy,
+               x_path = x,
+               type = type2,
+               directions = directions,
+               window_size = window_size,
+               window_shift = window_shift,
+               f = f,
+               threshold = threshold,
+               classes = classes,
+               wecoma_fun = wecoma_fun,
+               wecoma_na_action = wecoma_na_action,
+               nr = nr,
+               nc = nc)
+    x = merge_and_update(x, window_size, nr)
+  } else {
+    x = get_motifels(x,
+                     type = type2,
+                     directions = directions,
+                     size = window_size,
+                     shift = window_shift,
+                     f = f,
+                     threshold = threshold,
+                     classes = classes,
+                     fun = wecoma_fun,
+                     na_action = wecoma_na_action)
+    x = tibble::as_tibble(x)
+  }
+  x = convert_signatures(x, type = type,
+                         ordered = ordered, repeated = repeated,
+                         normalization = normalization)
+  return(x)
+}
+
+get_window_single_proxy = function(window_id, x, window, ...){
+  # print(window_id)
+  result = lsp_thumbprint(stars::st_as_stars(x[window[window_id, ]]), ...)
+  if (nrow(result) == 1){
+    result$id = window[[window_id, 1]]
+    result$na_prop = NA
+  }
+  return(result)
+}
+
+get_polygons_single_proxy = function(window_id, x, window, ...){
+  # print(window_id)
+  result = lsp_thumbprint(stars::st_as_stars(x[window[window_id, ]]), ...)
+  if (nrow(result) == 1){
+    result$id = window[[window_id, 1]]
+    result$na_prop = NA
+  }
+  return(result)
+}
+
+get_polygons_all = function(x, type, directions, window,
+                            f, threshold, classes,
+                            ordered, repeated, normalization,
+                            wecoma_fun, wecoma_na_action){
+  type2 = prepare_type(type)
+  if (inherits(x, "stars_proxy")){
+    warning("Current implementation can be slow")
+    window_ids = seq_len(nrow(window))
+    threshold = 1
+    x = lapply(window_ids,
+               get_polygons_single_proxy,
+               x = x,
+               type = type2,
+               window = window,
+               window_size = NULL,
+               window_shift = NULL,
+               neighbourhood = c(directions),
+               threshold = threshold,
+               ordered = ordered,
+               repeated = repeated,
+               normalization = normalization,
+               wecoma_fun = wecoma_fun,
+               wecoma_na_action = wecoma_na_action,
+               classes = classes)
+    x = do.call(rbind, x)
+  } else {
+    x = get_polygons(x,
+                     type = type2,
+                     m = window,
+                     directions = directions,
+                     f = f,
+                     threshold = threshold,
+                     fun = wecoma_fun,
+                     na_action = wecoma_na_action,
+                     classes = classes)
+    x = tibble::as_tibble(x)
+    x = convert_signatures(x, type, ordered, repeated, normalization)
+  }
 }

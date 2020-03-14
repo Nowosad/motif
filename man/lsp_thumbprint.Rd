@@ -2,43 +2,9 @@
 % Please edit documentation in R/lsp_thumbprint.R
 \name{lsp_thumbprint}
 \alias{lsp_thumbprint}
-\alias{lsp_thumbprint.stars}
-\alias{lsp_thumbprint.stars_proxy}
 \title{Creates a spatial signature}
 \usage{
 lsp_thumbprint(
-  x,
-  type,
-  window = NULL,
-  window_size = NULL,
-  window_shift = NULL,
-  neighbourhood = 4,
-  threshold = 0.5,
-  ordered = TRUE,
-  repeated = TRUE,
-  normalization = "none",
-  wecoma_fun = "mean",
-  wecoma_na_action = "replace",
-  classes = NULL
-)
-
-\method{lsp_thumbprint}{stars}(
-  x,
-  type,
-  window = NULL,
-  window_size = NULL,
-  window_shift = NULL,
-  neighbourhood = 4,
-  threshold = 0.5,
-  ordered = TRUE,
-  repeated = TRUE,
-  normalization = "none",
-  wecoma_fun = "mean",
-  wecoma_na_action = "replace",
-  classes = NULL
-)
-
-\method{lsp_thumbprint}{stars_proxy}(
   x,
   type,
   window = NULL,
