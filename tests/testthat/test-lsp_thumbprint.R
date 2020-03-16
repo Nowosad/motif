@@ -20,12 +20,16 @@ result_incove = lsp_thumbprint(c(landcover, landform),
 result_incove_p = lsp_thumbprint(c(landcover_p, landform_p),
                                type = "incoma", threshold = 0.9,
                                window_size = 500)
-my_fun = function(x){unlist(lapply(x, mean, na.rm = TRUE))}
+
 result_fun = lsp_thumbprint(landform, type = my_fun, threshold = 0.9)
+result_fun500 = lsp_thumbprint(landform, type = my_fun, threshold = 0.5,
+                              window_size = 2000)
 
 test_that("tests external function", {
   expect_equivalent(result_fun$signature[[1]], 7.333453,
                tolerance = .001)
+  expect_equivalent(result_fun500$signature[[1]], 8.043586,
+                    tolerance = .001)
 })
 
 test_that("tests composition", {

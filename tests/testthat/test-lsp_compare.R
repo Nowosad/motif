@@ -12,6 +12,13 @@ c_cove_proxy = lsp_compare(landcover_p,
                      dist_fun = "jensen-shannon",
                      threshold = 0.9)
 
+c_composition = lsp_compare(landcover,
+                     landcoverold,
+                     type = "composition",
+                     dist_fun = "jensen-shannon",
+                     threshold = 0.9,
+                     window_size = 500)
+
 test_that("tests simple compare results", {
   expect_equal(length(c_cove), 4)
   expect_equal(unique(c(c_cove$dist)),
@@ -20,6 +27,10 @@ test_that("tests simple compare results", {
 
 test_that("tests proxy compare results", {
   expect_equal(c_cove, c_cove_proxy)
+})
+
+test_that("tests compare composition results", {
+  expect_equal(mean(c_composition$dist, na.rm = TRUE), 0.00045, tolerance = .001)
 })
 
 

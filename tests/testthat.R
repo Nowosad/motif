@@ -32,4 +32,7 @@ landcover_ext = landcover[ext]
 landform_ext = landform[ext]
 random_ndvi_ext = random_ndvi[ext]
 
+# prepare my fun ----------------------------------------------------------
+my_fun = function(x) mean(x[[1]], na.rm = TRUE)
+
 test_check("motif")
