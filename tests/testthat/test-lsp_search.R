@@ -32,6 +32,15 @@ s_incove = lsp_search(
   threshold = 0.9
 )
 
+s_incovewindow = lsp_search(
+  c(landcover_ext, landform_ext),
+  c(landcover, landform),
+  type = "incove",
+  dist_fun = "jensen-shannon",
+  threshold = 0.9,
+  window = ecoregions["id"]
+)
+
 s_cove_motiel = lsp_search(
   landform_ext,
   landform,
@@ -88,4 +97,5 @@ test_that("tests proxy search results", {
 test_that("tests window search results", {
   expect_equal(sort(unique(c(s_cove_window$id))), 1:22)
   expect_equivalent(min(s_cove_window$dist, na.rm = TRUE), 0.00029, tolerance = .001)
+  expect_equal(mean(c(s_incovewindow$dist), na.rm = TRUE), 0.7795939, tolerance = .001)
 })

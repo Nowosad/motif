@@ -1,6 +1,9 @@
 context("thumbprint")
 
 result_coma = lsp_thumbprint(landform, type = "coma", threshold = 1)
+result_compositionwindow = lsp_thumbprint(landform, type = "composition",
+                                          threshold = 1, window = ecoregions["id"])
+
 result_coma500 = lsp_thumbprint(landform, type = "coma",
         threshold = 0.5, window_size = 500)
 result_coma500p = lsp_thumbprint(landform_p, type = "coma",
@@ -14,13 +17,20 @@ result_cove500 = lsp_thumbprint(landform, type = "cove",
 result_one_class = lsp_thumbprint(landform, type = "coma",
                                   threshold = 0.9, classes = 10)
 result_cocove1000 = lsp_thumbprint(c(landform, landcover),
-                                   type = "wecove", threshold = 0.1,
+                                   type = "cocove", threshold = 0.1,
                                    window_size = 1000)
+result_cocovewindow = lsp_thumbprint(c(landform, landcover),
+                                   type = "cocove", threshold = 0.1,
+                                   window = ecoregions["id"])
 result_wecove = lsp_thumbprint(c(landform, random_ndvi),
                                type = "wecove", threshold = 0.9)
 result_wecove1000 = lsp_thumbprint(c(landform, random_ndvi),
                                type = "wecove", threshold = 0.1,
                                window_size = 1000)
+result_wecovewindow = lsp_thumbprint(c(landform, random_ndvi),
+                                   type = "wecove", threshold = 0.1,
+                                   window = ecoregions["id"])
+
 result_incove = lsp_thumbprint(c(landcover, landform),
                                type = "incove", threshold = 0.9)
 result_incove_p = lsp_thumbprint(c(landcover_p, landform_p),
@@ -28,6 +38,7 @@ result_incove_p = lsp_thumbprint(c(landcover_p, landform_p),
                                window_size = 500)
 
 result_fun = lsp_thumbprint(landform, type = my_fun, threshold = 0.9)
+result_funwindow = lsp_thumbprint(landform, type = my_fun, threshold = 0.9, window = ecoregions["id"])
 result_fun500 = lsp_thumbprint(landform, type = my_fun, threshold = 0.5,
                               window_size = 2000)
 
@@ -75,23 +86,26 @@ test_that("thumprint works corectly for window", {
                nrow(ecoregions))
   expect_equal(result_comawindow$id,
                ecoregions$id)
+  expect_equal(length(result_funwindow$signature[[1]]), 1)
+  expect_equal(length(result_compositionwindow$signature[[1]]), 15)
 })
 
 test_that("wecoma works corectly", {
   expect_equal(result_wecove$na_prop,
                0.681, tolerance = .001)
   expect_equal(ncol(result_wecove$signature[[1]]), 225)
-  expect_equal(ncol(result_wecove$signature[[1]]),
-               ncol(result_cocove1000$signature[[1]]))
-
 })
 
 test_that("cocove works corectly", {
-  expect_equal(ncol(result_cocove1000$signature[[1]]), 225)
+  expect_equal(ncol(result_cocove1000$signature[[1]]), 285)
 })
 
 test_that("incoma works corectly", {
   expect_equal(result_incove$na_prop,
                0.340, tolerance = .001)
   expect_equal(ncol(result_incove$signature[[1]]), 1156)
+})
+
+test_that("na_prop works correctly", {
+  expect_equal(result_cocovewindow$na_prop, result_wecovewindow$na_prop)
 })
