@@ -29,18 +29,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// get_composition_list
-IntegerVector get_composition_list(List x, std::vector<int> classes);
-RcppExport SEXP _motif_get_composition_list(SEXP xSEXP, SEXP classesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type x(xSEXP);
-    Rcpp::traits::input_parameter< std::vector<int> >::type classes(classesSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_composition_list(x, classes));
-    return rcpp_result_gen;
-END_RCPP
-}
 // get_motifel_size
 int get_motifel_size(int num_r, int num_c, int shift);
 RcppExport SEXP _motif_get_motifel_size(SEXP num_rSEXP, SEXP num_cSEXP, SEXP shiftSEXP) {
@@ -146,7 +134,6 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_motif_create_attributes", (DL_FUNC) &_motif_create_attributes, 1},
     {"_motif_get_composition", (DL_FUNC) &_motif_get_composition, 2},
-    {"_motif_get_composition_list", (DL_FUNC) &_motif_get_composition_list, 2},
     {"_motif_get_motifel_size", (DL_FUNC) &_motif_get_motifel_size, 3},
     {"_motif_get_motifels", (DL_FUNC) &_motif_get_motifels, 10},
     {"_motif_get_motifels_ids", (DL_FUNC) &_motif_get_motifels_ids, 4},

@@ -9,10 +9,6 @@ get_composition <- function(x, classes) {
     .Call(`_motif_get_composition`, x, classes)
 }
 
-get_composition_list <- function(x, classes) {
-    .Call(`_motif_get_composition_list`, x, classes)
-}
-
 get_motifel_size <- function(num_r, num_c, shift) {
     .Call(`_motif_get_motifel_size`, num_r, num_c, shift)
 }
