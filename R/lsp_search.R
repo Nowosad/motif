@@ -83,6 +83,13 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = N
   x_metadata = stars::st_dimensions(x)
   y_metadata = stars::st_dimensions(y)
 
+# prepare window ----------------------------------------------------------
+  if (missing(window) || is.null(window)){
+    if (is.null(window_size)){
+      window_size = 0
+    }
+  }
+
 # prepare classes ---------------------------------------------------------
   classes_x = lapply(lapply(x, function(x) `mode<-`(x, "integer")),
                      get_unique_values, TRUE)

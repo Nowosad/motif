@@ -41,7 +41,7 @@ convert_signatures = function(x, type, ordered, repeated, normalization){
 
 get_motifels_single_proxy = function(i, x_path, type, directions, window_size, window_shift, f, threshold, classes, wecoma_fun, wecoma_na_action, nr, nc){
   rasterio = list(nXOff = 1, nYOff = i, nXSize = nr,
-                  nYSize = ifelse(i + window_size > nc,
+                  nYSize = ifelse((i + window_size > nc || i + window_size == 1),
                                   nc - i + 1,
                                   window_size))
   x = stars::read_stars(unlist(x_path), RasterIO = rasterio)
@@ -62,7 +62,7 @@ get_motifels_single_proxy = function(i, x_path, type, directions, window_size, w
 
 merge_and_update = function(result, window_size, nr){
   update_id = function(multiplier, x, window_size, nr){
-    n = ceiling(nr / window_size)
+    n = ifelse(window_size != 0, ceiling(nr / window_size), 1)
     x[["id"]] = x[["id"]] + (multiplier * n)
     x
   }
@@ -78,7 +78,11 @@ get_motifels_all = function(x, type, directions, window_size, window_shift,
                             wecoma_fun, wecoma_na_action, nr, nc){
   type2 = prepare_type(type)
   if (inherits(x, "stars_proxy")){
-    yoffs = seq(1, nc, by = window_size)
+    if (window_size == 0){
+      yoffs = 1
+    } else {
+      yoffs = seq(1, nc, by = window_size)
+    }
     x = lapply(yoffs,
                FUN = get_motifels_single_proxy,
                x_path = x,

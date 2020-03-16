@@ -30,7 +30,7 @@ lsp_add_stars = function(x = NULL, window = NULL, window_size = NULL, window_shi
 #' @export
 lsp_add_stars.default = function(x = NULL, window = NULL, window_size = NULL, window_shift = NULL){
 
-  if (!missing(window_size) && !is.null(window_size)){
+  if (!missing(window_size) && !is.null(window_size) && window_size != 0){
     x_crs = sf::st_crs(x)
     x_nrow = nrow(x)
     x_ncol = ncol(x)

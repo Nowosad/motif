@@ -153,13 +153,24 @@ lsp_compare.stars_proxy = function(x, y, type, dist_fun, window = NULL, window_s
 
   x_metadata = stars::st_dimensions(x)
 
+  # prepare window ----------------------------------------------------------
+  if (missing(window) || is.null(window)){
+    if (is.null(window_size)){
+      window_size = 0
+    }
+  }
+
   #test if x == y
 
   classes_x = get_unique_values_proxy(x,
-                                      ifelse(is.null(window_size), ceiling(nrow(x) / nrow(window)), window_size),
+                                      ifelse(is.null(window_size),
+                                             ceiling(nrow(x) / nrow(window)),
+                                             window_size),
                                       nrow(x), ncol(x))
   classes_y = get_unique_values_proxy(y,
-                                      ifelse(is.null(window_size), ceiling(nrow(y) / nrow(window)), window_size),
+                                      ifelse(is.null(window_size),
+                                             ceiling(nrow(y) / nrow(window)),
+                                             window_size),
                                       nrow(y), ncol(y))
 
   classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
