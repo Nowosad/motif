@@ -8,3 +8,4 @@
 ^pkgdown$
 ^LICENSE\.md$
 ^\.circleci/config\.yml$
+^\.github/workflows/pkgdown\.yaml$
