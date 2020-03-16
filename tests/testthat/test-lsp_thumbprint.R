@@ -13,8 +13,14 @@ result_cove500 = lsp_thumbprint(landform, type = "cove",
                                 threshold = 0.5, window_size = 500)
 result_one_class = lsp_thumbprint(landform, type = "coma",
                                   threshold = 0.9, classes = 10)
+result_cocove1000 = lsp_thumbprint(c(landform, landcover),
+                                   type = "wecove", threshold = 0.1,
+                                   window_size = 1000)
 result_wecove = lsp_thumbprint(c(landform, random_ndvi),
                                type = "wecove", threshold = 0.9)
+result_wecove1000 = lsp_thumbprint(c(landform, random_ndvi),
+                               type = "wecove", threshold = 0.1,
+                               window_size = 1000)
 result_incove = lsp_thumbprint(c(landcover, landform),
                                type = "incove", threshold = 0.9)
 result_incove_p = lsp_thumbprint(c(landcover_p, landform_p),
@@ -75,6 +81,13 @@ test_that("wecoma works corectly", {
   expect_equal(result_wecove$na_prop,
                0.681, tolerance = .001)
   expect_equal(ncol(result_wecove$signature[[1]]), 225)
+  expect_equal(ncol(result_wecove$signature[[1]]),
+               ncol(result_cocove1000$signature[[1]]))
+
+})
+
+test_that("cocove works corectly", {
+  expect_equal(ncol(result_cocove1000$signature[[1]]), 225)
 })
 
 test_that("incoma works corectly", {
