@@ -19,7 +19,7 @@ s_cocove = lsp_search(
 s_wecove = lsp_search(
   c(landform_ext, random_ndvi_ext),
   c(landform, random_ndvi),
-  type = "cocove",
+  type = "wecove",
   dist_fun = "jensen-shannon",
   threshold = 0.9
 )
@@ -67,7 +67,7 @@ test_that("tests simple search results", {
                     c(1, 0, 0.8314),
                     tolerance = .001)
   expect_equivalent(unlist(unique(s_wecove)),
-                    c(1, 0.6806, 0.4414),
+                    c(1, 0.6806, 0.4453),
                     tolerance = .001)
   expect_equivalent(unlist(unique(s_incove)),
                     c(1, 0.3403, 0.7562),
