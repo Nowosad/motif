@@ -78,22 +78,25 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = N
                       neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                       normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
 
+
+# get metadata ------------------------------------------------------------
   x_metadata = stars::st_dimensions(x)
   y_metadata = stars::st_dimensions(y)
 
+# prepare classes ---------------------------------------------------------
   x = lapply(x, function(x) `mode<-`(x, "integer"))
   classes_x = lapply(x, get_unique_values, TRUE)
 
   if (inherits(y, "stars_proxy")){
     classes_y = get_unique_values_proxy(y,
-                                        ifelse(is.null(window_size), ceiling(nrow(y) / nrow(window)), window_size),
+                                        ifelse(is.null(window_size),
+                                               ceiling(nrow(y) / nrow(window)),
+                                               window_size),
                                         nrow(y), ncol(y))
   } else {
     y = lapply(y, function(x) `mode<-`(x, "integer"))
-
     y = stars::st_as_stars(y)
     attr(y, "dimensions") = y_metadata
-
     classes_y = lapply(y, get_unique_values, TRUE)
   }
 
@@ -101,6 +104,7 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = N
   classes = lapply(classes, unique)
   classes = lapply(classes, sort)
 
+# y signature -------------------------------------------------------------
   output = lsp_thumbprint(
     x = y,
     type = type,
@@ -116,6 +120,8 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = N
     wecoma_na_action = wecoma_na_action,
     classes = classes
   )
+
+# x signature -------------------------------------------------------------
 
   # unique_classes_all = attributes(output)[["metadata"]][["vals"]]
 
@@ -153,8 +159,8 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = N
     )
   }
 
+# calculate distance ------------------------------------------------------
   unit = "log2"
-
   output$dist = unlist(lapply(
     output$signature,
     distance2,
@@ -166,8 +172,8 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = N
 
   message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
+# prepare result ----------------------------------------------------------
   output$signature = NULL
-
   output_stars = lsp_add_stars(y_metadata,
                                  window = window,
                                  window_size = window_size, window_shift = window_shift)
