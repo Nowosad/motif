@@ -1,28 +1,52 @@
-# library(stars)
-#
-# lc = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-# lf = read_stars(system.file("raster/landform.tif", package = "motif"))
-# lcp = read_stars(system.file("raster/landcover2015.tif", package = "motif"), proxy = TRUE)
-# lfp = read_stars(system.file("raster/landform.tif", package = "motif"), proxy = TRUE)
-#
-# set.seed(222)
-# rn = lc
-# rn$ndvi = sample(x = 1:10, size = length(rn[[1]]), replace = TRUE)
-# rn$landcover2015.tif = NULL
-#
-# ext = st_bbox(c(xmin = -249797.344531127, xmax = -211162.693944285,
-#                 ymin = -597280.143035389, ymax = -558645.492448547),
-#                 crs = st_crs(lc))
-#
-# ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
-# plot(ecoregions["id"])
-#
-# lc_ext = lc[ext]
-# plot(lc_ext)
-# lf_ext = lf[ext]
-# plot(lf_ext)
-# rn_ext = rn[ext]
-# plot(rn_ext)
+context("search")
+
+s_cove = lsp_search(
+  landform_ext,
+  landform,
+  type = "cove",
+  dist_fun = "jensen-shannon",
+  threshold = 0.9
+)
+
+s_cocove = lsp_search(
+  c(landcover_ext, landform_ext),
+  c(landcover, landform),
+  type = "cocove",
+  dist_fun = "jensen-shannon",
+  threshold = 0.9
+)
+
+s_wecove = lsp_search(
+  c(landform_ext, random_ndvi_ext),
+  c(landform, random_ndvi),
+  type = "cocove",
+  dist_fun = "jensen-shannon",
+  threshold = 0.9
+)
+
+s_incove = lsp_search(
+  c(landcover_ext, landform_ext),
+  c(landcover, landform),
+  type = "incove",
+  dist_fun = "jensen-shannon",
+  threshold = 0.9
+)
+
+test_that("tests simple search results", {
+  expect_equivalent(unlist(unique(s_cove)),
+                    c(1, 0.6806109, 0.4454181),
+                    tolerance = .001)
+  expect_equivalent(unlist(unique(s_cocove)),
+                    c(1, 0, 0.8314),
+                    tolerance = .001)
+  expect_equivalent(unlist(unique(s_wecove)),
+                    c(1, 0.6806, 0.4414),
+                    tolerance = .001)
+  expect_equivalent(unlist(unique(s_incove)),
+                    c(1, 0.3403, 0.7562),
+                    tolerance = .001)
+})
+
 #
 # # all area ----------------------------------------------------------------
 # s1 = lsp_search(lc_ext, lc, type = "cove",

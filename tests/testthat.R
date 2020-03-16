@@ -24,7 +24,7 @@ random_ndvi$landcover2015.tif = NULL
 # prepare sample landscapes -----------------------------------------------
 ext = st_bbox(c(xmin = -249797.344531127, xmax = -211162.693944285,
                 ymin = -597280.143035389, ymax = -558645.492448547),
-                crs = st_crs(lc))
+                crs = st_crs(landcover))
 
 landcover_ext = landcover[ext]
 landform_ext = landform[ext]
