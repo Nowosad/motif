@@ -127,16 +127,6 @@ get_motifels_all = function(x, type, directions, window_size, window_shift,
   return(x)
 }
 
-get_window_single_proxy = function(window_id, x, window, ...){
-  # print(window_id)
-  result = lsp_thumbprint(stars::st_as_stars(x[window[window_id, ]]), ...)
-  if (nrow(result) == 1){
-    result$id = window[[window_id, 1]]
-    result$na_prop = NA
-  }
-  return(result)
-}
-
 get_polygons_single_proxy = function(window_id, x, window, ...){
   # print(window_id)
   result = lsp_thumbprint(stars::st_as_stars(x[window[window_id, ]]), ...)
