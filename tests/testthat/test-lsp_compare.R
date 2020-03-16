@@ -1,13 +1,28 @@
-# library(stars)
-#
-# lc15 = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-# lc01 = read_stars(system.file("raster/landcover2001.tif", package = "motif"))
-# lf = read_stars(system.file("raster/landform.tif", package = "motif"))
-# ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
-#
-# lc15p = read_stars(system.file("raster/landcover2015.tif", package = "motif"), proxy = TRUE)
-# lc01p = read_stars(system.file("raster/landcover2001.tif", package = "motif"), proxy = TRUE)
-#
+context("compare")
+
+c_cove = lsp_compare(landcover,
+                     landcoverold,
+                     type = "cove",
+                     dist_fun = "jensen-shannon",
+                     threshold = 0.9)
+
+# c_cove_proxy = lsp_compare(landcover_p,
+#                      landcoverold_p,
+#                      type = "cove",
+#                      dist_fun = "jensen-shannon",
+#                      threshold = 0.9)
+
+test_that("tests simple compare results", {
+  expect_equal(length(c_cove), 4)
+  expect_equal(unique(c(c_cove$dist)),
+               0.0002, tolerance = .001)
+})
+
+# test_that("tests proxy compare results", {
+#   expect_equal(c_cove, c_cove_proxy)
+# })
+
+
 # # all area ----------------------------------------------------------------
 # s1 = lsp_compare(lc01, lc15, type = "cove",
 #   dist_fun = "jensen-shannon", threshold = 0.9)

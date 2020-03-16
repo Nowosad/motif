@@ -6,10 +6,12 @@ library(motif)
 # prepare regular stars ---------------------------------------------------
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
+landcoverold = read_stars(system.file("raster/landcover2001.tif", package = "motif"))
 
 # prepare stars proxy -----------------------------------------------------
 landform_p = read_stars(system.file("raster/landform.tif", package = "motif"), proxy = TRUE)
 landcover_p = read_stars(system.file("raster/landcover2015.tif", package = "motif"), proxy = TRUE)
+landcoverold_p = read_stars(system.file("raster/landcover2001.tif", package = "motif"), proxy = TRUE)
 
 # prepare poly ------------------------------------------------------------
 ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
