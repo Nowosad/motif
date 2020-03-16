@@ -24,15 +24,4 @@ get_unique_values_proxy = function(x, window_size, nr, nc){
   lapply(x, layer_guv, window_size, nr, nc)
 }
 
-merge_and_update = function(result, window_size, nr){
-  update_id = function(multiplier, x, window_size, nr){
-    n = ceiling(nr / window_size)
-    x[["id"]] = x[["id"]] + (multiplier * n)
-    x
-  }
-  len_x = seq_along(result) - 1
-  result = mapply(update_id, len_x, result, window_size, nr, SIMPLIFY = FALSE)
-  result = do.call(rbind, result)
-  result
-}
 

@@ -60,6 +60,18 @@ get_motifels_single_proxy = function(i, x_path, type, directions, window_size, w
   x
 }
 
+merge_and_update = function(result, window_size, nr){
+  update_id = function(multiplier, x, window_size, nr){
+    n = ceiling(nr / window_size)
+    x[["id"]] = x[["id"]] + (multiplier * n)
+    x
+  }
+  len_x = seq_along(result) - 1
+  result = mapply(update_id, len_x, result, window_size, nr, SIMPLIFY = FALSE)
+  result = do.call(rbind, result)
+  result
+}
+
 get_motifels_all = function(x, type, directions, window_size, window_shift,
                             f, threshold, classes,
                             ordered, repeated, normalization,
