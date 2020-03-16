@@ -84,8 +84,8 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = N
   y_metadata = stars::st_dimensions(y)
 
 # prepare classes ---------------------------------------------------------
-  x = lapply(x, function(x) `mode<-`(x, "integer"))
-  classes_x = lapply(x, get_unique_values, TRUE)
+  classes_x = lapply(lapply(x, function(x) `mode<-`(x, "integer")),
+                     get_unique_values, TRUE)
 
   if (inherits(y, "stars_proxy")){
     classes_y = get_unique_values_proxy(y,
@@ -105,7 +105,7 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = N
   classes = lapply(classes, sort)
 
 # y signature -------------------------------------------------------------
-  output = lsp_thumbprint(
+  output_y = lsp_thumbprint(
     x = y,
     type = type,
     window = window,
@@ -122,49 +122,28 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = N
   )
 
 # x signature -------------------------------------------------------------
-
-  # unique_classes_all = attributes(output)[["metadata"]][["vals"]]
-
-  if (type == "coma" || type == "cove") {
-    input_thumbprint = comat::get_cove(
-      comat::get_coma(x[[1]], neighbourhood = neighbourhood, classes = classes),
-      ordered = ordered,
-      normalization = normalization
-    )
-  } else if (type == "cocoma" || type == "cocove") {
-    input_thumbprint = comat::get_cocove(
-      comat::get_cocoma(x[[1]], x[[2]], neighbourhood = neighbourhood, classes = classes),
-      ordered = ordered,
-      normalization = normalization
-    )
-  } else if (type == "wecoma" || type == "wecove") {
-    input_thumbprint = comat::get_wecove(
-      comat::get_wecoma(
-        x[[1]],
-        x[[2]],
-        neighbourhood = neighbourhood,
-        classes = classes,
-        fun = wecoma_fun,
-        na_action = wecoma_na_action
-      ),
-      ordered = ordered,
-      normalization = normalization
-    )
-  } else if (type == "incoma" || type == "incove") {
-    input_thumbprint = comat::get_incove(
-      comat::get_incoma(x, neighbourhood = neighbourhood, classes = classes),
-      ordered = ordered,
-      repeated = repeated,
-      normalization = normalization
-    )
-  }
+  output_x = lsp_thumbprint(
+    x = x,
+    type = type,
+    window = NULL,
+    window_size = NULL,
+    window_shift = NULL,
+    neighbourhood = neighbourhood,
+    threshold = 1,
+    ordered = ordered,
+    repeated = repeated,
+    normalization = normalization,
+    wecoma_fun = wecoma_fun,
+    wecoma_na_action = wecoma_na_action,
+    classes = classes
+  )
 
 # calculate distance ------------------------------------------------------
   unit = "log2"
-  output$dist = unlist(lapply(
-    output$signature,
+  output_y$dist = unlist(lapply(
+    output_y$signature,
     distance2,
-    P = input_thumbprint,
+    P = output_x$signature[[1]],
     method = dist_fun,
     unit = unit,
     ...
@@ -173,18 +152,18 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, window_size = N
   message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
 # prepare result ----------------------------------------------------------
-  output$signature = NULL
+  output_y$signature = NULL
   output_stars = lsp_add_stars(y_metadata,
                                  window = window,
                                  window_size = window_size, window_shift = window_shift)
 
   # output_stars$na_prop = NA
   # output_stars$na_prop[which(output_stars$id %in% output$id)] = output$na_prop
-  output_stars$na_prop = output$na_prop[match(output_stars$id, output$id)]
+  output_stars$na_prop = output_y$na_prop[match(output_stars$id, output_y$id)]
 
   # output_stars$dist = NA
   # output_stars$dist[which(output_stars$id %in% output$id)] = output$dist
-  output_stars$dist = output$dist[match(output_stars$id, output$id)]
+  output_stars$dist = output_y$dist[match(output_stars$id, output_y$id)]
 
   return(output_stars)
 }
