@@ -34,9 +34,19 @@ convert_signatures = function(x, type, ordered, repeated, normalization){
                            ordered = ordered,
                            repeated = repeated,
                            normalization = normalization)
+    } else if ((type == "composition" || type == "fun") && normalization != "none"){
+      x$signature = lapply(x$signature,
+                           normalize_signature,
+                           normalization = normalization)
     }
   }
   return(x)
+}
+
+normalize_signature = function(x, normalization){
+  if (normalization == "pdf"){
+    return(x / sum(x))
+  }
 }
 
 get_motifels_single_proxy = function(i, x_path, type, directions, window_size, window_shift, f, threshold, classes, wecoma_fun, wecoma_na_action, nr, nc){
