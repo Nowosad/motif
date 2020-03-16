@@ -33,14 +33,14 @@ IntegerVector get_composition(const IntegerMatrix& x, std::vector<int> classes){
   return v;
 }
 
-// [[Rcpp::export]]
-IntegerVector get_composition_list(List x, std::vector<int> classes){
-  if (x.size() > 1){
-    warning("Composition is calculated for the first layer only");
-  }
-  IntegerMatrix m = x(0);
-  return get_composition(m, classes);
-}
+// //[[Rcpp::export]]
+// IntegerVector get_composition_list(List x, std::vector<int> classes){
+//   if (x.size() > 1){
+//     warning("Composition is calculated for the first layer only");
+//   }
+//   IntegerMatrix m = x(0);
+//   return get_composition(m, classes);
+// }
 //
 // // [[Rcpp::export]]
 // IntegerVector rcpp_get_composition_vector(const Rcpp::NumericVector & x)
