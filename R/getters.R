@@ -2,7 +2,7 @@ prepare_type = function(type){
   if (type == "cove"){
     type = "coma"
   } else if (type == "cocove"){
-    typ2 = "cocoma"
+    type = "cocoma"
   } else if (type == "wecove"){
     type = "wecoma"
   } else if (type == "incove"){
