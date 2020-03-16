@@ -6,11 +6,11 @@ c_cove = lsp_compare(landcover,
                      dist_fun = "jensen-shannon",
                      threshold = 0.9)
 
-# c_cove_proxy = lsp_compare(landcover_p,
-#                      landcoverold_p,
-#                      type = "cove",
-#                      dist_fun = "jensen-shannon",
-#                      threshold = 0.9)
+c_cove_proxy = lsp_compare(landcover_p,
+                     landcoverold_p,
+                     type = "cove",
+                     dist_fun = "jensen-shannon",
+                     threshold = 0.9)
 
 test_that("tests simple compare results", {
   expect_equal(length(c_cove), 4)
@@ -18,9 +18,9 @@ test_that("tests simple compare results", {
                0.0002, tolerance = .001)
 })
 
-# test_that("tests proxy compare results", {
-#   expect_equal(c_cove, c_cove_proxy)
-# })
+test_that("tests proxy compare results", {
+  expect_equal(c_cove, c_cove_proxy)
+})
 
 
 # # all area ----------------------------------------------------------------
