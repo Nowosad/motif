@@ -62,20 +62,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// get_motifels_ids
-IntegerMatrix get_motifels_ids(int num_r, int num_c, int size, int shift);
-RcppExport SEXP _motif_get_motifels_ids(SEXP num_rSEXP, SEXP num_cSEXP, SEXP sizeSEXP, SEXP shiftSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type num_r(num_rSEXP);
-    Rcpp::traits::input_parameter< int >::type num_c(num_cSEXP);
-    Rcpp::traits::input_parameter< int >::type size(sizeSEXP);
-    Rcpp::traits::input_parameter< int >::type shift(shiftSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_motifels_ids(num_r, num_c, size, shift));
-    return rcpp_result_gen;
-END_RCPP
-}
 // get_polygons
 List get_polygons(const List& input, std::string type, const arma::imat& m, const arma::imat& directions, Function f, double threshold, const std::string fun, const std::string na_action, List classes);
 RcppExport SEXP _motif_get_polygons(SEXP inputSEXP, SEXP typeSEXP, SEXP mSEXP, SEXP directionsSEXP, SEXP fSEXP, SEXP thresholdSEXP, SEXP funSEXP, SEXP na_actionSEXP, SEXP classesSEXP) {
@@ -136,7 +122,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_motif_get_composition", (DL_FUNC) &_motif_get_composition, 2},
     {"_motif_get_motifel_size", (DL_FUNC) &_motif_get_motifel_size, 3},
     {"_motif_get_motifels", (DL_FUNC) &_motif_get_motifels, 10},
-    {"_motif_get_motifels_ids", (DL_FUNC) &_motif_get_motifels_ids, 4},
     {"_motif_get_polygons", (DL_FUNC) &_motif_get_polygons, 9},
     {"_motif_get_unique_values", (DL_FUNC) &_motif_get_unique_values, 2},
     {"_motif_na_prop", (DL_FUNC) &_motif_na_prop, 1},

@@ -17,10 +17,6 @@ get_motifels <- function(input, type, directions, size, shift, f, threshold, cla
     .Call(`_motif_get_motifels`, input, type, directions, size, shift, f, threshold, classes, fun, na_action)
 }
 
-get_motifels_ids <- function(num_r, num_c, size, shift) {
-    .Call(`_motif_get_motifels_ids`, num_r, num_c, size, shift)
-}
-
 get_polygons <- function(input, type, m, directions, f, threshold, fun, na_action, classes) {
     .Call(`_motif_get_polygons`, input, type, m, directions, f, threshold, fun, na_action, classes)
 }
