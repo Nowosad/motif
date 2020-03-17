@@ -35,23 +35,12 @@
 #' library(stars)
 #'
 #' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-#' #plot(landcover)
-#' #landform = read_stars(system.file("raster/landform.tif", package = "motif"))
-#' #plot(landform)
-#' #ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
-#' #plot(ecoregions["id"])
 #'
-#' lsp_thumbprint(landcover, type = "coma", threshold = 0.9)
-#' lsp_thumbprint(landcover, type = "composition", threshold = 0.9)
-#' #lsp_thumbprint(landcover, type = "cove", threshold = 0.9)
-#' #lsp_thumbprint(landcover, type = "cove", threshold = 0.9, classes = 10)
-#' #lsp_thumbprint(c(landcover, landform), type = "incove", threshold = 0.9)
+#' landcover_coma = lsp_thumbprint(landcover, type = "coma", threshold = 0.9, window_size = 2000)
+#' landcover_coma
 #'
-#' #lsp_thumbprint(landcover, type = "coma", window_size = 100, window_shift = 100, threshold = 0.9)
-#' #lsp_thumbprint(landcover, type = "composition",
-#' #    window_size = 100, window_shift = 100, threshold = 0.9)
-#'
-#' #lsp_thumbprint(landcover, type = "coma", window = ecoregions["id"], threshold = 0.9)
+#' landcover_comp = lsp_thumbprint(landcover, type = "composition", threshold = 0.9)
+#' landcover_comp
 lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
                                       neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
                                       normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
