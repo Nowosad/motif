@@ -98,29 +98,23 @@ Additional parameters, such as neighbourhood or normalization types, are also av
 \examples{
 library(stars)
 
-lc = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-#lf = read_stars(system.file("raster/landform.tif", package = "motif"))
+landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
+plot(landcover)
 
 ext = st_bbox(c(xmin = -249797.344531127, xmax = -211162.693944285,
                 ymin = -597280.143035389, ymax = -558645.492448547),
                 crs = st_crs(lc))
 
-#ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
-#plot(ecoregions)
+ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
+plot(ecoregions["id"])
 
-lc_ext = lc[ext]
-#lf_ext = lf[ext]
+landcover_ext = landcover[ext]
+plot(landcover_ext)
 
-s1 = lsp_search(lc_ext, lc, type = "cove",
-  dist_fun = "jensen-shannon", threshold = 0.9)
-#s2 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "cocove",
-#  dist_fun = "jensen-shannon", threshold = 0.9)
-#s3 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "wecove",
-#  dist_fun = "jensen-shannon", threshold = 0.9)
-#s4 = lsp_search(c(lc_ext, lf_ext), c(lc, lf), type = "incove",
-#  dist_fun = "jensen-shannon", threshold = 0.9)
-#s5 = lsp_search(lf_ext, lf, type = "cove",
-#  dist_fun = "jensen-shannon", threshold = 0.5, window_size = 250)
-#s6 = lsp_search(lc_ext, lc, type = "cove",
-#  dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions)
+s1 = lsp_search(landcover_ext, landcover, type = "cove",
+  dist_fun = "jensen-shannon", threshold = 0.9, window_size = 1000)
+plot(s1["dist"])
+s2 = lsp_search(landcover_ext, landcover, type = "cove",
+  dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions["id"])
+plot(s2["dist"])
 }
