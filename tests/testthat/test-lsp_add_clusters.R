@@ -1,25 +1,44 @@
-# library(stars)
-# library(rcartocolor)
-#
-# landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-# # plt(landcover)
-# lc_cove = lsp_thumbprint(landcover, type = "cove", window_size = 200, normalization = "pdf")
-# lc_dist = lsp_to_dist(lc_cove, dist_fun = "jensen-shannon")
-# lc_hclust = hclust(lc_dist, method = "ward.D2")
-# clusters = cutree(lc_hclust, k = 12)
-#
-# # stars -------------------------------------------------------------------
-# lc_grid_stars = lsp_add_clusters(lc_cove, clusters)
-# plot(lc_grid_stars["clust"], col = carto_pal(12, "Safe"))
-#
-# # sf ----------------------------------------------------------------------
-# lc_grid_sf = lsp_add_clusters(lc_cove, clusters, output = "sf")
-#
-# safe_pal = function(n){
-#   carto_pal(n, "Safe")
-# }
-#
-# lc_grid_sf$clust = as.factor(lc_grid_sf$clust)
-# plot(lc_grid_sf["clust"], pal = safe_pal)
-#
-# # mapview::mapview(lc_grid_sf["clust"])
+context("cluster")
+
+landform_cove = lsp_thumbprint(landform,
+                               type = "cove",
+                               window_size = 200,
+                               normalization = "pdf")
+
+landform_dist = lsp_to_dist(landform_cove,
+                            dist_fun = "jensen-shannon")
+
+landform_hclust = hclust(landform_dist, method = "ward.D2")
+# plot(landform_hclust)
+clusters = cutree(landform_hclust, k = 6)
+
+# dput(rcartocolor::carto_pal(n=6, "Safe"))
+safe_pal = c("#88CCEE", "#CC6677", "#DDCC77",
+             "#117733", "#332288", "#888888")
+
+# stars -------------------------------------------------------------------
+landform_grid_stars = lsp_add_clusters(landform_cove, clusters)
+# plot(landform_grid_stars["clust"], col = safe_pal)
+
+# sf ----------------------------------------------------------------------
+landform_grid_sf = lsp_add_clusters(landform_cove,
+                                    clusters, output = "sf")
+
+# landform_grid_sf$clust = as.factor(landform_grid_sf$clust)
+# plot(landform_grid_sf["clust"], pal = safe_pal)
+# mapview::mapview(landform_grid_sf["clust"])
+
+test_that("tests lsp_to_dist works", {
+  expect_s3_class(landform_dist, "dist")
+  expect_equal(length(landform_dist) * 2 + 223, nrow(landform_cove)^2)
+})
+
+test_that("tests lsp_add_clusters works on stars", {
+  expect_s3_class(landform_grid_stars, "stars")
+  expect_equal(sort(unique(c(landform_grid_stars$clust))), 1:6)
+})
+
+test_that("tests lsp_add_clusters works on sf", {
+  expect_s3_class(landform_grid_sf, "sf")
+  expect_equal(sort(unique(landform_grid_sf$clust)), 1:6)
+})
