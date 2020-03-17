@@ -1,28 +1,26 @@
-#' Title
+#' Calculates quality of clustering
 #'
-#' @param x
+#' Calculates three quality metrics to evaluate spatial patterns' clustering:
+#' (1) inhomogeneity - it measures a degree of mutual dissimilarity
+#' between all objects in a cluster. This value is between 0 and 1,
+#' where small value indicates that all objects in the cluster
+#' represent consistent patterns so the cluster is pattern-homogeneous.
+#' (2) isolation - it is an average distance between the focus cluster
+#' and all of its neighbors. This value is between 0 and 1,
+#' where large value indicates that the cluster
+#' stands out from its surroundings.
+#' (3) quality - overall quality of a cluster. It is calculated as
+#' 1 - (inhomogeneity / isolation). This value is also between 0 and 1,
+#' where increased values indicate increased quality.
 #'
-#' @param x_dist
-#' @param regions
+#' @param x Object of class `lsp` - usually the output of
+#' the `lsp_thumbprint()` function
+#' @param x_dist Object of class `dist` - usually the output of
+#' the `lsp_to_dist()` function
+#' @param regions Not implemented yet
 #'
 #' @examples
-#' library(stars)
-#' library(rcartocolor)
-#'
-#' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-#' # plot(landcover)
-#' lc_cove = lsp_thumbprint(landcover, type = "cove", window_size = 1000, normalization = "pdf")
-#' lc_dist = lsp_to_dist(lc_cove, dist_fun = "jensen-shannon")
-#' lc_hclust = hclust(lc_dist, method = "ward.D2")
-#' clusters = cutree(lc_hclust, k = 12)
-#'
-#' lc_grid = lsp_add_clusters(lc_cove, clusters)
-#' plot(lc_grid["clust"], col = carto_pal(12, "Safe"))
-#'
-#' lc_grid = lsp_add_quality(lc_grid, lc_dist)
-#' plot(lc_grid["inhomogeneity"])
-#' plot(lc_grid["isolation"])
-#' plot(lc_grid["quality"])
+#' # see examples of `lsp_add_clusters()`
 #'
 #' @export
 lsp_add_quality = function(x, x_dist, regions = FALSE){
