@@ -28,11 +28,13 @@
 #' dist_cov
 #' @export
 lsp_to_dist = function(x, dist_fun, unit = "log2", p = NULL){
-  vec_to_dist(vec = x$signature, dist_fun = dist_fun, unit = unit, p = p)
+  vec_to_dist(x, dist_fun = dist_fun, unit = unit, p = p)
 }
 
-vec_to_dist = function(vec, dist_fun, unit, p){
-  mat = do.call(rbind, vec)
-  mat = philentropy::distance(mat, method = dist_fun, p = p, test.na = FALSE, unit = unit, est.prob = NULL)
+vec_to_dist = function(x, dist_fun, unit, p){
+  mat = do.call(rbind, x$signature)
+  mat = philentropy::distance(mat, method = dist_fun, p = p,
+                              test.na = FALSE, unit = unit, est.prob = NULL)
+  dimnames(mat) = list(x$id, x$id)
   stats::as.dist(mat)
 }
