@@ -191,7 +191,7 @@ lsp_add_sf.default = function(x = NULL, window = NULL, window_size = NULL, windo
 
   } else {
 
-    names(window) = "id"
+    # names(window) = "id"
     return(window)
   }
 }
