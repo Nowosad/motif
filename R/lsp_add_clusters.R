@@ -1,23 +1,38 @@
-#' Title
+#' Adds clusters' ids to a lsp object
 #'
-#' @param x
+#' Adds clusters' ids to a lsp object. The output can be of `stars` or `sf` class.
 #'
-#' @param clust
+#' @param x Object of class `lsp` - usually the output of
+#' the `lsp_thumbprint()` function
+#' @param clust Vector containing an id value for each row in `x`
+#' @param output The class of the output. Either `"stars"` or `"sf"`
 #'
 #' @examples
 #' library(stars)
-#' library(rcartocolor)
+#' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
+#' landform_cove = lsp_thumbprint(landform,
+#'                                type = "cove",
+#'                                window_size = 200,
+#'                                normalization = "pdf")
 #'
-#' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-#' # plot(landcover)
-#' lc_cove = lsp_thumbprint(landcover, type = "cove", window_size = 1000, normalization = "pdf")
-#' lc_dist = lsp_to_dist(lc_cove, dist_fun = "jensen-shannon")
-#' lc_hclust = hclust(lc_dist, method = "ward.D2")
-#' clusters = cutree(lc_hclust, k = 12)
+#' landform_dist = lsp_to_dist(landform_cove,
+#'                             dist_fun = "jensen-shannon")
 #'
-#' lc_grid = lsp_add_clusters(lc_cove, clusters)
-#' plot(lc_grid["clust"], col = carto_pal(12, "Safe"))
+#' landform_hclust = hclust(landform_dist, method = "ward.D2")
+#' plot(landform_hclust)
 #'
+#' clusters = cutree(landform_hclust, k = 6)
+#'
+#' safe_pal = c("#88CCEE", "#CC6677", "#DDCC77",
+#'              "#117733", "#332288", "#888888")
+#'
+#' # stars -------------------------------------------------------------------
+#' landform_grid_stars = lsp_add_clusters(landform_cove, clusters)
+#' plot(landform_grid_stars["clust"], col = safe_pal)
+#'
+#' landform_grid_starsq = lsp_add_quality(landform_grid_stars,
+#'                                        landform_dist)
+#' plot(landform_grid_starsq["quality"])
 #' @export
 lsp_add_clusters = function(x, clust, output = "stars"){
   x$clust = clust
