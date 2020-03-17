@@ -35,7 +35,7 @@ List get_polygons(const List& input,
   arma::imat y;
   arma::dmat w;
 
-  if (type == "coma" | type == "cocoma" | type == "wecoma" | type == "composition"){
+  if ((type == "coma" || type == "cocoma") || (type == "wecoma" || type == "composition")){
     x = Rcpp::as<arma::imat>(input(0));
   }
   if (type == "cocoma"){
