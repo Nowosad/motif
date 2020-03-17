@@ -6,7 +6,13 @@
 \alias{motif-package}
 \title{motif: Local Pattern Analysis}
 \description{
-What the package does (one paragraph).
+Describes spatial patterns of categorical raster data for 
+    any defined regular and irregular areas. 
+    Patterns are described quantitatively using built-in signatures 
+    based on co-occurrence matrices but also allows for 
+    any user-defined functions. 
+    It enables spatial analysis such as search, change detection,
+    and clustering to be performed on spatial patterns.
 }
 \seealso{
 Useful links:

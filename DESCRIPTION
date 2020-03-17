@@ -6,7 +6,13 @@ Authors@R: c(
     role = c("aut", "cre"),
     email = "nowosad.jakub@gmail.com", 
     comment = c(ORCID = "0000-0002-1057-3721")))
-Description: What the package does (one paragraph).
+Description: Describes spatial patterns of categorical raster data for 
+    any defined regular and irregular areas. 
+    Patterns are described quantitatively using built-in signatures 
+    based on co-occurrence matrices but also allows for 
+    any user-defined functions. 
+    It enables spatial analysis such as search, change detection,
+    and clustering to be performed on spatial patterns.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

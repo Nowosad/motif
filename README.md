@@ -11,8 +11,13 @@ status](https://travis-ci.org/Nowosad/motif.svg?branch=master)](https://travis-c
 coverage](https://codecov.io/gh/Nowosad/motif/branch/master/graph/badge.svg)](https://codecov.io/gh/Nowosad/motif?branch=master)
 <!-- badges: end -->
 
-The goal of motif is to
-…
+The **motif** package describes spatial patterns of categorical raster
+data for any defined regular and irregular areas. Patters are described
+quantitatively using built-in signatures based on co-occurrence matrices
+but also allows for any user-defined functions. It enables spatial
+analysis such as search, change detection, and clustering to be
+performed on spatial
+patterns.
 
 ## Installation
 
