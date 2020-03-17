@@ -120,8 +120,9 @@ library(stars)
 
 lc15 = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 lc01 = read_stars(system.file("raster/landcover2001.tif", package = "motif"))
-ecoregions = read_stars(system.file("raster/ecoregions.tif", package = "motif"))
+ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
 
 c1 = lsp_compare(lc01, lc15, type = "cove",
     dist_fun = "jensen-shannon", window = ecoregions["id"])
+plot(c1["dist"])
 }
