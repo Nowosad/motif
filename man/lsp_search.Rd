@@ -103,13 +103,13 @@ plot(landcover)
 
 ext = st_bbox(c(xmin = -249797.344531127, xmax = -211162.693944285,
                 ymin = -597280.143035389, ymax = -558645.492448547),
-                crs = st_crs(lc))
-
-ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
-plot(ecoregions["id"])
+                crs = st_crs(landcover))
 
 landcover_ext = landcover[ext]
 plot(landcover_ext)
+
+ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
+plot(ecoregions["id"])
 
 s1 = lsp_search(landcover_ext, landcover, type = "cove",
   dist_fun = "jensen-shannon", threshold = 0.9, window_size = 1000)
