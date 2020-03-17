@@ -4,7 +4,7 @@
 \alias{lsp_add_quality}
 \title{Title}
 \usage{
-lsp_add_quality(x, x_dist, clust_var, regions = FALSE)
+lsp_add_quality(x, x_dist, regions = FALSE)
 }
 \arguments{
 \item{x}{}
@@ -28,7 +28,7 @@ clusters = cutree(lc_hclust, k = 12)
 lc_grid = lsp_add_clusters(lc_cove, clusters)
 plot(lc_grid["clust"], col = carto_pal(12, "Safe"))
 
-lc_grid = lsp_add_quality(lc_grid, lc_dist, "clust")
+lc_grid = lsp_add_quality(lc_grid, lc_dist)
 plot(lc_grid["inhomogeneity"])
 plot(lc_grid["isolation"])
 plot(lc_grid["quality"])
