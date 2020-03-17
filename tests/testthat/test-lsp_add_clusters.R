@@ -20,6 +20,12 @@ safe_pal = c("#88CCEE", "#CC6677", "#DDCC77",
 landform_grid_stars = lsp_add_clusters(landform_cove, clusters)
 # plot(landform_grid_stars["clust"], col = safe_pal)
 
+landform_grid_starsq = lsp_add_quality(landform_grid_stars,
+                                      landform_dist)
+# plot(landform_grid_stars["inhomogeneity"])
+# plot(landform_grid_stars["isolation"])
+# plot(landform_grid_stars["quality"])
+
 # sf ----------------------------------------------------------------------
 landform_grid_sf = lsp_add_clusters(landform_cove,
                                     clusters, output = "sf")
@@ -28,6 +34,12 @@ landform_grid_sf = lsp_add_clusters(landform_cove,
 # plot(landform_grid_sf["clust"], pal = safe_pal)
 # mapview::mapview(landform_grid_sf["clust"])
 
+landform_grid_sfq = lsp_add_quality(landform_grid_sf, landform_dist)
+# plot(landform_grid_sf["inhomogeneity"])
+# plot(landform_grid_sf["isolation"])
+# plot(landform_grid_sf["quality"])
+
+# tests -------------------------------------------------------------------
 test_that("tests lsp_to_dist works", {
   expect_s3_class(landform_dist, "dist")
   expect_equal(length(landform_dist) * 2 + 223, nrow(landform_cove)^2)
@@ -42,3 +54,13 @@ test_that("tests lsp_add_clusters works on sf", {
   expect_s3_class(landform_grid_sf, "sf")
   expect_equal(sort(unique(landform_grid_sf$clust)), 1:6)
 })
+
+test_that("tests lsp_add_quality works", {
+  expect_s3_class(landform_grid_starsq, "stars")
+  expect_s3_class(landform_grid_sfq, "sf")
+  expect_equal(mean(landform_grid_starsq$quality, na.rm = TRUE),
+               mean(landform_grid_sfq$quality, na.rm = TRUE))
+  expect_equal(mean(landform_grid_starsq$quality, na.rm = TRUE), 0.7883004, tolerance = .001)
+})
+
+
