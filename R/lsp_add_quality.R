@@ -49,7 +49,7 @@ lsp_isolation = function(x, x_dist, clust_var, regions){
   if (!regions){
     x_merged = stats::aggregate(x_merged, list(x_merged[[clust_var]]), function(x) x[1])
   } else {
-    stop("This option is not yet implemented.")
+    stop("This option is not yet implemented.", .call = FALSE)
   }
   x = sf::st_as_sf(x[c("id", clust_var)], merge = FALSE)
 

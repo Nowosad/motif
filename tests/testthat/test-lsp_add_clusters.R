@@ -22,6 +22,7 @@ landform_grid_stars = lsp_add_clusters(landform_cove, clusters)
 
 landform_grid_starsq = lsp_add_quality(landform_grid_stars,
                                       landform_dist)
+
 # plot(landform_grid_stars["inhomogeneity"])
 # plot(landform_grid_stars["isolation"])
 # plot(landform_grid_stars["quality"])
@@ -63,4 +64,8 @@ test_that("tests lsp_add_quality works", {
   expect_equal(mean(landform_grid_starsq$quality, na.rm = TRUE), 0.7883004, tolerance = .001)
 })
 
-
+test_that("region = TRUE is not implemented", {
+  expect_error(landform_grid_starsq = lsp_add_quality(landform_grid_stars,
+                                         landform_dist,
+                                         regions = TRUE))
+})
