@@ -3,7 +3,6 @@
 #' @param x
 #'
 #' @param x_dist
-#' @param clust_var
 #' @param regions
 #'
 #' @examples
@@ -20,13 +19,14 @@
 #' lc_grid = lsp_add_clusters(lc_cove, clusters)
 #' plot(lc_grid["clust"], col = carto_pal(12, "Safe"))
 #'
-#' lc_grid = lsp_add_quality(lc_grid, lc_dist, "clust")
+#' lc_grid = lsp_add_quality(lc_grid, lc_dist)
 #' plot(lc_grid["inhomogeneity"])
 #' plot(lc_grid["isolation"])
 #' plot(lc_grid["quality"])
 #'
 #' @export
-lsp_add_quality = function(x, x_dist, clust_var, regions = FALSE){
+lsp_add_quality = function(x, x_dist, regions = FALSE){
+  clust_var = "clust"
   x_dist = as.matrix(x_dist)
   inh = lsp_inhomogeneity(x, x_dist = x_dist, clust_var = clust_var, regions = regions)
   iso = lsp_isolation(x, x_dist = x_dist, clust_var = clust_var, regions = regions)
@@ -76,8 +76,8 @@ get_isolation = function(x_clust, x, x_dist, x_grid_neigh, clust_var){
     for (i in seq_along(x_clust_neigh)){
       # print(i)
       x_clust_dist[i] = mean(x_dist[
-        x[["id"]][(x[[clust_var]] == x_clust)],
-        x[["id"]][(x[[clust_var]] == x_clust_neigh[i])]
+        as.character(x[["id"]][(x[[clust_var]] %in% x_clust)]),
+        as.character(x[["id"]][(x[[clust_var]] %in% x_clust_neigh[i])])
         ])
     }
     return(mean(x_clust_dist))
@@ -98,8 +98,8 @@ lsp_inhomogeneity = function(x, x_dist, clust_var, regions){
 
 get_inhomogeneity = function(x, x_dist, x_clust, clust_var){
   x_clust_dist = x_dist[
-    x[["id"]][(x[[clust_var]] == x_clust)],
-    x[["id"]][(x[[clust_var]] == x_clust)]
+    as.character(x[["id"]][(x[[clust_var]] %in% x_clust)]),
+    as.character(x[["id"]][(x[[clust_var]] %in% x_clust)])
     ]
 
   if (sum(x_clust_dist) != 0){
