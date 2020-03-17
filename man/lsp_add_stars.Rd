@@ -4,7 +4,7 @@
 \alias{lsp_add_stars}
 \alias{lsp_add_stars.default}
 \alias{lsp_add_stars.lsp}
-\title{Title}
+\title{Creates or adds a stars object}
 \usage{
 lsp_add_stars(x = NULL, window = NULL, window_size = NULL, window_shift = NULL)
 
@@ -18,12 +18,17 @@ For \code{stars}, \code{window} or \code{window_size} can be used.}
 
 \item{window}{Specifies areas for analysis. Either \code{window} or \code{window_size} argument can be used. Object of class \code{sf} with one attribute (otherwise the first attibute is used as an id).}
 
-\item{window_size}{Specifies areas for analysis. Either \code{window} or \code{window_size} argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If \code{size=NULL} calculations are performed for a whole area.}
+\item{window_size}{Specifies areas for analysis. Either \code{window} or \code{window_size} argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If \code{window_size=NULL} calculations are performed for a whole area.}
 
-\item{window_shift}{Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift < size - results in the grid of overlapping square windows.}
+\item{window_shift}{Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If \code{window_shift=window_size} the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If \code{window_shift} < \code{window_size} - results in the grid of overlapping square windows.}
 }
 \description{
-EXPAND
+Creates or adds a stars object based on the input object or a set of parameters.
+It accepts either an object of class \code{stars} or \code{lsp}.
+In the first case, the output is created based on
+a set of parameters (\code{window_size} and \code{window_shift} or \code{window}).
+In the second case, the output converts the \code{lsp} object into
+a \code{stars} object.
 }
 \examples{
 library(stars)

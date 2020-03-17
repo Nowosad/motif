@@ -1,12 +1,17 @@
-#' Title
+#' Creates or adds a stars object
 #'
-#' EXPAND
+#' Creates or adds a stars object based on the input object or a set of parameters.
+#' It accepts either an object of class `stars` or `lsp`.
+#' In the first case, the output is created based on
+#' a set of parameters (`window_size` and `window_shift` or `window`).
+#' In the second case, the output converts the `lsp` object into
+#' a `stars` object.
 #'
 #' @param x Object of class `stars` or `lsp`.
 #' For `stars`, `window` or `window_size` can be used.
 #' @param window Specifies areas for analysis. Either `window` or `window_size` argument can be used. Object of class `sf` with one attribute (otherwise the first attibute is used as an id).
-#' @param window_size Specifies areas for analysis. Either `window` or `window_size` argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If `size=NULL` calculations are performed for a whole area.
-#' @param window_shift Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift < size - results in the grid of overlapping square windows.
+#' @param window_size Specifies areas for analysis. Either `window` or `window_size` argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If `window_size=NULL` calculations are performed for a whole area.
+#' @param window_shift Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If `window_shift=window_size` the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If `window_shift` < `window_size` - results in the grid of overlapping square windows.
 #'
 #' @examples
 #' library(stars)
@@ -139,13 +144,32 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
   return(output)
 }
 
-#' Title
+#' Creates or adds a sf object
 #'
-#' @param x
+#' Creates or adds a sf object based on the input object or a set of parameters.
+#' It accepts either an object of class `stars` or `lsp`.
+#' In the first case, the output is created based on
+#' a set of parameters (`window_size` and `window_shift` or `window`).
+#' In the second case, the output converts the `lsp` object into
+#' a `sf` object.
 #'
-#' @param window
-#' @param window_size
-#' @param window_shift
+#' @param x Object of class `stars` or `lsp`.
+#' For `stars`, `window` or `window_size` can be used.
+#' @param window Specifies areas for analysis. Either `window` or `window_size` argument can be used. Object of class `sf` with one attribute (otherwise, the first attribute is used as an id).
+#' @param window_size Specifies areas for analysis. Either `window` or `window_size` argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If `window_size=NULL` calculations are performed for a whole area.
+#' @param window_shift Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If `window_shift=window_size` the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If `window_shift` < `window_size` - results in the grid of overlapping square windows.
+#'
+#' @examples
+#' library(stars)
+#' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
+#' plot(landform)
+#' landform_lsp = lsp_add_sf(landform, window_size = 100)
+#' plot(landform_lsp)
+#'
+#' lc_cove = lsp_thumbprint(landform, type = "cove", window_size = 200, normalization = "pdf")
+#' lc_cove_lsp = lsp_add_sf(lc_cove)
+#' plot(lc_cove_lsp["id"])
+#' plot(lc_cove_lsp["na_prop"])
 #'
 #' @aliases lsp_add_sf
 #' @rdname lsp_add_sf
