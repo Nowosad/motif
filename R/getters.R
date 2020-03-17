@@ -43,13 +43,10 @@ convert_signatures = function(x, type, ordered, repeated, normalization){
   return(x)
 }
 
-normalize_signature = function(x, normalization){
-  if (normalization == "pdf"){
-    return(x / sum(x))
-  }
-}
 
-get_motifels_single_proxy = function(i, x_path, type, directions, window_size, window_shift, f, threshold, classes, wecoma_fun, wecoma_na_action, nr, nc){
+get_motifels_single_proxy = function(i, x_path, type, directions, window_size,
+                                     window_shift, f, threshold, classes,
+                                     wecoma_fun, wecoma_na_action, nr, nc){
   rasterio = list(nXOff = 1, nYOff = i, nXSize = nr,
                   nYSize = ifelse((i + window_size > nc || i + window_size == 1),
                                   nc - i + 1,

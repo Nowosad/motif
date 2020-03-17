@@ -27,3 +27,8 @@ get_unique_values_proxy = function(x, window_size, nr, nc){
 }
 
 
+normalize_signature = function(x, normalization){
+  if (normalization == "pdf"){
+    return(x / sum(x))
+  }
+}
