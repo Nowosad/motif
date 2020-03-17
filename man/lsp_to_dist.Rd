@@ -8,7 +8,7 @@ lsp_to_dist(x, dist_fun, unit = "log2", p = NULL)
 }
 \arguments{
 \item{x}{An object of class \code{lsp} - usually the output of
-the \code{lsp_thumbprint} function}
+the \code{lsp_thumbprint()} function}
 
 \item{dist_fun}{A distance/dissimilarity method used.
 All possible values can be found using

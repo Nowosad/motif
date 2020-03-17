@@ -3,7 +3,7 @@
 #' Calculates a distance matrix based on an object of class `lsp`.
 #'
 #' @param x An object of class `lsp` - usually the output of
-#' the `lsp_thumbprint` function
+#' the `lsp_thumbprint()` function
 #' @param dist_fun A distance/dissimilarity method used.
 #' All possible values can be found using
 #' the [philentropy::getDistMethods()] function

@@ -28,7 +28,6 @@
 #' safe_pal = c("#88CCEE", "#CC6677", "#DDCC77",
 #'              "#117733", "#332288", "#888888")
 #'
-#' # stars -------------------------------------------------------------------
 #' landform_grid_stars = lsp_add_clusters(landform_cove, clusters)
 #' plot(landform_grid_stars["clust"], col = safe_pal)
 #'
