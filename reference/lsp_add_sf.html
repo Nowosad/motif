@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Title — lsp_add_sf • motif</title>
+<title>Creates or adds a sf object — lsp_add_sf • motif</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,13 @@
 
 
 
-<meta property="og:title" content="Title — lsp_add_sf" />
-<meta property="og:description" content="Title" />
+<meta property="og:title" content="Creates or adds a sf object — lsp_add_sf" />
+<meta property="og:description" content="Creates or adds a sf object based on the input object or a set of parameters.
+It accepts either an object of class stars or lsp.
+In the first case, the output is created based on
+a set of parameters (window_size and window_shift or window).
+In the second case, the output converts the lsp object into
+a sf object." />
 
 
 
@@ -131,13 +136,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Title</h1>
+    <h1>Creates or adds a sf object</h1>
     <small class="dont-index">Source: <a href='https://github.com/Nowosad/motif/blob/master/R/lsp_add_spatial.R'><code>R/lsp_add_spatial.R</code></a></small>
     <div class="hidden name"><code>lsp_add_sf.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Title</p>
+    <p>Creates or adds a sf object based on the input object or a set of parameters.
+It accepts either an object of class <code>stars</code> or <code>lsp</code>.
+In the first case, the output is created based on
+a set of parameters (<code>window_size</code> and <code>window_shift</code> or <code>window</code>).
+In the second case, the output converts the <code>lsp</code> object into
+a <code>sf</code> object.</p>
     </div>
 
     <pre class="usage"><span class='fu'>lsp_add_sf</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window_shift</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
@@ -153,20 +163,39 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td></td>
+      <td><p>Object of class <code>stars</code> or <code>lsp</code>.
+For <code>stars</code>, <code>window</code> or <code>window_size</code> can be used.</p></td>
+    </tr>
+    <tr>
+      <th>window</th>
+      <td><p>Specifies areas for analysis. Either <code>window</code> or <code>window_size</code> argument can be used. Object of class <code>sf</code> with one attribute (otherwise, the first attribute is used as an id).</p></td>
+    </tr>
+    <tr>
+      <th>window_size</th>
+      <td><p>Specifies areas for analysis. Either <code>window</code> or <code>window_size</code> argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If <code>window_size=NULL</code> calculations are performed for a whole area.</p></td>
     </tr>
     <tr>
       <th>window_shift</th>
-      <td></td>
+      <td><p>Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If <code>window_shift=window_size</code> the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If <code>window_shift</code> &lt; <code>window_size</code> - results in the grid of overlapping square windows.</p></td>
     </tr>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stars</span>)
+<span class='no'>landform</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landform.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
+<span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>landform</span>)</div><div class='img'><img src='lsp_add_sf-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>landform_lsp</span> <span class='kw'>=</span> <span class='fu'>lsp_add_sf</span>(<span class='no'>landform</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>landform_lsp</span>)</div><div class='img'><img src='lsp_add_sf-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>lc_cove</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_thumbprint.html'>lsp_thumbprint</a></span>(<span class='no'>landform</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"pdf"</span>)
+<span class='no'>lc_cove_lsp</span> <span class='kw'>=</span> <span class='fu'>lsp_add_sf</span>(<span class='no'>lc_cove</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>lc_cove_lsp</span>[<span class='st'>"id"</span>])</div><div class='img'><img src='lsp_add_sf-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>lc_cove_lsp</span>[<span class='st'>"na_prop"</span>])</div><div class='img'><img src='lsp_add_sf-4.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

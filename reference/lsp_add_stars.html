@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Title — lsp_add_stars • motif</title>
+<title>Creates or adds a stars object — lsp_add_stars • motif</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,13 @@
 
 
 
-<meta property="og:title" content="Title — lsp_add_stars" />
-<meta property="og:description" content="EXPAND" />
+<meta property="og:title" content="Creates or adds a stars object — lsp_add_stars" />
+<meta property="og:description" content="Creates or adds a stars object based on the input object or a set of parameters.
+It accepts either an object of class stars or lsp.
+In the first case, the output is created based on
+a set of parameters (window_size and window_shift or window).
+In the second case, the output converts the lsp object into
+a stars object." />
 
 
 
@@ -131,13 +136,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Title</h1>
+    <h1>Creates or adds a stars object</h1>
     <small class="dont-index">Source: <a href='https://github.com/Nowosad/motif/blob/master/R/lsp_add_spatial.R'><code>R/lsp_add_spatial.R</code></a></small>
     <div class="hidden name"><code>lsp_add_stars.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>EXPAND</p>
+    <p>Creates or adds a stars object based on the input object or a set of parameters.
+It accepts either an object of class <code>stars</code> or <code>lsp</code>.
+In the first case, the output is created based on
+a set of parameters (<code>window_size</code> and <code>window_shift</code> or <code>window</code>).
+In the second case, the output converts the <code>lsp</code> object into
+a <code>stars</code> object.</p>
     </div>
 
     <pre class="usage"><span class='fu'>lsp_add_stars</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window_shift</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
@@ -162,11 +172,11 @@ For <code>stars</code>, <code>window</code> or <code>window_size</code> can be u
     </tr>
     <tr>
       <th>window_size</th>
-      <td><p>Specifies areas for analysis. Either <code>window</code> or <code>window_size</code> argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If <code>size=NULL</code> calculations are performed for a whole area.</p></td>
+      <td><p>Specifies areas for analysis. Either <code>window</code> or <code>window_size</code> argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If <code>window_size=NULL</code> calculations are performed for a whole area.</p></td>
     </tr>
     <tr>
       <th>window_shift</th>
-      <td><p>Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift &lt; size - results in the grid of overlapping square windows.</p></td>
+      <td><p>Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If <code>window_shift=window_size</code> the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If <code>window_shift</code> &lt; <code>window_size</code> - results in the grid of overlapping square windows.</p></td>
     </tr>
     </table>
 

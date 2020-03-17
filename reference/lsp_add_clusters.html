@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Title — lsp_add_clusters • motif</title>
+<title>Adds clusters' ids to a lsp object — lsp_add_clusters • motif</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,10 @@
 
 
 
-<meta property="og:title" content="Title — lsp_add_clusters" />
-<meta property="og:description" content="Title" />
+<meta property="og:title" content="Adds clusters' ids to a lsp object — lsp_add_clusters" />
+<meta property="og:description" content="Adds clusters' ids to a lsp object.
+The output can be of stars or sf class.
+See examples." />
 
 
 
@@ -131,13 +133,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Title</h1>
+    <h1>Adds clusters' ids to a lsp object</h1>
     <small class="dont-index">Source: <a href='https://github.com/Nowosad/motif/blob/master/R/lsp_add_clusters.R'><code>R/lsp_add_clusters.R</code></a></small>
     <div class="hidden name"><code>lsp_add_clusters.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Title</p>
+    <p>Adds clusters' ids to a lsp object.
+The output can be of <code>stars</code> or <code>sf</code> class.
+See examples.</p>
     </div>
 
     <pre class="usage"><span class='fu'>lsp_add_clusters</span>(<span class='no'>x</span>, <span class='no'>clust</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"stars"</span>)</pre>
@@ -147,26 +151,40 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td></td>
+      <td><p>Object of class <code>lsp</code> - usually the output of
+the <code><a href='lsp_thumbprint.html'>lsp_thumbprint()</a></code> function</p></td>
     </tr>
     <tr>
       <th>clust</th>
-      <td></td>
+      <td><p>Vector containing an id value for each row in <code>x</code></p></td>
+    </tr>
+    <tr>
+      <th>output</th>
+      <td><p>The class of the output. Either <code>"stars"</code> or <code>"sf"</code></p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stars</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: abind</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: sf</span></div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>rcartocolor</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stars</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: abind</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: sf</span></div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0</span></div><div class='input'><span class='no'>landform</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landform.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
+<span class='no'>landform_cove</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_thumbprint.html'>lsp_thumbprint</a></span>(<span class='no'>landform</span>,
+                               <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>,
+                               <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>200</span>,
+                               <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"pdf"</span>)
 
-<span class='no'>landcover</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landcover2015.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
-<span class='co'># plot(landcover)</span>
-<span class='no'>lc_cove</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_thumbprint.html'>lsp_thumbprint</a></span>(<span class='no'>landcover</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"pdf"</span>)
-<span class='no'>lc_dist</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_to_dist.html'>lsp_to_dist</a></span>(<span class='no'>lc_cove</span>, <span class='kw'>dist_fun</span> <span class='kw'>=</span> <span class='st'>"jensen-shannon"</span>)</div><div class='output co'>#&gt; <span class='message'>Metric: 'jensen-shannon' using unit: 'log2'; comparing: 32 vectors.</span></div><div class='input'><span class='no'>lc_hclust</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></span>(<span class='no'>lc_dist</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"ward.D2"</span>)
-<span class='no'>clusters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/cutree.html'>cutree</a></span>(<span class='no'>lc_hclust</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>12</span>)
+<span class='no'>landform_dist</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_to_dist.html'>lsp_to_dist</a></span>(<span class='no'>landform_cove</span>,
+                            <span class='kw'>dist_fun</span> <span class='kw'>=</span> <span class='st'>"jensen-shannon"</span>)</div><div class='output co'>#&gt; <span class='message'>Metric: 'jensen-shannon' using unit: 'log2'; comparing: 223 vectors.</span></div><div class='input'>
+<span class='no'>landform_hclust</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></span>(<span class='no'>landform_dist</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"ward.D2"</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>landform_hclust</span>)</div><div class='img'><img src='lsp_add_clusters-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>clusters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/cutree.html'>cutree</a></span>(<span class='no'>landform_hclust</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>6</span>)
 
-<span class='no'>lc_grid</span> <span class='kw'>=</span> <span class='fu'>lsp_add_clusters</span>(<span class='no'>lc_cove</span>, <span class='no'>clusters</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column signature is of a list class and will be dropped from the output object.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>lc_grid</span>[<span class='st'>"clust"</span>], <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/rcartocolor/man/carto_pal.html'>carto_pal</a></span>(<span class='fl'>12</span>, <span class='st'>"Safe"</span>))</div><div class='img'><img src='lsp_add_clusters-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='no'>safe_pal</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#88CCEE"</span>, <span class='st'>"#CC6677"</span>, <span class='st'>"#DDCC77"</span>,
+             <span class='st'>"#117733"</span>, <span class='st'>"#332288"</span>, <span class='st'>"#888888"</span>)
+
+<span class='no'>landform_grid_stars</span> <span class='kw'>=</span> <span class='fu'>lsp_add_clusters</span>(<span class='no'>landform_cove</span>, <span class='no'>clusters</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column signature is of a list class and will be dropped from the output object.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>landform_grid_stars</span>[<span class='st'>"clust"</span>], <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>safe_pal</span>)</div><div class='img'><img src='lsp_add_clusters-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>landform_grid_starsq</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_add_quality.html'>lsp_add_quality</a></span>(<span class='no'>landform_grid_stars</span>,
+                                       <span class='no'>landform_dist</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>landform_grid_starsq</span>[<span class='st'>"quality"</span>])</div><div class='img'><img src='lsp_add_clusters-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>

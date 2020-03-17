@@ -292,21 +292,11 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 
 <span class='no'>lc15</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landcover2015.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
 <span class='no'>lc01</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landcover2001.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
-<span class='no'>lf</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landform.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
 <span class='no'>ecoregions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/ecoregions.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
 
-<span class='no'>s1</span> <span class='kw'>=</span> <span class='fu'>lsp_compare</span>(<span class='no'>lc01</span>, <span class='no'>lc15</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>,
- <span class='kw'>dist_fun</span> <span class='kw'>=</span> <span class='st'>"jensen-shannon"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.9</span>)</div><div class='output co'>#&gt; <span class='message'>Metric: 'jensen-shannon' using unit: 'log2'.</span></div><div class='input'>#s1b = lsp_compare(lc01, lc15, type = "cove",
-#  dist_fun = "jensen-shannon", window = ecoregions, threshold = 0.9)
-#s1c = lsp_compare(lc01, lc15, type = "cove",
-#  dist_fun = "jensen-shannon", window_size = 100, threshold = 0.9)
-#s2 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "cocove",
-#  dist_fun = "jensen-shannon", threshold = 0.9)
-#s3 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "wecove",
-#  dist_fun = "jensen-shannon", threshold = 0.9)
-#s4 = lsp_compare(c(lc01, lf), c(lc15, lf), type = "incove",
-#  dist_fun = "jensen-shannon", threshold = 0.9)
-</div></pre>
+<span class='no'>c1</span> <span class='kw'>=</span> <span class='fu'>lsp_compare</span>(<span class='no'>lc01</span>, <span class='no'>lc15</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>,
+    <span class='kw'>dist_fun</span> <span class='kw'>=</span> <span class='st'>"jensen-shannon"</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>ecoregions</span>[<span class='st'>"id"</span>])</div><div class='output co'>#&gt; <span class='warning'>Warning: Calling 'structure(NULL, *)' is deprecated, as NULL cannot have attributes.</span>
+#&gt; <span class='warning'>  Consider 'structure(list(), *)' instead.</span></div><div class='output co'>#&gt; <span class='error'>Error in st_as_stars.list(x, dimensions = d): !is.null(dx) is not TRUE</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
