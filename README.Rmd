@@ -40,3 +40,5 @@ remotes::install_github("Nowosad/motif")
 ```
 
 ## Example
+
+

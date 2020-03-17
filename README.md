@@ -12,7 +12,7 @@ coverage](https://codecov.io/gh/Nowosad/motif/branch/master/graph/badge.svg)](ht
 <!-- badges: end -->
 
 The **motif** package describes spatial patterns of categorical raster
-data for any defined regular and irregular areas. Patters are described
+data for any defined regular and irregular areas. Patterns are described
 quantitatively using built-in signatures based on co-occurrence matrices
 but also allows for any user-defined functions. It enables spatial
 analysis such as search, change detection, and clustering to be
