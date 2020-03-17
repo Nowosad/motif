@@ -72,7 +72,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
       </span>
     </div>
 
@@ -292,11 +292,10 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 
 <span class='no'>lc15</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landcover2015.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
 <span class='no'>lc01</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landcover2001.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
-<span class='no'>ecoregions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/ecoregions.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
+<span class='no'>ecoregions</span> <span class='kw'>=</span> <span class='fu'>read_sf</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"vector/ecoregions.gpkg"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
 
 <span class='no'>c1</span> <span class='kw'>=</span> <span class='fu'>lsp_compare</span>(<span class='no'>lc01</span>, <span class='no'>lc15</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>,
-    <span class='kw'>dist_fun</span> <span class='kw'>=</span> <span class='st'>"jensen-shannon"</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>ecoregions</span>[<span class='st'>"id"</span>])</div><div class='output co'>#&gt; <span class='warning'>Warning: Calling 'structure(NULL, *)' is deprecated, as NULL cannot have attributes.</span>
-#&gt; <span class='warning'>  Consider 'structure(list(), *)' instead.</span></div><div class='output co'>#&gt; <span class='error'>Error in st_as_stars.list(x, dimensions = d): !is.null(dx) is not TRUE</span></div></pre>
+    <span class='kw'>dist_fun</span> <span class='kw'>=</span> <span class='st'>"jensen-shannon"</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>ecoregions</span>[<span class='st'>"id"</span>])</div><div class='output co'>#&gt; <span class='message'>Metric: 'jensen-shannon' using unit: 'log2'.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>c1</span>[<span class='st'>"dist"</span>])</div><div class='img'><img src='lsp_compare-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
