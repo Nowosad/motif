@@ -15,7 +15,9 @@ the \code{lsp_thumbprint()} function}
 \item{output}{The class of the output. Either \code{"stars"} or \code{"sf"}}
 }
 \description{
-Adds clusters' ids to a lsp object. The output can be of \code{stars} or \code{sf} class.
+Adds clusters' ids to a lsp object.
+The output can be of \code{stars} or \code{sf} class.
+See examples.
 }
 \examples{
 library(stars)

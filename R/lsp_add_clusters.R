@@ -1,6 +1,8 @@
 #' Adds clusters' ids to a lsp object
 #'
-#' Adds clusters' ids to a lsp object. The output can be of `stars` or `sf` class.
+#' Adds clusters' ids to a lsp object.
+#' The output can be of `stars` or `sf` class.
+#' See examples.
 #'
 #' @param x Object of class `lsp` - usually the output of
 #' the `lsp_thumbprint()` function
