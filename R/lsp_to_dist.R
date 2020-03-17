@@ -1,14 +1,18 @@
 #' Calculate Distance Matrix
 #'
-#' Calculates a distance matrix based on an object of class `lsp`,
+#' Calculates a distance matrix based on an object of class `lsp`.
 #'
-#' @param x An object of class `lsp`.
-#' @param dist_fun A distance/dissimilarity method used. All possible values can be found using
+#' @param x An object of class `lsp` - usually the output of
+#' the `lsp_thumbprint` function
+#' @param dist_fun A distance/dissimilarity method used.
+#' All possible values can be found using
 #' the [philentropy::getDistMethods()] function
-#' @param unit A character string specifying the logarithm unit that should be used to
-#' compute distances that depend on log computations: `"log", "log2", "log10"`.
-#' The default is `"log"`.
-#' @param p Power of the Minkowski distance
+#' @param unit A character string specifying the logarithm unit
+#' that should be used to compute distances that depend on log computations:
+#'  `"log", "log2", "log10"`.
+#' The default is `"log"`
+#' @param p Power of the Minkowski distance.
+#' Used only when the `dist_fun = "minkowski"`
 #'
 #' @return An object of class `"dist"``
 #'
@@ -16,18 +20,18 @@
 #' @rdname lsp_to_dist
 #'
 #' @examples
-#' library(comat)
-#' library(stars)
-#' data(raster_x, package = "comat")
-#' raster_x = st_as_stars(raster_x)
-#' plot(raster_x)
+#' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 #'
-#' cov = lsp_thumbprint(raster_x, window_size = 2, type = "cove")
+#' landcover_cove = lsp_thumbprint(landcover, type = "cove", threshold = 0.9, window_size = 2000)
+#' landcover_cove
 #'
-#' dist_cov = lsp_to_dist(cov, dist_fun = "jensen-shannon")
+#' dist_cov = lsp_to_dist(landcover_cove, dist_fun = "jensen-shannon")
 #' dist_cov
 #' @export
 lsp_to_dist = function(x, dist_fun, unit = "log2", p = NULL){
+  if (nrow(x) < 2){
+    stop("You need at least two signatures to calculate distances", .call = FALSE)
+  }
   vec_to_dist(x, dist_fun = dist_fun, unit = unit, p = p)
 }
 

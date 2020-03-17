@@ -7,32 +7,33 @@
 lsp_to_dist(x, dist_fun, unit = "log2", p = NULL)
 }
 \arguments{
-\item{x}{An object of class \code{lsp}.}
+\item{x}{An object of class \code{lsp} - usually the output of
+the \code{lsp_thumbprint} function}
 
-\item{dist_fun}{A distance/dissimilarity method used. All possible values can be found using
+\item{dist_fun}{A distance/dissimilarity method used.
+All possible values can be found using
 the \code{\link[philentropy:getDistMethods]{philentropy::getDistMethods()}} function}
 
-\item{unit}{A character string specifying the logarithm unit that should be used to
-compute distances that depend on log computations: \verb{"log", "log2", "log10"}.
-The default is \code{"log"}.}
+\item{unit}{A character string specifying the logarithm unit
+that should be used to compute distances that depend on log computations:
+\verb{"log", "log2", "log10"}.
+The default is \code{"log"}}
 
-\item{p}{Power of the Minkowski distance}
+\item{p}{Power of the Minkowski distance.
+Used only when the \code{dist_fun = "minkowski"}}
 }
 \value{
 An object of class `"dist"``
 }
 \description{
-Calculates a distance matrix based on an object of class \code{lsp},
+Calculates a distance matrix based on an object of class \code{lsp}.
 }
 \examples{
-library(comat)
-library(stars)
-data(raster_x, package = "comat")
-raster_x = st_as_stars(raster_x)
-plot(raster_x)
+landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 
-cov = lsp_thumbprint(raster_x, window_size = 2, type = "cove")
+landcover_cove = lsp_thumbprint(landcover, type = "cove", threshold = 0.9, window_size = 2000)
+landcover_cove
 
-dist_cov = lsp_to_dist(cov, dist_fun = "jensen-shannon")
+dist_cov = lsp_to_dist(landcover_cove, dist_fun = "jensen-shannon")
 dist_cov
 }
