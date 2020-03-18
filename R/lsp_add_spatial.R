@@ -231,7 +231,7 @@ lsp_add_sf.lsp = function(x = NULL, window = NULL, window_size = NULL, window_sh
 
   output_sf = sf::st_as_sf(output_stars)
   output_sf = merge(x, output_sf, by = "id", all.x = TRUE)
-  output_sf = tibble::as.tibble(output_sf)
+  output_sf = tibble::as_tibble(output_sf)
   output_sf = sf::st_as_sf(output_sf)
 
   return(output_sf)
