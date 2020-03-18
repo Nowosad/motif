@@ -45,16 +45,17 @@ result_fun500 = lsp_thumbprint(landform, type = my_fun, threshold = 0.5,
                               window_size = 2000)
 
 test_that("tests external function", {
-  expect_equivalent(result_fun$signature[[1]], 7.333453,
+  expect_equivalent(result_fun$signature[[1]], 8922162,
                tolerance = .001)
-  expect_equivalent(result_fun500$signature[[1]], 8.043586,
+  expect_equivalent(result_fun500$signature[[1]], 2438482,
                     tolerance = .001)
 })
 
 test_that("tests composition", {
   expect_warning({result_composition = lsp_thumbprint(c(landcover, landform),
                                       type = "composition", threshold = 0.9)})
-  expect_equal(ncol(result_composition$signature[[1]]), length(unique(c(landcover$landcover2015.tif))))
+  expect_equal(ncol(result_composition$signature[[1]]),
+               length(sort(unique(c(landcover$landcover2015.tif)))))
 })
 
 test_that("the output structure is correct", {
@@ -99,13 +100,13 @@ test_that("wecoma works corectly", {
 })
 
 test_that("cocove works corectly", {
-  expect_equal(ncol(result_cocove1000$signature[[1]]), 285)
+  expect_equal(ncol(result_cocove1000$signature[[1]]), 105)
 })
 
 test_that("incoma works corectly", {
   expect_equal(result_incove$na_prop,
-               0.340, tolerance = .001)
-  expect_equal(ncol(result_incove$signature[[1]]), 1156)
+               0.6742194, tolerance = .001)
+  expect_equal(ncol(result_incove$signature[[1]]), 484)
 })
 
 test_that("na_prop works correctly", {

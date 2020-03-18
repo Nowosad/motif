@@ -61,7 +61,7 @@ test_that("tests lsp_add_quality works", {
   expect_s3_class(landform_grid_sfq, "sf")
   expect_equal(mean(landform_grid_starsq$quality, na.rm = TRUE),
                mean(landform_grid_sfq$quality, na.rm = TRUE))
-  expect_equal(mean(landform_grid_starsq$quality, na.rm = TRUE), 0.7883004, tolerance = .001)
+  expect_equal(mean(landform_grid_starsq$quality, na.rm = TRUE), 0.7848013, tolerance = .001)
 })
 
 test_that("region = TRUE is not implemented", {

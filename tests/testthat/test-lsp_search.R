@@ -70,23 +70,23 @@ s_cove_window = lsp_search(
 
 test_that("tests simple search results", {
   expect_equivalent(unlist(unique(s_cove)),
-                    c(1, 0.6806109, 0.4454181),
+                    c(1, 0.6819910, 0.4452432),
                     tolerance = .001)
   expect_equivalent(unlist(unique(s_cocove)),
-                    c(1, 0, 0.8314),
+                    c(1, 0.6664478, 0.4992704),
                     tolerance = .001)
   expect_equivalent(unlist(unique(s_wecove)),
-                    c(1, 0.6806, 0.4453),
+                    c(1, 0.6819910, 0.4451876),
                     tolerance = .001)
   expect_equivalent(unlist(unique(s_incove)),
-                    c(1, 0.3403, 0.7562),
+                    c(1, 0.6742194, 0.3764387),
                     tolerance = .001)
 })
 
 test_that("tests motifel search results", {
-  expect_equal(sum(is.na(s_cove_motiel$dist)), 341)
+  expect_equal(sum(is.na(s_cove_motiel$dist)), 342)
   expect_equivalent(min(s_cove_motiel$dist, na.rm = TRUE), 0.0001, tolerance = .001)
-  expect_equivalent(mean(s_cove_motiel$dist, na.rm = TRUE), 0.5727, tolerance = .001)
+  expect_equivalent(mean(s_cove_motiel$dist, na.rm = TRUE), 0.5699026, tolerance = .001)
   expect_equivalent(max(s_cove_motiel$dist, na.rm = TRUE), 1, tolerance = .001)
 })
 
@@ -97,5 +97,5 @@ test_that("tests proxy search results", {
 test_that("tests window search results", {
   expect_equal(sort(unique(c(s_cove_window$id))), 1:22)
   expect_equivalent(min(s_cove_window$dist, na.rm = TRUE), 0.00029, tolerance = .001)
-  expect_equal(mean(c(s_incovewindow$dist), na.rm = TRUE), 0.7795939, tolerance = .001)
+  expect_equal(mean(c(s_incovewindow$dist), na.rm = TRUE), 0.4455153, tolerance = .001)
 })

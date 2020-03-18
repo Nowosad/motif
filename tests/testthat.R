@@ -33,6 +33,6 @@ landform_ext = landform[ext]
 random_ndvi_ext = random_ndvi[ext]
 
 # prepare my fun ----------------------------------------------------------
-my_fun = function(x) mean(x[[1]], na.rm = TRUE)
+my_fun = function(x) sum(!is.na(c(x[[1]])))
 
 test_check("motif")
