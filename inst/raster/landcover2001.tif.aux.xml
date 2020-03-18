@@ -1,0 +1,16 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <CategoryNames>
+      <Category></Category>
+      <Category>Agriculture</Category>
+      <Category>Forest</Category>
+      <Category>Grassland</Category>
+      <Category></Category>
+      <Category>Settlement</Category>
+      <Category>Shrubland</Category>
+      <Category>Sparse vegetation</Category>
+      <Category></Category>
+      <Category>Water</Category>
+    </CategoryNames>
+  </PAMRasterBand>
+</PAMDataset>

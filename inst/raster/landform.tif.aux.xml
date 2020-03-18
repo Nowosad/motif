@@ -1,0 +1,24 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <CategoryNames>
+      <Category></Category>
+      <Category>Flat or nearly flat plains</Category>
+      <Category>Smooth plains with some local relief</Category>
+      <Category></Category>
+      <Category></Category>
+      <Category>Scattered moderate hills</Category>
+      <Category>Moderate hills</Category>
+      <Category>Scattered high hills</Category>
+      <Category>High hills</Category>
+      <Category>Scattered low mountains</Category>
+      <Category>Low mountains</Category>
+      <Category>Scattered high mountains</Category>
+      <Category>High mountains</Category>
+      <Category>Tablelands with moderate relief</Category>
+      <Category>Tablelands with considerable relief</Category>
+      <Category>Tablelands with high relief</Category>
+      <Category>Tablelands with ver high relief</Category>
+      <Category>Surface water</Category>
+    </CategoryNames>
+  </PAMRasterBand>
+</PAMDataset>
