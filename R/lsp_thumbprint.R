@@ -19,7 +19,7 @@
 #' @param normalization For `"cove"`, `"cocove"`, `"wecove"` and `"incove"` only. Should the output vector be normalized?
 #' Either "none" or "pdf".
 #' The "pdf" option normalizes a vector to sum to one.
-#' The default is "none".
+#' The default is "pdf".
 #' @param wecoma_fun For `"wecoma"` and `"wecove"` only. Function to calculate values from adjacent cells to contribute to exposure matrix, `"mean"` - calculate average values of local population densities from adjacent cells, `"geometric_mean"` - calculate geometric mean values of local population densities from adjacent cells, or `"focal"` assign a value from the focal cell
 #' @param wecoma_na_action For `"wecoma"` and `"wecove"` only. Decides on how to behave in the presence of missing values in `w`. Possible options are `"replace"`, `"omit"`, `"keep"`. The default, `"replace"`, replaces missing values with 0, `"omit"` does not use cells with missing values, and `"keep"` keeps missing values.
 #' @param classes Which classes (categories) should be analyzed? This parameter expects a list of the same length as the number of attributes in `x`, where each element of the list contains integer vector. The default is `NULL`, which means that the classes are calculated directly from the input data and all of them are used in the calculations.
@@ -43,7 +43,7 @@
 #' landcover_comp
 lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
                                       neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
-                                      normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
+                                      normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace",
                                       classes = NULL){
 
 # get metadata ------------------------------------------------------------

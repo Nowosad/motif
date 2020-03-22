@@ -72,7 +72,7 @@ The default is TRUE.}
 \item{normalization}{For \code{"cove"}, \code{"cocove"}, \code{"wecove"} and \code{"incove"} only. Should the output vector be normalized?
 Either "none" or "pdf".
 The "pdf" option normalizes a vector to sum to one.
-The default is "none".}
+The default is "pdf".}
 
 \item{wecoma_fun}{For \code{"wecoma"} and \code{"wecove"} only. Function to calculate values from adjacent cells to contribute to exposure matrix, \code{"mean"} - calculate average values of local population densities from adjacent cells, \code{"geometric_mean"} - calculate geometric mean values of local population densities from adjacent cells, or \code{"focal"} assign a value from the focal cell}
 
