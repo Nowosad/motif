@@ -7,6 +7,8 @@
 
 [![Travis build
 status](https://travis-ci.org/Nowosad/motif.svg?branch=master)](https://travis-ci.org/Nowosad/motif)
+[![GitHub action build
+status](https://github.com/Nowosad/motif/workflows/pkgdown/badge.svg)](https://github.com/Nowosad/motif/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/Nowosad/motif/branch/master/graph/badge.svg)](https://codecov.io/gh/Nowosad/motif?branch=master)
 <!-- badges: end -->
@@ -16,8 +18,7 @@ data for any defined regular and irregular areas. Patterns are described
 quantitatively using built-in signatures based on co-occurrence matrices
 but also allows for any user-defined functions. It enables spatial
 analysis such as search, change detection, and clustering to be
-performed on spatial
-patterns.
+performed on spatial patterns.
 
 ## Installation
 
