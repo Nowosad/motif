@@ -61,7 +61,7 @@ List get_motifels(const List input,
       for (int l = 0; l < num_l; l++){
         na_perc_all(l) = na_prop(input[l]);
       }
-      na_perc[0] = mean(na_perc_all);
+      na_perc[0] = min(na_perc_all);
       if (na_perc(0) <= threshold){
         result[0] = comat::rcpp_get_incoma_list(input, directions, classes);
         result[0] = comat::rcpp_get_incoma_matrix(result[0]);
@@ -75,7 +75,7 @@ List get_motifels(const List input,
       for (int l = 0; l < num_l; l++){
         na_perc_all(l) = na_prop(input[l]);
       }
-      na_perc[0] = mean(na_perc_all);
+      na_perc[0] = min(na_perc_all);
       if (na_perc(0) <= threshold){
         result[0] = f(input);
       }
@@ -137,7 +137,7 @@ List get_motifels(const List input,
             na_perc_all(l) = na_prop(motifel_input[l]);
           }
 
-          na_perc[nr_of_motifels2] = mean(na_perc_all);
+          na_perc[nr_of_motifels2] = min(na_perc_all);
 
           if (na_perc(nr_of_motifels2) <= threshold){
             result[nr_of_motifels2] = comat::rcpp_get_incoma_list(motifel_input, directions, classes);
@@ -158,7 +158,7 @@ List get_motifels(const List input,
             na_perc_all(l) = na_prop(motifel_input[l]);
           }
 
-          na_perc[nr_of_motifels2] = mean(na_perc_all);
+          na_perc[nr_of_motifels2] = min(na_perc_all);
 
           if (na_perc(nr_of_motifels2) <= threshold){
             result[nr_of_motifels2] = f(motifel_input);
