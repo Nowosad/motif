@@ -56,6 +56,9 @@ lsp_thumbprint = function(x, type, window = NULL, neighbourhood = 4, threshold =
   if (is.null(window)){
     window_size = 0
     window_shift = window_size
+    if (inherits(x, "stars_proxy")){
+      x = st_as_stars(x)
+    }
   } else if (is.numeric(window)){
     window_size = window
     window_shift = window_size

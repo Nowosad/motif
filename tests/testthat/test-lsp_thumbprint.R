@@ -6,6 +6,8 @@ result_compositionwindow = lsp_thumbprint(landform, type = "composition",
 
 result_coma500 = lsp_thumbprint(landform, type = "coma",
         threshold = 0.5, window = 500)
+result_comap = lsp_thumbprint(landform_p, type = "coma",
+                                 threshold = 1)
 result_coma500p = lsp_thumbprint(landform_p, type = "coma",
                                  threshold = 0.5, window = 500)
 result_comawindow = lsp_thumbprint(landform, type = "coma",
@@ -78,6 +80,8 @@ test_that("thumprint works corectly for whole area", {
 })
 
 test_that("stars results are equal to stars.proxy results", {
+  expect_equal(result_comap,
+               result_coma)
   expect_equal(result_coma500$signature[[1]],
                result_coma500p$signature[[1]])
   expect_equal(result_comawindow$signature[[1]],
