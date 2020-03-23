@@ -8,8 +8,6 @@ lsp_thumbprint(
   x,
   type,
   window = NULL,
-  window_size = NULL,
-  window_shift = NULL,
   neighbourhood = 4,
   threshold = 0.5,
   ordered = TRUE,
@@ -25,11 +23,7 @@ lsp_thumbprint(
 
 \item{type}{Type of the calculated signature. It can be \code{"coma"} (co-occurrence matrix), \code{"cove"} (co-occurrence vector), \code{"cocoma"} (co-located co-occurrence matrix), \code{"cocove"} (co-located co-occurrence vector), \code{"wecoma"} (weighted co-occurrence matrix), \code{"wecove"} (weighted co-occurrence vector), \code{"incoma"} (integrated co-occurrence matrix), \code{"incove"} (integrated co-occurrence vector), or any function that can summarize \code{stars} objects.}
 
-\item{window}{Specifies areas for analysis. Either \code{window} or \code{window_size} argument can be used. An object of class \code{sf} with one attribute (otherwise, the first attribute is used as an id).}
-
-\item{window_size}{Specifies areas for analysis. Either \code{window} or \code{window_size} argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If \code{size=NULL} calculations are performed for a whole area.}
-
-\item{window_shift}{Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift < size - results in the grid of overlapping square windows.}
+\item{window}{Specifies areas for analysis. It can be either: \code{NULL}, a numeric value, or an \code{sf} object. If \code{window=NULL} calculations are performed for a whole area. If the \code{window} argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an \code{sf} object is provided, each feature (row) defines the extent of a local pattern. The \code{sf} object should have one attribute (otherwise, the first attribute is used as an id).}
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
 4 (rook's case) or 8 (queen's case). The default is 4.}
@@ -70,7 +64,7 @@ library(stars)
 
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 
-landcover_coma = lsp_thumbprint(landcover, type = "coma", threshold = 0.9, window_size = 2000)
+landcover_coma = lsp_thumbprint(landcover, type = "coma", threshold = 0.9, window = 2000)
 landcover_coma
 
 landcover_comp = lsp_thumbprint(landcover, type = "composition", threshold = 0.9)

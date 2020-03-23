@@ -1,6 +1,6 @@
 Package: motif
 Title: Local Pattern Analysis
-Version: 0.2
+Version: 0.3
 Authors@R: c(
     person(given = "Jakub", family = "Nowosad", 
     role = c("aut", "cre"),
@@ -41,6 +41,4 @@ Suggests:
     testthat (>= 2.1.0)
 URL: https://github.com/Nowosad/motif
 BugReports: https://github.com/Nowosad/motif/issues
-Remotes:
-    nowosad/comat
 VignetteBuilder: knitr

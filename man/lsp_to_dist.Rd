@@ -32,7 +32,7 @@ Calculates a distance matrix based on an object of class \code{lsp}.
 library(stars)
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 
-landcover_cove = lsp_thumbprint(landcover, type = "cove", threshold = 0.9, window_size = 2000)
+landcover_cove = lsp_thumbprint(landcover, type = "cove", threshold = 0.9, window = 2000)
 landcover_cove
 
 dist_cov = lsp_to_dist(landcover_cove, dist_fun = "jensen-shannon")

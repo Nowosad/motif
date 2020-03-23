@@ -11,8 +11,6 @@ lsp_search(
   type,
   dist_fun,
   window = NULL,
-  window_size = NULL,
-  window_shift = NULL,
   neighbourhood = 4,
   threshold = 0.5,
   ordered = TRUE,
@@ -29,8 +27,6 @@ lsp_search(
   type,
   dist_fun,
   window = NULL,
-  window_size = NULL,
-  window_shift = NULL,
   neighbourhood = 4,
   threshold = 0.5,
   ordered = TRUE,
@@ -50,11 +46,7 @@ lsp_search(
 
 \item{dist_fun}{Distance measure used. This function uses the \code{philentropy::distance} function in the background. Run \code{philentropy::getDistMethods()} to find possible distance measures.}
 
-\item{window}{Specifies areas for analysis. Either \code{window} or \code{window_size} argument can be used. An object of class \code{sf} with one attribute (otherwise, the first attribute is used as an id).}
-
-\item{window_size}{Specifies areas for analysis. Either \code{window} or \code{window_size} argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If \code{size=NULL} calculations are performed for a whole area.}
-
-\item{window_shift}{Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift < size - results in the grid of overlapping square windows.}
+\item{window}{Specifies areas for analysis. It can be either: \code{NULL}, a numeric value, or an \code{sf} object. If \code{window=NULL} calculations are performed for a whole area. If the \code{window} argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an \code{sf} object is provided, each feature (row) defines the extent of a local pattern. The \code{sf} object should have one attribute (otherwise, the first attribute is used as an id).}
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
 4 (rook's case) or 8 (queen's case). The default is 4.}
@@ -91,7 +83,7 @@ For irregular windows, it is the values provided in the \code{window} argument,
 \description{
 Searches for areas with similar spatial patterns in categorical data.
 It accepts a categorical raster dataset with one or more attributes, and compares it to the second (usually larger) dataset with the same attributes.
-The first dataset is either compared to a whole area, areas divided into regular windows (with the \code{window_size} argument), or areas divided into irregular windows (with the \code{window} argument) from the second dataset.
+The first dataset is either compared to a whole area, areas divided into regular windows, or areas divided into irregular windows from the second dataset.
 This function allows for several types of comparisons using different representations of spatial patterns, including "coma" (co-occurrence matrix), "cove" (co-occurrence vector), "cocoma" (co-located co-occurrence matrix), "cocove" (co-located co-occurrence vector), "wecoma" (weighted co-occurrence matrix), "wecove" (weighted co-occurrence vector), "incoma" (integrated co-occurrence matrix), "incove" (integrated co-occurrence vector). These representations are created for both datasets, and next a distance between them is calculated using a selected measure from the \code{philentropy::distance} function.
 Additional parameters, such as neighbourhood or normalization types, are also available.
 }
@@ -112,7 +104,7 @@ ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
 plot(ecoregions["id"])
 
 s1 = lsp_search(landcover_ext, landcover, type = "cove",
-  dist_fun = "jensen-shannon", threshold = 0.9, window_size = 1000)
+  dist_fun = "jensen-shannon", threshold = 0.9, window = 1000)
 plot(s1["dist"])
 s2 = lsp_search(landcover_ext, landcover, type = "cove",
   dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions["id"])

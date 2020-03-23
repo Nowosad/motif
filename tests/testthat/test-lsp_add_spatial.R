@@ -1,6 +1,6 @@
 context("add spatial")
 
-landform_lsp_sf = lsp_add_sf(landform, window_size = 100)
+landform_lsp_sf = lsp_add_sf(landform, window = 100)
 landform_lsp_sf2 = lsp_add_sf(landform)
 landform_lsp_sf3 = lsp_add_sf(landform, window = ecoregions["id"])
 
