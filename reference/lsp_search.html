@@ -42,7 +42,7 @@
 <meta property="og:title" content="Search for similar spatial pattern — lsp_search" />
 <meta property="og:description" content="Searches for areas with similar spatial patterns in categorical data.
 It accepts a categorical raster dataset with one or more attributes, and compares it to the second (usually larger) dataset with the same attributes.
-The first dataset is either compared to a whole area, areas divided into regular windows (with the window_size argument), or areas divided into irregular windows (with the window argument) from the second dataset.
+The first dataset is either compared to a whole area, areas divided into regular windows, or areas divided into irregular windows from the second dataset.
 This function allows for several types of comparisons using different representations of spatial patterns, including &quot;coma&quot; (co-occurrence matrix), &quot;cove&quot; (co-occurrence vector), &quot;cocoma&quot; (co-located co-occurrence matrix), &quot;cocove&quot; (co-located co-occurrence vector), &quot;wecoma&quot; (weighted co-occurrence matrix), &quot;wecove&quot; (weighted co-occurrence vector), &quot;incoma&quot; (integrated co-occurrence matrix), &quot;incove&quot; (integrated co-occurrence vector). These representations are created for both datasets, and next a distance between them is calculated using a selected measure from the philentropy::distance function.
 Additional parameters, such as neighbourhood or normalization types, are also available." />
 
@@ -76,7 +76,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
       </span>
     </div>
 
@@ -147,7 +147,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
     <div class="ref-description">
     <p>Searches for areas with similar spatial patterns in categorical data.
 It accepts a categorical raster dataset with one or more attributes, and compares it to the second (usually larger) dataset with the same attributes.
-The first dataset is either compared to a whole area, areas divided into regular windows (with the <code>window_size</code> argument), or areas divided into irregular windows (with the <code>window</code> argument) from the second dataset.
+The first dataset is either compared to a whole area, areas divided into regular windows, or areas divided into irregular windows from the second dataset.
 This function allows for several types of comparisons using different representations of spatial patterns, including "coma" (co-occurrence matrix), "cove" (co-occurrence vector), "cocoma" (co-located co-occurrence matrix), "cocove" (co-located co-occurrence vector), "wecoma" (weighted co-occurrence matrix), "wecove" (weighted co-occurrence vector), "incoma" (integrated co-occurrence matrix), "incove" (integrated co-occurrence vector). These representations are created for both datasets, and next a distance between them is calculated using a selected measure from the <code><a href='https://rdrr.io/pkg/philentropy/man/distance.html'>philentropy::distance</a></code> function.
 Additional parameters, such as neighbourhood or normalization types, are also available.</p>
     </div>
@@ -158,8 +158,6 @@ Additional parameters, such as neighbourhood or normalization types, are also av
   <span class='no'>type</span>,
   <span class='no'>dist_fun</span>,
   <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>window_shift</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -177,8 +175,6 @@ Additional parameters, such as neighbourhood or normalization types, are also av
   <span class='no'>type</span>,
   <span class='no'>dist_fun</span>,
   <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>window_shift</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -210,15 +206,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
     </tr>
     <tr>
       <th>window</th>
-      <td><p>Specifies areas for analysis. Either <code>window</code> or <code>window_size</code> argument can be used. An object of class <code>sf</code> with one attribute (otherwise, the first attribute is used as an id).</p></td>
-    </tr>
-    <tr>
-      <th>window_size</th>
-      <td><p>Specifies areas for analysis. Either <code>window</code> or <code>window_size</code> argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If <code>size=NULL</code> calculations are performed for a whole area.</p></td>
-    </tr>
-    <tr>
-      <th>window_shift</th>
-      <td><p>Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift &lt; size - results in the grid of overlapping square windows.</p></td>
+      <td><p>Specifies areas for analysis. It can be either: <code>NULL</code>, a numeric value, or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed for a whole area. If the <code>window</code> argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></td>
     </tr>
     <tr>
       <th>neighbourhood</th>
@@ -285,7 +273,7 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 <span class='no'>ecoregions</span> <span class='kw'>=</span> <span class='fu'>read_sf</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"vector/ecoregions.gpkg"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
 <span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>ecoregions</span>[<span class='st'>"id"</span>])</div><div class='img'><img src='lsp_search-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>s1</span> <span class='kw'>=</span> <span class='fu'>lsp_search</span>(<span class='no'>landcover_ext</span>, <span class='no'>landcover</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>,
-  <span class='kw'>dist_fun</span> <span class='kw'>=</span> <span class='st'>"jensen-shannon"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.9</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</div><div class='output co'>#&gt; <span class='message'>Metric: 'jensen-shannon' using unit: 'log2'.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>s1</span>[<span class='st'>"dist"</span>])</div><div class='img'><img src='lsp_search-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>s2</span> <span class='kw'>=</span> <span class='fu'>lsp_search</span>(<span class='no'>landcover_ext</span>, <span class='no'>landcover</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>,
+  <span class='kw'>dist_fun</span> <span class='kw'>=</span> <span class='st'>"jensen-shannon"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.9</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</div><div class='output co'>#&gt; <span class='message'>Metric: 'jensen-shannon' using unit: 'log2'.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>s1</span>[<span class='st'>"dist"</span>])</div><div class='img'><img src='lsp_search-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>s2</span> <span class='kw'>=</span> <span class='fu'>lsp_search</span>(<span class='no'>landcover_ext</span>, <span class='no'>landcover</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>,
   <span class='kw'>dist_fun</span> <span class='kw'>=</span> <span class='st'>"jensen-shannon"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>ecoregions</span>[<span class='st'>"id"</span>])</div><div class='output co'>#&gt; <span class='message'>Metric: 'jensen-shannon' using unit: 'log2'.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>s2</span>[<span class='st'>"dist"</span>])</div><div class='img'><img src='lsp_search-5.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

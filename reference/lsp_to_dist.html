@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
       </span>
     </div>
 
@@ -182,7 +182,7 @@ Used only when the <code>dist_fun = "minkowski"</code></p></td>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stars</span>)
 <span class='no'>landcover</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landcover2015.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
 
-<span class='no'>landcover_cove</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_thumbprint.html'>lsp_thumbprint</a></span>(<span class='no'>landcover</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.9</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>2000</span>)
+<span class='no'>landcover_cove</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_thumbprint.html'>lsp_thumbprint</a></span>(<span class='no'>landcover</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.9</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>2000</span>)
 <span class='no'>landcover_cove</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 3</span><span>
 #&gt;      id na_prop signature          
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>             

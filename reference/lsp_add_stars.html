@@ -43,7 +43,7 @@
 <meta property="og:description" content="Creates or adds a stars object based on the input object or a set of parameters.
 It accepts either an object of class stars or lsp.
 In the first case, the output is created based on
-a set of parameters (window_size and window_shift or window).
+a set of parameters (window).
 In the second case, the output converts the lsp object into
 a stars object." />
 
@@ -77,7 +77,7 @@ a stars object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
       </span>
     </div>
 
@@ -149,18 +149,18 @@ a stars object." />
     <p>Creates or adds a stars object based on the input object or a set of parameters.
 It accepts either an object of class <code>stars</code> or <code>lsp</code>.
 In the first case, the output is created based on
-a set of parameters (<code>window_size</code> and <code>window_shift</code> or <code>window</code>).
+a set of parameters (<code>window</code>).
 In the second case, the output converts the <code>lsp</code> object into
 a <code>stars</code> object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lsp_add_stars</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window_shift</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>lsp_add_stars</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>lsp_add_stars</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window_shift</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>lsp_add_stars</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for lsp</span>
-<span class='fu'>lsp_add_stars</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window_shift</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>lsp_add_stars</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,15 +172,7 @@ For <code>stars</code>, <code>window</code> or <code>window_size</code> can be u
     </tr>
     <tr>
       <th>window</th>
-      <td><p>Specifies areas for analysis. Either <code>window</code> or <code>window_size</code> argument can be used. Object of class <code>sf</code> with one attribute (otherwise the first attibute is used as an id).</p></td>
-    </tr>
-    <tr>
-      <th>window_size</th>
-      <td><p>Specifies areas for analysis. Either <code>window</code> or <code>window_size</code> argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If <code>window_size=NULL</code> calculations are performed for a whole area.</p></td>
-    </tr>
-    <tr>
-      <th>window_shift</th>
-      <td><p>Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If <code>window_shift=window_size</code> the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If <code>window_shift</code> &lt; <code>window_size</code> - results in the grid of overlapping square windows.</p></td>
+      <td><p>Specifies areas for analysis. It can be either: <code>NULL</code>, a numeric value, or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed for a whole area. If the <code>window</code> argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></td>
     </tr>
     </table>
 
@@ -188,9 +180,9 @@ For <code>stars</code>, <code>window</code> or <code>window_size</code> can be u
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stars</span>)
 <span class='no'>landform</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landform.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
-<span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>landform</span>)</div><div class='img'><img src='lsp_add_stars-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>landform_lsp</span> <span class='kw'>=</span> <span class='fu'>lsp_add_stars</span>(<span class='no'>landform</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>100</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>landform</span>)</div><div class='img'><img src='lsp_add_stars-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>landform_lsp</span> <span class='kw'>=</span> <span class='fu'>lsp_add_stars</span>(<span class='no'>landform</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>100</span>)
 <span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>landform_lsp</span>)</div><div class='img'><img src='lsp_add_stars-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>lc_cove</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_thumbprint.html'>lsp_thumbprint</a></span>(<span class='no'>landform</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"pdf"</span>)
+<span class='no'>lc_cove</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_thumbprint.html'>lsp_thumbprint</a></span>(<span class='no'>landform</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"pdf"</span>)
 <span class='no'>lc_cove_lsp</span> <span class='kw'>=</span> <span class='fu'>lsp_add_stars</span>(<span class='no'>lc_cove</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column signature is of a list class and will be dropped from the output object.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>lc_cove_lsp</span>)</div><div class='img'><img src='lsp_add_stars-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>lc_cove_lsp</span>[<span class='st'>"na_prop"</span>])</div><div class='img'><img src='lsp_add_stars-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>

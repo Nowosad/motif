@@ -74,7 +74,7 @@ See examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
       </span>
     </div>
 
@@ -173,7 +173,7 @@ the <code><a href='lsp_thumbprint.html'>lsp_thumbprint()</a></code> function</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stars</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: abind</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: sf</span></div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0</span></div><div class='input'><span class='no'>landform</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landform.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
 <span class='no'>landform_cove</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_thumbprint.html'>lsp_thumbprint</a></span>(<span class='no'>landform</span>,
                                <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cove"</span>,
-                               <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>200</span>,
+                               <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>200</span>,
                                <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"pdf"</span>)
 
 <span class='no'>landform_dist</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_to_dist.html'>lsp_to_dist</a></span>(<span class='no'>landform_cove</span>,

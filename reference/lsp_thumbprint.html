@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
       </span>
     </div>
 
@@ -148,8 +148,6 @@
   <span class='no'>x</span>,
   <span class='no'>type</span>,
   <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>window_shift</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -173,15 +171,7 @@
     </tr>
     <tr>
       <th>window</th>
-      <td><p>Specifies areas for analysis. Either <code>window</code> or <code>window_size</code> argument can be used. An object of class <code>sf</code> with one attribute (otherwise, the first attribute is used as an id).</p></td>
-    </tr>
-    <tr>
-      <th>window_size</th>
-      <td><p>Specifies areas for analysis. Either <code>window</code> or <code>window_size</code> argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If <code>size=NULL</code> calculations are performed for a whole area.</p></td>
-    </tr>
-    <tr>
-      <th>window_shift</th>
-      <td><p>Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift &lt; size - results in the grid of overlapping square windows.</p></td>
+      <td><p>Specifies areas for analysis. It can be either: <code>NULL</code>, a numeric value, or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed for a whole area. If the <code>window</code> argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></td>
     </tr>
     <tr>
       <th>neighbourhood</th>
@@ -238,7 +228,7 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 
 <span class='no'>landcover</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landcover2015.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
 
-<span class='no'>landcover_coma</span> <span class='kw'>=</span> <span class='fu'>lsp_thumbprint</span>(<span class='no'>landcover</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"coma"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.9</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>2000</span>)
+<span class='no'>landcover_coma</span> <span class='kw'>=</span> <span class='fu'>lsp_thumbprint</span>(<span class='no'>landcover</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"coma"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.9</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>2000</span>)
 <span class='no'>landcover_coma</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 3</span><span>
 #&gt;      id na_prop signature        
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>           
