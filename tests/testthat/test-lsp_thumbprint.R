@@ -10,8 +10,8 @@ result_coma500p = lsp_thumbprint(landform_p, type = "coma",
                                  threshold = 0.5, window_size = 500)
 result_comawindow = lsp_thumbprint(landform, type = "coma",
                                    threshold = 0.5, window = ecoregions["id"])
-# result_comawindowp = lsp_thumbprint(landform_p, type = "coma",
-#                                    threshold = 0.5, window = ecoregions[1, "id"])
+result_comawindowp = lsp_thumbprint(landform_p, type = "coma",
+                                   threshold = 0.5, window = ecoregions[1, "id"])
 # result_comawindowp = lsp_thumbprint(landform_p, type = "coma",
 #                                    threshold = 0.5, window = ecoregions["id"])
 result_cove500 = lsp_thumbprint(landform, type = "cove",
@@ -80,8 +80,8 @@ test_that("thumprint works corectly for whole area", {
 test_that("stars results are equal to stars.proxy results", {
   expect_equal(result_coma500$signature[[1]],
                result_coma500p$signature[[1]])
-  # expect_equal(result_comawindow$signature[[1]],
-  #              result_comawindowp$signature[[1]])
+  expect_equal(result_comawindow$signature[[1]],
+               result_comawindowp$signature[[1]])
 })
 
 test_that("thumprint works corectly for window", {
