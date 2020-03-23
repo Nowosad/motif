@@ -15,8 +15,8 @@ landcoverold_p = read_stars(system.file("raster/landcover2001.tif", package = "m
 
 # prepare poly ------------------------------------------------------------
 ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
-# st_crs(ecoregions) = st_crs(landcover)
-
+# st_crs(ecoregions) = st_crs(landform_p)
+ecoregions = st_transform(ecoregions, st_crs(landform_p))
 # prepare cont data -------------------------------------------------------
 set.seed(222)
 random_ndvi = landcover
