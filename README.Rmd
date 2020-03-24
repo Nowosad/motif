@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.org/Nowosad/motif.svg?branch=master)](https://travis-ci.org/Nowosad/motif)
+[![GitHub action build status](https://github.com/Nowosad/motif/workflows/pkgdown/badge.svg)](https://github.com/Nowosad/motif/actions)
 [![Codecov test coverage](https://codecov.io/gh/Nowosad/motif/branch/master/graph/badge.svg)](https://codecov.io/gh/Nowosad/motif?branch=master)
 <!-- badges: end -->
 
@@ -41,4 +42,31 @@ remotes::install_github("Nowosad/motif")
 
 ## Example
 
+### Signatures
 
+```{r}
+library(motif)
+library(stars)
+landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
+plot(landcover)
+```
+
+```{r}
+landcover_coma = lsp_thumbprint(landcover, type = "coma", window_size = 200)
+landcover_coma
+```
+
+```{r}
+landcover_coma$signature[[1]]
+```
+
+<!-- ref to vig -->
+<!-- ### Search -->
+<!-- ### Compare -->
+<!-- ### Cluster -->
+
+## Contribution
+
+Contributions to this package are welcome.
+The preferred method of contribution is through a GitHub pull request. 
+Feel free to contact us by creating [an issue](https://github.com/Nowosad/motif/issues). 
