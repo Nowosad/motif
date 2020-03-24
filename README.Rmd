@@ -49,7 +49,8 @@ remotes::install_github("Nowosad/motif")
 library(motif)
 library(stars)
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-plot(landcover)
+landcover = droplevels(landcover)
+plot(landcover, key.pos = 4, key.width = lcm(5))
 ```
 
 ```{r}
@@ -62,6 +63,7 @@ landcover_coma$signature[[1]]
 ```
 
 <!-- ref to vig -->
+<!-- create a summary image -->
 <!-- ### Search -->
 <!-- ### Compare -->
 <!-- ### Cluster -->

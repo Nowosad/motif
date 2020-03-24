@@ -49,7 +49,8 @@ library(stars)
 #> Loading required package: sf
 #> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-plot(landcover)
+landcover = droplevels(landcover)
+plot(landcover, key.pos = 4, key.width = lcm(5))
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
@@ -60,32 +61,32 @@ landcover_coma
 #> # A tibble: 232 x 3
 #>       id na_prop signature        
 #>  * <int>   <dbl> <list>           
-#>  1     3  0.0992 <int[,7] [7 × 7]>
-#>  2     4  0.145  <int[,7] [7 × 7]>
-#>  3    38  0.255  <int[,7] [7 × 7]>
-#>  4    39  0      <int[,7] [7 × 7]>
-#>  5    40  0      <int[,7] [7 × 7]>
-#>  6    41  0      <int[,7] [7 × 7]>
-#>  7    42  0      <int[,7] [7 × 7]>
-#>  8    43  0.115  <int[,7] [7 × 7]>
-#>  9    77  0      <int[,7] [7 × 7]>
-#> 10    78  0      <int[,7] [7 × 7]>
+#>  1     3  0.0992 <int[,5] [5 × 5]>
+#>  2     4  0.145  <int[,5] [5 × 5]>
+#>  3    38  0.255  <int[,5] [5 × 5]>
+#>  4    39  0      <int[,5] [5 × 5]>
+#>  5    40  0      <int[,5] [5 × 5]>
+#>  6    41  0      <int[,5] [5 × 5]>
+#>  7    42  0      <int[,5] [5 × 5]>
+#>  8    43  0.115  <int[,5] [5 × 5]>
+#>  9    77  0      <int[,5] [5 × 5]>
+#> 10    78  0      <int[,5] [5 × 5]>
 #> # … with 222 more rows
 ```
 
 ``` r
 landcover_coma$signature[[1]]
-#>    1      2 3 5 6 7    9
-#> 1 32     47 0 2 0 0    6
-#> 2 47 141250 0 7 0 0  226
-#> 3  0      0 0 0 0 0    0
-#> 5  2      7 0 4 0 0    0
-#> 6  0      0 0 0 0 0    0
-#> 7  0      0 0 0 0 0    0
-#> 9  6    226 0 0 0 0 1462
+#>      1      2 3 4 5
+#> 1 1514    280 0 0 0
+#> 2  280 141250 0 0 0
+#> 3    0      0 0 0 0
+#> 4    0      0 0 0 0
+#> 5    0      0 0 0 0
 ```
 
 <!-- ref to vig -->
+
+<!-- create a summary image -->
 
 <!-- ### Search -->
 
