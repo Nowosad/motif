@@ -41,6 +41,9 @@ result_incove_p = lsp_thumbprint(c(landcover_p, landform_p),
                                type = "incoma", threshold = 0.9,
                                window = 500)
 
+# result_fun = lsp_thumbprint(landform, type = "aaa", threshold = 0.9)
+result_lsm = lsp_thumbprint(landform, type = "lsm_l_ta", threshold = 0.9)
+
 result_fun = lsp_thumbprint(landform, type = my_fun, threshold = 0.9)
 result_funwindow = lsp_thumbprint(landform, type = my_fun, threshold = 0.9, window = ecoregions["id"])
 result_fun500 = lsp_thumbprint(landform, type = my_fun, threshold = 0.5,

@@ -98,6 +98,14 @@ lsp_thumbprint = function(x, type, window = NULL, neighbourhood = 4, threshold =
 # prepare type ------------------------------------------------------------
   if (is.function(type)){
     f = type; type = "fun"
+  } else if (grepl("lsm_", type)){
+    if (!requireNamespace("landscapemetrics", quietly = TRUE))
+      stop("Package landscapemetrics is required, please install it first")
+    my_fun = paste0("landscapemetrics::", type)
+    f = function(x, ...){
+      eval(parse(text = my_fun))(list(x))$value
+    }
+    type = "fun"
   } else {
     f = function(){}
   }

@@ -1,6 +1,6 @@
 Package: motif
 Title: Local Pattern Analysis
-Version: 0.3.2
+Version: 0.4
 Authors@R: c(
     person(given = "Jakub", family = "Nowosad", 
     role = c("aut", "cre"),
@@ -36,6 +36,7 @@ Suggests:
     covr,
     raster,
     rcartocolor,
+    landscapemetrics,
     knitr,
     rmarkdown,
     testthat (>= 2.1.0)
