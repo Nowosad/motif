@@ -47,7 +47,7 @@ s_cove_motiel = lsp_search(
   type = "cove",
   dist_fun = "jensen-shannon",
   threshold = 0.5,
-  window_size = 250
+  window = 250
 )
 
 s_cove_proxy = lsp_search(
@@ -56,7 +56,7 @@ s_cove_proxy = lsp_search(
   type = "cove",
   dist_fun = "jensen-shannon",
   threshold = 0.5,
-  window_size = 250
+  window = 250
 )
 
 s_cove_window = lsp_search(
@@ -79,7 +79,7 @@ test_that("tests simple search results", {
                     c(1, 0.6819910, 0.4451876),
                     tolerance = .001)
   expect_equivalent(unlist(unique(s_incove)),
-                    c(1, 0.6742194, 0.3764387),
+                    c(1, 0.6664478, 0.3764387),
                     tolerance = .001)
 })
 

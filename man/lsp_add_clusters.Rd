@@ -24,7 +24,7 @@ library(stars)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 landform_cove = lsp_thumbprint(landform,
                                type = "cove",
-                               window_size = 200,
+                               window = 200,
                                normalization = "pdf")
 
 landform_dist = lsp_to_dist(landform_cove,

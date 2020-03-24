@@ -4,9 +4,7 @@
 #'
 #' @param x Object of class `stars` or `stars_proxy`. It should have one attribute (for `"coma"`, `"cove"`), two attributes (`"cocoma"`, `"cocove"`, `"wecoma"`, `"wecove"`), two or more attributes (`"incoma"`, `"incove"`), or any number of attributes suitable for user-defined functions.
 #' @param type Type of the calculated signature. It can be `"coma"` (co-occurrence matrix), `"cove"` (co-occurrence vector), `"cocoma"` (co-located co-occurrence matrix), `"cocove"` (co-located co-occurrence vector), `"wecoma"` (weighted co-occurrence matrix), `"wecove"` (weighted co-occurrence vector), `"incoma"` (integrated co-occurrence matrix), `"incove"` (integrated co-occurrence vector), or any function that can summarize `stars` objects.
-#' @param window Specifies areas for analysis. Either `window` or `window_size` argument can be used. An object of class `sf` with one attribute (otherwise, the first attribute is used as an id).
-#' @param window_size Specifies areas for analysis. Either `window` or `window_size` argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If `size=NULL` calculations are performed for a whole area.
-#' @param window_shift Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If shift=size the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If shift < size - results in the grid of overlapping square windows.
+#' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
 #' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
 #' 4 (rook's case) or 8 (queen's case). The default is 4.
 #' @param threshold The share of NA cells to allow metrics calculation.
@@ -19,7 +17,7 @@
 #' @param normalization For `"cove"`, `"cocove"`, `"wecove"` and `"incove"` only. Should the output vector be normalized?
 #' Either "none" or "pdf".
 #' The "pdf" option normalizes a vector to sum to one.
-#' The default is "none".
+#' The default is "pdf".
 #' @param wecoma_fun For `"wecoma"` and `"wecove"` only. Function to calculate values from adjacent cells to contribute to exposure matrix, `"mean"` - calculate average values of local population densities from adjacent cells, `"geometric_mean"` - calculate geometric mean values of local population densities from adjacent cells, or `"focal"` assign a value from the focal cell
 #' @param wecoma_na_action For `"wecoma"` and `"wecove"` only. Decides on how to behave in the presence of missing values in `w`. Possible options are `"replace"`, `"omit"`, `"keep"`. The default, `"replace"`, replaces missing values with 0, `"omit"` does not use cells with missing values, and `"keep"` keeps missing values.
 #' @param classes Which classes (categories) should be analyzed? This parameter expects a list of the same length as the number of attributes in `x`, where each element of the list contains integer vector. The default is `NULL`, which means that the classes are calculated directly from the input data and all of them are used in the calculations.
@@ -36,15 +34,12 @@
 #'
 #' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 #'
-#' landcover_coma = lsp_thumbprint(landcover, type = "coma", threshold = 0.9, window_size = 2000)
+#' landcover_coma = lsp_thumbprint(landcover, type = "coma", threshold = 0.9, window = 2000)
 #' landcover_coma
 #'
 #' landcover_comp = lsp_thumbprint(landcover, type = "composition", threshold = 0.9)
 #' landcover_comp
-lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shift = NULL,
-                                      neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE,
-                                      normalization = "none", wecoma_fun = "mean", wecoma_na_action = "replace",
-                                      classes = NULL){
+lsp_thumbprint = function(x, type, window = NULL, neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL){
 
 # get metadata ------------------------------------------------------------
   x_crs = sf::st_crs(x)
@@ -58,14 +53,18 @@ lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
   directions = as.matrix(neighbourhood)
 
 # prepare window ----------------------------------------------------------
-  if (missing(window) || is.null(window)){
-    if (is.null(window_size)){
-      window_size = 0
+  if (is.null(window)){
+    window_size = 0
+    window_shift = window_size
+    if (inherits(x, "stars_proxy")){
+      x = stars::st_as_stars(x)
     }
-    if (missing(window_shift) || is.null(window_shift)){
-      window_shift = window_size
-    }
+  } else if (is.numeric(window)){
+    window_size = window
+    window_shift = window_size
   } else {
+    window_size = NULL
+    window_shift = NULL
     if (inherits(x, "stars_proxy")){
       # stop("window option is not implemented for stars_proxy yet", .call = FALSE)
     } else {
@@ -104,7 +103,7 @@ lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
   }
 
 # calculate ---------------------------------------------------------------
-  if (missing(window) || is.null(window)){
+  if ((is.vector(window) && is.numeric(window)) || is.null(window)){
     if (type == "composition" && length(x) > 1){
       warning("Only the first layer will be used", call. = FALSE)
     }
@@ -147,6 +146,6 @@ lsp_thumbprint = function(x, type, window = NULL, window_size = NULL, window_shi
                           delta_y = x_delta_row,
                           window_size = window_size,
                           window_shift = window_shift,
-                          use_window = !(missing(window) || is.null(window)))
+                          use_window = inherits(window, "sf"))
   return(structure(x, class = c("lsp", class(x))))
 }

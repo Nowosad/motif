@@ -38,7 +38,7 @@ c_composition = lsp_compare(
   type = "composition",
   dist_fun = "jensen-shannon",
   threshold = 0.9,
-  window_size = 500
+  window = 500
 )
 
 test_that("tests simple compare results", {

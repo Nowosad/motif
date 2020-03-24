@@ -84,12 +84,20 @@ get_motifels_all = function(x, type, directions, window_size, window_shift,
                             ordered, repeated, normalization,
                             wecoma_fun, wecoma_na_action, nr, nc){
   type2 = prepare_type(type)
-  if (inherits(x, "stars_proxy")){
-    if (window_size == 0){
-      yoffs = 1
-    } else {
-      yoffs = seq(1, nc, by = window_size)
-    }
+  if (!(inherits(x, "stars_proxy"))){
+    x = get_motifels(x,
+                     type = type2,
+                     directions = directions,
+                     size = window_size,
+                     shift = window_shift,
+                     f = f,
+                     threshold = threshold,
+                     classes = classes,
+                     fun = wecoma_fun,
+                     na_action = wecoma_na_action)
+    x = tibble::as_tibble(x)
+  } else {
+    yoffs = seq(1, nc, by = window_size)
     x = lapply(yoffs,
                FUN = get_motifels_single_proxy,
                x_path = x,
@@ -105,18 +113,6 @@ get_motifels_all = function(x, type, directions, window_size, window_shift,
                nr = nr,
                nc = nc)
     x = merge_and_update(x, window_size, nr)
-  } else {
-    x = get_motifels(x,
-                     type = type2,
-                     directions = directions,
-                     size = window_size,
-                     shift = window_shift,
-                     f = f,
-                     threshold = threshold,
-                     classes = classes,
-                     fun = wecoma_fun,
-                     na_action = wecoma_na_action)
-    x = tibble::as_tibble(x)
   }
   x = convert_signatures(x, type = type,
                          ordered = ordered, repeated = repeated,
@@ -148,8 +144,8 @@ get_polygons_all = function(x, type, directions, window,
                x = x,
                type = type2,
                window = window,
-               window_size = NULL,
-               window_shift = NULL,
+               #window_size = NULL,
+               #window_shift = NULL,
                neighbourhood = c(directions),
                threshold = threshold,
                ordered = ordered,

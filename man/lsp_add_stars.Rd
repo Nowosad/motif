@@ -6,27 +6,23 @@
 \alias{lsp_add_stars.lsp}
 \title{Creates or adds a stars object}
 \usage{
-lsp_add_stars(x = NULL, window = NULL, window_size = NULL, window_shift = NULL)
+lsp_add_stars(x = NULL, window = NULL)
 
-\method{lsp_add_stars}{default}(x = NULL, window = NULL, window_size = NULL, window_shift = NULL)
+\method{lsp_add_stars}{default}(x = NULL, window = NULL)
 
-\method{lsp_add_stars}{lsp}(x = NULL, window = NULL, window_size = NULL, window_shift = NULL)
+\method{lsp_add_stars}{lsp}(x = NULL, window = NULL)
 }
 \arguments{
 \item{x}{Object of class \code{stars} or \code{lsp}.
 For \code{stars}, \code{window} or \code{window_size} can be used.}
 
-\item{window}{Specifies areas for analysis. Either \code{window} or \code{window_size} argument can be used. Object of class \code{sf} with one attribute (otherwise the first attibute is used as an id).}
-
-\item{window_size}{Specifies areas for analysis. Either \code{window} or \code{window_size} argument can be used. Expressed in the numbers of cells, is a length of the side of a square-shaped block of cells. It defines the extent of a local pattern. If \code{window_size=NULL} calculations are performed for a whole area.}
-
-\item{window_shift}{Defines the shift between adjacent squares of cells along with the N-S and W-E directions. It describes the density (resolution) of the output grid. The resolution of the output map will be reduced to the original resolution multiplied by the shift. If \code{window_shift=window_size} the input map will be divided into a grid of non-overlapping square windows. Each square window defines the extent of a local pattern. If \code{window_shift} < \code{window_size} - results in the grid of overlapping square windows.}
+\item{window}{Specifies areas for analysis. It can be either: \code{NULL}, a numeric value, or an \code{sf} object. If \code{window=NULL} calculations are performed for a whole area. If the \code{window} argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an \code{sf} object is provided, each feature (row) defines the extent of a local pattern. The \code{sf} object should have one attribute (otherwise, the first attribute is used as an id).}
 }
 \description{
 Creates or adds a stars object based on the input object or a set of parameters.
 It accepts either an object of class \code{stars} or \code{lsp}.
 In the first case, the output is created based on
-a set of parameters (\code{window_size} and \code{window_shift} or \code{window}).
+a set of parameters (\code{window}).
 In the second case, the output converts the \code{lsp} object into
 a \code{stars} object.
 }
@@ -34,10 +30,10 @@ a \code{stars} object.
 library(stars)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 plot(landform)
-landform_lsp = lsp_add_stars(landform, window_size = 100)
+landform_lsp = lsp_add_stars(landform, window = 100)
 plot(landform_lsp)
 
-lc_cove = lsp_thumbprint(landform, type = "cove", window_size = 200, normalization = "pdf")
+lc_cove = lsp_thumbprint(landform, type = "cove", window = 200, normalization = "pdf")
 lc_cove_lsp = lsp_add_stars(lc_cove)
 plot(lc_cove_lsp)
 plot(lc_cove_lsp["na_prop"])
