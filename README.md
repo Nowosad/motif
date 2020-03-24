@@ -19,8 +19,7 @@ for any defined regular and irregular areas. Patterns are represented
 quantitatively using built-in signatures based on co-occurrence matrices
 but also allows for any user-defined functions. It enables spatial
 analysis such as search, change detection, and clustering to be
-performed on spatial
-patterns.
+performed on spatial patterns.
 
 ## Installation
 
@@ -48,7 +47,7 @@ library(motif)
 library(stars)
 #> Loading required package: abind
 #> Loading required package: sf
-#> Linking to GEOS 3.7.1, GDAL 2.3.2, PROJ 5.2.0
+#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 plot(landcover)
 ```
@@ -56,7 +55,7 @@ plot(landcover)
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
 ``` r
-landcover_coma = lsp_thumbprint(landcover, type = "coma", window_size = 200)
+landcover_coma = lsp_thumbprint(landcover, type = "coma", window = 200)
 landcover_coma
 #> # A tibble: 232 x 3
 #>       id na_prop signature        
