@@ -13,6 +13,7 @@ addons:
       - libproj-dev
       - libgeos-dev
       - libgdal-dev
+      - sqlite3-dev
 
 # before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
 # deploy:
