@@ -95,6 +95,7 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Search</h1>
+                        <h4 class="author">Jakub Nowosad</h4>
             
             <h4 class="date">2020-03-26</h4>
       
@@ -105,12 +106,84 @@
 
     
     
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">motif</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">stars</span>)</pre></body></html></div>
+<pre><code>## Loading required package: abind</code></pre>
+<pre><code>## Loading required package: sf</code></pre>
+<pre><code>## Linking to GEOS 3.8.1, GDAL 2.4.4, PROJ 7.0.0</code></pre>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
+<span class="no">my_breaks</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.7</span>, <span class="fl">1.01</span>)
+<span class="no">my_palette</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fl">6</span>, <span class="kw">palette</span> <span class="kw">=</span> <span class="st">"Vik"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">landcover</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/stars/man/read_stars.html">read_stars</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"raster/landcover2015.tif"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"motif"</span>))</pre></body></html></div>
+<p><img src="search_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">ext</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_bbox.html">st_bbox</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">xmin</span> <span class="kw">=</span> <span class="fl">238000</span>, <span class="kw">xmax</span> <span class="kw">=</span> <span class="fl">268000</span>,
+                <span class="kw">ymin</span> <span class="kw">=</span> -<span class="fl">819814</span>, <span class="kw">ymax</span> <span class="kw">=</span> -<span class="fl">789814</span>),
+                <span class="kw">crs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_crs.html">st_crs</a></span>(<span class="no">landcover</span>))
 
+<span class="no">landcover_ext</span> <span class="kw">=</span> <span class="no">landcover</span>[<span class="no">ext</span>]</pre></body></html></div>
+<p><img src="search_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<div id="regular-window" class="section level2">
+<h2 class="hasAnchor">
+<a href="#regular-window" class="anchor"></a>Regular window</h2>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">search_1</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_search.html">lsp_search</a></span>(
+  <span class="no">landcover_ext</span>,
+  <span class="no">landcover</span>,
+  <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>,
+  <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>,
+  <span class="kw">dist_fun</span> <span class="kw">=</span> <span class="st">"jensen-shannon"</span>,
+  <span class="kw">threshold</span> <span class="kw">=</span> <span class="fl">1</span>
+)</pre></body></html></div>
+<pre><code>## Metric: 'jensen-shannon' using unit: 'log2'.</code></pre>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">search_1</span>[<span class="st">"dist"</span>], <span class="kw">breaks</span> <span class="kw">=</span> <span class="no">my_breaks</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">my_palette</span>, <span class="kw">main</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
+<p><img src="search_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+</div>
+<div id="polygon" class="section level2">
+<h2 class="hasAnchor">
+<a href="#polygon" class="anchor"></a>Polygon</h2>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">ecoregions</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_read.html">read_sf</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"vector/ecoregions.gpkg"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"motif"</span>))
+<span class="no">ecoregions</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_transform.html">st_transform</a></span>(<span class="no">ecoregions</span>, <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_crs.html">st_crs</a></span>(<span class="no">landcover</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">ecoregions</span>)</pre></body></html></div>
+<pre><code>## Warning: plotting the first 9 out of 16 attributes; use max.plot = 16 to plot
+## all</code></pre>
+<p><img src="search_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">search_2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_search.html">lsp_search</a></span>(
+  <span class="no">landcover_ext</span>,
+  <span class="no">landcover</span>,
+  <span class="kw">window</span> <span class="kw">=</span> <span class="no">ecoregions</span>,
+  <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>,
+  <span class="kw">dist_fun</span> <span class="kw">=</span> <span class="st">"jensen-shannon"</span>,
+  <span class="kw">threshold</span> <span class="kw">=</span> <span class="fl">1</span>
+)</pre></body></html></div>
+<pre><code>## Metric: 'jensen-shannon' using unit: 'log2'.</code></pre>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">search_2</span>)</pre></body></html></div>
+<p><img src="search_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">search_2</span>[<span class="st">"dist"</span>], <span class="kw">breaks</span> <span class="kw">=</span> <span class="no">my_breaks</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">my_palette</span>, <span class="kw">main</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
+<p><img src="search_files/figure-html/unnamed-chunk-11-2.png" width="700"></p>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">classes</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1L</span>, <span class="fl">2L</span>, <span class="fl">3L</span>, <span class="fl">5L</span>, <span class="fl">6L</span>, <span class="fl">7L</span>, <span class="fl">9L</span>)
+<span class="no">my_norm</span> <span class="kw">=</span> <span class="st">"pdf"</span>
+<span class="no">t1</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover_ext</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>, <span class="kw">threshold</span> <span class="kw">=</span> <span class="fl">1</span>,
+                    <span class="kw">normalization</span> <span class="kw">=</span> <span class="no">my_norm</span>, <span class="kw">classes</span> <span class="kw">=</span> <span class="no">classes</span>)
+<span class="no">t2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="no">ecoregions</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>,
+                    <span class="kw">threshold</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">normalization</span> <span class="kw">=</span> <span class="no">my_norm</span>, <span class="kw">classes</span> <span class="kw">=</span> <span class="no">classes</span>)
+
+<span class="no">t2</span>[<span class="fl">17</span>, ]$<span class="no">signature</span>
+<span class="no">t1</span>$<span class="no">signature</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">philentropy</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/philentropy/man/jensen_shannon.html">jensen_shannon</a></span>(<span class="no">t1</span>$<span class="no">signature</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="no">t2</span>[<span class="fl">17</span>, ]$<span class="no">signature</span><span class="kw">[[</span><span class="fl">1</span>]],
+               <span class="kw">testNA</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">unit</span> <span class="kw">=</span> <span class="st">"log2"</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/philentropy/man/kullback_leibler_distance.html">kullback_leibler_distance</a></span>(<span class="no">t1</span>$<span class="no">signature</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="no">t2</span>[<span class="fl">17</span>, ]$<span class="no">signature</span><span class="kw">[[</span><span class="fl">1</span>]],
+               <span class="kw">testNA</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">unit</span> <span class="kw">=</span> <span class="st">"log2"</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/philentropy/man/kullback_leibler_distance.html">kullback_leibler_distance</a></span>(<span class="no">t2</span>[<span class="fl">17</span>, ]$<span class="no">signature</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="no">t1</span>$<span class="no">signature</span><span class="kw">[[</span><span class="fl">1</span>]],
+               <span class="kw">testNA</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">unit</span> <span class="kw">=</span> <span class="st">"log2"</span>)</pre></body></html></div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 

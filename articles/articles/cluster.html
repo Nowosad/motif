@@ -105,12 +105,75 @@
 
     
     
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">testthat</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">stars</span>)</pre></body></html></div>
+<pre><code>## Loading required package: abind</code></pre>
+<pre><code>## Loading required package: sf</code></pre>
+<pre><code>## Linking to GEOS 3.8.1, GDAL 2.4.4, PROJ 7.0.0</code></pre>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">motif</span>)
+<span class="co"># dput(rcartocolor::carto_pal(n=6, "Safe"))</span>
+<span class="no">safe_pal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"#88CCEE"</span>, <span class="st">"#CC6677"</span>, <span class="st">"#DDCC77"</span>,
+             <span class="st">"#117733"</span>, <span class="st">"#332288"</span>, <span class="st">"#888888"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">landcover</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/stars/man/read_stars.html">read_stars</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"raster/landcover2015.tif"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"motif"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">landcover_cove</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>,
+                               <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>,
+                               <span class="kw">window</span> <span class="kw">=</span> <span class="fl">200</span>,
+                               <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"pdf"</span>)
 
+<span class="no">landcover_dist</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_to_dist.html">lsp_to_dist</a></span>(<span class="no">landcover_cove</span>,
+                            <span class="kw">dist_fun</span> <span class="kw">=</span> <span class="st">"jensen-shannon"</span>)</pre></body></html></div>
+<pre><code>## Metric: 'jensen-shannon' using unit: 'log2'; comparing: 232 vectors.</code></pre>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">landcover_hclust</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html">hclust</a></span>(<span class="no">landcover_dist</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"ward.D2"</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">landcover_hclust</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">clusters</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cutree.html">cutree</a></span>(<span class="no">landcover_hclust</span>, <span class="kw">k</span> <span class="kw">=</span> <span class="fl">6</span>)</pre></body></html></div>
+<div id="stars" class="section level2">
+<h2 class="hasAnchor">
+<a href="#stars" class="anchor"></a>stars</h2>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co"># stars -------------------------------------------------------------------</span>
+<span class="no">landcover_grid_stars</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_clusters.html">lsp_add_clusters</a></span>(<span class="no">landcover_cove</span>, <span class="no">clusters</span>)</pre></body></html></div>
+<pre><code>## Warning: Column signature is of a list class and will be dropped from the output
+## object.</code></pre>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">landcover_grid_stars</span>[<span class="st">"clust"</span>], <span class="kw">col</span> <span class="kw">=</span> <span class="no">safe_pal</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">landcover_grid_starsq</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_quality.html">lsp_add_quality</a></span>(<span class="no">landcover_grid_stars</span>,
+                                      <span class="no">landcover_dist</span>)
+
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">landcover_grid_starsq</span>[<span class="st">"inhomogeneity"</span>])</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">landcover_grid_starsq</span>[<span class="st">"isolation"</span>])</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-6-3.png" width="700"></p>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">landcover_grid_starsq</span>[<span class="st">"quality"</span>])</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-6-4.png" width="700"></p>
+</div>
+<div id="sf" class="section level2">
+<h2 class="hasAnchor">
+<a href="#sf" class="anchor"></a>sf</h2>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="co"># sf ----------------------------------------------------------------------</span>
+<span class="no">landcover_grid_sf</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_clusters.html">lsp_add_clusters</a></span>(<span class="no">landcover_cove</span>,
+                                    <span class="no">clusters</span>, <span class="kw">output</span> <span class="kw">=</span> <span class="st">"sf"</span>)
+
+<span class="co"># landcover_grid_sf$clust = as.factor(landcover_grid_sf$clust)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sf</span>[<span class="st">"clust"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">safe_pal</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="co"># mapview::mapview(landcover_grid_sf["clust"])</span>
+
+<span class="no">landcover_grid_sfq</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_quality.html">lsp_add_quality</a></span>(<span class="no">landcover_grid_sf</span>, <span class="no">landcover_dist</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq</span>[<span class="st">"inhomogeneity"</span>])</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq</span>[<span class="st">"isolation"</span>])</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq</span>[<span class="st">"quality"</span>])</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-7-4.png" width="700"></p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 
