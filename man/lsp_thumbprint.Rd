@@ -21,7 +21,7 @@ lsp_thumbprint(
 \arguments{
 \item{x}{Object of class \code{stars} or \code{stars_proxy}. It should have one attribute (for \code{"coma"}, \code{"cove"}), two attributes (\code{"cocoma"}, \code{"cocove"}, \code{"wecoma"}, \code{"wecove"}), two or more attributes (\code{"incoma"}, \code{"incove"}), or any number of attributes suitable for user-defined functions.}
 
-\item{type}{Type of the calculated signature. It can be \code{"coma"} (co-occurrence matrix), \code{"cove"} (co-occurrence vector), \code{"cocoma"} (co-located co-occurrence matrix), \code{"cocove"} (co-located co-occurrence vector), \code{"wecoma"} (weighted co-occurrence matrix), \code{"wecove"} (weighted co-occurrence vector), \code{"incoma"} (integrated co-occurrence matrix), \code{"incove"} (integrated co-occurrence vector), or any function that can summarize \code{stars} objects.}
+\item{type}{Type of the calculated signature. It can be \code{"coma"} (co-occurrence matrix), \code{"cove"} (co-occurrence vector), \code{"cocoma"} (co-located co-occurrence matrix), \code{"cocove"} (co-located co-occurrence vector), \code{"wecoma"} (weighted co-occurrence matrix), \code{"wecove"} (weighted co-occurrence vector), \code{"incoma"} (integrated co-occurrence matrix), \code{"incove"} (integrated co-occurrence vector), \code{"composition"} or any function that can summarize \code{stars} objects.}
 
 \item{window}{Specifies areas for analysis. It can be either: \code{NULL}, a numeric value, or an \code{sf} object. If \code{window=NULL} calculations are performed for a whole area. If the \code{window} argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an \code{sf} object is provided, each feature (row) defines the extent of a local pattern. The \code{sf} object should have one attribute (otherwise, the first attribute is used as an id).}
 
@@ -38,7 +38,7 @@ The default is TRUE.}
 Either "ordered" (TRUE) or "unordered" (FALSE).
 The default is TRUE.}
 
-\item{normalization}{For \code{"cove"}, \code{"cocove"}, \code{"wecove"} and \code{"incove"} only. Should the output vector be normalized?
+\item{normalization}{For \code{"cove"}, \code{"cocove"}, \code{"wecove"}, \code{"incove"}, \code{"composition"}, or user-provided functions only. Should the output vector be normalized?
 Either "none" or "pdf".
 The "pdf" option normalizes a vector to sum to one.
 The default is "pdf".}
