@@ -134,7 +134,7 @@
 <div id="signatures" class="section level3">
 <h3 class="hasAnchor">
 <a href="#signatures" class="anchor"></a>Signatures</h3>
-<p>We can see that most of the island is covered by forest, with some agriculture and smaller areas of the other classes. It is also reasonably easy to describe this proportions (so called composition) numericaly - we just need to count cells of each category for the whole data.</p>
+<p>We can see that most of the island is covered by forest, with some agriculture and smaller areas of the other classes. It is also reasonably easy to describe these proportions (so-called composition) numerically - we just need to count cells of each category for the whole data.</p>
 <p>We can use the <code><a href="reference/lsp_thumbprint.html">lsp_thumbprint()</a></code> function for this. It requires a <code>stars</code> object as the first input and the type of a signature to calculate - <code>"composition"</code> in this case. There are also several additional arguments, including <code>threshold</code> - a share (between 0 and 1) of NA cells to allow signature calculation and <code>normalization</code> - decision if the output vector should be normalized.</p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="no">landcover_comp</span> <span class="kw">=</span> <span class="fu"><a href="reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>,
                                 <span class="kw">type</span> <span class="kw">=</span> <span class="st">"composition"</span>,
@@ -145,18 +145,26 @@
 <span class="co">#&gt;      id na_prop signature        </span>
 <span class="co">#&gt; * &lt;int&gt;   &lt;dbl&gt; &lt;list&gt;           </span>
 <span class="co">#&gt; 1     1   0.666 &lt;int[,7] [1 × 7]&gt;</span></pre></div>
-<p>The output of <code><a href="reference/lsp_thumbprint.html">lsp_thumbprint()</a></code> has a new class <code>lsp</code>. It is a tibble with three columns: - <code>id</code> - an id of each window (area) - <code>na_prop</code> - share (0-1) of <code>NA</code> cells for each window - <code>signature</code> - a list-column containing with calculated signatures</p>
+<p>The output of <code><a href="reference/lsp_thumbprint.html">lsp_thumbprint()</a></code> has a new class <code>lsp</code>. It is a tibble with three columns:</p>
+<ul>
+<li>
+<code>id</code> - an id of each window (area)</li>
+<li>
+<code>na_prop</code> - share (0-1) of <code>NA</code> cells for each window</li>
+<li>
+<code>signature</code> - a list-column containing with calculated signatures</li>
+</ul>
 <p>We can take a look at the last column:</p>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="no">landcover_comp</span>$<span class="no">signature</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt;           1       2     3    5    6     7      9</span>
 <span class="co">#&gt; [1,] 862001 8122776 84482 4311 2677 78555 203444</span></pre></div>
-<p>It is a list of signatures. In this case, we have just one signature describing the whole area in form of a numeric vector. It contains how many cells belong to each land cover category. For example, there are 8122776 cells of forest, but only 2677 cells of shrubland.</p>
+<p>It is a list of signatures. In this case, we have just one signature describing the whole area in the form of a numeric vector. It contains how many cells belong to each land cover category. For example, there are 8122776 cells of forest, but only 2677 cells of shrubland.</p>
 <!-- However, it is not that easy to describe landscape patterns numericaly.  -->
 <!-- We can try to... -->
 <!-- ... -->
 <!-- ... -->
-<p>Another approach would be to devide this large area into many regular rectangles (we refer to them as local landscapes) and to calculate a signature in each of them. The previously used signature, <code>"composition"</code> has one important flaw though. It only describes how many cells of each category we have. However, it does not distinguish an area with left half of forest and right half of agriculture from an area with forest mixed with agriculture (think of a checkerboard). Gladly, there are several more types of signatures exist. It includes a co-occurrence matrix (<code>type = "coma"</code>). <code>"coma"</code> goes to each cell, looks at its value, looks at the values of its neighbors and count how many neighbors of each class our central cell has.</p>
+<p>Another approach would be to divide this large area into many regular rectangles (we refer to them as local landscapes) and to calculate a signature in each of them. The previously used signature, <code>"composition"</code> has one important flaw though. It only describes how many cells of each category we have. However, it does not distinguish an area with the left half of forest and right half of agriculture from an area with forest mixed with agriculture (think of a checkerboard). Gladly, several more types of signatures exist. It includes a co-occurrence matrix (<code>type = "coma"</code>). <code>"coma"</code> goes to each cell, looks at its value, looks at the values of its neighbors and counts how many neighbors of each class our central cell has.</p>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="no">landcover_coma</span> <span class="kw">=</span> <span class="fu"><a href="reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"coma"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">200</span>)
 <span class="no">landcover_coma</span>
 <span class="co">#&gt; # A tibble: 232 x 3</span>
@@ -173,7 +181,7 @@
 <span class="co">#&gt;  9    77  0      &lt;int[,7] [7 × 7]&gt;</span>
 <span class="co">#&gt; 10    78  0      &lt;int[,7] [7 × 7]&gt;</span>
 <span class="co">#&gt; # … with 222 more rows</span></pre></div>
-<p>Now, we have one row per local landscape, where each local landscape is described by an id (<code>id</code>), proportion of cells with <code>NA</code>s (<code>na_prop</code>), and a signature (<code>signature</code>). For example, the first signature looks like this:</p>
+<p>Now, we have one row per local landscape, where each local landscape is described by an id (<code>id</code>), the proportion of cells with <code>NA</code>s (<code>na_prop</code>), and a signature (<code>signature</code>). For example, the first signature looks like this:</p>
 <div class="sourceCode" id="cb6"><pre class="r"><span class="no">landcover_coma</span>$<span class="no">signature</span><span class="kw">[[</span><span class="fl">1</span>]]
 <span class="co">#&gt;    1      2 3 5 6 7    9</span>
 <span class="co">#&gt; 1 32     47 0 2 0 0    6</span>
@@ -186,7 +194,7 @@
 <p>It is a matrix where each row and column represent subsequent land cover classes. For example, 141250 times forest cell is next to anther forest cell, and 226 times water cell is next to forest cell. You can learn more about this signature at <a href="https://nowosad.github.io/comat/articles/coma.html" class="uri">https://nowosad.github.io/comat/articles/coma.html</a>.</p>
 <p>Importantly, this and some other signatures can be used not only to describe landscapes, but also to search for other similar landscapes, compare landscapes, and cluster them.</p>
 <!-- create a summary image -->
-<p>You can find examples of each of above applications in the vignettes:</p>
+<!-- You can find examples of each of the above applications in the vignettes: -->
 <!-- ref to vig -->
 <!-- ### Search -->
 <!-- ### Compare -->
