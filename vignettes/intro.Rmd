@@ -26,7 +26,7 @@ This file contains a land cover data for New Guinea, with seven possible categor
 library(motif)
 library(stars)
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-# landcover = droplevels(landcover)
+landcover = droplevels(landcover)
 plot(landcover, key.pos = 4, key.width = lcm(5))
 ```
 
