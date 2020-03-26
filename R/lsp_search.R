@@ -157,5 +157,11 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, neighbourhood =
   # output_stars$dist[which(output_stars$id %in% output$id)] = output$dist
   output_stars$dist = output_y$dist[match(output_stars$id, output_y$id)]
 
+  # #return sf
+  # output_sf = lsp_add_sf(y_metadata, window = window)
+  # output_sf = merge(output_sf, output_y,
+  #                   by.x = names(output_sf)[1], by.y = "id")
+  # output_sf
+
   return(output_stars)
 }
