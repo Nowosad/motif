@@ -64,8 +64,8 @@ plot(landcover, key.pos = 4, key.width = lcm(5))
 
 We can see that most of the island is covered by forest, with some
 agriculture and smaller areas of the other classes. It is also
-reasonably easy to describe this proportions (so called composition)
-numericaly - we just need to count cells of each category for the whole
+reasonably easy to describe these proportions (so-called composition)
+numerically - we just need to count cells of each category for the whole
 data.
 
 We can use the `lsp_thumbprint()` function for this. It requires a
@@ -88,9 +88,11 @@ landcover_comp
 ```
 
 The output of `lsp_thumbprint()` has a new class `lsp`. It is a tibble
-with three columns: - `id` - an id of each window (area) - `na_prop` -
-share (0-1) of `NA` cells for each window - `signature` - a list-column
-containing with calculated signatures
+with three columns:
+
+  - `id` - an id of each window (area)
+  - `na_prop` - share (0-1) of `NA` cells for each window
+  - `signature` - a list-column containing with calculated signatures
 
 We can take a look at the last column:
 
@@ -102,9 +104,9 @@ landcover_comp$signature
 ```
 
 It is a list of signatures. In this case, we have just one signature
-describing the whole area in form of a numeric vector. It contains how
-many cells belong to each land cover category. For example, there are
-8122776 cells of forest, but only 2677 cells of shrubland.
+describing the whole area in the form of a numeric vector. It contains
+how many cells belong to each land cover category. For example, there
+are 8122776 cells of forest, but only 2677 cells of shrubland.
 
 <!-- However, it is not that easy to describe landscape patterns numericaly.  -->
 
@@ -114,16 +116,16 @@ many cells belong to each land cover category. For example, there are
 
 <!-- ... -->
 
-Another approach would be to devide this large area into many regular
+Another approach would be to divide this large area into many regular
 rectangles (we refer to them as local landscapes) and to calculate a
 signature in each of them. The previously used signature,
 `"composition"` has one important flaw though. It only describes how
 many cells of each category we have. However, it does not distinguish an
-area with left half of forest and right half of agriculture from an area
-with forest mixed with agriculture (think of a checkerboard). Gladly,
-there are several more types of signatures exist. It includes a
+area with the left half of forest and right half of agriculture from an
+area with forest mixed with agriculture (think of a checkerboard).
+Gladly, several more types of signatures exist. It includes a
 co-occurrence matrix (`type = "coma"`). `"coma"` goes to each cell,
-looks at its value, looks at the values of its neighbors and count how
+looks at its value, looks at the values of its neighbors and counts how
 many neighbors of each class our central cell has.
 
 ``` r
@@ -146,9 +148,9 @@ landcover_coma
 ```
 
 Now, we have one row per local landscape, where each local landscape is
-described by an id (`id`), proportion of cells with `NA`s (`na_prop`),
-and a signature (`signature`). For example, the first signature looks
-like this:
+described by an id (`id`), the proportion of cells with `NA`s
+(`na_prop`), and a signature (`signature`). For example, the first
+signature looks like this:
 
 ``` r
 landcover_coma$signature[[1]]
@@ -174,7 +176,7 @@ compare landscapes, and cluster them.
 
 <!-- create a summary image -->
 
-You can find examples of each of above applications in the vignettes:
+<!-- You can find examples of each of the above applications in the vignettes: -->
 
 <!-- ref to vig -->
 

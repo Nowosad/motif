@@ -74,9 +74,10 @@ landcover_comp
 
 The output of `lsp_thumbprint()` has a new class `lsp`.
 It is a tibble with three columns:
- - `id` - an id of each window (area)
- - `na_prop` - share (0-1) of `NA` cells for each window
- - `signature` - a list-column containing with calculated signatures
+
+- `id` - an id of each window (area)
+- `na_prop` - share (0-1) of `NA` cells for each window
+- `signature` - a list-column containing with calculated signatures
 
 We can take a look at the last column:
 
@@ -122,7 +123,7 @@ Importantly, this and some other signatures can be used not only to describe lan
 
 <!-- create a summary image -->
 
-You can find examples of each of the above applications in the vignettes:
+<!-- You can find examples of each of the above applications in the vignettes: -->
 
 
 <!-- ref to vig -->
