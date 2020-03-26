@@ -111,7 +111,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
       <a href="../articles/articles/signatures.html">Signatures</a>
     </li>
     <li>
-      <a href="../articles/intro.html">intro</a>
+      <a href="../articles/intro.html">Introduction to the motif package</a>
     </li>
   </ul>
 </li>
@@ -198,7 +198,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
     </tr>
     <tr>
       <th>type</th>
-      <td><p>Type of the calculated signature. It can be <code>"coma"</code> (co-occurrence matrix), <code>"cove"</code> (co-occurrence vector), <code>"cocoma"</code> (co-located co-occurrence matrix), <code>"cocove"</code> (co-located co-occurrence vector), <code>"wecoma"</code> (weighted co-occurrence matrix), <code>"wecove"</code> (weighted co-occurrence vector), <code>"incoma"</code> (integrated co-occurrence matrix), <code>"incove"</code> (integrated co-occurrence vector), or any function that can summarize <code>stars</code> objects.</p></td>
+      <td><p>Type of the calculated signature. It can be <code>"coma"</code> (co-occurrence matrix), <code>"cove"</code> (co-occurrence vector), <code>"cocoma"</code> (co-located co-occurrence matrix), <code>"cocove"</code> (co-located co-occurrence vector), <code>"wecoma"</code> (weighted co-occurrence matrix), <code>"wecove"</code> (weighted co-occurrence vector), <code>"incoma"</code> (integrated co-occurrence matrix), <code>"incove"</code> (integrated co-occurrence vector), <code>"composition"</code> or any function that can summarize <code>stars</code> objects.</p></td>
     </tr>
     <tr>
       <th>dist_fun</th>
@@ -231,7 +231,8 @@ The default is TRUE.</p></td>
     </tr>
     <tr>
       <th>normalization</th>
-      <td><p>For <code>"cove"</code>, <code>"cocove"</code>, <code>"wecove"</code> and <code>"incove"</code> only. Should the output vector be normalized?
+      <td><p>For <code>"cove"</code>, <code>"cocove"</code>, <code>"wecove"</code>, <code>"incove"</code>, <code>"composition"</code>, or user-provided functions only.
+Should the output vector be normalized?
 Either "none" or "pdf".
 The "pdf" option normalizes a vector to sum to one.
 The default is "pdf".</p></td>
