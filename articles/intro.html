@@ -111,13 +111,12 @@
 <span class="co">#&gt; Loading required package: abind</span>
 <span class="co">#&gt; Loading required package: sf</span>
 <span class="co">#&gt; Linking to GEOS 3.8.1, GDAL 2.4.4, PROJ 7.0.0</span>
-<span class="no">landcover</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/stars/man/read_stars.html">read_stars</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"raster/landcover2015.tif"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"motif"</span>))
-<span class="no">landcover</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/droplevels.html">droplevels</a></span>(<span class="no">landcover</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover</span>, <span class="kw">key.pos</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">key.width</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">lcm</a></span>(<span class="fl">5</span>))</pre></body></html></div>
-<p><img src="intro_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
-<div id="signatures" class="section level3">
-<h3 class="hasAnchor">
-<a href="#signatures" class="anchor"></a>Signatures</h3>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
+<span class="no">landcover</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/stars/man/read_stars.html">read_stars</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"raster/landcover2015.tif"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"motif"</span>))</pre></body></html></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-3-1.png" width="576"></p>
+<div id="signatures" class="section level2">
+<h2 class="hasAnchor">
+<a href="#signatures" class="anchor"></a>Signatures</h2>
 <p>We can see that most of the island is covered by forest, with some agriculture and smaller areas of the other classes. It is also reasonably easy to describe these proportions (so-called composition) numerically - we just need to count cells of each category for the whole data.</p>
 <p>We can use the <code><a href="../reference/lsp_thumbprint.html">lsp_thumbprint()</a></code> function for this. It requires a <code>stars</code> object as the first input and the type of a signature to calculate - <code>"composition"</code> in this case. There are also several additional arguments, including <code>threshold</code> - a share (between 0 and 1) of NA cells to allow signature calculation and <code>normalization</code> - decision if the output vector should be normalized.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">landcover_comp</span> <span class="kw">=</span> <span class="fu"><a href="../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>,
@@ -149,6 +148,8 @@
 <!-- ... -->
 <!-- ... -->
 <p>Another approach would be to divide this large area into many regular rectangles (we refer to them as local landscapes) and to calculate a signature in each of them. The previously used signature, <code>"composition"</code> has one important flaw though. It only describes how many cells of each category we have. However, it does not distinguish an area with the left half of forest and right half of agriculture from an area with forest mixed with agriculture (think of a checkerboard). Gladly, several more types of signatures exist. It includes a co-occurrence matrix (<code>type = "coma"</code>). <code>"coma"</code> goes to each cell, looks at its value, looks at the values of its neighbors and counts how many neighbors of each class our central cell has.</p>
+<p><img src="intro_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
+<p>This time, we set the <code>window</code> argument to <code>200</code>, which means that each local landscape will consist of 200 by 200 cell. In this example, each cell has a resolution of 300 by 300 meters, therefore a local landscape will be 60000 by 60000 meters.</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">landcover_coma</span> <span class="kw">=</span> <span class="fu"><a href="../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"coma"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">200</span>)
 <span class="no">landcover_coma</span>
 <span class="co">#&gt; # A tibble: 232 x 3</span>
@@ -176,7 +177,31 @@
 <span class="co">#&gt; 6  0      0 0 0 0 0    0</span>
 <span class="co">#&gt; 7  6    226 0 0 0 0 1462</span></pre></body></html></div>
 <p>It is a matrix where each row and column represent subsequent land cover classes. For example, 141250 times forest cell is next to anther forest cell, and 226 times water cell is next to forest cell. You can learn more about this signature at <a href="https://nowosad.github.io/comat/articles/coma.html" class="uri">https://nowosad.github.io/comat/articles/coma.html</a>. Additional signatures are described in the <a href="https://nowosad.github.io/motif/articles/articles/signatures.html">Spatial patterns’ signatures</a> vignette.</p>
-<p>Importantly, this and some other signatures can be used not only to describe landscapes, but also to search for other similar landscapes, compare landscapes, and cluster them.</p>
+<p>The <strong>motif</strong> package also allows using irregular regions based on the user-provided polygons.</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">ecoregions</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_read.html">read_sf</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"vector/ecoregions.gpkg"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"motif"</span>))</pre></body></html></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">landcover_coma_e</span> <span class="kw">=</span> <span class="fu"><a href="../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"coma"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="no">ecoregions</span>[<span class="st">"id"</span>])
+<span class="no">landcover_coma_e</span>
+<span class="co">#&gt; # A tibble: 22 x 3</span>
+<span class="co">#&gt;       id na_prop signature        </span>
+<span class="co">#&gt;  * &lt;int&gt;   &lt;dbl&gt; &lt;list&gt;           </span>
+<span class="co">#&gt;  1     1 0.114   &lt;int[,7] [7 × 7]&gt;</span>
+<span class="co">#&gt;  2     2 0.0851  &lt;int[,7] [7 × 7]&gt;</span>
+<span class="co">#&gt;  3     3 0.0377  &lt;int[,7] [7 × 7]&gt;</span>
+<span class="co">#&gt;  4     4 0.0914  &lt;int[,7] [7 × 7]&gt;</span>
+<span class="co">#&gt;  5     5 0       &lt;int[,7] [7 × 7]&gt;</span>
+<span class="co">#&gt;  6     6 0       &lt;int[,7] [7 × 7]&gt;</span>
+<span class="co">#&gt;  7     7 0.00285 &lt;int[,7] [7 × 7]&gt;</span>
+<span class="co">#&gt;  8     8 0.0720  &lt;int[,7] [7 × 7]&gt;</span>
+<span class="co">#&gt;  9     9 0.0508  &lt;int[,7] [7 × 7]&gt;</span>
+<span class="co">#&gt; 10    10 0       &lt;int[,7] [7 × 7]&gt;</span>
+<span class="co">#&gt; # … with 12 more rows</span></pre></body></html></div>
+<!-- ADD INFO ABOUT STARS PROXY -->
+</div>
+<div id="applications" class="section level2">
+<h2 class="hasAnchor">
+<a href="#applications" class="anchor"></a>Applications</h2>
+<p>Importantly, spatial patterns’ signatures can be used not only to describe landscapes, but also to search for other similar landscapes, compare landscapes, and cluster them.</p>
 <!-- create a summary image -->
 <p>You can find examples of each of the above applications in the vignettes:</p>
 <ol style="list-style-type: decimal">
@@ -189,7 +214,9 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 
