@@ -1,7 +1,62 @@
 ---
 title: "Compare"
+author: "Jakub Nowosad"
 date: "`r Sys.Date()`"
 output: 
   github_document:
-    html_preview: false
+    html_preview: true
 ---
+
+```{r}
+library(testthat)
+library(stars)
+library(sf)
+library(motif)
+
+landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
+landcoverold = read_stars(system.file("raster/landcover2001.tif", package = "motif"))
+```
+
+## Regular window
+
+```{r}
+compare_1 = lsp_compare(
+  landcover,
+  landcoverold,
+  window = 100,
+  type = "cove",
+  dist_fun = "jensen-shannon",
+  threshold = 0.9
+)
+```
+
+```{r}
+plot(compare_1["dist"])
+```
+
+## Polygon
+
+```{r}
+ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
+ecoregions = st_transform(ecoregions, st_crs(landcover))
+```
+
+```{r}
+plot(ecoregions)
+```
+
+```{r}
+compare_2 = lsp_compare(
+  landcover,
+  landcoverold,
+  window = ecoregions,
+  type = "cove",
+  dist_fun = "jensen-shannon",
+  threshold = 0.9
+)
+```
+
+```{r}
+plot(compare_2["dist"])
+```
+

@@ -1,7 +1,102 @@
 ---
 title: "Search"
+author: "Jakub Nowosad"
 date: "`r Sys.Date()`"
 output: 
   github_document:
-    html_preview: false
+    html_preview: true
 ---
+
+```{r}
+library(motif)
+library(stars)
+library(sf)
+my_breaks = c(0, 0.01, 0.05, 0.1, 0.4, 0.7, 1.01)
+my_palette = hcl.colors(n = 6, palette = "Vik")
+```
+
+```{r}
+landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
+```
+
+```{r, echo=FALSE}
+plot(landcover)
+```
+
+```{r}
+ext = st_bbox(c(xmin = 238000, xmax = 268000,
+                ymin = -819814, ymax = -789814),
+                crs = st_crs(landcover))
+
+landcover_ext = landcover[ext]
+```
+
+```{r, echo=FALSE}
+plot(landcover_ext)
+```
+
+## Regular window
+
+```{r}
+search_1 = lsp_search(
+  landcover_ext,
+  landcover,
+  window = 100,
+  type = "cove",
+  dist_fun = "jensen-shannon",
+  threshold = 1
+)
+```
+
+```{r}
+plot(search_1["dist"], breaks = my_breaks, col = my_palette, main = NULL)
+```
+
+## Polygon
+
+```{r}
+ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
+ecoregions = st_transform(ecoregions, st_crs(landcover))
+```
+
+```{r}
+plot(ecoregions)
+```
+
+```{r}
+search_2 = lsp_search(
+  landcover_ext,
+  landcover,
+  window = ecoregions,
+  type = "cove",
+  dist_fun = "jensen-shannon",
+  threshold = 1
+)
+```
+
+```{r}
+plot(search_2)
+plot(search_2["dist"], breaks = my_breaks, col = my_palette, main = NULL)
+```
+
+
+```{r,eval=FALSE}
+classes = c(1L, 2L, 3L, 5L, 6L, 7L, 9L)
+my_norm = "pdf"
+t1 = lsp_thumbprint(landcover_ext, type = "cove", threshold = 1, 
+                    normalization = my_norm, classes = classes)
+t2 = lsp_thumbprint(landcover, window = ecoregions, type = "cove",
+                    threshold = 1, normalization = my_norm, classes = classes)
+
+t2[17, ]$signature
+t1$signature
+
+library(philentropy)
+jensen_shannon(t1$signature[[1]], t2[17, ]$signature[[1]],
+               testNA = FALSE, unit = "log2")
+kullback_leibler_distance(t1$signature[[1]], t2[17, ]$signature[[1]],
+               testNA = FALSE, unit = "log2")
+kullback_leibler_distance(t2[17, ]$signature[[1]], t1$signature[[1]],
+               testNA = FALSE, unit = "log2")
+```
+

@@ -3,5 +3,71 @@ title: "Cluster"
 date: "`r Sys.Date()`"
 output: 
   github_document:
-    html_preview: false
+    html_preview: true
 ---
+
+```{r}
+library(testthat)
+library(stars)
+library(sf)
+library(motif)
+# dput(rcartocolor::carto_pal(n=6, "Safe"))
+safe_pal = c("#88CCEE", "#CC6677", "#DDCC77",
+             "#117733", "#332288", "#888888")
+```
+
+```{r}
+landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
+```
+
+```{r}
+landcover_cove = lsp_thumbprint(landcover,
+                               type = "cove",
+                               window = 200,
+                               normalization = "pdf")
+
+landcover_dist = lsp_to_dist(landcover_cove,
+                            dist_fun = "jensen-shannon")
+```
+
+```{r}
+landcover_hclust = hclust(landcover_dist, method = "ward.D2")
+plot(landcover_hclust)
+```
+
+```{r}
+clusters = cutree(landcover_hclust, k = 6)
+```
+
+## stars
+
+```{r}
+# stars -------------------------------------------------------------------
+landcover_grid_stars = lsp_add_clusters(landcover_cove, clusters)
+plot(landcover_grid_stars["clust"], col = safe_pal)
+
+landcover_grid_starsq = lsp_add_quality(landcover_grid_stars,
+                                      landcover_dist)
+
+plot(landcover_grid_starsq["inhomogeneity"])
+plot(landcover_grid_starsq["isolation"])
+plot(landcover_grid_starsq["quality"])
+```
+
+## sf
+
+```{r}
+# sf ----------------------------------------------------------------------
+landcover_grid_sf = lsp_add_clusters(landcover_cove,
+                                    clusters, output = "sf")
+
+# landcover_grid_sf$clust = as.factor(landcover_grid_sf$clust)
+plot(landcover_grid_sf["clust"], pal = safe_pal)
+# mapview::mapview(landcover_grid_sf["clust"])
+
+landcover_grid_sfq = lsp_add_quality(landcover_grid_sf, landcover_dist)
+plot(landcover_grid_sfq["inhomogeneity"])
+plot(landcover_grid_sfq["isolation"])
+plot(landcover_grid_sfq["quality"])
+```
+
