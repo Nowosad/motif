@@ -10,7 +10,8 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width = 6
 )
 ```
 
@@ -25,12 +26,16 @@ This file contains a land cover data for New Guinea, with seven possible categor
 ```{r}
 library(motif)
 library(stars)
+library(sf)
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-landcover = droplevels(landcover)
-plot(landcover, key.pos = 4, key.width = lcm(5))
 ```
 
-### Signatures
+```{r, echo=FALSE}
+landcover = droplevels(landcover)
+plot(landcover, key.pos = 4, key.width = lcm(5), main = NULL)
+```
+
+## Signatures
 
 We can see that most of the island is covered by forest, with some agriculture and smaller areas of the other classes.
 It is also reasonably easy to describe these proportions (so-called composition) numerically - we just need to count cells of each category for the whole data.
@@ -78,6 +83,18 @@ Gladly, several more types of signatures exist.
 It includes a co-occurrence matrix (`type = "coma"`).
 `"coma"` goes to each cell, looks at its value, looks at the values of its neighbors and counts how many neighbors of each class our central cell has.
 
+```{r, echo=FALSE}
+stars200 = lsp_add_sf(landcover, window = 200)
+landcover = droplevels(landcover)
+plot(landcover, key.pos = NULL, reset = FALSE, main = NULL)
+plot(st_geometry(stars200), add = TRUE, reset = FALSE)
+# st_bbox(stars200)
+# st_bbox(landcover)
+```
+
+This time, we set the `window` argument to `200`, which means that each local landscape will consist of 200 by 200 cell.
+In this example, each cell has a resolution of 300 by 300 meters, therefore a local landscape will be 60000 by 60000 meters.
+
 ```{r}
 landcover_coma = lsp_thumbprint(landcover, type = "coma", window = 200)
 landcover_coma
@@ -95,7 +112,27 @@ For example, 141250 times forest cell is next to anther forest cell, and 226 tim
 You can learn more about this signature at https://nowosad.github.io/comat/articles/coma.html.
 Additional signatures are described in the [Spatial patterns' signatures](https://nowosad.github.io/motif/articles/articles/signatures.html) vignette.
 
-Importantly, this and some other signatures can be used not only to describe landscapes, but also to search for other similar landscapes, compare landscapes, and cluster them.
+The **motif** package also allows using irregular regions based on the user-provided polygons.
+
+```{r}
+ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
+```
+
+```{r, echo=FALSE}
+plot(ecoregions["id"], main = NULL)
+```
+
+
+```{r}
+landcover_coma_e = lsp_thumbprint(landcover, type = "coma", window = ecoregions["id"])
+landcover_coma_e
+```
+
+<!-- ADD INFO ABOUT STARS PROXY -->
+
+## Applications
+
+Importantly, spatial patterns' signatures can be used not only to describe landscapes, but also to search for other similar landscapes, compare landscapes, and cluster them.
 
 <!-- create a summary image -->
 
