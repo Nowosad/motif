@@ -8,7 +8,7 @@
 #'
 #' @param x Object of class `stars` or `stars_proxy`. It should have one attribute (for `"coma"`, `"cove"`), two attributes (`"cocoma"`, `"cocove"`, `"wecoma"`, `"wecove"`), two or more attributes (`"incoma"`, `"incove"`), or any number of attributes suitable for user-defined functions.
 #' @param y Object of class `stars` or `stars_proxy`. It should have one attribute (for `"coma"`, `"cove"`), two attributes (`"cocoma"`, `"cocove"`, `"wecoma"`, `"wecove"`), two or more attributes (`"incoma"`, `"incove"`), or any number of attributes suitable for user-defined functions.
-#' @param type Type of the calculated signature. It can be `"coma"` (co-occurrence matrix), `"cove"` (co-occurrence vector), `"cocoma"` (co-located co-occurrence matrix), `"cocove"` (co-located co-occurrence vector), `"wecoma"` (weighted co-occurrence matrix), `"wecove"` (weighted co-occurrence vector), `"incoma"` (integrated co-occurrence matrix), `"incove"` (integrated co-occurrence vector), or any function that can summarize `stars` objects.
+#' @param type Type of the calculated signature. It can be `"coma"` (co-occurrence matrix), `"cove"` (co-occurrence vector), `"cocoma"` (co-located co-occurrence matrix), `"cocove"` (co-located co-occurrence vector), `"wecoma"` (weighted co-occurrence matrix), `"wecove"` (weighted co-occurrence vector), `"incoma"` (integrated co-occurrence matrix), `"incove"` (integrated co-occurrence vector), `"composition"` or any function that can summarize `stars` objects.
 #' @param dist_fun Distance measure used. This function uses the `philentropy::distance` function in the background. Run `philentropy::getDistMethods()` to find possible distance measures.
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
 #' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
@@ -20,7 +20,8 @@
 #' @param repeated For `"incove"` only. Should the repeated co-located co-occurrence matrices be used?
 #' Either "ordered" (TRUE) or "unordered" (FALSE).
 #' The default is TRUE.
-#' @param normalization For `"cove"`, `"cocove"`, `"wecove"` and `"incove"` only. Should the output vector be normalized?
+#' @param normalization For `"cove"`, `"cocove"`, `"wecove"`, `"incove"`, `"composition"`, or user-provided functions only.
+#' Should the output vector be normalized?
 #' Either "none" or "pdf".
 #' The "pdf" option normalizes a vector to sum to one.
 #' The default is "pdf".
