@@ -64,8 +64,8 @@ lsp_add_stars.default = function(x = NULL, window = NULL){
     window = stars::st_rasterize(window,
                                  template = stars::st_as_stars(sf::st_bbox(x),
                                                                values = NA_integer_,
-                                                               dx = x_delta_row,
-                                                               dy = x_delta_col))
+                                                               dx = unname(x_delta_row),
+                                                               dy = unname(x_delta_col)))
     names(window) = "id"
     return(window)
   }
@@ -128,8 +128,8 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
   ))
 
   output = stars::st_as_stars(output_bb,
-                       nx = output_n_row,
-                       ny = output_n_col,
+                       nx = unname(output_n_row),
+                       ny = unname(output_n_col),
                        values = as.integer(seq_len(output_n_row * output_n_col)))
 
   output = sf::st_set_crs(output, value = x_crs)
