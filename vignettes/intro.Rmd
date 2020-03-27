@@ -11,13 +11,14 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.width = 6
+  fig.width = 7
 )
 ```
 
-```{r setup}
-library(motif)
-```
+The **motif** package implements ideas of the pattern-based spatial analysis in R.
+It describes spatial patterns of categorical raster data for any defined regular and irregular areas. 
+Patterns are represented quantitatively using built-in signatures based on co-occurrence matrices but also allows for any user-defined functions. 
+It enables spatial analysis such as search, change detection, and clustering to be performed on spatial patterns.
 
 The **motif** package works on raster data represented by `stars` objects.
 It has several example datasets, including `"raster/landcover2015.tif"`.
@@ -37,6 +38,8 @@ plot(landcover, key.pos = 4, key.width = lcm(5), main = NULL)
 
 ## Signatures
 
+### Whole area
+
 We can see that most of the island is covered by forest, with some agriculture and smaller areas of the other classes.
 It is also reasonably easy to describe these proportions (so-called composition) numerically - we just need to count cells of each category for the whole data.
 
@@ -52,7 +55,7 @@ landcover_comp = lsp_thumbprint(landcover,
 landcover_comp
 ```
 
-The output of `lsp_thumbprint()` has a new class `lsp`.
+The output of `lsp_thumbprint()`, `landcover_comp`,  has a new class `lsp`.
 It is a tibble with three columns:
 
 - `id` - an id of each window (area)
@@ -75,11 +78,13 @@ For example, there are 8122776 cells of forest, but only 2677 cells of shrubland
 <!-- ... -->
 <!-- ... -->
 
+### Regular local landscapes
+
 Another approach would be to divide this large area into many regular rectangles (we refer to them as local landscapes) and to calculate a signature in each of them.
 The previously used signature, `"composition"` has one important flaw though. 
 It only describes how many cells of each category we have. 
-However, it does not distinguish an area with the left half of forest and right half of agriculture from an area with forest mixed with agriculture (think of a checkerboard).
-Gladly, several more types of signatures exist.
+However, it does not distinguish an area with the left half of forest and right half of agriculture from an area with forest mixed with agriculture (think of a green-yellow checkerboard).
+Gladly, several more types of signatures do exist.
 It includes a co-occurrence matrix (`type = "coma"`).
 `"coma"` goes to each cell, looks at its value, looks at the values of its neighbors and counts how many neighbors of each class our central cell has.
 
@@ -93,7 +98,7 @@ plot(st_geometry(stars200), add = TRUE, reset = FALSE)
 ```
 
 This time, we set the `window` argument to `200`, which means that each local landscape will consist of 200 by 200 cell.
-In this example, each cell has a resolution of 300 by 300 meters, therefore a local landscape will be 60000 by 60000 meters.
+In this example, each cell has a resolution of 300 by 300 meters, therefore a local landscape will be 60000 by 60000 meters (60 by 60 kilometers).
 
 ```{r}
 landcover_coma = lsp_thumbprint(landcover, type = "coma", window = 200)
@@ -112,23 +117,51 @@ For example, 141250 times forest cell is next to anther forest cell, and 226 tim
 You can learn more about this signature at https://nowosad.github.io/comat/articles/coma.html.
 Additional signatures are described in the [Spatial patterns' signatures](https://nowosad.github.io/motif/articles/articles/signatures.html) vignette.
 
+### Irregular local landscapes
+
 The **motif** package also allows using irregular regions based on the user-provided polygons.
+It has an example spatial vector dataset, `ecoregions.gpkg`, which contains terrestrial ecoregions for New Guinea from https://ecoregions2017.appspot.com/. 
 
 ```{r}
 ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
 ```
 
+This dataset has 22 rows, where each row relates to one ecoregion.
+Each ecoregion is also related to an unique value in the `id` column.
+
 ```{r, echo=FALSE}
-plot(ecoregions["id"], main = NULL)
+# https://medialab.github.io/iwanthue/
+my_pal = c("#d34359", "#62b93c", "#b75fcf", "#53c069", "#d44295", "#acb939", "#626edd", "#dc9e36", "#8156a8", "#4b8734", "#d98dc7", "#58c096", "#cc542a", "#48bbd2", "#bf814d", "#6686c8", "#968c30", "#a34d78", "#36815b", "#c26963", "#a2b36b", "#6b6829")
+plot(ecoregions["id"], main = NULL, col = my_pal, key.pos = 4, key.width = lcm(5))
 ```
 
+Now, we need to provide this dataset and its identificator column to the `window` argument of `lsp_thumbprint()`.
 
 ```{r}
 landcover_coma_e = lsp_thumbprint(landcover, type = "coma", window = ecoregions["id"])
 landcover_coma_e
 ```
 
-<!-- ADD INFO ABOUT STARS PROXY -->
+The output, `landcover_coma_e`, is also of the `lsp` class and contains three columns. 
+The first column, `id`, has the same values as provided in the `window` argument above.
+The third column, `signature`, has a spatial signature for each polygon in the `ecoregions` dataset.
+
+```{r}
+landcover_coma_e$signature[[1]]
+```
+
+## Large data support
+
+The **motif** package also supports large raster datasets, including rasters that do not fit into the RAM.
+It just requres reading the input data as a `stars.proxy` by adding `proxy = TRUE` to the `read_stars()` function:
+
+```{r}
+landcover_proxy = read_stars(system.file("raster/landcover2015.tif", package = "motif"),
+                             proxy = TRUE)
+
+```
+
+The rest of the calculations are the same as above.
 
 ## Applications
 
