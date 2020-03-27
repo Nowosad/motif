@@ -1,30 +1,39 @@
 ---
-title: "Search"
+title: "Spatial patterns' search"
 author: "Jakub Nowosad"
 date: "`r Sys.Date()`"
 output: 
+  html_document:
   github_document:
     html_preview: true
 ---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7
+)
+```
+
+Pattern-based spatial analysis makes it possible to search for areas with similar spatial patterns.
+This vignette shows how to do spatial patterns' search on example datasets.
+Let's start by attaching neccesary packages:
 
 ```{r}
 library(motif)
 library(stars)
 library(sf)
-my_breaks = c(0, 0.01, 0.05, 0.1, 0.4, 0.7, 1.01)
-my_palette = hcl.colors(n = 6, palette = "Vik")
+library(tmap)
 ```
+
+Spatial patterns' search requires having two spatial objects.
+The first one is the area of interest, and the second one is a larger area that we want to search.
+For this vignette, we will read the `"raster/landcover2015.tif"` file, and crop our area of interest using coordinates of its borders.
 
 ```{r}
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-```
 
-```{r, echo=FALSE}
-landcover = droplevels(landcover)
-plot(landcover, key.pos = 4, key.width = lcm(5))
-```
-
-```{r}
 ext = st_bbox(c(xmin = 238000, xmax = 268000,
                 ymin = -819814, ymax = -789814),
                 crs = st_crs(landcover))
@@ -32,57 +41,145 @@ ext = st_bbox(c(xmin = 238000, xmax = 268000,
 landcover_ext = landcover[ext]
 ```
 
+The `landcover_ext` represents area mostly covered by forest with some agriculture.
+
 ```{r, echo=FALSE}
 landcover_ext = droplevels(landcover_ext)
-plot(landcover_ext, key.pos = 4, key.width = lcm(5))
+plot(landcover_ext, key.pos = 4, key.width = lcm(5), main = NULL)
 ```
 
-## Regular window
+We want to compare it to the land cover dataset of New Guinea - `landcover`.
 
-```{r}
-search_1 = lsp_search(
-  landcover_ext,
-  landcover,
-  window = 100,
-  type = "cove",
-  dist_fun = "jensen-shannon",
-  threshold = 1
-)
+```{r, echo=FALSE}
+my_breaks = c(0, 0.01, 0.05, 0.1, 0.4, 0.7, 1.01)
+my_palette = hcl.colors(n = 6, palette = "Vik")
+landcover = droplevels(landcover)
+plot(landcover, key.pos = 4, key.width = lcm(5), main = NULL)
 ```
 
+### Regular local landscapes
+
+Spatial patterns' search is done by the `lsp_search()` function.
+It expects area of interest as the first object and the larger area as the second one.
+We should provide the type of signature (`type`) and the suitable distance function (`dist_fun`) we want to use to compare two datasets.
+Additional arguments include the size of the search window from the larger area (`window`) and how much of NA values we can accept in the local landscapes (`threshold`).
+
 ```{r}
+search_1 = lsp_search(landcover_ext, landcover, 
+                      type = "cove", dist_fun = "jensen-shannon",
+                      window = 100, threshold = 1)
+search_1
+```
+
+The result of the `lsp_search()` function is a `stars` object with three attributes: `id` - unique value for each local landscape, `na_prop` - proportion (0-1) of NA values in each local landscapes, and `dist` - distance between our area of interest and each local landscape.
+
+We can visualize the results, using for example the **tmap** package:
+
+```{r}
+my_breaks = c(0, 0.001, 0.01, 0.1, 1.01)
+tm_shape(search_1) +
+  tm_raster("dist", breaks = my_breaks, palette = "-viridis") +
+  tm_layout(legend.outside = TRUE)
+```
+
+It is now possible to see that there is one yellow area (it is almost the same as out area of interest), but also several yellowish areas that are similar to `landcover_ext`.
+
+<!-- SAMPLE VIZ -->
+
+```{r, echo=FALSE, eval=FALSE}
+search_1[st_as_sf(st_as_stars(search_1$id == 1895))]
+```
+
+```{r, echo=FALSE, eval=FALSE}
+min(search_1$dist, na.rm = TRUE)
+```
+
+```{r, echo=FALSE, eval=FALSE}
+unique(search_1$id[which(search_1$dist == min(search_1$dist, na.rm = TRUE))])
+```
+
+```{r, echo=FALSE, eval=FALSE}
+landcover_mindist2 = landcover[dplyr::filter(search_1, id == 1895)]
+```
+
+```{r, echo=FALSE, eval=FALSE}
+landcover_mindist2 = droplevels(landcover_mindist2)
+plot(landcover_mindist2, main = NULL)
+```
+
+
+```{r, echo=FALSE, eval=FALSE}
+my_breaks = c(0, 0.001, 0.01, 0.1, 1.01)
+my_palette = hcl.colors(n = 4, palette = "Ag_Sunset")
 plot(search_1["dist"], breaks = my_breaks, col = my_palette, main = NULL)
 ```
 
-## Polygon
+### Irregular local landscapes
+
+Search is also possible in irregular local landscapes, based on a polygon data.
+`ecoregions.gpkg` contains terrestrial ecoregions for New Guinea from https://ecoregions2017.appspot.com/. 
 
 ```{r}
 ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
-ecoregions = st_transform(ecoregions, st_crs(landcover))
+```
+
+```{r, echo=FALSE}
+# ecoregions = st_transform(ecoregions, st_crs(landcover))
+```
+
+```{r, echo=FALSE}
+# https://medialab.github.io/iwanthue/
+my_pal = c("#d34359", "#62b93c", "#b75fcf", "#53c069", "#d44295", "#acb939", "#626edd", "#dc9e36", "#8156a8", "#4b8734", "#d98dc7", "#58c096", "#cc542a", "#48bbd2", "#bf814d", "#6686c8", "#968c30", "#a34d78", "#36815b", "#c26963", "#a2b36b", "#6b6829")
+plot(ecoregions["id"], main = NULL, col = my_pal, key.pos = 4, key.width = lcm(5))
+```
+
+The `lsp_search()` function works very similar to the previous case - we just need to provide our ecoregions in the `window` argument.
+
+```{r}
+search_2 = lsp_search(landcover_ext, landcover, 
+                      type = "cove", dist_fun = "jensen-shannon",
+                      window = ecoregions["id"], threshold = 1)
+search_2
+```
+
+Let's vizualize the output:
+
+```{r, warning=FALSE}
+my_breaks = c(0, 0.001, 0.01, 0.1, 1.01)
+tm_shape(search_2) +
+  tm_raster("dist", breaks = my_breaks, palette = "-viridis") +
+  tm_shape(ecoregions) +
+  tm_borders(col = "black") +
+  tm_layout(legend.outside = TRUE)
+```
+
+This search shows that most of the polygons are fairly different from our area of interest.
+Only one of them have a relatively small distance of about 0.007.
+
+```{r}
+min(search_2$dist, na.rm = TRUE)
 ```
 
 ```{r}
-plot(ecoregions)
+unique(search_2$id[which(search_2$dist == min(search_2$dist, na.rm = TRUE))])
 ```
 
 ```{r}
-search_2 = lsp_search(
-  landcover_ext,
-  landcover,
-  window = ecoregions,
-  type = "cove",
-  dist_fun = "jensen-shannon",
-  threshold = 1
-)
+landcover_mindist2 = landcover[subset(ecoregions, id == 10)]
 ```
 
 ```{r}
+landcover_mindist2 = droplevels(landcover_mindist2)
+plot(landcover_mindist2, main = NULL)
+```
+
+
+```{r, eval=FALSE, echo=FALSE}
 plot(search_2)
 plot(search_2["dist"], breaks = my_breaks, col = my_palette, main = NULL)
 ```
 
-
-```{r,eval=FALSE}
+```{r, eval=FALSE, echo=FALSE}
 classes = c(1L, 2L, 3L, 5L, 6L, 7L, 9L)
 my_norm = "pdf"
 t1 = lsp_thumbprint(landcover_ext, type = "cove", threshold = 1, 
