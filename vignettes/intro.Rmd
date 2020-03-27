@@ -97,7 +97,7 @@ plot(st_geometry(stars200), add = TRUE, reset = FALSE)
 # st_bbox(landcover)
 ```
 
-This time, we set the `window` argument to `200`, which means that each local landscape will consist of 200 by 200 cell.
+This time, we set the `window` argument to `200`, which means that each local landscape will consist of 200 by 200 cells.
 In this example, each cell has a resolution of 300 by 300 meters, therefore a local landscape will be 60000 by 60000 meters (60 by 60 kilometers).
 
 ```{r}
@@ -127,7 +127,7 @@ ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
 ```
 
 This dataset has 22 rows, where each row relates to one ecoregion.
-Each ecoregion is also related to an unique value in the `id` column.
+Each ecoregion is also related to a unique value in the `id` column.
 
 ```{r, echo=FALSE}
 # https://medialab.github.io/iwanthue/
@@ -135,7 +135,7 @@ my_pal = c("#d34359", "#62b93c", "#b75fcf", "#53c069", "#d44295", "#acb939", "#6
 plot(ecoregions["id"], main = NULL, col = my_pal, key.pos = 4, key.width = lcm(5))
 ```
 
-Now, we need to provide this dataset and its identificator column to the `window` argument of `lsp_thumbprint()`.
+Now, we need to provide this dataset and its identity column to the `window` argument of `lsp_thumbprint()`.
 
 ```{r}
 landcover_coma_e = lsp_thumbprint(landcover, type = "coma", window = ecoregions["id"])
