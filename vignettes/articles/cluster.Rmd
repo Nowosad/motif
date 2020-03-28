@@ -49,7 +49,7 @@ plot(landcover, key.pos = 4, key.width = lcm(5), main = NULL)
 
 ## Regular local landscapes
 
-In the first example, we will divide the whole area into many regular local landscapes, and find the way to cluster them based on their patterns.
+In the first example, we will divide the whole area into many regular local landscapes, and find a way to cluster them based on their patterns.
 
 ```{r, echo=FALSE}
 stars200 = lsp_add_sf(landcover, window = 100)
@@ -71,7 +71,7 @@ landcover_cove = lsp_thumbprint(landcover, type = "cove",
 
 Read the [Introduction to the motif package](https://nowosad.github.io/motif/articles/intro.html) vignette to learn more about spatial signatures.
 
-Next, we need to calculate a distance between each local landscape.
+Next, we need to calculate the distance between each local landscape.
 This can be done with the `lsp_to_dist()` function, where we must provide the output of `lsp_thumbprint()` and a distance/dissimilarity measure used (`dist_fun = "jensen-shannon"`).
 
 ```{r}
@@ -84,12 +84,12 @@ The output, `landcover_dist`, is of a `dist` class.
 class(landcover_dist)
 ```
 
-This allows it to be used by many existing R functions for clustering, that expect a distance matrix (`dist`) as an input.
+This allows it to be used by many existing R functions for clustering, which expect a distance matrix (`dist`) as an input.
 It includes different approaches to hierarchical clustering (`hclust()`, `cluster::agnes()`, `cluster::diana()`), fuzzy clustering (`funny()`).
-More information about clustering techniques in R can be find in [CRAN Task View: Cluster Analysis & Finite Mixture Models](https://cran.r-project.org/web/views/Cluster.html).
+More information about clustering techniques in R can be found in [CRAN Task View: Cluster Analysis & Finite Mixture Models](https://cran.r-project.org/web/views/Cluster.html).
 
 We will use a hierarchical clustering using `hclust()` in this example.
-It needs a distance matrix as a first argument, and a linkage method as a second one.
+It needs a distance matrix as a first argument and a linkage method as a second one.
 Here, we will use `method = "ward.D2"`, which means that we will be using Ward's minimum variance method that minimizes the total within-cluster variance. 
 
 ```{r}
@@ -98,14 +98,14 @@ plot(landcover_hclust)
 ```
 
 Graphical representation of the hierarchical clustering is called a dendrogram.
-Based on the obtained dendrogram, we are able to divide our local landscapes into a specified number of groups using `cutree()`.
-In this example, we will use six classes (`k = 6`) to make a result fairly staightforward to understand.
+Based on the obtained dendrogram, we can divide our local landscapes into a specified number of groups using `cutree()`.
+In this example, we will use six classes (`k = 6`) to make a result fairly straightforward to understand.
 
 ```{r}
 clusters = cutree(landcover_hclust, k = 6)
 ```
 
-The **motif** package allows to represent the clustering results as either `stars` or `sf` object. 
+The **motif** package allows representing the clustering results as either `stars` or `sf` object. 
 This can be done with the `lsp_add_clusters()` function.
 
 ### `sf`
@@ -117,7 +117,7 @@ landcover_grid_sf = lsp_add_clusters(landcover_cove, clusters)
 plot(landcover_grid_sf["clust"], pal = safe_pal6)
 ```
 
-We can also calculate the quality of the clusterings with the `lsp_add_quality()` function, which requires an output of `lsp_add_clusters` as the first argument and an output of `lsp_to_dist()` as the second one.
+We can also calculate the quality of the clusterings with the `lsp_add_quality()` function, which requires an output of `lsp_add_clusters` as the first argument and output of `lsp_to_dist()` as the second one.
 It adds three new variables: `inhomogeneity`, `isolation`, and `quality`.
 
 ```{r}
@@ -125,7 +125,7 @@ landcover_grid_sfq = lsp_add_quality(landcover_grid_sf, landcover_dist)
 ```
 
 Inhomogeneity measures a degree of mutual dissimilarity between all objects in a cluster. 
-This value is between 0 and 1, where small value indicates that all objects in the cluster represent consistent patterns so the cluster is pattern-homogeneous. 
+This value is between 0 and 1, where the small value indicates that all objects in the cluster represent consistent patterns so the cluster is pattern-homogeneous. 
 
 ```{r}
 inhomogeneity_pal = hcl.colors(6, palette = "Emrld")
@@ -133,7 +133,7 @@ plot(landcover_grid_sfq["inhomogeneity"], pal = inhomogeneity_pal)
 ```
 
 Isolation is an average distance between the focus cluster and all of its neighbors. 
-This value is between 0 and 1, where large value indicates that the cluster stands out from its surroundings.
+This value is between 0 and 1, where the large value indicates that the cluster stands out from its surroundings.
 
 ```{r}
 isolation_pal = hcl.colors(6, palette = "Teal", rev = TRUE)
@@ -177,7 +177,7 @@ plot(landcover_grid_starsq["quality"], col = quality_pal)
 
 ## Irregular local landscapes
 
-The **motif** package also allows for clustering of irregular regions based on the user-provided polygons.
+The **motif** package also allows for the clustering of irregular regions based on the user-provided polygons.
 It has an example spatial vector dataset, `ecoregions.gpkg`, which contains terrestrial ecoregions for New Guinea from https://ecoregions2017.appspot.com/. 
 
 ```{r}
@@ -228,7 +228,7 @@ landcover_grid_sf2 = lsp_add_clusters(landcover_cove2, clusters2,
                                       window = ecoregions["id"])
 ```
 
-The results shows that most area of New Guinea belongs to the second clusters, with only one ecoregion of cluster 3 (small islands south from New Guinea) and cluster 4.
+The results show that most area of New Guinea belongs to the second clusters, with only one ecoregion of cluster 3 (small islands south from New Guinea) and cluster 4.
 
 ```{r}
 plot(landcover_grid_sf2["clust"], pal = safe_pal4)
