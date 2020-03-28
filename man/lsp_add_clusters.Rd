@@ -4,7 +4,7 @@
 \alias{lsp_add_clusters}
 \title{Adds clusters' ids to a lsp object}
 \usage{
-lsp_add_clusters(x, clust, output = "stars")
+lsp_add_clusters(x, clust, output = "stars", window = NULL)
 }
 \arguments{
 \item{x}{Object of class \code{lsp} - usually the output of
@@ -13,6 +13,8 @@ the \code{lsp_thumbprint()} function}
 \item{clust}{Vector containing an id value for each row in \code{x}}
 
 \item{output}{The class of the output. Either \code{"stars"} or \code{"sf"}}
+
+\item{window}{Specifies areas for analysis. It can be either: \code{NULL} or an \code{sf} object. If \code{window=NULL} calculations are performed based on the metadata from \code{x}. If an \code{sf} object is provided, each feature (row) defines the extent of a local pattern. The \code{sf} object should have one attribute (otherwise, the first attribute is used as an id).}
 }
 \description{
 Adds clusters' ids to a lsp object.

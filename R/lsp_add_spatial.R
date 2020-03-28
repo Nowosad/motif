@@ -75,12 +75,23 @@ lsp_add_stars.default = function(x = NULL, window = NULL){
 #' @export
 lsp_add_stars.lsp = function(x = NULL, window = NULL){
   metadata = attr(x, "metadata")
+  if (metadata$use_window && is.null(window)){
+    stop("This function requires an sf object in the window argument for irregular local landscapes.", call. = FALSE)
+  }
 
-  output_stars = lsp_create_grid(x_crs = metadata$crs,
-                                 x_bb = metadata$bb,
-                                 x_delta_row = metadata$delta_y,
-                                 x_delta_col = metadata$delta_x,
-                                 window_shift = metadata$window_shift)
+  if (is.null(window)){
+    output_stars = lsp_create_grid(x_crs = metadata$crs,
+                                   x_bb = metadata$bb,
+                                   x_delta_row = metadata$delta_y,
+                                   x_delta_col = metadata$delta_x,
+                                   window_shift = metadata$window_shift)
+  } else {
+    output_stars = stars::st_rasterize(window[1],
+                                 template = stars::st_as_stars(metadata$bb,
+                                                               values = NA_integer_,
+                                                               dx = metadata$delta_y,
+                                                               dy = metadata$delta_x))
+  }
 
   output_stars = join_stars(output_stars, x, by = "id")
 
@@ -213,14 +224,20 @@ lsp_add_sf.default = function(x = NULL, window = NULL){
 #' @export
 lsp_add_sf.lsp = function(x = NULL, window = NULL){
   metadata = attr(x, "metadata")
+  if (metadata$use_window && is.null(window)){
+    stop("This function requires an sf object in the window argument for irregular local landscapes.", call. = FALSE)
+  }
+  if (is.null(window)){
+    output_stars = lsp_create_grid(x_crs = metadata$crs,
+                                   x_bb = metadata$bb,
+                                   x_delta_row = metadata$delta_y,
+                                   x_delta_col = metadata$delta_x,
+                                   window_shift = metadata$window_shift)
 
-  output_stars = lsp_create_grid(x_crs = metadata$crs,
-                                 x_bb = metadata$bb,
-                                 x_delta_row = metadata$delta_y,
-                                 x_delta_col = metadata$delta_x,
-                                 window_shift = metadata$window_shift)
-
-  output_sf = sf::st_as_sf(output_stars)
+    output_sf = sf::st_as_sf(output_stars)
+  } else {
+    output_sf = window
+  }
   output_sf = merge(x, output_sf, by = "id", all.x = TRUE)
   output_sf = tibble::as_tibble(output_sf)
   output_sf = sf::st_as_sf(output_sf)

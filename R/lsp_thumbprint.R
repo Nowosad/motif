@@ -146,6 +146,6 @@ lsp_thumbprint = function(x, type, window = NULL, neighbourhood = 4, threshold =
                           delta_y = x_delta_row,
                           window_size = window_size,
                           window_shift = window_shift,
-                          use_window = inherits(window, "sf"))
+                          use_window = inherits(window, "matrix"))
   return(structure(x, class = c("lsp", class(x))))
 }

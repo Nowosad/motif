@@ -13,8 +13,7 @@
 #' 1 - (inhomogeneity / isolation). This value is also between 0 and 1,
 #' where increased values indicate increased quality.
 #'
-#' @param x Object of class `lsp` - usually the output of
-#' the `lsp_thumbprint()` function or the `lsp_add_clusters()` function
+#' @param x Object of class `lsp` - usually the output of the `lsp_add_clusters()` function
 #' @param x_dist Object of class `dist` - usually the output of
 #' the `lsp_to_dist()` function
 #' @param regions Not implemented yet
@@ -51,6 +50,7 @@ lsp_isolation = function(x, x_dist, clust_var, regions){
   } else {
     stop("This option is not yet implemented.", .call = FALSE)
   }
+  # for stars I need a table with id and clust...
   x = sf::st_as_sf(x[c("id", clust_var)], merge = FALSE)
 
   x_grid_neigh = spdep::poly2nb(x_merged, queen = TRUE)

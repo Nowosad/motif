@@ -8,6 +8,7 @@
 #' the `lsp_thumbprint()` function
 #' @param clust Vector containing an id value for each row in `x`
 #' @param output The class of the output. Either `"stars"` or `"sf"`
+#' @param window Specifies areas for analysis. It can be either: `NULL` or an `sf` object. If `window=NULL` calculations are performed based on the metadata from `x`. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
 #'
 #' @examples
 #' library(stars)
@@ -35,12 +36,12 @@
 #'                                        landform_dist)
 #' plot(landform_grid_starsq["quality"])
 #' @export
-lsp_add_clusters = function(x, clust, output = "stars"){
+lsp_add_clusters = function(x, clust, output = "stars", window = NULL){
   x$clust = clust
   if (output == "stars"){
-    x = lsp_add_stars(x)
+    x = lsp_add_stars(x, window = window)
   } else if (output == "sf"){
-    x = lsp_add_sf(x)
+    x = lsp_add_sf(x, window = window)
   }
   return(x)
 }

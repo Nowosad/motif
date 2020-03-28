@@ -7,8 +7,7 @@
 lsp_add_quality(x, x_dist, regions = FALSE)
 }
 \arguments{
-\item{x}{Object of class \code{lsp} - usually the output of
-the \code{lsp_thumbprint()} function or the \code{lsp_add_clusters()} function}
+\item{x}{Object of class \code{lsp} - usually the output of the \code{lsp_add_clusters()} function}
 
 \item{x_dist}{Object of class \code{dist} - usually the output of
 the \code{lsp_to_dist()} function}
