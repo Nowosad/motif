@@ -24,8 +24,9 @@ Let's start by attaching neccesary packages:
 library(motif)
 library(stars)
 library(sf)
-safe_pal = c("#88CCEE", "#CC6677", "#DDCC77",
+safe_pal6 = c("#88CCEE", "#CC6677", "#DDCC77",
              "#117733", "#332288", "#888888")
+safe_pal4 = c("#88CCEE", "#CC6677", "#DDCC77", "#117733")
 ```
 
 ```{r, echo=FALSE, eval=FALSE}
@@ -107,23 +108,20 @@ clusters = cutree(landcover_hclust, k = 6)
 The **motif** package allows to represent the clustering results as either `stars` or `sf` object. 
 This can be done with the `lsp_add_clusters()` function.
 
-### `stars`
+### `sf`
 
-By the default, it creates a `stars` object with a new attribute `clust`:
+By the default, it creates a `sf` object with a new variable `clust`:
 
 ```{r}
-landcover_grid_stars = lsp_add_clusters(landcover_cove, clusters)
-plot(landcover_grid_stars["clust"], col = safe_pal)
+landcover_grid_sf = lsp_add_clusters(landcover_cove, clusters)
+plot(landcover_grid_sf["clust"], pal = safe_pal6)
 ```
 
-<!-- ADD EXAMPLES OF EACH CLASS!! -->
-
-
-We can also calculate the quality of the clustering with the `lsp_add_quality()` function, which requires an output of `lsp_add_clusters` as the first argument and an output of `lsp_to_dist()` as the second one.
-It adds three new attributes: `inhomogeneity`, `isolation`, and `quality`.
+We can also calculate the quality of the clusterings with the `lsp_add_quality()` function, which requires an output of `lsp_add_clusters` as the first argument and an output of `lsp_to_dist()` as the second one.
+It adds three new variables: `inhomogeneity`, `isolation`, and `quality`.
 
 ```{r}
-landcover_grid_starsq = lsp_add_quality(landcover_grid_stars, landcover_dist)
+landcover_grid_sfq = lsp_add_quality(landcover_grid_sf, landcover_dist)
 ```
 
 Inhomogeneity measures a degree of mutual dissimilarity between all objects in a cluster. 
@@ -131,7 +129,7 @@ This value is between 0 and 1, where small value indicates that all objects in t
 
 ```{r}
 inhomogeneity_pal = hcl.colors(6, palette = "Emrld")
-plot(landcover_grid_starsq["inhomogeneity"], col = inhomogeneity_pal)
+plot(landcover_grid_sfq["inhomogeneity"], pal = inhomogeneity_pal)
 ```
 
 Isolation is an average distance between the focus cluster and all of its neighbors. 
@@ -139,7 +137,7 @@ This value is between 0 and 1, where large value indicates that the cluster stan
 
 ```{r}
 isolation_pal = hcl.colors(6, palette = "Teal", rev = TRUE)
-plot(landcover_grid_starsq["isolation"], col = isolation_pal)
+plot(landcover_grid_sfq["isolation"], pal = isolation_pal)
 ```
 
 Quality is calculated as `1 - (inhomogeneity / isolation)`.
@@ -147,29 +145,47 @@ This value is also between 0 and 1, where increased values indicate increased qu
 
 ```{r}
 quality_pal = hcl.colors(6, palette = "Temps", rev = TRUE)
-plot(landcover_grid_starsq["quality"], col = quality_pal)
+plot(landcover_grid_sfq["quality"], pal = quality_pal)
 ```
 
-### `sf`
 
-To create an `sf` object with a new variable `clust`, we should set `output = "sf"`.
-The rest of calculations are alost identical to the `stars` examples above.
+### `stars`
+
+To create an `stars` object with a new attribute `clust`, we should set `output = "stars"`.
 
 ```{r}
-landcover_grid_sf = lsp_add_clusters(landcover_cove, clusters, output = "sf")
+landcover_grid_stars = lsp_add_clusters(landcover_cove, clusters, output = "stars")
+plot(landcover_grid_stars["clust"], col = safe_pal6)
+```
 
-plot(landcover_grid_sf["clust"], pal = safe_pal)
-landcover_grid_sfq = lsp_add_quality(landcover_grid_sf, landcover_dist)
-plot(landcover_grid_sfq["inhomogeneity"], pal = inhomogeneity_pal)
-plot(landcover_grid_sfq["isolation"], pal = isolation_pal)
-plot(landcover_grid_sfq["quality"], pal = quality_pal)
+<!-- ADD EXAMPLES OF EACH CLASS!! -->
+However, it is not yet possible to calculate the quality of the clusterings for the `stars` objects:
+
+```{r, error=TRUE}
+landcover_grid_starsq = lsp_add_quality(landcover_grid_stars, landcover_dist)
+```
+
+```{r, echo=FALSE, eval=FALSE}
+plot(landcover_grid_starsq["inhomogeneity"], col = inhomogeneity_pal)
+```
+```{r, echo=FALSE, eval=FALSE}
+plot(landcover_grid_starsq["isolation"], col = isolation_pal)
+```
+```{r, echo=FALSE, eval=FALSE}
+plot(landcover_grid_starsq["quality"], col = quality_pal)
 ```
 
 ## Irregular local landscapes
 
+The **motif** package also allows for clustering of irregular regions based on the user-provided polygons.
+It has an example spatial vector dataset, `ecoregions.gpkg`, which contains terrestrial ecoregions for New Guinea from https://ecoregions2017.appspot.com/. 
+
 ```{r}
 ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
 ```
+
+This dataset has 22 rows, where each row relates to one ecoregion.
+Each ecoregion is also related to a unique value in the `id` column.
 
 ```{r, echo=FALSE}
 # https://medialab.github.io/iwanthue/
@@ -177,56 +193,84 @@ my_pal = c("#d34359", "#62b93c", "#b75fcf", "#53c069", "#d44295", "#acb939", "#6
 plot(ecoregions["id"], main = NULL, col = my_pal, key.pos = 4, key.width = lcm(5))
 ```
 
+The first step here is to calculate a signature for each ecoregion using `lsp_thumbprint()`:
 
 ```{r}
 landcover_cove2 = lsp_thumbprint(landcover, type = "cove",
-                                window = ecoregions["id"], normalization = "pdf")
+                                 window = ecoregions["id"], normalization = "pdf")
 ```
 
-Read the [Introduction to the motif package](https://nowosad.github.io/motif/articles/intro.html) vignette to learn more about spatial signatures.
+Next step involves calculating distances between signatures of ecoregions:
 
 ```{r}
 landcover_dist2 = lsp_to_dist(landcover_cove2, dist_fun = "jensen-shannon")
 ```
 
-
-<!-- list more techniques -->
+Again, we will find clusters using a hierarchical clustering:
 
 ```{r}
 landcover_hclust2 = hclust(landcover_dist2, method = "ward.D2")
 plot(landcover_hclust2)
 ```
 
+This time, we will divide the data into four clusters:
+
 ```{r}
 clusters2 = cutree(landcover_hclust2, k = 4)
 ```
 
-### stars
+### sf
+
+Next steps are to add clusters ids to the `sf` object:
 
 ```{r}
+landcover_grid_sf2 = lsp_add_clusters(landcover_cove2, clusters2,
+                                      window = ecoregions["id"])
+```
+
+The results shows that most area of New Guinea belongs to the second clusters, with only one ecoregion of cluster 3 (small islands south from New Guinea) and cluster 4.
+
+```{r}
+plot(landcover_grid_sf2["clust"], pal = safe_pal4)
+```
+
+Final step involves of calculating the quality metrics of the obtained clusters:
+
+```{r}
+landcover_grid_sfq2 = lsp_add_quality(landcover_grid_sf2, landcover_dist2)
+```
+
+```{r}
+plot(landcover_grid_sfq2["inhomogeneity"], pal = inhomogeneity_pal[c(1, 3, 6)])
+```
+
+```{r}
+plot(landcover_grid_sfq2["isolation"], pal = isolation_pal[c(1, 3, 6)])
+```
+
+```{r}
+plot(landcover_grid_sfq2["quality"], pal = quality_pal[c(1, 3, 6)])
+```
+
+### stars
+
+To create an `stars` object with a new attribute `clust`, we should set `output = "stars"`.
+However, it is not yet possible to calculate the quality of the clusterings for the `stars` objects.
+
+```{r}
+landcover_grid_stars2 = lsp_add_clusters(landcover_cove2, clusters2, 
+                                         window = ecoregions["id"], output = "stars")
+plot(landcover_grid_stars2["clust"], col = safe_pal4)
+```
+
+```{r, echo=FALSE, eval=FALSE}
 # stars -------------------------------------------------------------------
-landcover_grid_stars2 = lsp_add_clusters(landcover_cove2, clusters2)
-plot(landcover_grid_stars2["clust"], col = safe_pal)
 
 landcover_grid_starsq2 = lsp_add_quality(landcover_grid_stars2, landcover_dist2)
 
-plot(landcover_grid_starsq2["inhomogeneity"])
-plot(landcover_grid_starsq2["isolation"])
-plot(landcover_grid_starsq2["quality"])
+plot(landcover_grid_starsq2["inhomogeneity"], col = inhomogeneity_pal)
+plot(landcover_grid_starsq2["isolation"], col = isolation_pal)
+plot(landcover_grid_starsq2["quality"], col = quality_pal)
 ```
 
-### sf
 
-```{r}
-# sf ----------------------------------------------------------------------
-landcover_grid_sf2 = lsp_add_clusters(landcover_cove2, clusters2, output = "sf")
-
-# landcover_grid_sf$clust = as.factor(landcover_grid_sf$clust)
-plot(landcover_grid_sf2["clust"], pal = safe_pal)
-# mapview::mapview(landcover_grid_sf["clust"])
-
-landcover_grid_sfq2 = lsp_add_quality(landcover_grid_sf2, landcover_dist2)
-plot(landcover_grid_sfq2["inhomogeneity"])
-plot(landcover_grid_sfq2["isolation"])
-plot(landcover_grid_sfq2["quality"])
-```
