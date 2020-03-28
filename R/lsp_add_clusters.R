@@ -36,7 +36,7 @@
 #'                                        landform_dist)
 #' plot(landform_grid_starsq["quality"])
 #' @export
-lsp_add_clusters = function(x, clust, output = "stars", window = NULL){
+lsp_add_clusters = function(x, clust, output = "sf", window = NULL){
   x$clust = clust
   if (output == "stars"){
     x = lsp_add_stars(x, window = window)

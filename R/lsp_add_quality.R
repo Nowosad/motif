@@ -13,7 +13,7 @@
 #' 1 - (inhomogeneity / isolation). This value is also between 0 and 1,
 #' where increased values indicate increased quality.
 #'
-#' @param x Object of class `lsp` - usually the output of the `lsp_add_clusters()` function
+#' @param x Object of class `sf` - usually the output of the `lsp_add_clusters()` function
 #' @param x_dist Object of class `dist` - usually the output of
 #' the `lsp_to_dist()` function
 #' @param regions Not implemented yet
@@ -25,6 +25,9 @@
 #'
 #' @export
 lsp_add_quality = function(x, x_dist, regions = FALSE){
+  if (!inherits(x, "sf")){
+    stop("This function requires an sf object as the x argument.", call. = FALSE)
+  }
   clust_var = "clust"
   x_dist = as.matrix(x_dist)
   inh = lsp_inhomogeneity(x, x_dist = x_dist, clust_var = clust_var, regions = regions)

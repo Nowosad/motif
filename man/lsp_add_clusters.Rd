@@ -4,7 +4,7 @@
 \alias{lsp_add_clusters}
 \title{Adds clusters' ids to a lsp object}
 \usage{
-lsp_add_clusters(x, clust, output = "stars", window = NULL)
+lsp_add_clusters(x, clust, output = "sf", window = NULL)
 }
 \arguments{
 \item{x}{Object of class \code{lsp} - usually the output of
