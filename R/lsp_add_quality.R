@@ -14,10 +14,12 @@
 #' where increased values indicate increased quality.
 #'
 #' @param x Object of class `lsp` - usually the output of
-#' the `lsp_thumbprint()` function
+#' the `lsp_thumbprint()` function or the `lsp_add_clusters()` function
 #' @param x_dist Object of class `dist` - usually the output of
 #' the `lsp_to_dist()` function
 #' @param regions Not implemented yet
+#'
+#' @seealso lsp_add_clusters
 #'
 #' @examples
 #' # see examples of `lsp_add_clusters()`
