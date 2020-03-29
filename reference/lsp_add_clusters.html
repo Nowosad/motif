@@ -8,6 +8,13 @@
 
 <title>Adds clusters' ids to a lsp object — lsp_add_clusters • motif</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -43,6 +50,7 @@
 <meta property="og:description" content="Adds clusters' ids to a lsp object.
 The output can be of stars or sf class.
 See examples." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -74,7 +82,7 @@ See examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -97,13 +105,13 @@ See examples." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/cluster.html">Cluster</a>
+      <a href="../articles/articles/cluster.html">Spatial patterns' clustering</a>
     </li>
     <li>
-      <a href="../articles/articles/compare.html">Compare</a>
+      <a href="../articles/articles/compare.html">Spatial patterns' comparision</a>
     </li>
     <li>
-      <a href="../articles/articles/search.html">Search</a>
+      <a href="../articles/articles/search.html">Spatial patterns' search</a>
     </li>
     <li>
       <a href="../articles/articles/signatures.html">Signatures</a>
@@ -148,7 +156,7 @@ The output can be of <code>stars</code> or <code>sf</code> class.
 See examples.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lsp_add_clusters</span>(<span class='no'>x</span>, <span class='no'>clust</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"stars"</span>)</pre>
+    <pre class="usage"><span class='fu'>lsp_add_clusters</span>(<span class='no'>x</span>, <span class='no'>clust</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"sf"</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,6 +173,10 @@ the <code><a href='lsp_thumbprint.html'>lsp_thumbprint()</a></code> function</p>
     <tr>
       <th>output</th>
       <td><p>The class of the output. Either <code>"stars"</code> or <code>"sf"</code></p></td>
+    </tr>
+    <tr>
+      <th>window</th>
+      <td><p>Specifies areas for analysis. It can be either: <code>NULL</code> or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed based on the metadata from <code>x</code>. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></td>
     </tr>
     </table>
 
@@ -185,7 +197,8 @@ the <code><a href='lsp_thumbprint.html'>lsp_thumbprint()</a></code> function</p>
 <span class='no'>safe_pal</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#88CCEE"</span>, <span class='st'>"#CC6677"</span>, <span class='st'>"#DDCC77"</span>,
              <span class='st'>"#117733"</span>, <span class='st'>"#332288"</span>, <span class='st'>"#888888"</span>)
 
-<span class='no'>landform_grid_stars</span> <span class='kw'>=</span> <span class='fu'>lsp_add_clusters</span>(<span class='no'>landform_cove</span>, <span class='no'>clusters</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Column signature is of a list class and will be dropped from the output object.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>landform_grid_stars</span>[<span class='st'>"clust"</span>], <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>safe_pal</span>)</div><div class='img'><img src='lsp_add_clusters-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>landform_grid_stars</span> <span class='kw'>=</span> <span class='fu'>lsp_add_clusters</span>(<span class='no'>landform_cove</span>, <span class='no'>clusters</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>landform_grid_stars</span>[<span class='st'>"clust"</span>], <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>safe_pal</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: col is not of length 1 or nrow(x): colors will be recycled; use pal to specify a color palette</span></div><div class='img'><img src='lsp_add_clusters-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>landform_grid_starsq</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_add_quality.html'>lsp_add_quality</a></span>(<span class='no'>landform_grid_stars</span>,
                                        <span class='no'>landform_dist</span>)
 <span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>landform_grid_starsq</span>[<span class='st'>"quality"</span>])</div><div class='img'><img src='lsp_add_clusters-3.png' alt='' width='700' height='433' /></div></pre>
