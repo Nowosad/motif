@@ -44,7 +44,8 @@ jobs:
           remotes::install_github("RcppCore/Rcpp")
           remotes::install_github("r-spatial/sf", configure.args = "--with-gdal-config=/usr/local/bin/gdal-config --with-geos-config=/usr/local/bin/geos-config --with-proj-include=/usr/local/include/ --with-proj-lib=/usr/local/lib/")
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_dev("pkgdown")
+          # remotes::install_dev("pkgdown")
+          remotes::install_github("r-lib/pkgdown#1276")
         shell: Rscript {0}
 
       - name: Install package
