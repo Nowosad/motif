@@ -33,7 +33,7 @@ safe_pal4 = c("#88CCEE", "#CC6677", "#DDCC77", "#117733")
 # dput(rcartocolor::carto_pal(n=6, "Safe"))
 ```
 
-Spatial patterns' search clustering having one spatial object.
+Spatial patterns' clustering requires one spatial object.
 For this vignette, we will read the `"raster/landcover2015.tif"` file.
 
 ```{r}
