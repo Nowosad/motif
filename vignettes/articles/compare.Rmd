@@ -1,62 +1,119 @@
 ---
-title: "Compare"
+title: "Spatial patterns' comparision"
 author: "Jakub Nowosad"
 date: "`r Sys.Date()`"
 output: 
+  html_document:
   github_document:
     html_preview: true
 ---
 
-```{r}
-library(testthat)
-library(stars)
-library(sf)
-library(motif)
-
-landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-landcoverold = read_stars(system.file("raster/landcover2001.tif", package = "motif"))
-```
-
-## Regular window
-
-```{r}
-compare_1 = lsp_compare(
-  landcover,
-  landcoverold,
-  window = 100,
-  type = "cove",
-  dist_fun = "jensen-shannon",
-  threshold = 0.9
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7
 )
 ```
 
+The pattern-based spatial analysis makes it possible to compare spatial patterns between two datasets.
+This vignette shows how to do spatial patterns' comparison on example datasets.
+Let's start by attaching neccesary packages:
+
 ```{r}
-plot(compare_1["dist"])
+library(motif)
+library(stars)
+library(sf)
+library(tmap)
 ```
 
-## Polygon
+Spatial patterns' comparison requires two spatial objects.
+For this vignette, we will read the `"raster/landcover2001.tif"` and `"raster/landcover2015.tif"` files.
+
+```{r}
+landcoverold = read_stars(system.file("raster/landcover2001.tif", package = "motif"))
+landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
+```
+
+The object created based on the first file, `landcoverold` is a land cover of New Guinea in 2001.
+
+```{r}
+landcoverold = droplevels(landcoverold)
+plot(landcoverold, key.pos = 4, key.width = lcm(5), main = NULL)
+```
+
+The second object, `landcover` is a land cover of New Guinea in 2015.
+
+```{r}
+landcover = droplevels(landcover)
+plot(landcover, key.pos = 4, key.width = lcm(5), main = NULL)
+```
+
+Our goal here is to find areas with the largest changes in spatial patterns of land cover.
+
+## Regular local landscapes
+
+Spatial patterns' comparision can be done using the `lsp_compare()` function.
+It expects two spatial objects, a type of spatial signature used (`"cove"`), distance function to measure dissimilarity (change) between spatial patterns (`"dist_fun"`).
+By default, the whole area is compared, it can be changed with the `window` argument.
+Here, `window = 100` means that the study area will be divided into local landscapes of 100 by 100 cells.
+
+```{r}
+compare_1 = lsp_compare(landcover, landcoverold,
+                        type = "cove", dist_fun = "jensen-shannon",
+                        window = 100, threshold = 0.9)
+```
+
+The output is a `stars` object with a `dist` argument, with the value of 0 indicating no change, and larger values representing changes of a bigger magnitude.
+
+```{r}
+my_breaks = c(0, 0.001, 0.01, 0.1, 1.01)
+tm_shape(compare_1) +
+  tm_raster("dist", breaks = my_breaks, palette = "-viridis") +
+  tm_layout(legend.outside = TRUE)
+```
+
+<!-- ADDS EXAMPLES -->
+
+## Irregular local landscapes
+
+The **motif** package also allows for the comparing spatial patterns in irregular regions based on the user-provided polygons.
+It has an example spatial vector dataset, `ecoregions.gpkg`, which contains terrestrial ecoregions for New Guinea from https://ecoregions2017.appspot.com/. 
 
 ```{r}
 ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
-ecoregions = st_transform(ecoregions, st_crs(landcover))
 ```
+
+This dataset has 22 rows, where each row relates to one ecoregion.
+Each ecoregion is also related to a unique value in the `id` column.
+
+```{r, echo=FALSE}
+# ecoregions = st_transform(ecoregions, st_crs(landcover))
+```
+
+```{r, echo=FALSE}
+# https://medialab.github.io/iwanthue/
+my_pal = c("#d34359", "#62b93c", "#b75fcf", "#53c069", "#d44295", "#acb939", "#626edd", "#dc9e36", "#8156a8", "#4b8734", "#d98dc7", "#58c096", "#cc542a", "#48bbd2", "#bf814d", "#6686c8", "#968c30", "#a34d78", "#36815b", "#c26963", "#a2b36b", "#6b6829")
+plot(ecoregions["id"], main = NULL, col = my_pal, key.pos = 4, key.width = lcm(5))
+```
+
+Comparision of spatial patterns for irregular local landscapes requires setting `window = ecoregions["id"]`.
 
 ```{r}
-plot(ecoregions)
+compare_2 = lsp_compare(landcover, landcoverold, 
+                        type = "cove", dist_fun = "jensen-shannon", 
+                        window = ecoregions["id"], threshold = 0.9)
 ```
+
+Spatial patterns of land cover are very similar for most of the ecoregions, with just two exceptions:
 
 ```{r}
-compare_2 = lsp_compare(
-  landcover,
-  landcoverold,
-  window = ecoregions,
-  type = "cove",
-  dist_fun = "jensen-shannon",
-  threshold = 0.9
-)
+my_breaks = c(0, 0.001, 0.01, 0.1, 1.01)
+tm_shape(compare_2) +
+  tm_raster("dist", breaks = my_breaks, palette = "-viridis") +
+  tm_shape(ecoregions) +
+  tm_borders() +
+  tm_layout(legend.outside = TRUE)
 ```
 
-```{r}
-plot(compare_2["dist"])
-```
-
+<!-- ADDS EXAMPLES -->
