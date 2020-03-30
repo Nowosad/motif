@@ -16,8 +16,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-Main element of the pattern-based spatial analysis is to numericaly describe spatial patterns.
-This numerical describction is called a signature.
+The main element of the pattern-based spatial analysis is to numerically describe spatial patterns.
+This numerical description is called a signature.
 This vignette shows how to derive spatial signatures using the `lsp_thumbprint()` function on example datasets.
 Let's start by attaching neccesary packages:
 
@@ -47,7 +47,7 @@ The second one is a `"raster/landform.tif"` file.
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 ```
 
-It has fourteen land form categories (plus surface water) for the same area.
+It has fourteen landform categories (plus surface water) for the same area.
 
 ```{r}
 landform = droplevels(landform)
@@ -64,7 +64,7 @@ random_ndvi$ndvi[is.na(random_ndvi$landcover2015.tif)] = NA
 random_ndvi$landcover2015.tif = NULL
 ```
 
-It is an artificial datasets representing numerical weights for each cell for the same area as the datasets above.
+It is an artificial dataset representing numerical weights for each cell for the same area as the datasets above.
 
 ```{r}
 plot(random_ndvi)
@@ -123,7 +123,7 @@ wecove_output = lsp_thumbprint(c(landcover, random_ndvi),
 wecove_output
 ```
 
-Learn more about these representation at https://nowosad.github.io/comat/articles/wecoma.html.
+Learn more about these representations at https://nowosad.github.io/comat/articles/wecoma.html.
 
 ## An integrated co-occurrence matrix (`wecoma`) representation - two or more layers
 
@@ -143,7 +143,7 @@ incove_output = lsp_thumbprint(c(landcover, landform),
                                type = "incove", window = 100)
 ```
 
-<!-- Learn more about these representation at https://nowosad.github.io/comat/articles/incoma.html -->
+<!-- Learn more about these representations at https://nowosad.github.io/comat/articles/incoma.html -->
 
 ## A composition representation (`"composition"`) - one layer
 
@@ -173,9 +173,9 @@ composition_output2$signature[[1]]
 
 ## User-defined functions - one or more layers
 
-The **motif** package also allows to calculate signature based on a user-defined function.
+The **motif** package also allows calculating signature based on a user-defined function.
 This function should accept only one argument, which is a list containing one or more matrices.
-For example `my_fun()` below counts how many non-NA cells exist in each local local landscapes.
+For example `my_fun()` below counts how many non-NA cells exist in each local landscape.
 
 ```{r}
 my_fun = function(x){
@@ -183,7 +183,7 @@ my_fun = function(x){
 } 
 ```
 
-Importantly, we need to set `normalization = "none"` to prevent normalization of the output.
+Importantly, we need to set `normalization = "none"` to prevent the normalization of the output.
 
 ```{r}
 my_fun_output = lsp_thumbprint(landcover, 
