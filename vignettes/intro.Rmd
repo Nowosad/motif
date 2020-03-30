@@ -16,9 +16,9 @@ knitr::opts_chunk$set(
 ```
 
 The **motif** package implements ideas of the pattern-based spatial analysis in R.
-It describes spatial patterns of categorical raster data for any defined regular and irregular areas. 
+Its role is to describe spatial patterns of categorical raster data for any defined regular and irregular areas. 
 Patterns are represented quantitatively using built-in signatures based on co-occurrence matrices but also allows for any user-defined functions. 
-It enables spatial analysis such as search, change detection, and clustering to be performed on spatial patterns.
+It also enables spatial analysis such as search, change detection, and clustering to be performed on spatial patterns.
 
 The **motif** package works on raster data represented by `stars` objects.
 It has several example datasets, including `"raster/landcover2015.tif"`.
