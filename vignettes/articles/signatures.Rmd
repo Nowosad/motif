@@ -1,5 +1,5 @@
 ---
-title: "Signatures"
+title: "Types of spatial patterns' signatures"
 author: "Jakub Nowosad"
 date: "`r Sys.Date()`"
 output: 
@@ -16,6 +16,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+Main element of the pattern-based spatial analysis is to numericaly describe spatial patterns.
+This numerical describction is called a signature.
+This vignette shows how to derive spatial signatures using the `lsp_thumbprint()` function on example datasets.
+Let's start by attaching neccesary packages:
 
 ```{r}
 library(motif)
@@ -23,87 +27,174 @@ library(stars)
 library(sf)
 ```
 
+For this vignette, we will use several spatial objects.
+The first one is a `"raster/landcover2015.tif"` file.
 
 ```{r}
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 ```
+
+This file contains a land cover data for New Guinea, with seven possible categories: (1) agriculture, (2) forest, (3) grassland, (5) settlement, (6) shrubland, (7) sparse vegetation, and (9) water.
 
 ```{r}
 landcover = droplevels(landcover)
 plot(landcover, key.pos = 4, key.width = lcm(5), main = NULL)
 ```
 
+The second one is a `"raster/landform.tif"` file.
+
 ```{r}
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 ```
 
+It has fourteen land form categories (plus surface water) for the same area.
+
 ```{r}
 landform = droplevels(landform)
-plot(landform, key.pos = 4, key.width = lcm(5), main = NULL)
+plot(landform, key.pos = 4, key.width = lcm(8), main = NULL)
 ```
+
+The third example object is `random_ndvi`.
 
 ```{r}
 set.seed(222)
 random_ndvi = landcover
-random_ndvi$ndvi = sample(x = 1:10, size = length(random_ndvi[[1]]), replace = TRUE)
+random_ndvi$ndvi = runif(length(random_ndvi[[1]]), min = 1, max = 10)
 random_ndvi$ndvi[is.na(random_ndvi$landcover2015.tif)] = NA
 random_ndvi$landcover2015.tif = NULL
 ```
+
+It is an artificial datasets representing numerical weights for each cell for the same area as the datasets above.
 
 ```{r}
 plot(random_ndvi)
 ```
 
-## `"coma"` - one layer
+## A co-occurrence matrix (`"coma"`) representation - one layer
+
+The first type of signature is a co-occurrence matrix (`"coma"`).
+It requires just one layer (one attribute in a `stars` object).
 
 ```{r}
-lsp_thumbprint(landcover, type = "coma", window = 100, threshold = 0.9)
+coma_output = lsp_thumbprint(landcover, type = "coma", window = 100)
+coma_output
 ```
 
+The output is an object of class `lsp` with three columns:
+
+- `id` - an id of each window (area)
+- `na_prop` - share (0-1) of `NA` cells for each window
+- `signature` - a list-column containing with calculated signatures
+
+We can see a signature for selected local landscape extracting it from the `signature` column: 
 
 ```{r}
-lsp_thumbprint(landcover, type = "cove", window = 100, threshold = 0.9)
+coma_output$signature[[1]]
 ```
 
-
-## `"wecoma"` - two layers
+Co-occurrence vector (`"cove"`) is rearrangement of a co-occurrence matrix into one-dimensional object:
 
 ```{r}
-lsp_thumbprint(c(landcover, random_ndvi), type = "wecoma", threshold = 0.9)
+cove_output = lsp_thumbprint(landcover, type = "cove", window = 100)
+cove_output
 ```
 
+This representation can be used to compare different local landscapes.
+
+Learn more about these representations at https://nowosad.github.io/comat/articles/coma.html.
+
+## A weighted co-occurrence matrix (`wecoma`) representation - two layers
+
+The next type of signature is a weighted co-occurrence matrix (`"wecoma"`).
+It requires two layers (a `stars` object with two attributes).
+The first one is a categorical raster data, while the second one is a continuous raster data containing weights for each cell.
+
 ```{r}
-lsp_thumbprint(c(landcover, random_ndvi), type = "wecove", threshold = 0.9)
+wecoma_output = lsp_thumbprint(c(landcover, random_ndvi), 
+                               type = "wecoma", window = 100)
+wecoma_output
 ```
 
-
-## `"incoma"` - two or more layers
+Weighted co-occurrence vector (`"wecove"`) is rearrangement of a weighted co-occurrence matrix into one-dimensional object:
 
 ```{r}
-lsp_thumbprint(c(landcover, landform), type = "incoma",
-               window = 100, threshold = 0.9)
+wecove_output = lsp_thumbprint(c(landcover, random_ndvi),
+                               type = "wecove", window = 100)
+wecove_output
 ```
 
+Learn more about these representation at https://nowosad.github.io/comat/articles/wecoma.html.
+
+## An integrated co-occurrence matrix (`wecoma`) representation - two or more layers
+
+The next type of signature is an integrated co-occurrence matrix (`incoma`).
+It requires two or more layers (a `stars` object with two or more attributes).
+All layers must be categorical raster data.
+
 ```{r}
-lsp_thumbprint(c(landcover, landform), type = "incove", 
-               window = 100, threshold = 0.9)
+incoma_output = lsp_thumbprint(c(landcover, landform),
+                               type = "incoma", window = 100)
 ```
 
-## `"composition"` - one layer
+Integrated co-occurrence vector (`"incove"`) is rearrangement of an integrated co-occurrence matrix into one-dimensional object:
 
 ```{r}
-lsp_thumbprint(landcover, type = "composition",
-               window = 100, threshold = 0.9)
+incove_output = lsp_thumbprint(c(landcover, landform),
+                               type = "incove", window = 100)
+```
+
+<!-- Learn more about these representation at https://nowosad.github.io/comat/articles/incoma.html -->
+
+## A composition representation (`"composition"`) - one layer
+
+A composition signature describes proportions of categories in a local landscape.
+It requires one layer (a `stars` object with one attribute).
+
+```{r}
+composition_output = lsp_thumbprint(landcover, 
+                                    type = "composition", window = 100)
+composition_output
+```
+
+By default, it is normalized to sum to 1:
+
+```{r}
+composition_output$signature[[1]]
+```
+
+To get an actual number of cells of each category, the `normalization` should be set to `"none"`:
+
+```{r}
+composition_output2 = lsp_thumbprint(landcover, 
+                                    type = "composition", window = 100,
+                                    normalization = "none")
+composition_output2$signature[[1]]
 ```
 
 ## User-defined functions - one or more layers
 
-```{r, eval=FALSE}
-lsp_thumbprint(landcover, type = "composition",
-               window = 100, threshold = 0.9)
+The **motif** package also allows to calculate signature based on a user-defined function.
+This function should accept only one argument, which is a list containing one or more matrices.
+For example `my_fun()` below counts how many non-NA cells exist in each local local landscapes.
+
+```{r}
+my_fun = function(x){
+  sum(!is.na(c(x[[1]])))
+} 
 ```
 
-```{r, eval=FALSE}
-lsp_thumbprint(landcover, type = "composition",
-               window = 100, threshold = 0.9)
+Importantly, we need to set `normalization = "none"` to prevent normalization of the output.
+
+```{r}
+my_fun_output = lsp_thumbprint(landcover, 
+                               type = my_fun, window = 100,
+                               normalization = "none")
+my_fun_output
 ```
+
+We can see that in the first local landscape we have `r my_fun_output$signature[[1]]` non-NA cells.
+
+```{r}
+my_fun_output$signature[[1]]
+```
+
