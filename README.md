@@ -13,13 +13,13 @@ status](https://github.com/Nowosad/motif/workflows/pkgdown/badge.svg)](https://g
 coverage](https://codecov.io/gh/Nowosad/motif/branch/master/graph/badge.svg)](https://codecov.io/gh/Nowosad/motif?branch=master)
 <!-- badges: end -->
 
-The **motif** package implements ideas of the pattern-based spatial
-analysis in R. It describes spatial patterns of categorical raster data
-for any defined regular and irregular areas. Patterns are represented
-quantitatively using built-in signatures based on co-occurrence matrices
-but also allows for any user-defined functions. It enables spatial
-analysis such as search, change detection, and clustering to be
-performed on spatial
+The **motif** package implements and extends ideas of the pattern-based
+spatial analysis in R. It describes spatial patterns of categorical
+raster data for any defined regular and irregular areas. Patterns are
+represented quantitatively using built-in signatures based on
+co-occurrence matrices but also allows for any user-defined functions.
+It enables spatial analysis such as search, change detection, and
+clustering to be performed on spatial
 patterns.
 
 ## Installation
@@ -45,7 +45,7 @@ See the package’s vignettes:
 
 1.  [Introduction to the motif
     package](https://nowosad.github.io/motif/articles/intro.html)
-2.  [Spatial patterns’
+2.  [Types of spatial patterns’
     signatures](https://nowosad.github.io/motif/articles/articles/signatures.html)
 3.  [Spatial patterns’
     search](https://nowosad.github.io/motif/articles/articles/search.html)

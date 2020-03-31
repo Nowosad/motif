@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/Nowosad/motif/branch/master/graph/badge.svg)](https://codecov.io/gh/Nowosad/motif?branch=master)
 <!-- badges: end -->
 
-The **motif** package implements ideas of the pattern-based spatial analysis in R.
+The **motif** package implements and extends ideas of the pattern-based spatial analysis in R.
 It describes spatial patterns of categorical raster data for any defined regular and irregular areas. 
 Patterns are represented quantitatively using built-in signatures based on co-occurrence matrices but also allows for any user-defined functions. 
 It enables spatial analysis such as search, change detection, and clustering to be performed on spatial patterns.
