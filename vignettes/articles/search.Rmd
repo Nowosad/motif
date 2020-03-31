@@ -27,9 +27,9 @@ library(sf)
 library(tmap)
 ```
 
-Spatial patterns' search requires having two spatial objects.
+Spatial patterns' search requires two spatial objects.
 The first one is the area of interest, and the second one is a larger area that we want to search in.
-For this vignette, we will read the `"raster/landcover2015.tif"` file, and crop our area of interest using coordinates of its borders.
+For this vignette, we read the `"raster/landcover2015.tif"` file, and crop our area of interest using coordinates of its borders.
 
 ```{r}
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
@@ -57,11 +57,11 @@ landcover = droplevels(landcover)
 plot(landcover, key.pos = 4, key.width = lcm(5), main = NULL)
 ```
 
-### Regular local landscapes
+## Regular local landscapes
 
 Spatial patterns' search is done by the `lsp_search()` function.
 It expects an area of interest as the first object and the larger area as the second one.
-We should provide the type of signature (`type`) and the suitable distance function (`dist_fun`) we want to use to compare two datasets.
+We should provide the type of signature (`type`) and the suitable distance function (`dist_fun`) that we want to use to compare two datasets.
 Additional arguments include the size of the search window from the larger area (`window`) and how much of NA values we can accept in the local landscapes (`threshold`).
 
 ```{r}
@@ -71,9 +71,13 @@ search_1 = lsp_search(landcover_ext, landcover,
 search_1
 ```
 
-The result of the `lsp_search()` function is a `stars` object with three attributes: `id` - unique value for each local landscape, `na_prop` - proportion (0-1) of NA values in each local landscapes, and `dist` - the distance between our area of interest and each local landscape.
+The result of the `lsp_search()` function is a `stars` object with three attributes: 
 
-We can visualize the results, using for example the **tmap** package:
+- `id` - unique value for each local landscape
+- `na_prop` - proportion (0-1) of NA values in each local landscapes
+- `dist` - the distance between our area of interest and each local landscape
+
+We can visualize the results, using, for example, the **tmap** package:
 
 ```{r}
 my_breaks = c(0, 0.001, 0.01, 0.1, 1.01)
@@ -82,12 +86,14 @@ tm_shape(search_1) +
   tm_layout(legend.outside = TRUE)
 ```
 
-It is now possible to see that there is one yellow area (it is almost the same as our area of interest), but also several yellowish areas that are similar to `landcover_ext`.
+is one yellow area (it is almost the same as our area of interest), but also
+
+It is now possible to see that there are several areas with a distance below 0.001 represented by a yellow color - they are the most similar to `landcover_ext`.
 
 <!-- SAMPLE VIZ -->
 
 ```{r, echo=FALSE, eval=FALSE}
-search_1[st_as_sf(st_as_stars(search_1$id == 1895))]
+plot(landcover[subset(st_as_sf(search_1), id == 1895)])
 ```
 
 ```{r, echo=FALSE, eval=FALSE}
@@ -114,7 +120,7 @@ my_palette = hcl.colors(n = 4, palette = "Ag_Sunset")
 plot(search_1["dist"], breaks = my_breaks, col = my_palette, main = NULL)
 ```
 
-### Irregular local landscapes
+## Irregular local landscapes
 
 Search is also possible in irregular local landscapes, based on polygon data.
 `ecoregions.gpkg` contains terrestrial ecoregions for New Guinea from https://ecoregions2017.appspot.com/. 
@@ -154,7 +160,7 @@ tm_shape(search_2) +
 ```
 
 This search shows that most of the polygons are fairly different from our area of interest.
-Only one of them has a relatively small distance of about 0.007.
+Only one of them, located in the East, has a relatively small distance of about 0.007.
 
 ```{r}
 min(search_2$dist, na.rm = TRUE)
