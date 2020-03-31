@@ -142,7 +142,7 @@ incove_output = lsp_thumbprint(c(landcover, landform),
                                type = "incove", window = 100)
 ```
 
-<!-- Learn more about these representations at https://nowosad.github.io/comat/articles/incoma.html -->
+Learn more about these representations at https://nowosad.github.io/comat/articles/incoma.html
 
 ## A composition representation (`"composition"`) - one layer
 
