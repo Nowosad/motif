@@ -129,6 +129,9 @@ Search is also possible in irregular local landscapes, based on polygon data.
 ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
 ```
 
+This dataset has 22 rows, where each row relates to one ecoregion.
+Each ecoregion is also related to a unique value in the `id` column.
+
 ```{r, echo=FALSE}
 # ecoregions = st_transform(ecoregions, st_crs(landcover))
 ```
@@ -160,7 +163,7 @@ tm_shape(search_2) +
 ```
 
 This search shows that most of the polygons are fairly different from our area of interest.
-Only one of them, located in the East, has a relatively small distance of about 0.007.
+Only one of them, located in the east, has a relatively small distance of about 0.007.
 
 ```{r}
 min(search_2$dist, na.rm = TRUE)
