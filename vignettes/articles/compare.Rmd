@@ -28,7 +28,7 @@ library(tmap)
 ```
 
 Spatial patterns' comparison requires two spatial objects.
-For this vignette, we will read the `"raster/landcover2001.tif"` and `"raster/landcover2015.tif"` files.
+For this vignette, we read the `"raster/landcover2001.tif"` and `"raster/landcover2015.tif"` files.
 
 ```{r}
 landcoverold = read_stars(system.file("raster/landcover2001.tif", package = "motif"))
@@ -49,14 +49,14 @@ landcover = droplevels(landcover)
 plot(landcover, key.pos = 4, key.width = lcm(5), main = NULL)
 ```
 
-Our goal here is to find areas with the largest changes in spatial patterns of land cover.
+Our goal here is to find areas with the largest changes of land cover spatial patterns.
 
 ## Regular local landscapes
 
 Spatial patterns' comparision can be done using the `lsp_compare()` function.
 It expects two spatial objects, a type of spatial signature used (`"cove"`), distance function to measure dissimilarity (change) between spatial patterns (`"dist_fun"`).
-By default, the whole area is compared, it can be changed with the `window` argument.
-Here, `window = 100` means that the study area will be divided into local landscapes of 100 by 100 cells.
+By default the whole area is compared, it can be changed with the `window` argument.
+Here, `window = 100` means that the study area is be divided into local landscapes of 100 by 100 cells.
 
 ```{r}
 compare_1 = lsp_compare(landcover, landcoverold,
@@ -64,7 +64,7 @@ compare_1 = lsp_compare(landcover, landcoverold,
                         window = 100, threshold = 0.9)
 ```
 
-The output is a `stars` object with a `dist` argument, with the value of 0 indicating no change, and larger values representing changes of a bigger magnitude.
+The output is a `stars` object with a `dist` argument, with the value of 0 indicating no change, and larger values (up to 1) representing changes of a bigger magnitude.
 
 ```{r}
 my_breaks = c(0, 0.001, 0.01, 0.1, 1.01)
@@ -105,7 +105,7 @@ compare_2 = lsp_compare(landcover, landcoverold,
                         window = ecoregions["id"], threshold = 0.9)
 ```
 
-Spatial patterns of land cover are very similar for most of the ecoregions, with just two exceptions:
+Spatial patterns of land cover stayed very similar for most of the ecoregions, with just two exceptions:
 
 ```{r}
 my_breaks = c(0, 0.001, 0.01, 0.1, 1.01)
