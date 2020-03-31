@@ -16,8 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The main element of the pattern-based spatial analysis is to numerically describe spatial patterns.
-This numerical description is called a signature.
+The fundamental element of the pattern-based spatial analysis is a numerical describtion of spatial patterns (so-called signature).
 This vignette shows how to derive spatial signatures using the `lsp_thumbprint()` function on example datasets.
 Let's start by attaching neccesary packages:
 
@@ -27,7 +26,7 @@ library(stars)
 library(sf)
 ```
 
-For this vignette, we will use several spatial objects.
+For this vignette, we use several spatial objects.
 The first one is a `"raster/landcover2015.tif"` file.
 
 ```{r}
@@ -106,8 +105,8 @@ Learn more about these representations at https://nowosad.github.io/comat/articl
 ## A weighted co-occurrence matrix (`wecoma`) representation - two layers
 
 The next type of signature is a weighted co-occurrence matrix (`"wecoma"`).
-It requires two layers (a `stars` object with two attributes).
-The first one is a categorical raster data, while the second one is a continuous raster data containing weights for each cell.
+It requires two layers - a `stars` object with two attributes.
+The first one is a categorical raster data, while the second one is a continuous raster data containing weights.
 
 ```{r}
 wecoma_output = lsp_thumbprint(c(landcover, random_ndvi), 
@@ -128,7 +127,7 @@ Learn more about these representations at https://nowosad.github.io/comat/articl
 ## An integrated co-occurrence matrix (`wecoma`) representation - two or more layers
 
 The next type of signature is an integrated co-occurrence matrix (`incoma`).
-It requires two or more layers (a `stars` object with two or more attributes).
+It requires two or more layers - a `stars` object with two or more attributes.
 All layers must be categorical raster data.
 
 ```{r}
