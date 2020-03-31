@@ -35,7 +35,6 @@ Imports:
 Suggests: 
     covr,
     raster,
-    rcartocolor,
     knitr,
     rmarkdown,
     testthat (>= 2.1.0)
