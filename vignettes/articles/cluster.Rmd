@@ -49,7 +49,7 @@ plot(landcover, key.pos = 4, key.width = lcm(5), main = NULL)
 
 ## Regular local landscapes
 
-In the first example, we will divide the whole area into many regular local landscapes, and find a way to cluster them based on their patterns.
+In the first example, we divide the whole area into many regular local landscapes, and find a way to cluster them based on their patterns.
 
 ```{r, echo=FALSE}
 stars200 = lsp_add_sf(landcover, window = 100)
@@ -61,7 +61,7 @@ plot(st_geometry(stars200), add = TRUE, reset = FALSE)
 ```
 
 It starts with calculating a signature for each local landscape using the `lsp_thumbprint()` function.
-Here, we will use the co-occurrence vector (`type = "cove"`) representation on local landscapes of 100 by 100 cells (`window = 100`).
+Here, we use the co-occurrence vector (`type = "cove"`) representation on local landscapes of 100 by 100 cells (`window = 100`).
 Distance measures, used in one of the next steps, often require normalization of the vector, therefore we transform the representation to sum to one.
 
 ```{r}
@@ -71,7 +71,7 @@ landcover_cove = lsp_thumbprint(landcover, type = "cove",
 
 Read the [Introduction to the motif package](https://nowosad.github.io/motif/articles/intro.html) vignette to learn more about spatial signatures.
 
-Next, we need to calculate the distance between each local landscape.
+Next, we need to calculate the distance (dissimilairy) between each local landscape's pattern.
 This can be done with the `lsp_to_dist()` function, where we must provide the output of `lsp_thumbprint()` and a distance/dissimilarity measure used (`dist_fun = "jensen-shannon"`).
 
 ```{r}
@@ -85,12 +85,12 @@ class(landcover_dist)
 ```
 
 This allows it to be used by many existing R functions for clustering, which expect a distance matrix (`dist`) as an input.
-It includes different approaches to hierarchical clustering (`hclust()`, `cluster::agnes()`, `cluster::diana()`), fuzzy clustering (`funny()`).
+It includes different approaches of hierarchical clustering (`hclust()`, `cluster::agnes()`, `cluster::diana()`) or fuzzy clustering (`funny()`).
 More information about clustering techniques in R can be found in [CRAN Task View: Cluster Analysis & Finite Mixture Models](https://cran.r-project.org/web/views/Cluster.html).
 
-We will use a hierarchical clustering using `hclust()` in this example.
-It needs a distance matrix as a first argument and a linkage method as a second one.
-Here, we will use `method = "ward.D2"`, which means that we will be using Ward's minimum variance method that minimizes the total within-cluster variance. 
+We use a hierarchical clustering using `hclust()` in this example.
+It needs a distance matrix as the first argument and a linkage method as the second one.
+Here, we use `method = "ward.D2"`, which means that we are be using Ward's minimum variance method that minimizes the total within-cluster variance. 
 
 ```{r}
 landcover_hclust = hclust(landcover_dist, method = "ward.D2")
@@ -99,13 +99,13 @@ plot(landcover_hclust)
 
 Graphical representation of the hierarchical clustering is called a dendrogram.
 Based on the obtained dendrogram, we can divide our local landscapes into a specified number of groups using `cutree()`.
-In this example, we will use six classes (`k = 6`) to make a result fairly straightforward to understand.
+In this example, we use six classes (`k = 6`) to make a result fairly straightforward to understand.
 
 ```{r}
 clusters = cutree(landcover_hclust, k = 6)
 ```
 
-The **motif** package allows representing the clustering results as either `stars` or `sf` object. 
+The **motif** package allows representing the clustering results as either `sf` or `stars` object. 
 This can be done with the `lsp_add_clusters()` function.
 
 ### `sf`
@@ -117,14 +117,16 @@ landcover_grid_sf = lsp_add_clusters(landcover_cove, clusters)
 plot(landcover_grid_sf["clust"], pal = safe_pal6)
 ```
 
-We can also calculate the quality of the clusterings with the `lsp_add_quality()` function, which requires an output of `lsp_add_clusters` as the first argument and output of `lsp_to_dist()` as the second one.
+<!-- ADD EXAMPLES OF EACH CLASS!! -->
+
+We can also calculate the quality of the clusterings with the `lsp_add_quality()` function, which requires an output of `lsp_add_clusters()` as the first argument and output of `lsp_to_dist()` as the second one.
 It adds three new variables: `inhomogeneity`, `isolation`, and `quality`.
 
 ```{r}
 landcover_grid_sfq = lsp_add_quality(landcover_grid_sf, landcover_dist)
 ```
 
-Inhomogeneity measures a degree of mutual dissimilarity between all objects in a cluster. 
+Inhomogeneity (`inhomogeneity`) measures a degree of mutual dissimilarity between all objects in a cluster. 
 This value is between 0 and 1, where the small value indicates that all objects in the cluster represent consistent patterns so the cluster is pattern-homogeneous. 
 
 ```{r}
@@ -132,7 +134,7 @@ inhomogeneity_pal = hcl.colors(6, palette = "Emrld")
 plot(landcover_grid_sfq["inhomogeneity"], pal = inhomogeneity_pal)
 ```
 
-Isolation is an average distance between the focus cluster and all of its neighbors. 
+Isolation (`isolation`) is an average distance between the focus cluster and all of its neighbors. 
 This value is between 0 and 1, where the large value indicates that the cluster stands out from its surroundings.
 
 ```{r}
@@ -140,25 +142,23 @@ isolation_pal = hcl.colors(6, palette = "Teal", rev = TRUE)
 plot(landcover_grid_sfq["isolation"], pal = isolation_pal)
 ```
 
-Quality is calculated as `1 - (inhomogeneity / isolation)`.
-This value is also between 0 and 1, where increased values indicate increased quality. 
+Overall quality (`quality`) is calculated as `1 - (inhomogeneity / isolation)`.
+This value is also between 0 and 1, where increased values indicate increased quality of clustering. 
 
 ```{r}
 quality_pal = hcl.colors(6, palette = "Temps", rev = TRUE)
 plot(landcover_grid_sfq["quality"], pal = quality_pal)
 ```
 
-
 ### `stars`
 
-To create an `stars` object with a new attribute `clust`, we should set `output = "stars"`.
+To create an `stars` object with a new attribute `clust`, we must set `output = "stars"`.
 
 ```{r}
 landcover_grid_stars = lsp_add_clusters(landcover_cove, clusters, output = "stars")
 plot(landcover_grid_stars["clust"], col = safe_pal6)
 ```
 
-<!-- ADD EXAMPLES OF EACH CLASS!! -->
 However, it is not yet possible to calculate the quality of the clusterings for the `stars` objects:
 
 ```{r, error=TRUE}
@@ -206,20 +206,20 @@ Next step involves calculating distances between signatures of ecoregions:
 landcover_dist2 = lsp_to_dist(landcover_cove2, dist_fun = "jensen-shannon")
 ```
 
-Again, we will find clusters using a hierarchical clustering:
+Again, we find clusters using a hierarchical clustering:
 
 ```{r}
 landcover_hclust2 = hclust(landcover_dist2, method = "ward.D2")
 plot(landcover_hclust2)
 ```
 
-This time, we will divide the data into four clusters:
+This time, we divide the data into four clusters:
 
 ```{r}
 clusters2 = cutree(landcover_hclust2, k = 4)
 ```
 
-### sf
+### `sf`
 
 Next steps are to add clusters ids to the `sf` object:
 
@@ -234,7 +234,7 @@ The results show that most area of New Guinea belongs to the second clusters, wi
 plot(landcover_grid_sf2["clust"], pal = safe_pal4)
 ```
 
-Final step involves of calculating the quality metrics of the obtained clusters:
+Final step involves calculating the quality metrics of the obtained clusters:
 
 ```{r}
 landcover_grid_sfq2 = lsp_add_quality(landcover_grid_sf2, landcover_dist2)
@@ -252,9 +252,9 @@ plot(landcover_grid_sfq2["isolation"], pal = isolation_pal[c(1, 3, 6)])
 plot(landcover_grid_sfq2["quality"], pal = quality_pal[c(1, 3, 6)])
 ```
 
-### stars
+### `stars`
 
-To create an `stars` object with a new attribute `clust`, we should set `output = "stars"`.
+To create a `stars` object with a new attribute `clust`, we should set `output = "stars"`.
 However, it is not yet possible to calculate the quality of the clusterings for the `stars` objects.
 
 ```{r}
