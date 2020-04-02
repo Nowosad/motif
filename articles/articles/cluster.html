@@ -160,34 +160,64 @@
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">landcover_grid_sf</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_clusters.html">lsp_add_clusters</a></span>(<span class="no">landcover_cove</span>, <span class="no">clusters</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sf</span>[<span class="st">"clust"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">safe_pal6</span>)</pre></body></html></div>
 <p><img src="cluster_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
-<!-- ADD EXAMPLES OF EACH CLASS!! -->
-<p>We can also calculate the quality of the clusterings with the <code><a href="../../reference/lsp_add_quality.html">lsp_add_quality()</a></code> function, which requires an output of <code><a href="../../reference/lsp_add_clusters.html">lsp_add_clusters()</a></code> as the first argument and output of <code><a href="../../reference/lsp_to_dist.html">lsp_to_dist()</a></code> as the second one. It adds three new variables: <code>inhomogeneity</code>, <code>isolation</code>, and <code>quality</code>.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">landcover_grid_sfq</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_quality.html">lsp_add_quality</a></span>(<span class="no">landcover_grid_sf</span>, <span class="no">landcover_dist</span>)</pre></body></html></div>
-<p>Inhomogeneity (<code>inhomogeneity</code>) measures a degree of mutual dissimilarity between all objects in a cluster. This value is between 0 and 1, where the small value indicates that all objects in the cluster represent consistent patterns so the cluster is pattern-homogeneous.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">inhomogeneity_pal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span>(<span class="fl">6</span>, <span class="kw">palette</span> <span class="kw">=</span> <span class="st">"Emrld"</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq</span>[<span class="st">"inhomogeneity"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">inhomogeneity_pal</span>)</pre></body></html></div>
-<p><img src="cluster_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
-<p>Isolation (<code>isolation</code>) is an average distance between the focus cluster and all of its neighbors. This value is between 0 and 1, where the large value indicates that the cluster stands out from its surroundings.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">isolation_pal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span>(<span class="fl">6</span>, <span class="kw">palette</span> <span class="kw">=</span> <span class="st">"Teal"</span>, <span class="kw">rev</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq</span>[<span class="st">"isolation"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">isolation_pal</span>)</pre></body></html></div>
+<div id="samples" class="section level4">
+<h4 class="hasAnchor">
+<a href="#samples" class="anchor"></a>Samples</h4>
+<p>Now, it is possible see some examples of each cluster.</p>
+<p>For example, we can get id values of randomly selected local landscapes from the first cluster.</p>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">landcover_grid_sf_1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">landcover_grid_sf</span>, <span class="no">clust</span> <span class="kw">==</span> <span class="fl">1</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="no">landcover_grid_sf_1</span>$<span class="no">id</span>, <span class="fl">3</span>)
+<span class="co">#&gt; [1] 1229 1237  687</span></pre></body></html></div>
+<p>Next, we can extract them using <code><a href="../../reference/lsp_extract.html">lsp_extract()</a></code>. This cluster contains landscapes mostly covered by forest with small areas of agriculture.</p>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="fu"><a href="../../reference/lsp_extract.html">lsp_extract</a></span>(<span class="no">landcover</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="fl">1229</span>), <span class="kw">key.pos</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
 <p><img src="cluster_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="fu"><a href="../../reference/lsp_extract.html">lsp_extract</a></span>(<span class="no">landcover</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="fl">1237</span>), <span class="kw">key.pos</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-15-2.png" width="672"></p>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="fu"><a href="../../reference/lsp_extract.html">lsp_extract</a></span>(<span class="no">landcover</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="fl">687</span>), <span class="kw">key.pos</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-15-3.png" width="672"></p>
+<p>This approach can be used for any other cluster.</p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">landcover_grid_sf_6</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">landcover_grid_sf</span>, <span class="no">clust</span> <span class="kw">==</span> <span class="fl">6</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="no">landcover_grid_sf_6</span>$<span class="no">id</span>, <span class="fl">3</span>)
+<span class="co">#&gt; [1] 2098 2173 2172</span></pre></body></html></div>
+<p>The sixth cluster is covered by frest, grassland, with smaller areas of water and sparse vegetation.</p>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="fu"><a href="../../reference/lsp_extract.html">lsp_extract</a></span>(<span class="no">landcover</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="fl">2098</span>), <span class="kw">key.pos</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="fu"><a href="../../reference/lsp_extract.html">lsp_extract</a></span>(<span class="no">landcover</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="fl">2173</span>), <span class="kw">key.pos</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-17-2.png" width="672"></p>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="fu"><a href="../../reference/lsp_extract.html">lsp_extract</a></span>(<span class="no">landcover</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="fl">2172</span>), <span class="kw">key.pos</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-17-3.png" width="672"></p>
+</div>
+<div id="quality" class="section level4">
+<h4 class="hasAnchor">
+<a href="#quality" class="anchor"></a>Quality</h4>
+<p>We can also calculate the quality of the clusterings with the <code><a href="../../reference/lsp_add_quality.html">lsp_add_quality()</a></code> function, which requires an output of <code><a href="../../reference/lsp_add_clusters.html">lsp_add_clusters()</a></code> as the first argument and output of <code><a href="../../reference/lsp_to_dist.html">lsp_to_dist()</a></code> as the second one. It adds three new variables: <code>inhomogeneity</code>, <code>isolation</code>, and <code>quality</code>.</p>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">landcover_grid_sfq</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_quality.html">lsp_add_quality</a></span>(<span class="no">landcover_grid_sf</span>, <span class="no">landcover_dist</span>)</pre></body></html></div>
+<p>Inhomogeneity (<code>inhomogeneity</code>) measures a degree of mutual dissimilarity between all objects in a cluster. This value is between 0 and 1, where the small value indicates that all objects in the cluster represent consistent patterns so the cluster is pattern-homogeneous.</p>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">inhomogeneity_pal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span>(<span class="fl">6</span>, <span class="kw">palette</span> <span class="kw">=</span> <span class="st">"Emrld"</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq</span>[<span class="st">"inhomogeneity"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">inhomogeneity_pal</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
+<p>Isolation (<code>isolation</code>) is an average distance between the focus cluster and all of its neighbors. This value is between 0 and 1, where the large value indicates that the cluster stands out from its surroundings.</p>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">isolation_pal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span>(<span class="fl">6</span>, <span class="kw">palette</span> <span class="kw">=</span> <span class="st">"Teal"</span>, <span class="kw">rev</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq</span>[<span class="st">"isolation"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">isolation_pal</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-20-1.png" width="672"></p>
 <p>Overall quality (<code>quality</code>) is calculated as <code>1 - (inhomogeneity / isolation)</code>. This value is also between 0 and 1, where increased values indicate increased quality of clustering.</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">quality_pal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span>(<span class="fl">6</span>, <span class="kw">palette</span> <span class="kw">=</span> <span class="st">"Temps"</span>, <span class="kw">rev</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">quality_pal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span>(<span class="fl">6</span>, <span class="kw">palette</span> <span class="kw">=</span> <span class="st">"Temps"</span>, <span class="kw">rev</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq</span>[<span class="st">"quality"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">quality_pal</span>)</pre></body></html></div>
-<p><img src="cluster_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
+<p><img src="cluster_files/figure-html/unnamed-chunk-21-1.png" width="672"></p>
+</div>
 </div>
 <div id="stars" class="section level3">
 <h3 class="hasAnchor">
 <a href="#stars" class="anchor"></a><code>stars</code>
 </h3>
 <p>To create an <code>stars</code> object with a new attribute <code>clust</code>, we must set <code>output = "stars"</code>.</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">landcover_grid_stars</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_clusters.html">lsp_add_clusters</a></span>(<span class="no">landcover_cove</span>, <span class="no">clusters</span>, <span class="kw">output</span> <span class="kw">=</span> <span class="st">"stars"</span>)
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">landcover_grid_stars</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_clusters.html">lsp_add_clusters</a></span>(<span class="no">landcover_cove</span>, <span class="no">clusters</span>, <span class="kw">output</span> <span class="kw">=</span> <span class="st">"stars"</span>)
 <span class="co">#&gt; Warning: Column signature is of a list class and will be dropped from the output</span>
 <span class="co">#&gt; object.</span>
 <span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_stars</span>[<span class="st">"clust"</span>], <span class="kw">col</span> <span class="kw">=</span> <span class="no">safe_pal6</span>)</pre></body></html></div>
-<p><img src="cluster_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
+<p><img src="cluster_files/figure-html/unnamed-chunk-22-1.png" width="672"></p>
 <p>However, it is not yet possible to calculate the quality of the clusterings for the <code>stars</code> objects:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">landcover_grid_starsq</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_quality.html">lsp_add_quality</a></span>(<span class="no">landcover_grid_stars</span>, <span class="no">landcover_dist</span>)
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">landcover_grid_starsq</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_quality.html">lsp_add_quality</a></span>(<span class="no">landcover_grid_stars</span>, <span class="no">landcover_dist</span>)
 <span class="co">#&gt; Error: This function requires an sf object as the x argument.</span></pre></body></html></div>
 </div>
 </div>
@@ -195,51 +225,70 @@
 <h2 class="hasAnchor">
 <a href="#irregular-local-landscapes" class="anchor"></a>Irregular local landscapes</h2>
 <p>The <strong>motif</strong> package also allows for the clustering of irregular regions based on the user-provided polygons. It has an example spatial vector dataset, <code>ecoregions.gpkg</code>, which contains terrestrial ecoregions for New Guinea from <a href="https://ecoregions2017.appspot.com/" class="uri">https://ecoregions2017.appspot.com/</a>.</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">ecoregions</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_read.html">read_sf</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"vector/ecoregions.gpkg"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"motif"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">ecoregions</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_read.html">read_sf</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"vector/ecoregions.gpkg"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"motif"</span>))</pre></body></html></div>
 <p>This dataset has 22 rows, where each row relates to one ecoregion. Each ecoregion is also related to a unique value in the <code>id</code> column.</p>
-<p><img src="cluster_files/figure-html/unnamed-chunk-23-1.png" width="672"></p>
+<p><img src="cluster_files/figure-html/unnamed-chunk-28-1.png" width="672"></p>
 <p>The first step here is to calculate a signature for each ecoregion using <code><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint()</a></code>:</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">landcover_cove2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>,
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">landcover_cove2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>,
                                  <span class="kw">window</span> <span class="kw">=</span> <span class="no">ecoregions</span>[<span class="st">"id"</span>], <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"pdf"</span>)</pre></body></html></div>
 <p>Next step involves calculating distances between signatures of ecoregions:</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">landcover_dist2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_to_dist.html">lsp_to_dist</a></span>(<span class="no">landcover_cove2</span>, <span class="kw">dist_fun</span> <span class="kw">=</span> <span class="st">"jensen-shannon"</span>)
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">landcover_dist2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_to_dist.html">lsp_to_dist</a></span>(<span class="no">landcover_cove2</span>, <span class="kw">dist_fun</span> <span class="kw">=</span> <span class="st">"jensen-shannon"</span>)
 <span class="co">#&gt; Metric: 'jensen-shannon' using unit: 'log2'; comparing: 22 vectors.</span></pre></body></html></div>
 <p>Again, we find clusters using a hierarchical clustering:</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">landcover_hclust2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html">hclust</a></span>(<span class="no">landcover_dist2</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"ward.D2"</span>)
+<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">landcover_hclust2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html">hclust</a></span>(<span class="no">landcover_dist2</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"ward.D2"</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_hclust2</span>)</pre></body></html></div>
-<p><img src="cluster_files/figure-html/unnamed-chunk-26-1.png" width="672"></p>
+<p><img src="cluster_files/figure-html/unnamed-chunk-31-1.png" width="672"></p>
 <p>This time, we divide the data into four clusters:</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">clusters2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cutree.html">cutree</a></span>(<span class="no">landcover_hclust2</span>, <span class="kw">k</span> <span class="kw">=</span> <span class="fl">4</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="no">clusters2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cutree.html">cutree</a></span>(<span class="no">landcover_hclust2</span>, <span class="kw">k</span> <span class="kw">=</span> <span class="fl">4</span>)</pre></body></html></div>
 <div id="sf-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#sf-1" class="anchor"></a><code>sf</code>
 </h3>
 <p>Next steps are to add clusters ids to the <code>sf</code> object:</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">landcover_grid_sf2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_clusters.html">lsp_add_clusters</a></span>(<span class="no">landcover_cove2</span>, <span class="no">clusters2</span>,
+<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="no">landcover_grid_sf2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_clusters.html">lsp_add_clusters</a></span>(<span class="no">landcover_cove2</span>, <span class="no">clusters2</span>,
                                       <span class="kw">window</span> <span class="kw">=</span> <span class="no">ecoregions</span>[<span class="st">"id"</span>])</pre></body></html></div>
 <p>The results show that most area of New Guinea belongs to the second clusters, with only one ecoregion of cluster 3 (small islands south from New Guinea) and cluster 4.</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sf2</span>[<span class="st">"clust"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">safe_pal4</span>)</pre></body></html></div>
-<p><img src="cluster_files/figure-html/unnamed-chunk-29-1.png" width="672"></p>
+<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sf2</span>[<span class="st">"clust"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">safe_pal4</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-34-1.png" width="672"></p>
+<div id="samples-1" class="section level4">
+<h4 class="hasAnchor">
+<a href="#samples-1" class="anchor"></a>Samples</h4>
+<p>The first cluser, for example, consists of nine ecoregions, from which we sampled only three.</p>
+<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="no">landcover_grid_sf2_1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">landcover_grid_sf2</span>, <span class="no">clust</span> <span class="kw">==</span> <span class="fl">1</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="no">landcover_grid_sf2_1</span>$<span class="no">id</span>, <span class="fl">3</span>)
+<span class="co">#&gt; [1] 10  1 22</span></pre></body></html></div>
+<p>Next, we can extract their land cover using <code><a href="../../reference/lsp_extract.html">lsp_extract()</a></code>. This cluster contains landscapes mostly covered by forest with small areas of agriculture.</p>
+<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="fu"><a href="../../reference/lsp_extract.html">lsp_extract</a></span>(<span class="no">landcover</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="no">ecoregions</span>[<span class="st">"id"</span>], <span class="kw">id</span> <span class="kw">=</span> <span class="fl">10</span>), <span class="kw">key.pos</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-37-1.png" width="672"></p>
+<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="fu"><a href="../../reference/lsp_extract.html">lsp_extract</a></span>(<span class="no">landcover</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="no">ecoregions</span>[<span class="st">"id"</span>], <span class="kw">id</span> <span class="kw">=</span> <span class="fl">1</span>), <span class="kw">key.pos</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-37-2.png" width="672"></p>
+<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="fu"><a href="../../reference/lsp_extract.html">lsp_extract</a></span>(<span class="no">landcover</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="no">ecoregions</span>[<span class="st">"id"</span>], <span class="kw">id</span> <span class="kw">=</span> <span class="fl">22</span>), <span class="kw">key.pos</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-37-3.png" width="672"></p>
+</div>
+<div id="quality-1" class="section level4">
+<h4 class="hasAnchor">
+<a href="#quality-1" class="anchor"></a>Quality</h4>
 <p>Final step involves calculating the quality metrics of the obtained clusters:</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">landcover_grid_sfq2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_quality.html">lsp_add_quality</a></span>(<span class="no">landcover_grid_sf2</span>, <span class="no">landcover_dist2</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq2</span>[<span class="st">"inhomogeneity"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">inhomogeneity_pal</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">6</span>)])</pre></body></html></div>
-<p><img src="cluster_files/figure-html/unnamed-chunk-31-1.png" width="672"></p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq2</span>[<span class="st">"isolation"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">isolation_pal</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">6</span>)])</pre></body></html></div>
-<p><img src="cluster_files/figure-html/unnamed-chunk-32-1.png" width="672"></p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq2</span>[<span class="st">"quality"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">quality_pal</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">6</span>)])</pre></body></html></div>
-<p><img src="cluster_files/figure-html/unnamed-chunk-33-1.png" width="672"></p>
+<div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="no">landcover_grid_sfq2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_quality.html">lsp_add_quality</a></span>(<span class="no">landcover_grid_sf2</span>, <span class="no">landcover_dist2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq2</span>[<span class="st">"inhomogeneity"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">inhomogeneity_pal</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">6</span>)])</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-39-1.png" width="672"></p>
+<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq2</span>[<span class="st">"isolation"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">isolation_pal</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">6</span>)])</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-40-1.png" width="672"></p>
+<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq2</span>[<span class="st">"quality"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">quality_pal</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">6</span>)])</pre></body></html></div>
+<p><img src="cluster_files/figure-html/unnamed-chunk-41-1.png" width="672"></p>
+</div>
 </div>
 <div id="stars-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#stars-1" class="anchor"></a><code>stars</code>
 </h3>
 <p>To create a <code>stars</code> object with a new attribute <code>clust</code>, we should set <code>output = "stars"</code>. However, it is not yet possible to calculate the quality of the clusterings for the <code>stars</code> objects.</p>
-<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">landcover_grid_stars2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_clusters.html">lsp_add_clusters</a></span>(<span class="no">landcover_cove2</span>, <span class="no">clusters2</span>,
+<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="no">landcover_grid_stars2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_add_clusters.html">lsp_add_clusters</a></span>(<span class="no">landcover_cove2</span>, <span class="no">clusters2</span>,
                                          <span class="kw">window</span> <span class="kw">=</span> <span class="no">ecoregions</span>[<span class="st">"id"</span>], <span class="kw">output</span> <span class="kw">=</span> <span class="st">"stars"</span>)
 <span class="co">#&gt; Warning: Column signature is of a list class and will be dropped from the output</span>
 <span class="co">#&gt; object.</span>
 <span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_stars2</span>[<span class="st">"clust"</span>], <span class="kw">col</span> <span class="kw">=</span> <span class="no">safe_pal4</span>)</pre></body></html></div>
-<p><img src="cluster_files/figure-html/unnamed-chunk-34-1.png" width="672"></p>
+<p><img src="cluster_files/figure-html/unnamed-chunk-42-1.png" width="672"></p>
 </div>
 </div>
   </div>
