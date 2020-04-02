@@ -22,7 +22,7 @@ For \code{stars}, \code{window} or \code{window_size} can be used.}
 Creates or adds a stars object based on the input object or a set of parameters.
 It accepts either an object of class \code{stars} or \code{lsp}.
 In the first case, the output is created based on
-a set of parameters (\code{window}).
+the \code{window} parameter.
 In the second case, the output converts the \code{lsp} object into
 a \code{stars} object.
 }

@@ -3,7 +3,7 @@
 #' Creates or adds a stars object based on the input object or a set of parameters.
 #' It accepts either an object of class `stars` or `lsp`.
 #' In the first case, the output is created based on
-#' a set of parameters (`window`).
+#' the `window` parameter.
 #' In the second case, the output converts the `lsp` object into
 #' a `stars` object.
 #'
