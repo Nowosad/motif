@@ -86,38 +86,32 @@ tm_shape(search_1) +
   tm_layout(legend.outside = TRUE)
 ```
 
-is one yellow area (it is almost the same as our area of interest), but also
-
 It is now possible to see that there are several areas with a distance below 0.001 represented by a yellow color - they are the most similar to `landcover_ext`.
 
-<!-- SAMPLE VIZ -->
-
 ```{r, echo=FALSE, eval=FALSE}
-plot(landcover[subset(st_as_sf(search_1), id == 1895)])
+min_dist1 = min(search_1$dist, na.rm = TRUE)
+min_dist1
 ```
 
-```{r, echo=FALSE, eval=FALSE}
-min(search_1$dist, na.rm = TRUE)
+We can find their ids using the code below.
+
+```{r}
+unique(search_1$id[which(search_1$dist < 0.001)])
 ```
 
-```{r, echo=FALSE, eval=FALSE}
-unique(search_1$id[which(search_1$dist == min(search_1$dist, na.rm = TRUE))])
+To extract selected local landscape, the `lsp_extract()` function can be used.
+
+```{r}
+search_1_690 = lsp_extract(landcover,
+                            window = 100,
+                            id = 690)
 ```
 
-```{r, echo=FALSE, eval=FALSE}
-landcover_mindist2 = landcover[dplyr::filter(search_1, id == 1895)]
-```
+Its output is a `stars` object, that we can vizualize and see that it is fairly similar to the area of interest.
 
-```{r, echo=FALSE, eval=FALSE}
-landcover_mindist2 = droplevels(landcover_mindist2)
-plot(landcover_mindist2, main = NULL)
-```
-
-
-```{r, echo=FALSE, eval=FALSE}
-my_breaks = c(0, 0.001, 0.01, 0.1, 1.01)
-my_palette = hcl.colors(n = 4, palette = "Ag_Sunset")
-plot(search_1["dist"], breaks = my_breaks, col = my_palette, main = NULL)
+```{r}
+search_1_690 = droplevels(search_1_690)
+plot(search_1_690, main = NULL)
 ```
 
 ## Irregular local landscapes
@@ -166,45 +160,27 @@ This search shows that most of the polygons are fairly different from our area o
 Only one of them, located in the east, has a relatively small distance of about 0.007.
 
 ```{r}
-min(search_2$dist, na.rm = TRUE)
+min_search2 = min(search_2$dist, na.rm = TRUE)
+min_search2
 ```
+
+We can obtain its id (`10`) using the code below.
 
 ```{r}
-unique(search_2$id[which(search_2$dist == min(search_2$dist, na.rm = TRUE))])
+unique(search_2$id[which(search_2$dist == min_search2)])
 ```
+
+Now, we can use `lsp_extract()` to extract land cover for this ecoregion.
 
 ```{r}
-landcover_mindist2 = landcover[subset(ecoregions, id == 10)]
+search_2_10 = lsp_extract(landcover,
+                          window = ecoregions["id"],
+                          id = 10)
 ```
+
+This local landscape is also mostly covered by forest with just some smaller areas of agriculture.
 
 ```{r}
-landcover_mindist2 = droplevels(landcover_mindist2)
-plot(landcover_mindist2, main = NULL)
+search_2_10 = droplevels(search_2_10)
+plot(search_2_10, main = NULL)
 ```
-
-
-```{r, eval=FALSE, echo=FALSE}
-plot(search_2)
-plot(search_2["dist"], breaks = my_breaks, col = my_palette, main = NULL)
-```
-
-```{r, eval=FALSE, echo=FALSE}
-classes = c(1L, 2L, 3L, 5L, 6L, 7L, 9L)
-my_norm = "pdf"
-t1 = lsp_thumbprint(landcover_ext, type = "cove", threshold = 1, 
-                    normalization = my_norm, classes = classes)
-t2 = lsp_thumbprint(landcover, window = ecoregions, type = "cove",
-                    threshold = 1, normalization = my_norm, classes = classes)
-
-t2[17, ]$signature
-t1$signature
-
-library(philentropy)
-jensen_shannon(t1$signature[[1]], t2[17, ]$signature[[1]],
-               testNA = FALSE, unit = "log2")
-kullback_leibler_distance(t1$signature[[1]], t2[17, ]$signature[[1]],
-               testNA = FALSE, unit = "log2")
-kullback_leibler_distance(t2[17, ]$signature[[1]], t1$signature[[1]],
-               testNA = FALSE, unit = "log2")
-```
-
