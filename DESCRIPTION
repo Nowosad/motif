@@ -1,6 +1,6 @@
 Package: motif
 Title: Local Pattern Analysis
-Version: 0.3.5
+Version: 0.3.6
 Authors@R: c(
     person(given = "Jakub", family = "Nowosad", 
     role = c("aut", "cre"),
@@ -41,6 +41,6 @@ Suggests:
 Remotes:
     r-spatial/sf,
     r-spatial/stars
-URL: https://github.com/Nowosad/motif
+URL: https://nowosad.github.io/motif/
 BugReports: https://github.com/Nowosad/motif/issues
 VignetteBuilder: knitr
