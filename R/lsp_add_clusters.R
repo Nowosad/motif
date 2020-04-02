@@ -5,7 +5,7 @@
 #' See examples.
 #'
 #' @param x Object of class `lsp` - usually the output of
-#' the `lsp_thumbprint()` function
+#' the `lsp_signature()` function
 #' @param clust Vector containing an id value for each row in `x`
 #' @param output The class of the output. Either `"stars"` or `"sf"`
 #' @param window Specifies areas for analysis. It can be either: `NULL` or an `sf` object. If `window=NULL` calculations are performed based on the metadata from `x`. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
@@ -13,7 +13,7 @@
 #' @examples
 #' library(stars)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
-#' landform_cove = lsp_thumbprint(landform,
+#' landform_cove = lsp_signature(landform,
 #'                                type = "cove",
 #'                                window = 200,
 #'                                normalization = "pdf")

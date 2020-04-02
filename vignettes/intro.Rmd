@@ -43,19 +43,19 @@ plot(landcover, key.pos = 4, key.width = lcm(5), main = NULL)
 We can see that most of the island is covered by forest, with some agriculture and smaller areas of the other classes.
 It is also reasonably easy to describe these proportions (so-called composition) numerically - we just need to count cells of each category for the whole data.
 
-We can use the `lsp_thumbprint()` function for this.
+We can use the `lsp_signature()` function for this.
 It requires a `stars` object as the first input and the type of a signature to calculate - `"composition"` in this case.
 There are also several additional arguments, including `threshold` - a share (between 0 and 1) of NA cells to allow signature calculation and `normalization` - decision if the output vector should be normalized.
 
 ```{r}
-landcover_comp = lsp_thumbprint(landcover, 
+landcover_comp = lsp_signature(landcover, 
                                 type = "composition",
                                 threshold = 1,
                                 normalization = "none")
 landcover_comp
 ```
 
-The output of `lsp_thumbprint()`, `landcover_comp`,  has a new class `lsp`.
+The output of `lsp_signature()`, `landcover_comp`,  has a new class `lsp`.
 It is a tibble with three columns:
 
 - `id` - an id of each window (area)
@@ -101,7 +101,7 @@ This time, we set the `window` argument to `200`, which means that each local la
 In this example, each cell has a resolution of 300 by 300 meters, therefore a local landscape will be 60000 by 60000 meters (60 by 60 kilometers).
 
 ```{r}
-landcover_coma = lsp_thumbprint(landcover, type = "coma", window = 200)
+landcover_coma = lsp_signature(landcover, type = "coma", window = 200)
 landcover_coma
 ```
 
@@ -135,10 +135,10 @@ my_pal = c("#d34359", "#62b93c", "#b75fcf", "#53c069", "#d44295", "#acb939", "#6
 plot(ecoregions["id"], main = NULL, col = my_pal, key.pos = 4, key.width = lcm(5))
 ```
 
-Now, we need to provide this dataset and its identity column to the `window` argument of `lsp_thumbprint()`.
+Now, we need to provide this dataset and its identity column to the `window` argument of `lsp_signature()`.
 
 ```{r}
-landcover_coma_e = lsp_thumbprint(landcover, type = "coma", window = ecoregions["id"])
+landcover_coma_e = lsp_signature(landcover, type = "coma", window = ecoregions["id"])
 landcover_coma_e
 ```
 

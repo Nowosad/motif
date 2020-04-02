@@ -66,7 +66,7 @@ lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, neighbourhood 
   classes = lapply(classes, unique)
 
   # use lapply here?
-  output_x = lsp_thumbprint(
+  output_x = lsp_signature(
     x,
     type = type,
     neighbourhood = neighbourhood,
@@ -80,7 +80,7 @@ lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, neighbourhood 
     classes = classes
   )
 
-  output_y = lsp_thumbprint(
+  output_y = lsp_signature(
     y,
     type = type,
     neighbourhood = neighbourhood,
@@ -154,7 +154,7 @@ lsp_compare.stars_proxy = function(x, y, type, dist_fun, window = NULL, neighbou
   classes = lapply(classes, unique)
 
   # use lapply here?
-  output_x = lsp_thumbprint(
+  output_x = lsp_signature(
     x,
     type = type,
     neighbourhood = neighbourhood,
@@ -168,7 +168,7 @@ lsp_compare.stars_proxy = function(x, y, type, dist_fun, window = NULL, neighbou
     classes = classes
   )
 
-  output_y = lsp_thumbprint(
+  output_y = lsp_signature(
     y,
     type = type,
     neighbourhood = neighbourhood,

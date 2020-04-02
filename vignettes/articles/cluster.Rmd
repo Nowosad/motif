@@ -60,19 +60,19 @@ plot(st_geometry(stars200), add = TRUE, reset = FALSE)
 # st_bbox(landcover)
 ```
 
-It starts with calculating a signature for each local landscape using the `lsp_thumbprint()` function.
+It starts with calculating a signature for each local landscape using the `lsp_signature()` function.
 Here, we use the co-occurrence vector (`type = "cove"`) representation on local landscapes of 100 by 100 cells (`window = 100`).
 Distance measures, used in one of the next steps, often require normalization of the vector, therefore we transform the representation to sum to one.
 
 ```{r}
-landcover_cove = lsp_thumbprint(landcover, type = "cove",
+landcover_cove = lsp_signature(landcover, type = "cove",
                                 window = 100, normalization = "pdf")
 ```
 
 Read the [Introduction to the motif package](https://nowosad.github.io/motif/articles/intro.html) vignette to learn more about spatial signatures.
 
 Next, we need to calculate the distance (dissimilairy) between each local landscape's pattern.
-This can be done with the `lsp_to_dist()` function, where we must provide the output of `lsp_thumbprint()` and a distance/dissimilarity measure used (`dist_fun = "jensen-shannon"`).
+This can be done with the `lsp_to_dist()` function, where we must provide the output of `lsp_signature()` and a distance/dissimilarity measure used (`dist_fun = "jensen-shannon"`).
 
 ```{r}
 landcover_dist = lsp_to_dist(landcover_cove, dist_fun = "jensen-shannon")
@@ -232,10 +232,10 @@ my_pal = c("#d34359", "#62b93c", "#b75fcf", "#53c069", "#d44295", "#acb939", "#6
 plot(ecoregions["id"], main = NULL, col = my_pal, key.pos = 4, key.width = lcm(5))
 ```
 
-The first step here is to calculate a signature for each ecoregion using `lsp_thumbprint()`:
+The first step here is to calculate a signature for each ecoregion using `lsp_signature()`:
 
 ```{r}
-landcover_cove2 = lsp_thumbprint(landcover, type = "cove",
+landcover_cove2 = lsp_signature(landcover, type = "cove",
                                  window = ecoregions["id"], normalization = "pdf")
 ```
 

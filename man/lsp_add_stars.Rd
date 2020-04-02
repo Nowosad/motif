@@ -33,7 +33,7 @@ plot(landform)
 landform_lsp = lsp_add_stars(landform, window = 100)
 plot(landform_lsp)
 
-lc_cove = lsp_thumbprint(landform, type = "cove", window = 200, normalization = "pdf")
+lc_cove = lsp_signature(landform, type = "cove", window = 200, normalization = "pdf")
 lc_cove_lsp = lsp_add_stars(lc_cove)
 plot(lc_cove_lsp)
 plot(lc_cove_lsp["na_prop"])

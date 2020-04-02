@@ -103,7 +103,7 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, neighbourhood =
   classes = lapply(classes, sort)
 
 # y signature -------------------------------------------------------------
-  output_y = lsp_thumbprint(
+  output_y = lsp_signature(
     x = y,
     type = type,
     window = window,
@@ -118,7 +118,7 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, neighbourhood =
   )
 
 # x signature -------------------------------------------------------------
-  output_x = lsp_thumbprint(
+  output_x = lsp_signature(
     x = x,
     type = type,
     window = NULL,

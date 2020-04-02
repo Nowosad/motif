@@ -3,7 +3,7 @@
 #' Calculates a distance matrix based on an object of class `lsp`.
 #'
 #' @param x An object of class `lsp` - usually the output of
-#' the `lsp_thumbprint()` function
+#' the `lsp_signature()` function
 #' @param dist_fun A distance/dissimilarity method used.
 #' All possible values can be found using
 #' the [philentropy::getDistMethods()] function
@@ -23,7 +23,7 @@
 #' library(stars)
 #' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 #'
-#' landcover_cove = lsp_thumbprint(landcover, type = "cove", threshold = 0.9, window = 2000)
+#' landcover_cove = lsp_signature(landcover, type = "cove", threshold = 0.9, window = 2000)
 #' landcover_cove
 #'
 #' dist_cov = lsp_to_dist(landcover_cove, dist_fun = "jensen-shannon")
