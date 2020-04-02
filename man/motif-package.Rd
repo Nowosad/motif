@@ -6,6 +6,8 @@
 \alias{motif-package}
 \title{motif: Local Pattern Analysis}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 Describes spatial patterns of categorical raster data for 
     any defined regular and irregular areas. 
     Patterns are described quantitatively using built-in signatures 
