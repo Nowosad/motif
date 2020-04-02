@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • motif</title>
+<title>Extracts a local landscape — lsp_extract • motif</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Extracts a local landscape — lsp_extract" />
+<meta property="og:description" content="Extracts a local landscape from categorical raster data based on its id and provided window argument." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +67,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -140,96 +141,43 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Extracts a local landscape</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Nowosad/motif/blob/master/R/lsp_extract.R'><code>R/lsp_extract.R</code></a></small>
+    <div class="hidden name"><code>lsp_extract.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Extracts a local landscape from categorical raster data based on its id and provided <code>window</code> argument.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>lsp_extract</span>(<span class='no'>x</span>, <span class='no'>window</span>, <span class='no'>id</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="lsp_add_clusters.html">lsp_add_clusters()</a></code> </p>
-        </td>
-        <td><p>Adds clusters' ids to a lsp object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_add_quality.html">lsp_add_quality()</a></code> </p>
-        </td>
-        <td><p>Calculates quality of clustering</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_add_sf.html">lsp_add_sf()</a></code> </p>
-        </td>
-        <td><p>Creates or adds a sf object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_add_stars.html">lsp_add_stars()</a></code> </p>
-        </td>
-        <td><p>Creates or adds a stars object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_compare.html">lsp_compare()</a></code> </p>
-        </td>
-        <td><p>Comparision between spatial patterns</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_extract.html">lsp_extract()</a></code> </p>
-        </td>
-        <td><p>Extracts a local landscape</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_search.html">lsp_search()</a></code> </p>
-        </td>
-        <td><p>Search for similar spatial pattern</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_thumbprint.html">lsp_thumbprint()</a></code> </p>
-        </td>
-        <td><p>Creates a spatial signature</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_to_dist.html">lsp_to_dist()</a></code> </p>
-        </td>
-        <td><p>Calculate Distance Matrix</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_transform.html">lsp_transform()</a></code> </p>
-        </td>
-        <td><p>Tranforms lsp objects</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Object of class <code>stars</code> or <code>stars_proxy</code>.</p></td>
+    </tr>
+    <tr>
+      <th>window</th>
+      <td><p>Specifies areas for analysis. It can be either: <code>NULL</code>, a numeric value, or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed for a whole area. If the <code>window</code> argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></td>
+    </tr>
+    <tr>
+      <th>id</th>
+      <td><p>Id of the local landscape - it is possible to find in the output of <code><a href='lsp_thumbprint.html'>lsp_thumbprint()</a></code>, <code><a href='lsp_search.html'>lsp_search()</a></code>, <code><a href='lsp_compare.html'>lsp_compare()</a></code>, or <code><a href='lsp_add_clusters.html'>lsp_add_clusters()</a></code>.</p></td>
+    </tr>
     </table>
-  </div>
 
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stars</span>)
+<span class='no'>landform</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landform.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
+<span class='no'>ecoregions</span> <span class='kw'>=</span> <span class='fu'>read_sf</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"vector/ecoregions.gpkg"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
+<span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='fu'>lsp_extract</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>landform</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>1895</span>))</div><div class='img'><img src='lsp_extract-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='fu'>lsp_extract</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>landform</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>ecoregions</span>[<span class='st'>"id"</span>], <span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>7</span>))</div><div class='img'><img src='lsp_extract-2.png' alt='' width='700' height='433' /></div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
