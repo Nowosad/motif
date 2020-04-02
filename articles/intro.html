@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.9</span>
       </span>
     </div>
 
@@ -128,8 +128,8 @@
 <h3 class="hasAnchor">
 <a href="#whole-area" class="anchor"></a>Whole area</h3>
 <p>We can see that most of the island is covered by forest, with some agriculture and smaller areas of the other classes. It is also reasonably easy to describe these proportions (so-called composition) numerically - we just need to count cells of each category for the whole data.</p>
-<p>We can use the <code><a href="../reference/lsp_thumbprint.html">lsp_thumbprint()</a></code> function for this. It requires a <code>stars</code> object as the first input and the type of a signature to calculate - <code>"composition"</code> in this case. There are also several additional arguments, including <code>threshold</code> - a share (between 0 and 1) of NA cells to allow signature calculation and <code>normalization</code> - decision if the output vector should be normalized.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">landcover_comp</span> <span class="kw">=</span> <span class="fu"><a href="../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>,
+<p>We can use the <code><a href="../reference/lsp_signature.html">lsp_signature()</a></code> function for this. It requires a <code>stars</code> object as the first input and the type of a signature to calculate - <code>"composition"</code> in this case. There are also several additional arguments, including <code>threshold</code> - a share (between 0 and 1) of NA cells to allow signature calculation and <code>normalization</code> - decision if the output vector should be normalized.</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">landcover_comp</span> <span class="kw">=</span> <span class="fu"><a href="../reference/lsp_signature.html">lsp_signature</a></span>(<span class="no">landcover</span>,
                                 <span class="kw">type</span> <span class="kw">=</span> <span class="st">"composition"</span>,
                                 <span class="kw">threshold</span> <span class="kw">=</span> <span class="fl">1</span>,
                                 <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"none"</span>)
@@ -138,7 +138,7 @@
 <span class="co">#&gt;      id na_prop signature        </span>
 <span class="co">#&gt; * &lt;int&gt;   &lt;dbl&gt; &lt;list&gt;           </span>
 <span class="co">#&gt; 1     1   0.666 &lt;int[,7] [1 × 7]&gt;</span></pre></body></html></div>
-<p>The output of <code><a href="../reference/lsp_thumbprint.html">lsp_thumbprint()</a></code>, <code>landcover_comp</code>, has a new class <code>lsp</code>. It is a tibble with three columns:</p>
+<p>The output of <code><a href="../reference/lsp_signature.html">lsp_signature()</a></code>, <code>landcover_comp</code>, has a new class <code>lsp</code>. It is a tibble with three columns:</p>
 <ul>
 <li>
 <code>id</code> - an id of each window (area)</li>
@@ -164,7 +164,7 @@
 <p>Another approach would be to divide this large area into many regular rectangles (we refer to them as local landscapes) and to calculate a signature in each of them. The previously used signature, <code>"composition"</code> has one important flaw though. It only describes how many cells of each category we have. However, it does not distinguish an area with the left half of forest and right half of agriculture from an area with forest mixed with agriculture (think of a green-yellow checkerboard). Gladly, several more types of signatures do exist. It includes a co-occurrence matrix (<code>type = "coma"</code>). <code>"coma"</code> goes to each cell, looks at its value, looks at the values of its neighbors and counts how many neighbors of each class our central cell has.</p>
 <p><img src="intro_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>This time, we set the <code>window</code> argument to <code>200</code>, which means that each local landscape will consist of 200 by 200 cells. In this example, each cell has a resolution of 300 by 300 meters, therefore a local landscape will be 60000 by 60000 meters (60 by 60 kilometers).</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">landcover_coma</span> <span class="kw">=</span> <span class="fu"><a href="../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"coma"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">200</span>)
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">landcover_coma</span> <span class="kw">=</span> <span class="fu"><a href="../reference/lsp_signature.html">lsp_signature</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"coma"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">200</span>)
 <span class="no">landcover_coma</span>
 <span class="co">#&gt; # A tibble: 232 x 3</span>
 <span class="co">#&gt;       id na_prop signature        </span>
@@ -199,8 +199,8 @@
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">ecoregions</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_read.html">read_sf</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"vector/ecoregions.gpkg"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"motif"</span>))</pre></body></html></div>
 <p>This dataset has 22 rows, where each row relates to one ecoregion. Each ecoregion is also related to a unique value in the <code>id</code> column.</p>
 <p><img src="intro_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
-<p>Now, we need to provide this dataset and its identity column to the <code>window</code> argument of <code><a href="../reference/lsp_thumbprint.html">lsp_thumbprint()</a></code>.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">landcover_coma_e</span> <span class="kw">=</span> <span class="fu"><a href="../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"coma"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="no">ecoregions</span>[<span class="st">"id"</span>])
+<p>Now, we need to provide this dataset and its identity column to the <code>window</code> argument of <code><a href="../reference/lsp_signature.html">lsp_signature()</a></code>.</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">landcover_coma_e</span> <span class="kw">=</span> <span class="fu"><a href="../reference/lsp_signature.html">lsp_signature</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"coma"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="no">ecoregions</span>[<span class="st">"id"</span>])
 <span class="no">landcover_coma_e</span>
 <span class="co">#&gt; # A tibble: 22 x 3</span>
 <span class="co">#&gt;       id na_prop signature        </span>

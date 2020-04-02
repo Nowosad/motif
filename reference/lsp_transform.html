@@ -48,7 +48,7 @@
 
 <meta property="og:title" content="Tranforms lsp objects — lsp_transform" />
 <meta property="og:description" content="It allows for transforming spatial signatures (outputs of
-the lsp_thumbprint() function) using user-provided functions.
+the lsp_signature() function) using user-provided functions.
 See examples for more details." />
 <meta property="og:image" content="/logo.png" />
 
@@ -82,7 +82,7 @@ See examples for more details." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.9</span>
       </span>
     </div>
 
@@ -152,7 +152,7 @@ See examples for more details." />
 
     <div class="ref-description">
     <p>It allows for transforming spatial signatures (outputs of
-the <code><a href='lsp_thumbprint.html'>lsp_thumbprint()</a></code> function) using user-provided functions.
+the <code><a href='lsp_signature.html'>lsp_signature()</a></code> function) using user-provided functions.
 See examples for more details.</p>
     </div>
 
@@ -164,7 +164,7 @@ See examples for more details.</p>
     <tr>
       <th>x</th>
       <td><p>Object of class <code>lsp</code> - usually the output of
-the <code><a href='lsp_thumbprint.html'>lsp_thumbprint()</a></code> function.</p></td>
+the <code><a href='lsp_signature.html'>lsp_signature()</a></code> function.</p></td>
     </tr>
     <tr>
       <th>fun</th>
@@ -187,7 +187,7 @@ For irregular windows, it is the values provided in the <code>window</code> argu
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stars</span>)
 <span class='no'>landform</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landform.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
-<span class='no'>result_coma500</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_thumbprint.html'>lsp_thumbprint</a></span>(<span class='no'>landform</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"coma"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>500</span>)
+<span class='no'>result_coma500</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_signature.html'>lsp_signature</a></span>(<span class='no'>landform</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"coma"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>500</span>)
 
 <span class='co'>#see how the first signature looks</span>
 <span class='no'>result_coma500</span>$<span class='no'>signature</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt;         1    2    5     6    7     8     9    10   11    12   13    14    15 16

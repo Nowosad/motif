@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.9</span>
       </span>
     </div>
 
@@ -134,11 +134,11 @@
 <a href="#regular-local-landscapes" class="anchor"></a>Regular local landscapes</h2>
 <p>In the first example, we divide the whole area into many regular local landscapes, and find a way to cluster them based on their patterns.</p>
 <p><img src="cluster_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
-<p>It starts with calculating a signature for each local landscape using the <code><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint()</a></code> function. Here, we use the co-occurrence vector (<code>type = "cove"</code>) representation on local landscapes of 100 by 100 cells (<code>window = 100</code>). Distance measures, used in one of the next steps, often require normalization of the vector, therefore we transform the representation to sum to one.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">landcover_cove</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>,
+<p>It starts with calculating a signature for each local landscape using the <code><a href="../../reference/lsp_signature.html">lsp_signature()</a></code> function. Here, we use the co-occurrence vector (<code>type = "cove"</code>) representation on local landscapes of 100 by 100 cells (<code>window = 100</code>). Distance measures, used in one of the next steps, often require normalization of the vector, therefore we transform the representation to sum to one.</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">landcover_cove</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_signature.html">lsp_signature</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>,
                                 <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>, <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"pdf"</span>)</pre></body></html></div>
 <p>Read the <a href="https://nowosad.github.io/motif/articles/intro.html">Introduction to the motif package</a> vignette to learn more about spatial signatures.</p>
-<p>Next, we need to calculate the distance (dissimilairy) between each local landscape’s pattern. This can be done with the <code><a href="../../reference/lsp_to_dist.html">lsp_to_dist()</a></code> function, where we must provide the output of <code><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint()</a></code> and a distance/dissimilarity measure used (<code>dist_fun = "jensen-shannon"</code>).</p>
+<p>Next, we need to calculate the distance (dissimilairy) between each local landscape’s pattern. This can be done with the <code><a href="../../reference/lsp_to_dist.html">lsp_to_dist()</a></code> function, where we must provide the output of <code><a href="../../reference/lsp_signature.html">lsp_signature()</a></code> and a distance/dissimilarity measure used (<code>dist_fun = "jensen-shannon"</code>).</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">landcover_dist</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_to_dist.html">lsp_to_dist</a></span>(<span class="no">landcover_cove</span>, <span class="kw">dist_fun</span> <span class="kw">=</span> <span class="st">"jensen-shannon"</span>)
 <span class="co">#&gt; Metric: 'jensen-shannon' using unit: 'log2'; comparing: 941 vectors.</span></pre></body></html></div>
 <p>The output, <code>landcover_dist</code>, is of a <code>dist</code> class.</p>
@@ -228,8 +228,8 @@
 <div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">ecoregions</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_read.html">read_sf</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"vector/ecoregions.gpkg"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"motif"</span>))</pre></body></html></div>
 <p>This dataset has 22 rows, where each row relates to one ecoregion. Each ecoregion is also related to a unique value in the <code>id</code> column.</p>
 <p><img src="cluster_files/figure-html/unnamed-chunk-28-1.png" width="672"></p>
-<p>The first step here is to calculate a signature for each ecoregion using <code><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint()</a></code>:</p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">landcover_cove2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>,
+<p>The first step here is to calculate a signature for each ecoregion using <code><a href="../../reference/lsp_signature.html">lsp_signature()</a></code>:</p>
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">landcover_cove2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_signature.html">lsp_signature</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>,
                                  <span class="kw">window</span> <span class="kw">=</span> <span class="no">ecoregions</span>[<span class="st">"id"</span>], <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"pdf"</span>)</pre></body></html></div>
 <p>Next step involves calculating distances between signatures of ecoregions:</p>
 <div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">landcover_dist2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_to_dist.html">lsp_to_dist</a></span>(<span class="no">landcover_cove2</span>, <span class="kw">dist_fun</span> <span class="kw">=</span> <span class="st">"jensen-shannon"</span>)

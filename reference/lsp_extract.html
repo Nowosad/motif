@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.9</span>
       </span>
     </div>
 
@@ -163,11 +163,11 @@
     </tr>
     <tr>
       <th>window</th>
-      <td><p>Specifies areas for analysis. It can be either: <code>NULL</code>, a numeric value, or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed for a whole area. If the <code>window</code> argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></td>
+      <td><p>Specifies areas for analysis. It can be either: <code>NULL</code>, a numeric value, or an <code>sf</code> object.</p></td>
     </tr>
     <tr>
       <th>id</th>
-      <td><p>Id of the local landscape - it is possible to find in the output of <code><a href='lsp_thumbprint.html'>lsp_thumbprint()</a></code>, <code><a href='lsp_search.html'>lsp_search()</a></code>, <code><a href='lsp_compare.html'>lsp_compare()</a></code>, or <code><a href='lsp_add_clusters.html'>lsp_add_clusters()</a></code>.</p></td>
+      <td><p>Id of the local landscape - it is possible to find in the output of <code><a href='lsp_signature.html'>lsp_signature()</a></code>, <code><a href='lsp_search.html'>lsp_search()</a></code>, <code><a href='lsp_compare.html'>lsp_compare()</a></code>, or <code><a href='lsp_add_clusters.html'>lsp_add_clusters()</a></code>.</p></td>
     </tr>
     </table>
 
@@ -176,7 +176,11 @@
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stars</span>)
 <span class='no'>landform</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landform.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
 <span class='no'>ecoregions</span> <span class='kw'>=</span> <span class='fu'>read_sf</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"vector/ecoregions.gpkg"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
-<span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='fu'>lsp_extract</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>landform</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>1895</span>))</div><div class='img'><img src='lsp_extract-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='fu'>lsp_extract</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>landform</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>ecoregions</span>[<span class='st'>"id"</span>], <span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>7</span>))</div><div class='img'><img src='lsp_extract-2.png' alt='' width='700' height='433' /></div></pre>
+
+<span class='no'>extract1</span> <span class='kw'>=</span> <span class='fu'>lsp_extract</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>landform</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>1895</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>extract1</span>)</div><div class='img'><img src='lsp_extract-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>extract2</span> <span class='kw'>=</span> <span class='fu'>lsp_extract</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>landform</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>ecoregions</span>[<span class='st'>"id"</span>], <span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>7</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>extract2</span>)</div><div class='img'><img src='lsp_extract-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

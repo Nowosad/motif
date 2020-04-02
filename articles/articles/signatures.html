@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.9</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@
 
     
     
-<p>The fundamental element of the pattern-based spatial analysis is a numerical describtion of spatial patterns (so-called signature). This vignette shows how to derive spatial signatures using the <code><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint()</a></code> function on example datasets. Let’s start by attaching neccesary packages:</p>
+<p>The fundamental element of the pattern-based spatial analysis is a numerical describtion of spatial patterns (so-called signature). This vignette shows how to derive spatial signatures using the <code><a href="../../reference/lsp_signature.html">lsp_signature()</a></code> function on example datasets. Let’s start by attaching neccesary packages:</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">motif</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">stars</span>)
 <span class="co">#&gt; Loading required package: abind</span>
@@ -145,7 +145,7 @@
 <h2 class="hasAnchor">
 <a href="#a-co-occurrence-matrix-coma-representation---one-layer" class="anchor"></a>A co-occurrence matrix (<code>"coma"</code>) representation - one layer</h2>
 <p>The first type of signature is a co-occurrence matrix (<code>"coma"</code>). It requires just one layer (one attribute in a <code>stars</code> object).</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">coma_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"coma"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>)
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">coma_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_signature.html">lsp_signature</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"coma"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>)
 <span class="no">coma_output</span>
 <span class="co">#&gt; # A tibble: 941 x 3</span>
 <span class="co">#&gt;       id na_prop signature        </span>
@@ -181,7 +181,7 @@
 <span class="co">#&gt; 6 0     0 0 0 0 0   0</span>
 <span class="co">#&gt; 7 0   114 0 0 0 0 822</span></pre></body></html></div>
 <p>Co-occurrence vector (<code>"cove"</code>) is rearrangement of a co-occurrence matrix into one-dimensional object:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">cove_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>)
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">cove_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_signature.html">lsp_signature</a></span>(<span class="no">landcover</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"cove"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>)
 <span class="no">cove_output</span>
 <span class="co">#&gt; # A tibble: 941 x 3</span>
 <span class="co">#&gt;       id na_prop signature          </span>
@@ -204,7 +204,7 @@
 <h2 class="hasAnchor">
 <a href="#a-weighted-co-occurrence-matrix-wecoma-representation---two-layers" class="anchor"></a>A weighted co-occurrence matrix (<code>wecoma</code>) representation - two layers</h2>
 <p>The next type of signature is a weighted co-occurrence matrix (<code>"wecoma"</code>). It requires two layers - a <code>stars</code> object with two attributes. The first one is a categorical raster data, while the second one is a continuous raster data containing weights.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">wecoma_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">landcover</span>, <span class="no">random_ndvi</span>),
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">wecoma_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_signature.html">lsp_signature</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">landcover</span>, <span class="no">random_ndvi</span>),
                                <span class="kw">type</span> <span class="kw">=</span> <span class="st">"wecoma"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>)
 <span class="no">wecoma_output</span>
 <span class="co">#&gt; # A tibble: 941 x 3</span>
@@ -222,7 +222,7 @@
 <span class="co">#&gt; 10    82  0      &lt;dbl[,7] [7 × 7]&gt;</span>
 <span class="co">#&gt; # … with 931 more rows</span></pre></body></html></div>
 <p>Weighted co-occurrence vector (<code>"wecove"</code>) is rearrangement of a weighted co-occurrence matrix into one-dimensional object:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">wecove_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">landcover</span>, <span class="no">random_ndvi</span>),
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">wecove_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_signature.html">lsp_signature</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">landcover</span>, <span class="no">random_ndvi</span>),
                                <span class="kw">type</span> <span class="kw">=</span> <span class="st">"wecove"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>)
 <span class="no">wecove_output</span>
 <span class="co">#&gt; # A tibble: 941 x 3</span>
@@ -245,10 +245,10 @@
 <h2 class="hasAnchor">
 <a href="#an-integrated-co-occurrence-matrix-wecoma-representation---two-or-more-layers" class="anchor"></a>An integrated co-occurrence matrix (<code>wecoma</code>) representation - two or more layers</h2>
 <p>The next type of signature is an integrated co-occurrence matrix (<code>incoma</code>). It requires two or more layers - a <code>stars</code> object with two or more attributes. All layers must be categorical raster data.</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">incoma_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">landcover</span>, <span class="no">landform</span>),
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">incoma_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_signature.html">lsp_signature</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">landcover</span>, <span class="no">landform</span>),
                                <span class="kw">type</span> <span class="kw">=</span> <span class="st">"incoma"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>)</pre></body></html></div>
 <p>Integrated co-occurrence vector (<code>"incove"</code>) is rearrangement of an integrated co-occurrence matrix into one-dimensional object:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">incove_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">landcover</span>, <span class="no">landform</span>),
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">incove_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_signature.html">lsp_signature</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">landcover</span>, <span class="no">landform</span>),
                                <span class="kw">type</span> <span class="kw">=</span> <span class="st">"incove"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>)</pre></body></html></div>
 <p>Learn more about these representations at <a href="https://nowosad.github.io/comat/articles/incoma.html" class="uri">https://nowosad.github.io/comat/articles/incoma.html</a></p>
 </div>
@@ -256,7 +256,7 @@
 <h2 class="hasAnchor">
 <a href="#a-composition-representation-composition---one-layer" class="anchor"></a>A composition representation (<code>"composition"</code>) - one layer</h2>
 <p>A composition signature describes proportions of categories in a local landscape. It requires one layer (a <code>stars</code> object with one attribute).</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">composition_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>,
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">composition_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_signature.html">lsp_signature</a></span>(<span class="no">landcover</span>,
                                     <span class="kw">type</span> <span class="kw">=</span> <span class="st">"composition"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>)
 <span class="no">composition_output</span>
 <span class="co">#&gt; # A tibble: 941 x 3</span>
@@ -278,7 +278,7 @@
 <span class="co">#&gt;                 1         2 3            4 5 6          7</span>
 <span class="co">#&gt; [1,] 0.0003110904 0.9581583 0 0.0007777259 0 0 0.04075284</span></pre></body></html></div>
 <p>To get an actual number of cells of each category, the <code>normalization</code> should be set to <code>"none"</code>:</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">composition_output2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>,
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">composition_output2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_signature.html">lsp_signature</a></span>(<span class="no">landcover</span>,
                                     <span class="kw">type</span> <span class="kw">=</span> <span class="st">"composition"</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>,
                                     <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"none"</span>)
 <span class="no">composition_output2</span>$<span class="no">signature</span><span class="kw">[[</span><span class="fl">1</span>]]
@@ -293,7 +293,7 @@
   <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">x</span><span class="kw">[[</span><span class="fl">1</span>]])))
 }</pre></body></html></div>
 <p>Importantly, we need to set <code>normalization = "none"</code> to prevent the normalization of the output.</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">my_fun_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_thumbprint.html">lsp_thumbprint</a></span>(<span class="no">landcover</span>,
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">my_fun_output</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_signature.html">lsp_signature</a></span>(<span class="no">landcover</span>,
                                <span class="kw">type</span> <span class="kw">=</span> <span class="no">my_fun</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>,
                                <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"none"</span>)
 <span class="no">my_fun_output</span>
