@@ -2,10 +2,10 @@ pandoc: 2.7.3
 pkgdown: 1.5.0.9000
 pkgdown_sha: 2bdebb7e4010d1b936558c79ad0b7ebf1e23f420
 articles:
-  cluster: articles/cluster.html
-  compare: articles/compare.html
-  search: articles/search.html
-  signatures: articles/signatures.html
-  intro: intro.html
-last_built: 2020-04-02T11:54Z
+  v2_signatures: articles/v2_signatures.html
+  v3_search: articles/v3_search.html
+  v4_compare: articles/v4_compare.html
+  v5_cluster: articles/v5_cluster.html
+  v1_intro: v1_intro.html
+last_built: 2020-04-02T13:13Z
 
