@@ -117,7 +117,46 @@ landcover_grid_sf = lsp_add_clusters(landcover_cove, clusters)
 plot(landcover_grid_sf["clust"], pal = safe_pal6)
 ```
 
-<!-- ADD EXAMPLES OF EACH CLASS!! -->
+#### Samples
+
+Now, it is possible see some examples of each cluster.
+
+```{r, echo=FALSE}
+set.seed(2214)
+```
+
+For example, we can get id values of randomly selected local landscapes from the first cluster.
+
+```{r}
+landcover_grid_sf_1 = subset(landcover_grid_sf, clust == 1)
+sample(landcover_grid_sf_1$id, 3)
+```
+
+Next, we can extract them using `lsp_extract()`.
+This cluster contains landscapes mostly covered by forest with small areas of agriculture.
+
+```{r}
+plot(lsp_extract(landcover, window = 100, id = 1229), key.pos = NULL)
+plot(lsp_extract(landcover, window = 100, id = 1237), key.pos = NULL)
+plot(lsp_extract(landcover, window = 100, id = 687), key.pos = NULL)
+```
+
+This approach can be used for any other cluster.
+
+```{r}
+landcover_grid_sf_6 = subset(landcover_grid_sf, clust == 6)
+sample(landcover_grid_sf_6$id, 3)
+```
+
+The sixth cluster is covered by frest, grassland, with smaller areas of water and sparse vegetation.
+
+```{r}
+plot(lsp_extract(landcover, window = 100, id = 2098), key.pos = NULL)
+plot(lsp_extract(landcover, window = 100, id = 2173), key.pos = NULL)
+plot(lsp_extract(landcover, window = 100, id = 2172), key.pos = NULL)
+```
+
+#### Quality
 
 We can also calculate the quality of the clusterings with the `lsp_add_quality()` function, which requires an output of `lsp_add_clusters()` as the first argument and output of `lsp_to_dist()` as the second one.
 It adds three new variables: `inhomogeneity`, `isolation`, and `quality`.
@@ -233,6 +272,30 @@ The results show that most area of New Guinea belongs to the second clusters, wi
 ```{r}
 plot(landcover_grid_sf2["clust"], pal = safe_pal4)
 ```
+
+#### Samples
+
+```{r, echo=FALSE}
+set.seed(66666252)
+```
+
+The first cluser, for example, consists of nine ecoregions, from which we sampled only three.
+
+```{r}
+landcover_grid_sf2_1 = subset(landcover_grid_sf2, clust == 1)
+sample(landcover_grid_sf2_1$id, 3)
+```
+
+Next, we can extract their land cover using `lsp_extract()`.
+This cluster contains landscapes mostly covered by forest with small areas of agriculture.
+
+```{r}
+plot(lsp_extract(landcover, window = ecoregions["id"], id = 10), key.pos = NULL)
+plot(lsp_extract(landcover, window = ecoregions["id"], id = 1), key.pos = NULL)
+plot(lsp_extract(landcover, window = ecoregions["id"], id = 22), key.pos = NULL)
+```
+
+#### Quality
 
 Final step involves calculating the quality metrics of the obtained clusters:
 
