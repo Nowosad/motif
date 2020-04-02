@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 The fundamental element of the pattern-based spatial analysis is a numerical describtion of spatial patterns (so-called signature).
-This vignette shows how to derive spatial signatures using the `lsp_thumbprint()` function on example datasets.
+This vignette shows how to derive spatial signatures using the `lsp_signature()` function on example datasets.
 Let's start by attaching neccesary packages:
 
 ```{r}
@@ -75,7 +75,7 @@ The first type of signature is a co-occurrence matrix (`"coma"`).
 It requires just one layer (one attribute in a `stars` object).
 
 ```{r}
-coma_output = lsp_thumbprint(landcover, type = "coma", window = 100)
+coma_output = lsp_signature(landcover, type = "coma", window = 100)
 coma_output
 ```
 
@@ -94,7 +94,7 @@ coma_output$signature[[1]]
 Co-occurrence vector (`"cove"`) is rearrangement of a co-occurrence matrix into one-dimensional object:
 
 ```{r}
-cove_output = lsp_thumbprint(landcover, type = "cove", window = 100)
+cove_output = lsp_signature(landcover, type = "cove", window = 100)
 cove_output
 ```
 
@@ -109,7 +109,7 @@ It requires two layers - a `stars` object with two attributes.
 The first one is a categorical raster data, while the second one is a continuous raster data containing weights.
 
 ```{r}
-wecoma_output = lsp_thumbprint(c(landcover, random_ndvi), 
+wecoma_output = lsp_signature(c(landcover, random_ndvi), 
                                type = "wecoma", window = 100)
 wecoma_output
 ```
@@ -117,7 +117,7 @@ wecoma_output
 Weighted co-occurrence vector (`"wecove"`) is rearrangement of a weighted co-occurrence matrix into one-dimensional object:
 
 ```{r}
-wecove_output = lsp_thumbprint(c(landcover, random_ndvi),
+wecove_output = lsp_signature(c(landcover, random_ndvi),
                                type = "wecove", window = 100)
 wecove_output
 ```
@@ -131,14 +131,14 @@ It requires two or more layers - a `stars` object with two or more attributes.
 All layers must be categorical raster data.
 
 ```{r}
-incoma_output = lsp_thumbprint(c(landcover, landform),
+incoma_output = lsp_signature(c(landcover, landform),
                                type = "incoma", window = 100)
 ```
 
 Integrated co-occurrence vector (`"incove"`) is rearrangement of an integrated co-occurrence matrix into one-dimensional object:
 
 ```{r}
-incove_output = lsp_thumbprint(c(landcover, landform),
+incove_output = lsp_signature(c(landcover, landform),
                                type = "incove", window = 100)
 ```
 
@@ -150,7 +150,7 @@ A composition signature describes proportions of categories in a local landscape
 It requires one layer (a `stars` object with one attribute).
 
 ```{r}
-composition_output = lsp_thumbprint(landcover, 
+composition_output = lsp_signature(landcover, 
                                     type = "composition", window = 100)
 composition_output
 ```
@@ -164,7 +164,7 @@ composition_output$signature[[1]]
 To get an actual number of cells of each category, the `normalization` should be set to `"none"`:
 
 ```{r}
-composition_output2 = lsp_thumbprint(landcover, 
+composition_output2 = lsp_signature(landcover, 
                                     type = "composition", window = 100,
                                     normalization = "none")
 composition_output2$signature[[1]]
@@ -185,7 +185,7 @@ my_fun = function(x){
 Importantly, we need to set `normalization = "none"` to prevent the normalization of the output.
 
 ```{r}
-my_fun_output = lsp_thumbprint(landcover, 
+my_fun_output = lsp_signature(landcover, 
                                type = my_fun, window = 100,
                                normalization = "none")
 my_fun_output

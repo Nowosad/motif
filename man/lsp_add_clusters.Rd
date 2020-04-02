@@ -8,7 +8,7 @@ lsp_add_clusters(x, clust, output = "sf", window = NULL)
 }
 \arguments{
 \item{x}{Object of class \code{lsp} - usually the output of
-the \code{lsp_thumbprint()} function}
+the \code{lsp_signature()} function}
 
 \item{clust}{Vector containing an id value for each row in \code{x}}
 
@@ -24,7 +24,7 @@ See examples.
 \examples{
 library(stars)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
-landform_cove = lsp_thumbprint(landform,
+landform_cove = lsp_signature(landform,
                                type = "cove",
                                window = 200,
                                normalization = "pdf")

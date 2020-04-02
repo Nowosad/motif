@@ -19,7 +19,7 @@ Describes spatial patterns of categorical raster data for
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/Nowosad/motif}
+  \item \url{https://nowosad.github.io/motif/}
   \item Report bugs at \url{https://github.com/Nowosad/motif/issues}
 }
 

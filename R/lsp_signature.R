@@ -34,12 +34,12 @@
 #'
 #' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 #'
-#' landcover_coma = lsp_thumbprint(landcover, type = "coma", threshold = 0.9, window = 2000)
+#' landcover_coma = lsp_signature(landcover, type = "coma", threshold = 0.9, window = 2000)
 #' landcover_coma
 #'
-#' landcover_comp = lsp_thumbprint(landcover, type = "composition", threshold = 0.9)
+#' landcover_comp = lsp_signature(landcover, type = "composition", threshold = 0.9)
 #' landcover_comp
-lsp_thumbprint = function(x, type, window = NULL, neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL){
+lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL){
 
 # get metadata ------------------------------------------------------------
   x_crs = sf::st_crs(x)

@@ -1,6 +1,6 @@
 context("cluster")
 
-landform_cove = lsp_thumbprint(landform,
+landform_cove = lsp_signature(landform,
                                type = "cove",
                                window = 200,
                                normalization = "pdf")

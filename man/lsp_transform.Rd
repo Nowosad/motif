@@ -8,7 +8,7 @@ lsp_transform(x, fun, ...)
 }
 \arguments{
 \item{x}{Object of class \code{lsp} - usually the output of
-the \code{lsp_thumbprint()} function.}
+the \code{lsp_signature()} function.}
 
 \item{fun}{A user-provided function.}
 
@@ -23,13 +23,13 @@ For irregular windows, it is the values provided in the \code{window} argument,
 }
 \description{
 It allows for transforming spatial signatures (outputs of
-the \code{lsp_thumbprint()} function) using user-provided functions.
+the \code{lsp_signature()} function) using user-provided functions.
 See examples for more details.
 }
 \examples{
 library(stars)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
-result_coma500 = lsp_thumbprint(landform, type = "coma", threshold = 0.5, window = 500)
+result_coma500 = lsp_signature(landform, type = "coma", threshold = 0.5, window = 500)
 
 #see how the first signature looks
 result_coma500$signature[[1]]
