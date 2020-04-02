@@ -73,7 +73,29 @@ tm_shape(compare_1) +
   tm_layout(legend.outside = TRUE)
 ```
 
-<!-- ADDS EXAMPLES -->
+Let's see the local landscape with the largest change in a spatial pattern.
+
+```{r}
+compare_1_max = max(compare_1$dist, na.rm = TRUE)
+unique(compare_1$id[which(compare_1$dist == compare_1_max)])
+```
+
+Its id is `2036`, and its value of change (distance) is about `r round(compare_1_max, 3)`.
+We can extract two maps using the `lsp_extract()` function.
+
+```{r}
+compare_1_2036 = lsp_extract(c(landcoverold, landcover),
+                             window = 100,
+                             id = 2036)
+```
+
+Visualization of this local landscape shows that about 1/3 of this area was covered by agriculture in 2001, but has only a few small areas of agriculture in 2015. 
+
+```{r}
+compare_1_2036 = droplevels(compare_1_2036)
+plot(compare_1_2036[1], main = "2001", key.pos = 4, key.width = lcm(5))
+plot(compare_1_2036[2], main = "2015", key.pos = 4, key.width = lcm(5))
+```
 
 ## Irregular local landscapes
 
@@ -116,4 +138,27 @@ tm_shape(compare_2) +
   tm_layout(legend.outside = TRUE)
 ```
 
-<!-- ADDS EXAMPLES -->
+Let's see the ecoregion with the largest change in a spatial pattern.
+
+```{r}
+compare_2_max = max(compare_2$dist, na.rm = TRUE)
+unique(compare_2$id[which(compare_2$dist == compare_2_max)])
+```
+
+Its id is `18`, and its value of change (distance) is about `r round(compare_2_max, 3)`.
+We can extract two maps using the `lsp_extract()` function.
+
+```{r}
+compare_2_18 = lsp_extract(c(landcoverold, landcover),
+                             window = ecoregions["id"],
+                             id = 18)
+```
+
+The degree of change is distinctly smaller than in the first example above.
+Now, we can see the change from agriculture to forest mostly in the north-east of the ecoregion.
+
+```{r}
+compare_2_18 = droplevels(compare_2_18)
+plot(compare_2_18[1], main = "2001", key.pos = 4, key.width = lcm(5))
+plot(compare_2_18[2], main = "2015", key.pos = 4, key.width = lcm(5))
+```
