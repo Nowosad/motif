@@ -166,6 +166,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
   <span class='no'>type</span>,
   <span class='no'>dist_fun</span>,
   <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"stars"</span>,
   <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -183,6 +184,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
   <span class='no'>type</span>,
   <span class='no'>dist_fun</span>,
   <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"stars"</span>,
   <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -200,6 +202,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
   <span class='no'>type</span>,
   <span class='no'>dist_fun</span>,
   <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"stars"</span>,
   <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -232,6 +235,10 @@ Additional parameters, such as neighbourhood or normalization types, are also av
     <tr>
       <th>window</th>
       <td><p>Specifies areas for analysis. It can be either: <code>NULL</code>, a numeric value, or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed for a whole area. If the <code>window</code> argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></td>
+    </tr>
+    <tr>
+      <th>output</th>
+      <td><p>The class of the output. Either <code>"stars"</code> or <code>"sf"</code></p></td>
     </tr>
     <tr>
       <th>neighbourhood</th>
