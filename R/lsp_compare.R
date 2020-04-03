@@ -11,6 +11,7 @@
 #' @param type Type of the calculated signature. It can be `"coma"` (co-occurrence matrix), `"cove"` (co-occurrence vector), `"cocoma"` (co-located co-occurrence matrix), `"cocove"` (co-located co-occurrence vector), `"wecoma"` (weighted co-occurrence matrix), `"wecove"` (weighted co-occurrence vector), `"incoma"` (integrated co-occurrence matrix), `"incove"` (integrated co-occurrence vector), `"composition"` or any function that can summarize `stars` objects.
 #' @param dist_fun Distance measure used. This function uses the `philentropy::distance` function in the background. Run `philentropy::getDistMethods()` to find possible distance measures.
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
+#' @param output The class of the output. Either `"stars"` or `"sf"`
 #' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
 #' 4 (rook's case) or 8 (queen's case). The default is 4.
 #' @param threshold The share of NA cells to allow metrics calculation.
@@ -49,11 +50,11 @@
 #' c1 = lsp_compare(lc01, lc15, type = "cove",
 #'     dist_fun = "jensen-shannon", window = ecoregions["id"])
 #' plot(c1["dist"])
-lsp_compare = function(x, y, type, dist_fun, window = NULL, neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...) UseMethod("lsp_compare")
+lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...) UseMethod("lsp_compare")
 
 #' @name lsp_compare
 #' @export
-lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
+lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
 
   x_metadata = stars::st_dimensions(x)
 
@@ -97,14 +98,14 @@ lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, neighbourhood 
   colnames(output_x)[which(colnames(output_x) == "na_prop")] = "na_prop_x"
   colnames(output_y)[which(colnames(output_y) == "na_prop")] = "na_prop_y"
 
-  output = cbind(output_x[!names(output_x) == "signature"], output_y["na_prop_y"])
+  output_all = cbind(output_x[!names(output_x) == "signature"], output_y["na_prop_y"])
 
   # unify signatures
   # attributes(output_x)
 
   unit = "log2"
 
-  output$dist = mapply(
+  output_all$dist = mapply(
     distance2,
     output_x$signature,
     output_y$signature,
@@ -115,18 +116,28 @@ lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, neighbourhood 
 
   message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
-  output_stars = lsp_add_stars(x_metadata, window = window)
+  if (output == "stars"){
+    output_stars = lsp_add_stars(x_metadata, window = window)
 
-  output_stars$na_prop_x = output$na_prop_x[match(output_stars$id, output$id)]
-  output_stars$na_prop_y = output$na_prop_y[match(output_stars$id, output$id)]
-  output_stars$dist = output$dist[match(output_stars$id, output$id)]
+    output_stars$na_prop_x = output_all$na_prop_x[match(output_stars$id, output_all$id)]
+    output_stars$na_prop_y = output_all$na_prop_y[match(output_stars$id, output_all$id)]
+    output_stars$dist = output_all$dist[match(output_stars$id, output_all$id)]
 
-  return(output_stars)
+    return(output_stars)
+
+  } else if (output == "sf"){
+    #return sf
+    output_sf = lsp_add_sf(x_metadata, window = window)
+    output_sf = merge(output_sf, output_all,
+                      by.x = names(output_sf)[1], by.y = "id")
+
+    return(output_sf)
+  }
 }
 
 #' @name lsp_compare
 #' @export
-lsp_compare.stars_proxy = function(x, y, type, dist_fun, window = NULL, neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
+lsp_compare.stars_proxy = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
 
   x_metadata = stars::st_dimensions(x)
 
@@ -185,14 +196,14 @@ lsp_compare.stars_proxy = function(x, y, type, dist_fun, window = NULL, neighbou
   colnames(output_x)[which(colnames(output_x) == "na_prop")] = "na_prop_x"
   colnames(output_y)[which(colnames(output_y) == "na_prop")] = "na_prop_y"
 
-  output = cbind(output_x[!names(output_x) == "signature"], output_y["na_prop_y"])
+  output_all = cbind(output_x[!names(output_x) == "signature"], output_y["na_prop_y"])
 
   # unify signatures
   # attributes(output_x)
 
   unit = "log2"
 
-  output$dist = mapply(
+  output_all$dist = mapply(
     distance2,
     output_x$signature,
     output_y$signature,
@@ -203,11 +214,21 @@ lsp_compare.stars_proxy = function(x, y, type, dist_fun, window = NULL, neighbou
 
   message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
-  output_stars = lsp_add_stars(x_metadata, window = window)
+  if (output == "stars"){
+    output_stars = lsp_add_stars(x_metadata, window = window)
 
-  output_stars$na_prop_x = output$na_prop_x[match(output_stars$id, output$id)]
-  output_stars$na_prop_y = output$na_prop_y[match(output_stars$id, output$id)]
-  output_stars$dist = output$dist[match(output_stars$id, output$id)]
+    output_stars$na_prop_x = output_all$na_prop_x[match(output_stars$id, output_all$id)]
+    output_stars$na_prop_y = output_all$na_prop_y[match(output_stars$id, output_all$id)]
+    output_stars$dist = output_all$dist[match(output_stars$id, output_all$id)]
 
-  return(output_stars)
+    return(output_stars)
+
+  } else if (output == "sf"){
+    #return sf
+    output_sf = lsp_add_sf(x_metadata, window = window)
+    output_sf = merge(output_sf, output_all,
+                      by.x = names(output_sf)[1], by.y = "id")
+
+    return(output_sf)
+  }
 }

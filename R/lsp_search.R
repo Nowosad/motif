@@ -11,6 +11,7 @@
 #' @param type Type of the calculated signature. It can be `"coma"` (co-occurrence matrix), `"cove"` (co-occurrence vector), `"cocoma"` (co-located co-occurrence matrix), `"cocove"` (co-located co-occurrence vector), `"wecoma"` (weighted co-occurrence matrix), `"wecove"` (weighted co-occurrence vector), `"incoma"` (integrated co-occurrence matrix), `"incove"` (integrated co-occurrence vector), `"composition"` or any function that can summarize `stars` objects.
 #' @param dist_fun Distance measure used. This function uses the `philentropy::distance` function in the background. Run `philentropy::getDistMethods()` to find possible distance measures.
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
+#' @param output The class of the output. Either `"stars"` or `"sf"`
 #' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
 #' 4 (rook's case) or 8 (queen's case). The default is 4.
 #' @param threshold The share of NA cells to allow metrics calculation.
@@ -59,13 +60,13 @@
 #' s2 = lsp_search(landcover_ext, landcover, type = "cove",
 #'   dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions["id"])
 #' plot(s2["dist"])
-lsp_search = function(x, y, type, dist_fun, window = NULL, neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...) UseMethod("lsp_search")
+lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...) UseMethod("lsp_search")
 
 
 #'
 #' @name lsp_search
 #' @export
-lsp_search.stars = function(x, y, type, dist_fun, window = NULL, neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
+lsp_search.stars = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
 
 
 # get metadata ------------------------------------------------------------
@@ -146,22 +147,26 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, neighbourhood =
   message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
 # prepare result ----------------------------------------------------------
-  output_y$signature = NULL
-  output_stars = lsp_add_stars(y_metadata, window = window)
+  if (output == "stars"){
+    output_y$signature = NULL
+    output_stars = lsp_add_stars(y_metadata, window = window)
 
-  # output_stars$na_prop = NA
-  # output_stars$na_prop[which(output_stars$id %in% output$id)] = output$na_prop
-  output_stars$na_prop = output_y$na_prop[match(output_stars$id, output_y$id)]
+    # output_stars$na_prop = NA
+    # output_stars$na_prop[which(output_stars$id %in% output$id)] = output$na_prop
+    output_stars$na_prop = output_y$na_prop[match(output_stars$id, output_y$id)]
 
-  # output_stars$dist = NA
-  # output_stars$dist[which(output_stars$id %in% output$id)] = output$dist
-  output_stars$dist = output_y$dist[match(output_stars$id, output_y$id)]
+    # output_stars$dist = NA
+    # output_stars$dist[which(output_stars$id %in% output$id)] = output$dist
+    output_stars$dist = output_y$dist[match(output_stars$id, output_y$id)]
 
-  # #return sf
-  # output_sf = lsp_add_sf(y_metadata, window = window)
-  # output_sf = merge(output_sf, output_y,
-  #                   by.x = names(output_sf)[1], by.y = "id")
-  # output_sf
+    return(output_stars)
 
-  return(output_stars)
+  } else if (output == "sf"){
+    #return sf
+    output_sf = lsp_add_sf(y_metadata, window = window)
+    output_sf = merge(output_sf, output_y,
+                      by.x = names(output_sf)[1], by.y = "id")
+
+    return(output_sf)
+  }
 }
