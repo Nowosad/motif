@@ -15,7 +15,7 @@ get_unique_values_proxy = function(x, window_size, nr, nc){
                     nYOff = i,
                     nXSize = nr,
                     nYSize = ny_size)
-    x_vals = stars::read_stars(x_path, RasterIO = rasterio)
+    x_vals = stars::read_stars(x_path, RasterIO = rasterio, proxy = FALSE)
     lapply(x_vals, get_unique_values, TRUE)
   }
   layer_guv = function(x_path, window_size, nr, nc){

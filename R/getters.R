@@ -51,7 +51,7 @@ get_motifels_single_proxy = function(i, x_path, type, directions, window_size,
                   nYSize = ifelse((i + window_size > nc || i + window_size == 1),
                                   nc - i + 1,
                                   window_size))
-  x = stars::read_stars(unlist(x_path), RasterIO = rasterio)
+  x = stars::read_stars(unlist(x_path), RasterIO = rasterio, proxy = FALSE)
   x = lapply(x, function(x) `mode<-`(x, "integer"))
   x = get_motifels(x,
                    type = type,
