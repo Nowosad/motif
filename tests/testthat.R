@@ -4,9 +4,9 @@ library(sf)
 library(motif)
 
 # prepare regular stars ---------------------------------------------------
-landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
-landform = read_stars(system.file("raster/landform.tif", package = "motif"))
-landcoverold = read_stars(system.file("raster/landcover2001.tif", package = "motif"))
+landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"), proxy = FALSE)
+landform = read_stars(system.file("raster/landform.tif", package = "motif"), proxy = FALSE)
+landcoverold = read_stars(system.file("raster/landcover2001.tif", package = "motif"), proxy = FALSE)
 
 # prepare stars proxy -----------------------------------------------------
 landform_p = read_stars(system.file("raster/landform.tif", package = "motif"), proxy = TRUE)
