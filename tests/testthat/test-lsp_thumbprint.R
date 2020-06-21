@@ -66,8 +66,8 @@ test_that("the output structure is correct", {
 })
 
 test_that("the output signature class is correct", {
-  expect_equal(class(result_coma500$signature[[1]]), "matrix")
-  expect_equal(class(result_cove500$signature[[1]]), "matrix")
+  expect_is(result_coma500$signature[[1]], "matrix")
+  expect_is(result_cove500$signature[[1]], "matrix")
   expect_equal(nrow(result_coma500$signature[[1]]), 15)
   expect_equal(ncol(result_coma500$signature[[1]]), 15)
   expect_equal(nrow(result_cove500$signature[[1]]), 1)
