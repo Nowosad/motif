@@ -5,8 +5,6 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/Nowosad/motif.svg?branch=master)](https://travis-ci.org/Nowosad/motif)
 [![GitHub action build
 status](https://github.com/Nowosad/motif/workflows/pkgdown/badge.svg)](https://github.com/Nowosad/motif/actions)
 [![Codecov test
