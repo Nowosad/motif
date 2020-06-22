@@ -3,6 +3,7 @@ context("cluster")
 landform_cove = lsp_signature(landform,
                                type = "cove",
                                window = 200,
+                               threshold = 0.5,
                                normalization = "pdf")
 
 landform_dist = lsp_to_dist(landform_cove,
