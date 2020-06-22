@@ -9,7 +9,7 @@ lsp_signature(
   type,
   window = NULL,
   neighbourhood = 4,
-  threshold = 0.5,
+  threshold = 0.9,
   ordered = TRUE,
   repeated = TRUE,
   normalization = "pdf",
@@ -28,7 +28,7 @@ lsp_signature(
 \item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
 4 (rook's case) or 8 (queen's case). The default is 4.}
 
-\item{threshold}{The share of NA cells to allow metrics calculation.}
+\item{threshold}{The share of NA cells (0-1) to allow metrics calculation.}
 
 \item{ordered}{For \code{"cove"}, \code{"cocove"}, \code{"wecove"} and \code{"incove"} only. The type of pairs considered.
 Either "ordered" (TRUE) or "unordered" (FALSE).
