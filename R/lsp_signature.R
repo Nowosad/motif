@@ -7,7 +7,7 @@
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
 #' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
 #' 4 (rook's case) or 8 (queen's case). The default is 4.
-#' @param threshold The share of NA cells to allow metrics calculation.
+#' @param threshold The share of NA cells (0-1) to allow metrics calculation.
 #' @param ordered For `"cove"`, `"cocove"`, `"wecove"` and `"incove"` only. The type of pairs considered.
 #' Either "ordered" (TRUE) or "unordered" (FALSE).
 #' The default is TRUE.
@@ -39,7 +39,7 @@
 #'
 #' landcover_comp = lsp_signature(landcover, type = "composition", threshold = 0.9)
 #' landcover_comp
-lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL){
+lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 0.9, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL){
 
 # get metadata ------------------------------------------------------------
   x_crs = sf::st_crs(x)
@@ -82,9 +82,10 @@ lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 
 # prepare classes ---------------------------------------------------------
   if (is.null(classes)){
     if (inherits(x, "stars_proxy")){
+      nr_elements = ifelse(nrow(window) < 50, 50, nrow(window))
       classes = get_unique_values_proxy(x,
                                         ifelse(is.null(window_size),
-                                               ceiling(nr / nrow(window)),
+                                               ceiling(nr / nr_elements),
                                                window_size),
                                         nr, nc)
     } else {
