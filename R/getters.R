@@ -166,6 +166,7 @@ get_polygons_all = function(x, type, directions, window,
                      na_action = wecoma_na_action,
                      classes = classes)
     x = tibble::as_tibble(x)
-    x = convert_signatures(x, type, ordered, repeated, normalization)
   }
+  x = convert_signatures(x, type, ordered, repeated, normalization)
+  x
 }
