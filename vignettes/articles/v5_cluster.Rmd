@@ -177,7 +177,7 @@ Isolation (`isolation`) is an average distance between the focus cluster and all
 This value is between 0 and 1, where the large value indicates that the cluster stands out from its surroundings.
 
 ```{r}
-isolation_pal = hcl.colors(6, palette = "Teal", rev = TRUE)
+isolation_pal = hcl.colors(5, palette = "Teal", rev = TRUE)
 plot(landcover_grid_sfq["isolation"], pal = isolation_pal)
 ```
 
@@ -185,7 +185,7 @@ Overall quality (`quality`) is calculated as `1 - (inhomogeneity / isolation)`.
 This value is also between 0 and 1, where increased values indicate increased quality of clustering. 
 
 ```{r}
-quality_pal = hcl.colors(6, palette = "Temps", rev = TRUE)
+quality_pal = hcl.colors(5, palette = "Temps", rev = TRUE)
 plot(landcover_grid_sfq["quality"], pal = quality_pal)
 ```
 
