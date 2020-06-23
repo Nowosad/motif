@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.11</span>
       </span>
     </div>
 
@@ -157,7 +157,7 @@
   <span class='no'>type</span>,
   <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.9</span>,
   <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>repeated</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"pdf"</span>,
@@ -188,7 +188,7 @@
     </tr>
     <tr>
       <th>threshold</th>
-      <td><p>The share of NA cells to allow metrics calculation.</p></td>
+      <td><p>The share of NA cells (0-1) to allow metrics calculation.</p></td>
     </tr>
     <tr>
       <th>ordered</th>

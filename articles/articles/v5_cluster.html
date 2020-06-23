@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.11</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@
       <h1 data-toc-skip>Spatial patterns’ clustering</h1>
                         <h4 class="author">Jakub Nowosad</h4>
             
-            <h4 class="date">2020-06-21</h4>
+            <h4 class="date">2020-06-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Nowosad/motif/blob/master/vignettes/articles/v5_cluster.Rmd"><code>vignettes/articles/v5_cluster.Rmd</code></a></small>
       <div class="hidden name"><code>v5_cluster.Rmd</code></div>
@@ -140,7 +140,7 @@
 <p>Read the <a href="https://nowosad.github.io/motif/articles/intro.html">Introduction to the motif package</a> vignette to learn more about spatial signatures.</p>
 <p>Next, we need to calculate the distance (dissimilairy) between each local landscape’s pattern. This can be done with the <code><a href="../../reference/lsp_to_dist.html">lsp_to_dist()</a></code> function, where we must provide the output of <code><a href="../../reference/lsp_signature.html">lsp_signature()</a></code> and a distance/dissimilarity measure used (<code>dist_fun = "jensen-shannon"</code>).</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">landcover_dist</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/lsp_to_dist.html">lsp_to_dist</a></span>(<span class="no">landcover_cove</span>, <span class="kw">dist_fun</span> <span class="kw">=</span> <span class="st">"jensen-shannon"</span>)
-<span class="co">#&gt; Metric: 'jensen-shannon' using unit: 'log2'; comparing: 941 vectors.</span></pre></body></html></div>
+<span class="co">#&gt; Metric: 'jensen-shannon' using unit: 'log2'; comparing: 1084 vectors.</span></pre></body></html></div>
 <p>The output, <code>landcover_dist</code>, is of a <code>dist</code> class.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">landcover_dist</span>)
 <span class="co">#&gt; [1] "dist"</span></pre></body></html></div>
@@ -167,7 +167,7 @@
 <p>For example, we can get id values of randomly selected local landscapes from the first cluster.</p>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">landcover_grid_sf_1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">landcover_grid_sf</span>, <span class="no">clust</span> <span class="kw">==</span> <span class="fl">1</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="no">landcover_grid_sf_1</span>$<span class="no">id</span>, <span class="fl">3</span>)
-<span class="co">#&gt; [1] 1229 1237  687</span></pre></body></html></div>
+<span class="co">#&gt; [1] 1135 1060 1366</span></pre></body></html></div>
 <p>Next, we can extract them using <code><a href="../../reference/lsp_extract.html">lsp_extract()</a></code>. This cluster contains landscapes mostly covered by forest with small areas of agriculture.</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="fu"><a href="../../reference/lsp_extract.html">lsp_extract</a></span>(<span class="no">landcover</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="fl">1229</span>), <span class="kw">key.pos</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
 <p><img src="v5_cluster_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
@@ -178,7 +178,7 @@
 <p>This approach can be used for any other cluster.</p>
 <div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">landcover_grid_sf_6</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">landcover_grid_sf</span>, <span class="no">clust</span> <span class="kw">==</span> <span class="fl">6</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="no">landcover_grid_sf_6</span>$<span class="no">id</span>, <span class="fl">3</span>)
-<span class="co">#&gt; [1] 2098 2173 2172</span></pre></body></html></div>
+<span class="co">#&gt; [1] 2780 2854 2706</span></pre></body></html></div>
 <p>The sixth cluster is covered by frest, grassland, with smaller areas of water and sparse vegetation.</p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="fu"><a href="../../reference/lsp_extract.html">lsp_extract</a></span>(<span class="no">landcover</span>, <span class="kw">window</span> <span class="kw">=</span> <span class="fl">100</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="fl">2098</span>), <span class="kw">key.pos</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
 <p><img src="v5_cluster_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
@@ -197,11 +197,11 @@
 <span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq</span>[<span class="st">"inhomogeneity"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">inhomogeneity_pal</span>)</pre></body></html></div>
 <p><img src="v5_cluster_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
 <p>Isolation (<code>isolation</code>) is an average distance between the focus cluster and all of its neighbors. This value is between 0 and 1, where the large value indicates that the cluster stands out from its surroundings.</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">isolation_pal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span>(<span class="fl">6</span>, <span class="kw">palette</span> <span class="kw">=</span> <span class="st">"Teal"</span>, <span class="kw">rev</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">isolation_pal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span>(<span class="fl">5</span>, <span class="kw">palette</span> <span class="kw">=</span> <span class="st">"Teal"</span>, <span class="kw">rev</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq</span>[<span class="st">"isolation"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">isolation_pal</span>)</pre></body></html></div>
 <p><img src="v5_cluster_files/figure-html/unnamed-chunk-20-1.png" width="672"></p>
 <p>Overall quality (<code>quality</code>) is calculated as <code>1 - (inhomogeneity / isolation)</code>. This value is also between 0 and 1, where increased values indicate increased quality of clustering.</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">quality_pal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span>(<span class="fl">6</span>, <span class="kw">palette</span> <span class="kw">=</span> <span class="st">"Temps"</span>, <span class="kw">rev</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">quality_pal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span>(<span class="fl">5</span>, <span class="kw">palette</span> <span class="kw">=</span> <span class="st">"Temps"</span>, <span class="kw">rev</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/stars/man/plot.html">plot</a></span>(<span class="no">landcover_grid_sfq</span>[<span class="st">"quality"</span>], <span class="kw">pal</span> <span class="kw">=</span> <span class="no">quality_pal</span>)</pre></body></html></div>
 <p><img src="v5_cluster_files/figure-html/unnamed-chunk-21-1.png" width="672"></p>
 </div>

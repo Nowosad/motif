@@ -82,7 +82,7 @@ See examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.11</span>
       </span>
     </div>
 
@@ -189,7 +189,7 @@ the <code><a href='lsp_signature.html'>lsp_signature()</a></code> function</p></
                                <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"pdf"</span>)
 
 <span class='no'>landform_dist</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_to_dist.html'>lsp_to_dist</a></span>(<span class='no'>landform_cove</span>,
-                            <span class='kw'>dist_fun</span> <span class='kw'>=</span> <span class='st'>"jensen-shannon"</span>)</div><div class='output co'>#&gt; <span class='message'>Metric: 'jensen-shannon' using unit: 'log2'; comparing: 223 vectors.</span></div><div class='input'>
+                            <span class='kw'>dist_fun</span> <span class='kw'>=</span> <span class='st'>"jensen-shannon"</span>)</div><div class='output co'>#&gt; <span class='message'>Metric: 'jensen-shannon' using unit: 'log2'; comparing: 290 vectors.</span></div><div class='input'>
 <span class='no'>landform_hclust</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></span>(<span class='no'>landform_dist</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"ward.D2"</span>)
 <span class='fu'><a href='https://rdrr.io/pkg/stars/man/plot.html'>plot</a></span>(<span class='no'>landform_hclust</span>)</div><div class='img'><img src='lsp_add_clusters-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>clusters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/cutree.html'>cutree</a></span>(<span class='no'>landform_hclust</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>6</span>)
