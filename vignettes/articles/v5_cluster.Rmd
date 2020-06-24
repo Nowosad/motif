@@ -85,7 +85,7 @@ class(landcover_dist)
 ```
 
 This allows it to be used by many existing R functions for clustering, which expect a distance matrix (`dist`) as an input.
-It includes different approaches of hierarchical clustering (`hclust()`, `cluster::agnes()`, `cluster::diana()`) or fuzzy clustering (`funny()`).
+It includes different approaches of hierarchical clustering (`hclust()`, `cluster::agnes()`, `cluster::diana()`) or fuzzy clustering (`cluster::fanny()`).
 More information about clustering techniques in R can be found in [CRAN Task View: Cluster Analysis & Finite Mixture Models](https://cran.r-project.org/web/views/Cluster.html).
 
 We use a hierarchical clustering using `hclust()` in this example.
