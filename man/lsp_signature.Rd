@@ -54,7 +54,7 @@ Object of class \code{lsp}.
 It has three columns: (1) \code{id} - an id of each window.
 For irregular windows, it is the values provided in the \code{window} argument,
 (2) \code{na_prop} - share (0-1) of \code{NA} cells for each window,
-(3) \code{signature} - a list-column containing with calculated signatures
+(3) \code{signature} - a list-column containing calculated signatures
 }
 \description{
 Calculates selected spatial signatures based on categorical raster data. It also allows for calculations for any defined regular and irregular areas. It has several built-in signatures but also allows for any user-defined functions.

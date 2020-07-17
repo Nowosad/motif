@@ -26,7 +26,7 @@
 #' It has three columns: (1) `id` - an id of each window.
 #' For irregular windows, it is the values provided in the `window` argument,
 #' (2) `na_prop` - share (0-1) of `NA` cells for each window,
-#' (3) `signature` - a list-column containing with calculated signatures
+#' (3) `signature` - a list-column containing calculated signatures
 #' @export
 #'
 #' @examples
