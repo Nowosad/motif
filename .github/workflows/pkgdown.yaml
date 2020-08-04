@@ -19,12 +19,12 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
-      - name: Brew
-        #if: runner.os == 'macOS'
-        run: |
-          brew install pkg-config \
-            udunits \
-            gdal
+      # - name: Brew
+      #   #if: runner.os == 'macOS'
+      #   run: |
+      #     brew install pkg-config \
+      #       udunits \
+      #       gdal
 
       - name: Query dependencies
         run: |
