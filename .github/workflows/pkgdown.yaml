@@ -19,6 +19,13 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
+      - name: Brew
+        if: runner.os == 'macOS'
+        run: |
+          brew install pkg-config \
+            udunits \
+            gdal
+
       - name: Query dependencies
         run: |
           install.packages('remotes')
@@ -29,16 +36,8 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: macOS-r-3.6-${{ hashFiles('depends.Rds') }}
-          restore-keys: macOS-r-3.6-
-
-      - name: Brew
-        if: runner.os == 'macOS'
-        run: |
-          brew install pkg-config
-          brew install udunits
-          brew install gdal
-          brew install sqlite3
+          key: macOS-r-4.0-${{ hashFiles('depends.Rds') }}
+          restore-keys: macOS-r-4.0-
 
       - name: Install dependencies
         run: |
