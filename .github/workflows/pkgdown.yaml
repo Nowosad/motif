@@ -13,25 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@master
-      - uses: r-lib/actions/setup-pandoc@master
-      - name: Query dependencies
-        run: |
-          install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-        shell: Rscript {0}
-
-      - name: Cache R packages
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: macOS-r-4.0-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: macOS-r-4.0-1-
-
       - name: Install dependencies
         run: |
-          install.packages("remotes")
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_dev("pkgdown")
+          install.packages(c("remotes", "rcmdcheck"))
+          remotes::install_deps(dependencies = TRUE, type = "binary")
+          remotes::install_cran("tmap", dependencies = TRUE, type = "binary")
+        shell: Rscript {0}
+      - name: Check
+        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
         shell: Rscript {0}
 
       - name: Install package
