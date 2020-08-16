@@ -12,51 +12,30 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
-
       - uses: r-lib/actions/setup-r@master
-        with:
-          r-version: 'release'
-
       - uses: r-lib/actions/setup-pandoc@master
-
-      - name: Brew
-        #if: runner.os == 'macOS'
-        run: |
-          brew install pkg-config \
-            gdal
-
       - name: Query dependencies
         run: |
           install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
       - name: Cache R packages
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: macOS-r-4.0-${{ hashFiles('depends.Rds') }}
-          restore-keys: macOS-r-4.0-
+          key: macOS-r-4.0-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: macOS-r-4.0-1-
 
       - name: Install dependencies
         run: |
           install.packages("remotes")
-          remotes::install_github("RcppCore/Rcpp")
-          remotes::install_github("r-spatial/sf", configure.args = "--with-gdal-config=/usr/local/bin/gdal-config --with-geos-config=/usr/local/bin/geos-config --with-proj-include=/usr/local/include/ --with-proj-lib=/usr/local/lib/")
-          remotes::install_github("r-spatial/leafem")
-          remotes::install_github("mtennekes/tmaptools")
-          remotes::install_github("mtennekes/tmap")
           remotes::install_deps(dependencies = TRUE)
-          # remotes::install_dev("pkgdown")
-          remotes::install_github("r-lib/pkgdown#1276")
+          remotes::install_dev("pkgdown")
         shell: Rscript {0}
 
       - name: Install package
         run: R CMD INSTALL .
-
-      - name: Test coverage
-        run: covr::codecov()
-        shell: Rscript {0}
 
       - name: Deploy package
         run: pkgdown::deploy_to_branch(new_process = FALSE)
