@@ -124,7 +124,7 @@ wecove_output
 
 Learn more about these representations at https://nowosad.github.io/comat/articles/wecoma.html.
 
-## An integrated co-occurrence matrix (`wecoma`) representation - two or more layers
+## An integrated co-occurrence matrix (`incoma`) representation - two or more layers
 
 The next type of signature is an integrated co-occurrence matrix (`incoma`).
 It requires two or more layers - a `stars` object with two or more attributes.
