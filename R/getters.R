@@ -46,11 +46,21 @@ convert_signatures = function(x, type, ordered, repeated, normalization){
 
 get_motifels_single_proxy = function(i, x_path, type, directions, window_size,
                                      window_shift, f, threshold, classes,
-                                     wecoma_fun, wecoma_na_action, nr, nc){
-  rasterio = list(nXOff = 1, nYOff = i, nXSize = nr,
-                  nYSize = ifelse((i + window_size > nc || i + window_size == 1),
-                                  nc - i + 1,
-                                  window_size))
+                                     wecoma_fun, wecoma_na_action, dimensions){
+
+  nc = ncol(dimensions)
+  nr = nrow(dimensions)
+  start_x = dimensions[[1]][[1]]
+  start_y = dimensions[[2]][[1]]
+
+  ny_size = ifelse((i + window_size > nc || i + window_size == 1),
+                   nc - i + 1,
+                   window_size)
+  rasterio = list(nXOff = start_x,
+                  nYOff = (start_y - 1) + i,
+                  nXSize = nr,
+                  nYSize = ny_size)
+
   x = stars::read_stars(unlist(x_path), RasterIO = rasterio, proxy = FALSE)
   x = lapply(x, function(x) `mode<-`(x, "integer"))
   x = get_motifels(x,
@@ -82,7 +92,7 @@ merge_and_update = function(result, window_size, nr){
 get_motifels_all = function(x, type, directions, window_size, window_shift,
                             f, threshold, classes,
                             ordered, repeated, normalization,
-                            wecoma_fun, wecoma_na_action, nr, nc){
+                            wecoma_fun, wecoma_na_action, dimensions){
   type2 = prepare_type(type)
   if (!(inherits(x, "stars_proxy"))){
     x = get_motifels(x,
@@ -97,6 +107,8 @@ get_motifels_all = function(x, type, directions, window_size, window_shift,
                      na_action = wecoma_na_action)
     x = tibble::as_tibble(x)
   } else {
+    nc = ncol(dimensions)
+    nr = nrow(dimensions)
     yoffs = seq(1, nc, by = window_size)
     x = lapply(yoffs,
                FUN = get_motifels_single_proxy,
@@ -110,8 +122,7 @@ get_motifels_all = function(x, type, directions, window_size, window_shift,
                classes = classes,
                wecoma_fun = wecoma_fun,
                wecoma_na_action = wecoma_na_action,
-               nr = nr,
-               nc = nc)
+               dimensions = dimensions)
     x = merge_and_update(x, window_size, nr)
   }
   x = convert_signatures(x, type = type,
@@ -129,6 +140,23 @@ get_polygons_single_proxy = function(window_id, x, window, ...){
   }
   return(result)
 }
+
+# get_polygons_single_proxy = function(window_id, x, window, ...){
+#   # print(window_id)
+#   x_cropped = try(stars::st_as_stars(x[window[window_id, ]]), silent = TRUE)
+#   if (!inherits(x_cropped, "try-error")){
+#     result = lsp_signature(x_cropped, ...)
+#   } else {
+#     result = NULL
+#   }
+#   if (!is.null(result)){
+#     if ((nrow(result) == 1)){
+#       result$id = window[[window_id, 1]]
+#       result$na_prop = NA
+#     }
+#   }
+#   return(result)
+# }
 
 get_polygons_all = function(x, type, directions, window,
                             f, threshold, classes,
