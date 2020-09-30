@@ -2,60 +2,60 @@ context("thumbprint")
 
 result_coma = lsp_signature(landform, type = "coma", threshold = 1)
 result_compositionwindow = lsp_signature(landform, type = "composition",
-                                          threshold = 1, window = ecoregions["id"])
+                                         threshold = 1, window = ecoregions["id"])
 
 result_coma500 = lsp_signature(landform, type = "coma",
-        threshold = 0.5, window = 500)
+                               threshold = 0.5, window = 500)
 result_comap = lsp_signature(landform_p, type = "coma",
-                                 threshold = 1)
+                             threshold = 1)
 result_coma500p = lsp_signature(landform_p, type = "coma",
-                                 threshold = 0.5, window = 500)
+                                threshold = 0.5, window = 500)
 result_comawindow = lsp_signature(landform, type = "coma",
-                                   threshold = 0.5, window = ecoregions["id"])
+                                  threshold = 0.5, window = ecoregions["id"])
 result_comawindowp = lsp_signature(landform_p, type = "coma",
                                    threshold = 0.5, window = ecoregions[1, "id"])
 # result_comawindowp = lsp_signature(landform_p, type = "coma",
 #                                    threshold = 0.5, window = ecoregions["id"])
 result_cove500 = lsp_signature(landform, type = "cove",
-                                threshold = 0.5, window = 500)
+                               threshold = 0.5, window = 500)
 result_one_class = lsp_signature(landform, type = "coma",
-                                  threshold = 0.9, classes = 10)
+                                 threshold = 0.9, classes = 10)
 result_cocove1000 = lsp_signature(c(landform, landcover),
-                                   type = "cocove", threshold = 0.1,
-                                   window = 1000)
+                                  type = "cocove", threshold = 0.1,
+                                  window = 1000)
 result_cocovewindow = lsp_signature(c(landform, landcover),
-                                   type = "cocove", threshold = 0.1,
-                                   window = ecoregions["id"])
+                                    type = "cocove", threshold = 0.1,
+                                    window = ecoregions["id"])
 result_wecove = lsp_signature(c(landform, random_ndvi),
-                               type = "wecove", threshold = 0.9)
+                              type = "wecove", threshold = 0.9)
 result_wecove1000 = lsp_signature(c(landform, random_ndvi),
-                               type = "wecove", threshold = 0.1,
-                               window = 1000)
+                                  type = "wecove", threshold = 0.1,
+                                  window = 1000)
 result_wecovewindow = lsp_signature(c(landform, random_ndvi),
-                                   type = "wecove", threshold = 0.1,
-                                   window = ecoregions["id"])
+                                    type = "wecove", threshold = 0.1,
+                                    window = ecoregions["id"])
 
 result_incove = lsp_signature(c(landcover, landform),
-                               type = "incove", threshold = 0.9)
+                              type = "incove", threshold = 0.9)
 result_incove_p = lsp_signature(c(landcover_p, landform_p),
-                               type = "incoma", threshold = 0.9,
-                               window = 500)
+                                type = "incoma", threshold = 0.9,
+                                window = 500)
 
 result_fun = lsp_signature(landform, type = my_fun, threshold = 0.9)
 result_funwindow = lsp_signature(landform, type = my_fun, threshold = 0.9, window = ecoregions["id"])
 result_fun500 = lsp_signature(landform, type = my_fun, threshold = 0.5,
-                               window = 2000)
+                              window = 2000)
 
 test_that("tests external function", {
   expect_equivalent(result_fun$signature[[1]], 1,
-               tolerance = .001)
+                    tolerance = .001)
   expect_equivalent(result_fun500$signature[[1]], 1,
                     tolerance = .001)
 })
 
 test_that("tests composition", {
   expect_warning({result_composition = lsp_signature(c(landcover, landform),
-                                      type = "composition", threshold = 0.9)})
+                                                     type = "composition", threshold = 0.9)})
   expect_equal(ncol(result_composition$signature[[1]]),
                length(sort(unique(c(landcover$landcover2015.tif)))))
 })
