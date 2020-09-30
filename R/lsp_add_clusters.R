@@ -11,6 +11,7 @@
 #' @param window Specifies areas for analysis. It can be either: `NULL` or an `sf` object. If `window=NULL` calculations are performed based on the metadata from `x`. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
 #'
 #' @examples
+#' \dontrun{
 #' library(stars)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' landform_cove = lsp_signature(landform,
@@ -35,6 +36,7 @@
 #' landform_grid_starsq = lsp_add_quality(landform_grid_stars,
 #'                                        landform_dist)
 #' plot(landform_grid_starsq["quality"])
+#' }
 #' @export
 lsp_add_clusters = function(x, clust, output = "sf", window = NULL){
   x$clust = clust

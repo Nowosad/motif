@@ -22,6 +22,7 @@ The output can be of \code{stars} or \code{sf} class.
 See examples.
 }
 \examples{
+\dontrun{
 library(stars)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 landform_cove = lsp_signature(landform,
@@ -46,4 +47,5 @@ plot(landform_grid_stars["clust"], col = safe_pal)
 landform_grid_starsq = lsp_add_quality(landform_grid_stars,
                                        landform_dist)
 plot(landform_grid_starsq["quality"])
+}
 }

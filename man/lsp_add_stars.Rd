@@ -27,6 +27,7 @@ In the second case, the output converts the \code{lsp} object into
 a \code{stars} object.
 }
 \examples{
+\dontrun{
 library(stars)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 plot(landform)
@@ -37,5 +38,5 @@ lc_cove = lsp_signature(landform, type = "cove", window = 200, normalization = "
 lc_cove_lsp = lsp_add_stars(lc_cove)
 plot(lc_cove_lsp)
 plot(lc_cove_lsp["na_prop"])
-
+}
 }

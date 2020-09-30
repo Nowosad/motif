@@ -93,6 +93,7 @@ This function allows for several types of comparisons using different representa
 Additional parameters, such as neighbourhood or normalization types, are also available.
 }
 \examples{
+\dontrun{
 library(stars)
 
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
@@ -114,4 +115,5 @@ plot(s1["dist"])
 s2 = lsp_search(landcover_ext, landcover, type = "cove",
   dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions["id"])
 plot(s2["dist"])
+}
 }

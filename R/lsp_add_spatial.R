@@ -12,6 +12,7 @@
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
 #'
 #' @examples
+#' \dontrun{
 #' library(stars)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' plot(landform)
@@ -22,7 +23,7 @@
 #' lc_cove_lsp = lsp_add_stars(lc_cove)
 #' plot(lc_cove_lsp)
 #' plot(lc_cove_lsp["na_prop"])
-#'
+#' }
 #' @aliases lsp_add_stars
 #' @rdname lsp_add_stars
 #'
@@ -163,6 +164,7 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
 #'
 #' @examples
+#' \dontrun{
 #' library(stars)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' plot(landform)
@@ -173,7 +175,7 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
 #' lc_cove_lsp = lsp_add_sf(lc_cove)
 #' plot(lc_cove_lsp["id"])
 #' plot(lc_cove_lsp["na_prop"])
-#'
+#' }
 #' @aliases lsp_add_sf
 #' @rdname lsp_add_sf
 #'

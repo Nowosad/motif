@@ -30,6 +30,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(stars)
 #'
 #' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
@@ -39,6 +40,7 @@
 #'
 #' landcover_comp = lsp_signature(landcover, type = "composition", threshold = 0.9)
 #' landcover_comp
+#' }
 lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 0.9, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL){
 
 # get metadata ------------------------------------------------------------
@@ -83,11 +85,15 @@ lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 
   if (is.null(classes)){
     if (inherits(x, "stars_proxy")){
       nr_elements = ifelse(nrow(window) < 50, 50, nrow(window))
-      classes = get_unique_values_proxy(x,
+      # classes = get_unique_values_proxy(x,
+      #                                   ifelse(is.null(window_size),
+      #                                          ceiling(nr / nr_elements),
+      #                                          window_size),
+      #                                   nr, nc)
+      classes = get_unique_values_proxy2(x,
                                         ifelse(is.null(window_size),
                                                ceiling(nr / nr_elements),
-                                               window_size),
-                                        nr, nc)
+                                               window_size))
     } else {
       classes = lapply(x, get_unique_values, TRUE)
     }
@@ -121,8 +127,7 @@ lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 
                      normalization = normalization,
                      wecoma_fun = wecoma_fun,
                      wecoma_na_action = wecoma_na_action,
-                     nr = nr,
-                     nc = nc)
+                     dimensions = stars::st_dimensions(x))
 
   } else {
     x = get_polygons_all(x,
@@ -140,13 +145,15 @@ lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 
   }
 
 # add spatial metadata ----------------------------------------------------
-  attr(x, "metadata") = c(attr(x, "metadata"),
-                          crs = list(x_crs),
-                          bb = list(x_bb),
-                          delta_x = x_delta_col,
-                          delta_y = x_delta_row,
-                          window_size = window_size,
-                          window_shift = window_shift,
-                          use_window = inherits(window, "matrix"))
-  return(structure(x, class = c("lsp", class(x))))
+  if (!is.null(x)){
+    attr(x, "metadata") = c(attr(x, "metadata"),
+                            crs = list(x_crs),
+                            bb = list(x_bb),
+                            delta_x = x_delta_col,
+                            delta_y = x_delta_row,
+                            window_size = window_size,
+                            window_shift = window_shift,
+                            use_window = inherits(window, "matrix"))
+    return(structure(x, class = c("lsp", class(x))))
+  }
 }

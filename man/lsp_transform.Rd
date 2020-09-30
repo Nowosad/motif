@@ -27,6 +27,7 @@ the \code{lsp_signature()} function) using user-provided functions.
 See examples for more details.
 }
 \examples{
+\dontrun{
 library(stars)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 result_coma500 = lsp_signature(landform, type = "coma", threshold = 0.5, window = 500)
@@ -45,5 +46,5 @@ result_coma500_2 = lsp_transform(result_coma500, my_function)
 
 #see how the first signature looks after transformation
 result_coma500_2$signature[[1]]
-
+}
 }

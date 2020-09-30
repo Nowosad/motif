@@ -60,6 +60,7 @@ For irregular windows, it is the values provided in the \code{window} argument,
 Calculates selected spatial signatures based on categorical raster data. It also allows for calculations for any defined regular and irregular areas. It has several built-in signatures but also allows for any user-defined functions.
 }
 \examples{
+\dontrun{
 library(stars)
 
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
@@ -69,4 +70,5 @@ landcover_coma
 
 landcover_comp = lsp_signature(landcover, type = "composition", threshold = 0.9)
 landcover_comp
+}
 }

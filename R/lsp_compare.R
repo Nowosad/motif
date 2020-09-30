@@ -41,6 +41,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(stars)
 #'
 #' lc15 = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
@@ -50,6 +51,7 @@
 #' c1 = lsp_compare(lc01, lc15, type = "cove",
 #'     dist_fun = "jensen-shannon", window = ecoregions["id"])
 #' plot(c1["dist"])
+#' }
 lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...) UseMethod("lsp_compare")
 
 #' @name lsp_compare
@@ -150,16 +152,14 @@ lsp_compare.stars_proxy = function(x, y, type, dist_fun, window = NULL, output =
 
   #test if x == y
 
-  classes_x = get_unique_values_proxy(x,
-                                      ifelse(is.null(window_size),
-                                             ceiling(nrow(x) / nrow(window)),
-                                             window_size),
-                                      nrow(x), ncol(x))
-  classes_y = get_unique_values_proxy(y,
-                                      ifelse(is.null(window_size),
-                                             ceiling(nrow(y) / nrow(window)),
-                                             window_size),
-                                      nrow(y), ncol(y))
+  classes_x = get_unique_values_proxy2(x,
+                                      ifelse(!is.null(window),
+                                             ceiling(nrow(x) / nrow(window_size)),
+                                             window_size))
+  classes_y = get_unique_values_proxy2(y,
+                                      ifelse(!is.null(window),
+                                             ceiling(nrow(y) / nrow(window_size)),
+                                             window_size))
 
   classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
   classes = lapply(classes, unique)

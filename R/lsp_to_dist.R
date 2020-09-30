@@ -20,6 +20,7 @@
 #' @rdname lsp_to_dist
 #'
 #' @examples
+#' \dontrun{
 #' library(stars)
 #' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 #'
@@ -28,6 +29,7 @@
 #'
 #' dist_cov = lsp_to_dist(landcover_cove, dist_fun = "jensen-shannon")
 #' dist_cov
+#' }
 #' @export
 lsp_to_dist = function(x, dist_fun, unit = "log2", p = NULL){
   if (nrow(x) < 2){

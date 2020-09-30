@@ -39,6 +39,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(stars)
 #'
 #' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
@@ -60,6 +61,7 @@
 #' s2 = lsp_search(landcover_ext, landcover, type = "cove",
 #'   dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions["id"])
 #' plot(s2["dist"])
+#' }
 lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...) UseMethod("lsp_search")
 
 
@@ -91,11 +93,10 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, output = "stars
 
   if (inherits(y, "stars_proxy")){
     nr_elements = ifelse(nrow(window) < 50, 50, nrow(window))
-    classes_y = get_unique_values_proxy(y,
+    classes_y = get_unique_values_proxy2(y,
                                         ifelse(is.null(window_size),
                                                ceiling(nrow(y) / nr_elements),
-                                               window_size),
-                                        nrow(y), ncol(y))
+                                               window_size))
   } else {
     y = lapply(y, function(x) `mode<-`(x, "integer"))
     y = stars::st_as_stars(y)

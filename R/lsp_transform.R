@@ -17,6 +17,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(stars)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' result_coma500 = lsp_signature(landform, type = "coma", threshold = 0.5, window = 500)
@@ -35,7 +36,7 @@
 #'
 #' #see how the first signature looks after transformation
 #' result_coma500_2$signature[[1]]
-#'
+#' }
 lsp_transform = function(x, fun, ...){
   x$signature = lapply(x$signature, fun, ...)
   return(x)
