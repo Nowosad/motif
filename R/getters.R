@@ -58,8 +58,10 @@ get_motifels_single_proxy = function(i, x_path, type, directions, window_size,
                    window_size)
   rasterio = list(nXOff = start_x,
                   nYOff = (start_y - 1) + i,
-                  nXSize = nr,
+                  nXSize = unname(nr),
                   nYSize = ny_size)
+
+  # print(rasterio)
 
   x = stars::read_stars(unlist(x_path), RasterIO = rasterio, proxy = FALSE)
   x = lapply(x, function(x) `mode<-`(x, "integer"))

@@ -62,3 +62,4 @@ test_that("tests compare cocove results", {
 test_that("tests compare wecove results", {
   expect_equal(c_wecove$dist[[1]], 0.0002, tolerance = .001)
 })
+

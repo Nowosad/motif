@@ -13,10 +13,27 @@ landform_p = read_stars(system.file("raster/landform.tif", package = "motif"), p
 landcover_p = read_stars(system.file("raster/landcover2015.tif", package = "motif"), proxy = TRUE)
 landcoverold_p = read_stars(system.file("raster/landcover2001.tif", package = "motif"), proxy = TRUE)
 
+# prep test extent --------------------------------------------------------
+t_ext = st_bbox(c(xmin = -400000, xmax = -200000,
+                ymin = -600000, ymax = -400000),
+              crs = st_crs(landcover))
+
+# prepare regular stars ---------------------------------------------------
+landcover = landcover[t_ext]
+landform = landform[t_ext]
+landcoverold = landcoverold[t_ext]
+
+# prepare stars proxy -----------------------------------------------------
+landform_p = st_crop(landform_p, t_ext)
+landcover_p = st_crop(landcover_p, t_ext)
+landcoverold_p = st_crop(landcoverold_p, t_ext)
+
 # prepare poly ------------------------------------------------------------
 ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
 # st_crs(ecoregions) = st_crs(landform_p)
 ecoregions = st_transform(ecoregions, st_crs(landform_p))
+ecoregions = st_crop(ecoregions, t_ext)
+ecoregions = st_cast(ecoregions, "MULTIPOLYGON")
 # prepare cont data -------------------------------------------------------
 set.seed(222)
 random_ndvi = landcover

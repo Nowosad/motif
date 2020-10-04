@@ -17,6 +17,7 @@ lsp_extract(x, window, id)
 Extracts a local landscape from categorical raster data based on its id and provided \code{window} argument.
 }
 \examples{
+\dontrun{
 library(stars)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
@@ -26,4 +27,5 @@ plot(extract1)
 
 extract2 = lsp_extract(x = landform, window = ecoregions["id"], id = 7)
 plot(extract2)
+}
 }
