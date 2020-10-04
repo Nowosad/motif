@@ -38,6 +38,8 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 2.1.0)
+Remotes:
+    r-spatial/stars
 URL: https://nowosad.github.io/motif/
 BugReports: https://github.com/Nowosad/motif/issues
 VignetteBuilder: knitr
