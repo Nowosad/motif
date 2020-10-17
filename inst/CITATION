@@ -1,10 +1,14 @@
 citHeader("To cite motif in publications, please use:")
 
-citEntry(entry = "manual",
+citEntry(entry = "article",
   author = c(person("Jakub", "Nowosad")),
-  title = "motif: Local Pattern Analysis",
-  year = "2019",
-  note = "R package version 0.1.0",
-  url = "https://nowosad.github.io/motif/",
-  textVersion = "Nowosad, J. (2019). motif: Local Pattern Analysis. R package version 0.1.0. https://nowosad.github.io/motif/"
+  title = "Motif: an open-source R tool for pattern-based spatial analysis",
+  journal = "Landscape Ecology",
+  #volume = "122",
+  #pages = "102239",
+  year  = "2020",
+  publisher = "Springer",
+  doi = "10.1007/s10980-020-01135-0",
+  #url = "https://doi.org/10.1016/j.apgeog.2020.102239",
+  textVersion = "Nowosad, J. Motif: an open-source R tool for pattern-based spatial analysis. Landscape Ecol (2020). https://doi.org/10.1007/s10980-020-01135-0"
 )
