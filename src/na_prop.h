@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-double na_prop(const IntegerMatrix& x);
+double na_prop(const IntegerMatrix& x, int size);
 
 // [[Rcpp::export]]
 double na_prop_polygon(const arma::imat& x, const double& no_of_outside_cells);

@@ -1,13 +1,26 @@
 #include "na_prop.h"
 
 // calculates a proportion of cells with NA's
-double na_prop(const IntegerMatrix& x) {
+double na_prop(const IntegerMatrix& x, int size) {
+  double na_prop_result;
 
-  double no_of_cells = x.length();
-  double no_of_na = std::count_if(x.begin(), x.end(),
-                               [](double x){return x == NA_INTEGER;});
+  if (size == 0){
+    double no_of_cells = x.length();
+    double no_of_na = std::count_if(x.begin(), x.end(),
+                                    [](double x){return x == NA_INTEGER;});
+    na_prop_result = no_of_na / no_of_cells;
+  } else {
+    // this is important when the borders of window are beyond the data
+    double no_of_cells_data = x.length();
+    double no_of_cells = size * size;
+    double diff_no_of_cells = no_of_cells - no_of_cells_data;
 
-  return no_of_na / no_of_cells;
+    double no_of_na = std::count_if(x.begin(), x.end(),
+                                    [](double x){return x == NA_INTEGER;});
+
+    na_prop_result = (no_of_na + diff_no_of_cells) / no_of_cells;
+  }
+  return na_prop_result;
 }
 
 // calculates a proportion of cells with NA's

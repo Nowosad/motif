@@ -25,8 +25,8 @@ get_unique_values <- function(x, na_omit) {
     .Call(`_motif_get_unique_values`, x, na_omit)
 }
 
-na_prop <- function(x) {
-    .Call(`_motif_na_prop`, x)
+na_prop <- function(x, size) {
+    .Call(`_motif_na_prop`, x, size)
 }
 
 na_prop_polygon <- function(x, no_of_outside_cells) {

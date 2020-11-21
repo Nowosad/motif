@@ -41,25 +41,25 @@ List get_motifels(const List input,
     all_m_row(0) = m_row;
     all_m_col(0) = m_col;
     if (type == "coma"){
-      na_perc(0) = na_prop(x);
+      na_perc(0) = na_prop(x, size);
       if (na_perc(0) <= threshold){
         result[0] = comat::rcpp_get_coma_internal(x, directions, classes(0));
       }
     } else if (type == "cocoma"){
       IntegerMatrix y = input(1);
-      na_perc(0) = na_prop(x);
+      na_perc(0) = na_prop(x, size);
       if (na_perc(0) <= threshold){
         result[0] = comat::rcpp_get_cocoma_internal(x, y, directions, classes(0), classes(1));
       }
     } else if (type == "wecoma"){
       NumericMatrix w = input(1);
-      na_perc(0) = na_prop(x);
+      na_perc(0) = na_prop(x, size);
       if (na_perc(0) <= threshold){
         result[0] = comat::rcpp_get_wecoma_internal(x, w, directions, classes(0), fun, na_action);
       }
     } else if (type == "incoma"){
       for (int l = 0; l < num_l; l++){
-        na_perc_all(l) = na_prop(input[l]);
+        na_perc_all(l) = na_prop(input[l], size);
       }
       na_perc[0] = max(na_perc_all);
       if (na_perc(0) <= threshold){
@@ -67,13 +67,13 @@ List get_motifels(const List input,
         result[0] = comat::rcpp_get_incoma_matrix(result[0]);
       }
     } else if (type == "composition"){
-      na_perc(0) = na_prop(x);
+      na_perc(0) = na_prop(x, size);
       if (na_perc(0) <= threshold){
         result[0] = get_composition(x, classes(0));
       }
     } else if (type == "fun"){
       for (int l = 0; l < num_l; l++){
-        na_perc_all(l) = na_prop(input[l]);
+        na_perc_all(l) = na_prop(input[l], size);
       }
       na_perc[0] = max(na_perc_all);
       if (na_perc(0) <= threshold){
@@ -108,7 +108,7 @@ List get_motifels(const List input,
           IntegerMatrix motifel_x = x(Range(i, i_max), Range(j, j_max));
           // Rcout << "The value of motifel_x : " << motifel_x << "\n";
 
-          na_perc(nr_of_motifels2) = na_prop(motifel_x);
+          na_perc(nr_of_motifels2) = na_prop(motifel_x, size);
           if (na_perc(nr_of_motifels2) <= threshold){
             result[nr_of_motifels2] = comat::rcpp_get_coma_internal(motifel_x, directions, classes(0));
           }
@@ -116,7 +116,7 @@ List get_motifels(const List input,
         } else if (type == "cocoma"){
           IntegerMatrix y = input(1);
           IntegerMatrix motifel_x = x(Range(i, i_max), Range(j, j_max));
-          na_perc(nr_of_motifels2) = na_prop(motifel_x);
+          na_perc(nr_of_motifels2) = na_prop(motifel_x, size);
           if (na_perc(nr_of_motifels2) <= threshold){
             IntegerMatrix motifel_y = y(Range(i, i_max), Range(j, j_max));
             result[nr_of_motifels2] = comat::rcpp_get_cocoma_internal(motifel_x, motifel_y, directions, classes(0), classes(1));
@@ -124,7 +124,7 @@ List get_motifels(const List input,
         } else if (type == "wecoma"){
           NumericMatrix w = input(1);
           IntegerMatrix motifel_x = x(Range(i, i_max), Range(j, j_max));
-          na_perc(nr_of_motifels2) = na_prop(motifel_x);
+          na_perc(nr_of_motifels2) = na_prop(motifel_x, size);
           if (na_perc(nr_of_motifels2) <= threshold){
             NumericMatrix motifel_w = w(Range(i, i_max), Range(j, j_max));
             result[nr_of_motifels2] = comat::rcpp_get_wecoma_internal(motifel_x, motifel_w, directions, classes(0), fun, na_action);
@@ -134,7 +134,7 @@ List get_motifels(const List input,
             // IntegerMatrix layer_l;
             IntegerMatrix layer_l = wrap(input(l));
             motifel_input(l) = layer_l(Range(i, i_max), Range(j, j_max));
-            na_perc_all(l) = na_prop(motifel_input[l]);
+            na_perc_all(l) = na_prop(motifel_input[l], size);
           }
 
           na_perc[nr_of_motifels2] = max(na_perc_all);
@@ -146,7 +146,7 @@ List get_motifels(const List input,
         } else if (type == "composition"){
           IntegerMatrix motifel_x = x(Range(i, i_max), Range(j, j_max));
 
-          na_perc(nr_of_motifels2) = na_prop(motifel_x);
+          na_perc(nr_of_motifels2) = na_prop(motifel_x, size);
           if (na_perc(nr_of_motifels2) <= threshold){
             result[nr_of_motifels2] = get_composition(motifel_x, classes(0));
           }
@@ -155,7 +155,7 @@ List get_motifels(const List input,
             // IntegerMatrix layer_l;
             IntegerMatrix layer_l = wrap(input(l));
             motifel_input(l) = layer_l(Range(i, i_max), Range(j, j_max));
-            na_perc_all(l) = na_prop(motifel_input[l]);
+            na_perc_all(l) = na_prop(motifel_input[l], size);
           }
 
           na_perc[nr_of_motifels2] = max(na_perc_all);

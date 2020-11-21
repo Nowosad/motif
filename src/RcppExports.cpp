@@ -94,13 +94,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // na_prop
-double na_prop(const IntegerMatrix& x);
-RcppExport SEXP _motif_na_prop(SEXP xSEXP) {
+double na_prop(const IntegerMatrix& x, int size);
+RcppExport SEXP _motif_na_prop(SEXP xSEXP, SEXP sizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const IntegerMatrix& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(na_prop(x));
+    Rcpp::traits::input_parameter< int >::type size(sizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(na_prop(x, size));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -124,7 +125,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_motif_get_motifels", (DL_FUNC) &_motif_get_motifels, 10},
     {"_motif_get_polygons", (DL_FUNC) &_motif_get_polygons, 9},
     {"_motif_get_unique_values", (DL_FUNC) &_motif_get_unique_values, 2},
-    {"_motif_na_prop", (DL_FUNC) &_motif_na_prop, 1},
+    {"_motif_na_prop", (DL_FUNC) &_motif_na_prop, 2},
     {"_motif_na_prop_polygon", (DL_FUNC) &_motif_na_prop_polygon, 2},
     {NULL, NULL, 0}
 };
