@@ -125,7 +125,7 @@ List get_polygons(const List& input,
         na_perc_all(l) = na_prop_polygon(one_layer, ind_not_classes_m.size());
       }
 
-      na_perc(i) = min(na_perc_all);
+      na_perc(i) = max(na_perc_all);
 
       if (na_perc(i) <= threshold){
         result[i] = comat::rcpp_get_incoma_list(polygons_list, directions, classes);
@@ -159,7 +159,7 @@ List get_polygons(const List& input,
         na_perc_all(l) = na_prop_polygon(one_layer, ind_not_classes_m.size());
       }
 
-      na_perc(i) = min(na_perc_all);
+      na_perc(i) = max(na_perc_all);
 
       if (na_perc(i) <= threshold){
         result[i] = f(polygons_list);
