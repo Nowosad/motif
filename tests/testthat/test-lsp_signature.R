@@ -109,7 +109,7 @@ test_that("cocove works corectly", {
 
 test_that("incoma works corectly", {
   expect_equal(result_incove$na_prop,
-               0.6664478, tolerance = .001)
+               0.681991, tolerance = .001)
   expect_equal(ncol(result_incove$signature[[1]]), 484)
 })
 
