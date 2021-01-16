@@ -1,7 +1,7 @@
 #include "get_motifels.h"
 
 // [[Rcpp::export]]
-List get_motifels(const List input,
+List get_motifels(const List& input,
                   std::string type,
                   const arma::imat directions,
                   int size,
