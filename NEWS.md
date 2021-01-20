@@ -1,7 +1,13 @@
+# motif 0.4
+
+* Improves and simplifies tests
+* Fixes code to work on cropped stars proxy
+
 # motif 0.3.12
 
+* The Nowosad (2021) paper has been published <https://doi.org/10.1007/s10980-020-01135-0>)
 * First stable version
 
 # motif 0.0.0.9000
 
-* Added a `NEWS.md` file to track changes to the package.
+* Added a `NEWS.md` file to track changes to the package
