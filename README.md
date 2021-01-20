@@ -17,8 +17,7 @@ raster data for any defined regular and irregular areas. Patterns are
 represented quantitatively using built-in signatures based on
 co-occurrence matrices but also allows for any user-defined functions.
 It enables spatial analysis such as search, change detection, and
-clustering to be performed on spatial
-patterns.
+clustering to be performed on spatial patterns.
 
 ## Installation
 
@@ -57,3 +56,17 @@ See the package’s vignettes:
 Contributions to this package are welcome. The preferred method of
 contribution is through a GitHub pull request. Feel free to contact us
 by creating [an issue](https://github.com/Nowosad/motif/issues).
+
+## Citation
+
+To cite the `motif` package in publications, please use [this
+paper](https://doi.org/10.1007/s10980-020-01135-0):
+
+Nowosad, J. Motif: an open-source R tool for pattern-based spatial
+analysis. Landscape Ecol (2020).
+<https://doi.org/10.1007/s10980-020-01135-0>
+
+LaTeX/BibTeX version can be obtained with:
+
+    library(motif)
+    citation("motif")

@@ -100,8 +100,14 @@ lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, output = "star
   colnames(output_x)[which(colnames(output_x) == "na_prop")] = "na_prop_x"
   colnames(output_y)[which(colnames(output_y) == "na_prop")] = "na_prop_y"
 
-  output_all = cbind(output_x[!names(output_x) == "signature"], output_y["na_prop_y"])
+  joint_ids = intersect(output_x[["id"]], output_y[["id"]])
+  output_x = output_x[output_x[["id"]] %in% joint_ids, ]
+  output_y = output_y[output_y[["id"]] %in% joint_ids, ]
 
+  output_all = cbind(output_x[!names(output_x) == "signature"], output_y["na_prop_y"])
+  # output_all = merge(output_x[!names(output_x) == "signature"],
+  #                    output_y[!names(output_y) == "signature"],
+  #                    by = "id")
   # unify signatures
   # attributes(output_x)
 
