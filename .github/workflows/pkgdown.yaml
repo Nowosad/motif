@@ -15,6 +15,7 @@ jobs:
       - uses: r-lib/actions/setup-r@master
       - name: Install dependencies
         run: |
+          options(repos = c(rspatial = 'https://r-spatial.r-universe.dev', CRAN = 'https://cloud.r-project.org'))
           install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE, type = "binary")
           remotes::install_cran("tmap", dependencies = TRUE, type = "binary")
