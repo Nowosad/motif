@@ -1,6 +1,6 @@
 Package: motif
 Title: Local Pattern Analysis
-Version: 0.3.2
+Version: 0.4.0
 Authors@R: c(
     person(given = "Jakub", family = "Nowosad", 
     role = c("aut", "cre"),
@@ -38,6 +38,8 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 2.1.0)
+Remotes:
+    r-spatial/stars
 URL: https://nowosad.github.io/motif/
 BugReports: https://github.com/Nowosad/motif/issues
 VignetteBuilder: knitr

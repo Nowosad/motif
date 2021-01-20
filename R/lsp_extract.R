@@ -9,6 +9,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(stars)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
@@ -18,6 +19,7 @@
 #'
 #' extract2 = lsp_extract(x = landform, window = ecoregions["id"], id = 7)
 #' plot(extract2)
+#' }
 lsp_extract = function(x, window, id){
   windows_sf = lsp_add_sf(x = x, window = window)
   windows_sf = windows_sf[windows_sf$id == id, ]

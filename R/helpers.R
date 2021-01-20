@@ -24,7 +24,7 @@ get_unique_values_proxy2 = function(x, window_size){
                        window_size)
       rasterio = list(nXOff = start_x,
                       nYOff = (start_y - 1) + shift[i],
-                      nXSize = nr,
+                      nXSize = unname(nr),
                       nYSize = ny_size)
       x_vals = stars::read_stars(x_path, RasterIO = rasterio, proxy = FALSE)
       all_vals[i] = lapply(x_vals, get_unique_values, TRUE)

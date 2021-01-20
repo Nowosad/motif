@@ -12,8 +12,8 @@ result_coma500p = lsp_signature(landform_p, type = "coma",
                                 threshold = 0.5, window = 500)
 result_comawindow = lsp_signature(landform, type = "coma",
                                   threshold = 0.5, window = ecoregions["id"])
-result_comawindowp = lsp_signature(landform_p, type = "coma",
-                                   threshold = 0.5, window = ecoregions[1, "id"])
+suppressWarnings({result_comawindowp = lsp_signature(landform_p, type = "coma",
+                                   threshold = 0.5, window = ecoregions[1, "id"])})
 # result_comawindowp = lsp_signature(landform_p, type = "coma",
 #                                    threshold = 0.5, window = ecoregions["id"])
 result_cove500 = lsp_signature(landform, type = "cove",
@@ -62,14 +62,14 @@ test_that("tests composition", {
 
 test_that("the output structure is correct", {
   expect_equal(dim(result_coma), c(1, 3))
-  expect_equal(dim(result_coma500), c(34, 3))
+  expect_equal(dim(result_coma500), c(4, 3))
 })
 
 test_that("the output signature class is correct", {
   expect_is(result_coma500$signature[[1]], "matrix")
   expect_is(result_cove500$signature[[1]], "matrix")
-  expect_equal(nrow(result_coma500$signature[[1]]), 15)
-  expect_equal(ncol(result_coma500$signature[[1]]), 15)
+  expect_equal(nrow(result_coma500$signature[[1]]), 12)
+  expect_equal(ncol(result_coma500$signature[[1]]), 12)
   expect_equal(nrow(result_cove500$signature[[1]]), 1)
   expect_equal(dim(result_one_class$signature[[1]]), c(1, 1))
 })
@@ -94,25 +94,26 @@ test_that("thumprint works corectly for window", {
   expect_equal(result_comawindow$id,
                ecoregions$id)
   expect_equal(length(result_funwindow$signature[[1]]), 1)
-  expect_equal(length(result_compositionwindow$signature[[1]]), 15)
+  expect_equal(length(result_compositionwindow$signature[[1]]), 12)
 })
 
 test_that("wecoma works corectly", {
   expect_equal(result_wecove$na_prop,
-               0.681, tolerance = .001)
-  expect_equal(ncol(result_wecove$signature[[1]]), 225)
+               0.0982, tolerance = .001)
+  expect_equal(ncol(result_wecove$signature[[1]]), 144)
 })
 
 test_that("cocove works corectly", {
-  expect_equal(ncol(result_cocove1000$signature[[1]]), 105)
+  expect_equal(ncol(result_cocove1000$signature[[1]]), 84)
 })
 
 test_that("incoma works corectly", {
   expect_equal(result_incove$na_prop,
-               0.681991, tolerance = .001)
-  expect_equal(ncol(result_incove$signature[[1]]), 484)
+               0.0555, tolerance = .001)
+  expect_equal(ncol(result_incove$signature[[1]]), 361)
 })
 
 test_that("na_prop works correctly", {
   expect_equal(result_cocovewindow$na_prop, result_wecovewindow$na_prop)
 })
+
