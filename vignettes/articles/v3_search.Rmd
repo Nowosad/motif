@@ -128,7 +128,7 @@ This dataset has 22 rows, where each row relates to one ecoregion.
 Each ecoregion is also related to a unique value in the `id` column.
 
 ```{r, echo=FALSE}
-# ecoregions = st_transform(ecoregions, st_crs(landcover))
+ecoregions = st_transform(ecoregions, st_crs(landcover))
 ```
 
 ```{r, echo=FALSE}
