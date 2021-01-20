@@ -82,7 +82,7 @@ See examples for more details." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -90,7 +90,7 @@ See examples for more details." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -128,7 +128,7 @@ See examples for more details." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/Nowosad/motif/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -156,7 +156,7 @@ the <code><a href='lsp_signature.html'>lsp_signature()</a></code> function) usin
 See examples for more details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lsp_transform</span>(<span class='no'>x</span>, <span class='no'>fun</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>lsp_transform</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>fun</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,54 +185,26 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 (3) <code>signature</code> - a list-column containing with calculated signatures</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stars</span>)
-<span class='no'>landform</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stars/man/read_stars.html'>read_stars</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"raster/landform.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motif"</span>))
-<span class='no'>result_coma500</span> <span class='kw'>=</span> <span class='fu'><a href='lsp_signature.html'>lsp_signature</a></span>(<span class='no'>landform</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"coma"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>500</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/stars/'>stars</a></span><span class='op'>)</span>
+<span class='va'>landform</span> <span class='op'>=</span> <span class='fu'><a href='https://r-spatial.github.io/stars/reference/read_stars.html'>read_stars</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"raster/landform.tif"</span>, package <span class='op'>=</span> <span class='st'>"motif"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>result_coma500</span> <span class='op'>=</span> <span class='fu'><a href='lsp_signature.html'>lsp_signature</a></span><span class='op'>(</span><span class='va'>landform</span>, type <span class='op'>=</span> <span class='st'>"coma"</span>, threshold <span class='op'>=</span> <span class='fl'>0.5</span>, window <span class='op'>=</span> <span class='fl'>500</span><span class='op'>)</span>
 
 <span class='co'>#see how the first signature looks</span>
-<span class='no'>result_coma500</span>$<span class='no'>signature</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt;         1    2    5     6    7     8     9    10   11    12   13    14    15 16
-#&gt; 1  126136  244   91   577   10   641   640   472   19     0   22     0     0  0
-#&gt; 2     244 2292   60    30    0     3     0     0    0     0   26     0     0  0
-#&gt; 5      91   60 7182   418    0   196     0     0    0     0   68     0     0  0
-#&gt; 6     577   30  418 19010    0   483     2     1    0     0  173     0     0  0
-#&gt; 7      10    0    0     0 9760   810   271    27    0     0    0   261     1  0
-#&gt; 8     641    3  196   483  810 86384   536   552    0     0    5   911    61  0
-#&gt; 9     640    0    0     2  271   536 76198  2474  177    52    0    58   303  0
-#&gt; 10    472    0    0     1   27   552  2474 81192    0   164    0    60   926  0
-#&gt; 11     19    0    0     0    0     0   177     0 5728   309    0     0     0  0
-#&gt; 12      0    0    0     0    0     0    52   164  309 36566    0     0     0  0
-#&gt; 13     22   26   68   173    0     5     0     0    0     0 1256     0     0  0
-#&gt; 14      0    0    0     0  261   911    58    60    0     0    0 12310   237  0
-#&gt; 15      0    0    0     0    1    61   303   926    0     0    0   237 26508  0
-#&gt; 16      0    0    0     0    0     0     0     0    0     0    0     0     0  0
-#&gt; 17    904    0    0    38    0   136    10    41    0     0    0     0     0  0
-#&gt;     17
-#&gt; 1  904
-#&gt; 2    0
-#&gt; 5    0
-#&gt; 6   38
-#&gt; 7    0
-#&gt; 8  136
-#&gt; 9   10
-#&gt; 10  41
-#&gt; 11   0
-#&gt; 12   0
-#&gt; 13   0
-#&gt; 14   0
-#&gt; 15   0
-#&gt; 16   0
-#&gt; 17 894</div><div class='input'>
-<span class='no'>my_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>mat</span>){
-    <span class='no'>mat_c</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span>(<span class='no'>mat</span>)
-    <span class='no'>freqs</span> <span class='kw'>=</span> <span class='no'>mat_c</span> / <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>mat</span>)
-    <span class='co'># entropy</span>
-    -<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>freqs</span> * <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log2</a></span>(<span class='no'>freqs</span>), <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-}
+<span class='va'>result_coma500</span><span class='op'>$</span><span class='va'>signature</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 
-<span class='no'>result_coma500_2</span> <span class='kw'>=</span> <span class='fu'>lsp_transform</span>(<span class='no'>result_coma500</span>, <span class='no'>my_function</span>)
+<span class='va'>my_function</span> <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>mat</span><span class='op'>)</span><span class='op'>{</span>
+    <span class='va'>mat_c</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>mat</span><span class='op'>)</span>
+    <span class='va'>freqs</span> <span class='op'>=</span> <span class='va'>mat_c</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>mat</span><span class='op'>)</span>
+    <span class='co'># entropy</span>
+    <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>freqs</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log2</a></span><span class='op'>(</span><span class='va'>freqs</span><span class='op'>)</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='va'>result_coma500_2</span> <span class='op'>=</span> <span class='fu'>lsp_transform</span><span class='op'>(</span><span class='va'>result_coma500</span>, <span class='va'>my_function</span><span class='op'>)</span>
 
 <span class='co'>#see how the first signature looks after transformation</span>
-<span class='no'>result_coma500_2</span>$<span class='no'>signature</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; [1] 2.996814</div><div class='input'>
+<span class='va'>result_coma500_2</span><span class='op'>$</span><span class='va'>signature</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -249,7 +221,7 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
