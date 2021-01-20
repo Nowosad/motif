@@ -44,7 +44,7 @@ landform_grid_sfq = lsp_add_quality(landform_grid_sf, landform_dist)
 # tests -------------------------------------------------------------------
 test_that("tests lsp_to_dist works", {
   expect_s3_class(landform_dist, "dist")
-  expect_equal(length(landform_dist) * 2 + 14, nrow(landform_cove)^2)
+  expect_equal(length(landform_dist) * 2 + 9, nrow(landform_cove)^2)
 })
 
 test_that("tests lsp_add_clusters works on stars", {
@@ -70,3 +70,4 @@ test_that("region = TRUE is not implemented", {
                                          landform_dist,
                                          regions = TRUE))
 })
+

@@ -5,7 +5,7 @@ result_compositionwindow = lsp_signature(landform, type = "composition",
                                          threshold = 1, window = ecoregions["id"])
 
 result_coma500 = lsp_signature(landform, type = "coma",
-                               threshold = 0.5, window = 500)
+                               threshold = 1, window = 500)
 result_comap = lsp_signature(landform_p, type = "coma",
                              threshold = 1)
 result_coma500p = lsp_signature(landform_p, type = "coma",
@@ -21,7 +21,7 @@ result_cove500 = lsp_signature(landform, type = "cove",
 result_one_class = lsp_signature(landform, type = "coma",
                                  threshold = 0.9, classes = 10)
 result_cocove1000 = lsp_signature(c(landform, landcover),
-                                  type = "cocove", threshold = 0.1,
+                                  type = "cocove", threshold = 0.9,
                                   window = 1000)
 result_cocovewindow = lsp_signature(c(landform, landcover),
                                     type = "cocove", threshold = 0.1,
@@ -44,7 +44,7 @@ result_incove_p = lsp_signature(c(landcover_p, landform_p),
 result_fun = lsp_signature(landform, type = my_fun, threshold = 0.9)
 result_funwindow = lsp_signature(landform, type = my_fun, threshold = 0.9, window = ecoregions["id"])
 result_fun500 = lsp_signature(landform, type = my_fun, threshold = 0.5,
-                              window = 2000)
+                              window = 500)
 
 test_that("tests external function", {
   expect_equivalent(result_fun$signature[[1]], 1,
@@ -109,7 +109,7 @@ test_that("cocove works corectly", {
 
 test_that("incoma works corectly", {
   expect_equal(result_incove$na_prop,
-               0.0555, tolerance = .001)
+               0.0982, tolerance = .001)
   expect_equal(ncol(result_incove$signature[[1]]), 361)
 })
 

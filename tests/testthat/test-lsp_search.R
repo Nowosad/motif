@@ -79,7 +79,7 @@ test_that("tests simple search results", {
                     c(1, 0.0982, 0.4524),
                     tolerance = .001)
   expect_equivalent(unlist(unique(s_incove)),
-                    c(1, 0.0555, 0.3477),
+                    c(1, 0.0982, 0.3477),
                     tolerance = .001)
 })
 
@@ -99,3 +99,4 @@ test_that("tests window search results", {
   expect_equivalent(min(s_cove_window$dist, na.rm = TRUE), 0.00029, tolerance = .001)
   expect_equal(mean(c(s_incovewindow$dist), na.rm = TRUE), 0.4455153, tolerance = .001)
 })
+
