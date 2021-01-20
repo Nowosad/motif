@@ -28,6 +28,7 @@
 #' The default is "pdf".
 #' @param wecoma_fun For `"wecoma"` and `"wecove"` only. Function to calculate values from adjacent cells to contribute to exposure matrix, `"mean"` - calculate average values of local population densities from adjacent cells, `"geometric_mean"` - calculate geometric mean values of local population densities from adjacent cells, or `"focal"` assign a value from the focal cell
 #' @param wecoma_na_action For `"wecoma"` and `"wecove"` only. Decides on how to behave in the presence of missing values in `w`. Possible options are `"replace"`, `"omit"`, `"keep"`. The default, `"replace"`, replaces missing values with 0, `"omit"` does not use cells with missing values, and `"keep"` keeps missing values.
+#' @param classes Which classes (categories) should be analyzed? This parameter expects a list of the same length as the number of attributes in `x`, where each element of the list contains integer vector. The default is `NULL`, which means that the classes are calculated directly from the input data and all of them are used in the calculations.
 #' @param ... Additional arguments for the `philentropy::distance` function.
 #'
 #' @return Object of class `stars`.
@@ -62,13 +63,13 @@
 #'   dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions["id"])
 #' plot(s2["dist"])
 #' }
-lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...) UseMethod("lsp_search")
+lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL, ...) UseMethod("lsp_search")
 
 
 #'
 #' @name lsp_search
 #' @export
-lsp_search.stars = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
+lsp_search.stars = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL, ...){
 
 
 # get metadata ------------------------------------------------------------
@@ -85,29 +86,35 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, output = "stars
   }
 
 # prepare classes ---------------------------------------------------------
-  if (inherits(x, "stars_proxy")){
-    x = stars::st_as_stars(x)
+  if (is.null(classes)){
+    if (inherits(x, "stars_proxy")){
+      x = stars::st_as_stars(x)
+    }
+    classes_x = lapply(lapply(x, function(x) `mode<-`(x, "integer")),
+                       get_unique_values, TRUE)
+
+    system.time({
+      if (inherits(y, "stars_proxy")){
+        nr_elements = ifelse(nrow(window) < 50, 50, nrow(window))
+        classes_y = get_unique_values_proxy2(y,
+                                             ifelse(is.null(window_size),
+                                                    ceiling(nrow(y) / nr_elements),
+                                                    window_size))
+      } else {
+        y = lapply(y, function(x) `mode<-`(x, "integer"))
+        y = stars::st_as_stars(y)
+        attr(y, "dimensions") = y_metadata
+        classes_y = lapply(y, get_unique_values, TRUE)
+      }
+    })
+
+    classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
+    classes = lapply(classes, unique)
+    classes = lapply(classes, sort)
   }
-  classes_x = lapply(lapply(x, function(x) `mode<-`(x, "integer")),
-                     get_unique_values, TRUE)
-
-  if (inherits(y, "stars_proxy")){
-    nr_elements = ifelse(nrow(window) < 50, 50, nrow(window))
-    classes_y = get_unique_values_proxy2(y,
-                                        ifelse(is.null(window_size),
-                                               ceiling(nrow(y) / nr_elements),
-                                               window_size))
-  } else {
-    y = lapply(y, function(x) `mode<-`(x, "integer"))
-    y = stars::st_as_stars(y)
-    attr(y, "dimensions") = y_metadata
-    classes_y = lapply(y, get_unique_values, TRUE)
+  if (inherits(classes, "numeric") || inherits(classes, "integer")){
+    classes = list(classes)
   }
-
-  classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
-  classes = lapply(classes, unique)
-  classes = lapply(classes, sort)
-
 # y signature -------------------------------------------------------------
   output_y = lsp_signature(
     x = y,

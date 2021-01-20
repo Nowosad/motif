@@ -23,11 +23,13 @@ Depends:
 LinkingTo: 
     comat (>= 0.7.0),
     Rcpp,
-    RcppArmadillo
+    RcppArmadillo,
+    RcppParallel
 Imports: 
     comat,
     philentropy,
     Rcpp,
+    RcppParallel,
     sf,
     stars,
     tibble
@@ -41,3 +43,4 @@ Suggests:
 URL: https://nowosad.github.io/motif/
 BugReports: https://github.com/Nowosad/motif/issues
 VignetteBuilder: knitr
+SystemRequirements: GNU make
