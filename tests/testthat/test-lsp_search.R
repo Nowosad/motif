@@ -84,9 +84,9 @@ test_that("tests simple search results", {
 })
 
 test_that("tests motifel search results", {
-  expect_equal(sum(is.na(s_cove_motiel$dist)), 1)
-  expect_equivalent(min(s_cove_motiel$dist, na.rm = TRUE), 0.0001, tolerance = .001)
-  expect_equivalent(mean(s_cove_motiel$dist, na.rm = TRUE), 0.515, tolerance = .001)
+  expect_equal(sum(is.na(s_cove_motiel$dist)), 2)
+  expect_equivalent(min(s_cove_motiel$dist, na.rm = TRUE), 0.006, tolerance = .001)
+  expect_equivalent(mean(s_cove_motiel$dist, na.rm = TRUE), 0.589, tolerance = .001)
   expect_equivalent(max(s_cove_motiel$dist, na.rm = TRUE), 1, tolerance = .001)
 })
 
