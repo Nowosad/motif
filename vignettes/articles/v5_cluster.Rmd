@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 The pattern-based spatial analysis makes it possible to find clusters of areas with similar spatial patterns.
 This vignette shows how to do spatial patterns' clustering on example datasets.
-Let's start by attaching neccesary packages:
+Let's start by attaching necessary packages:
 
 ```{r}
 library(motif)
