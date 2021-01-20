@@ -43,12 +43,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // get_motifels
-List get_motifels(const List input, std::string type, const arma::imat directions, int size, int shift, Function f, double threshold, List classes, const std::string fun, const std::string na_action);
+List get_motifels(const List& input, std::string type, const arma::imat directions, int size, int shift, Function f, double threshold, List classes, const std::string fun, const std::string na_action);
 RcppExport SEXP _motif_get_motifels(SEXP inputSEXP, SEXP typeSEXP, SEXP directionsSEXP, SEXP sizeSEXP, SEXP shiftSEXP, SEXP fSEXP, SEXP thresholdSEXP, SEXP classesSEXP, SEXP funSEXP, SEXP na_actionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const List >::type input(inputSEXP);
+    Rcpp::traits::input_parameter< const List& >::type input(inputSEXP);
     Rcpp::traits::input_parameter< std::string >::type type(typeSEXP);
     Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
     Rcpp::traits::input_parameter< int >::type size(sizeSEXP);

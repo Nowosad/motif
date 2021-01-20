@@ -19,6 +19,7 @@ lsp_search(
   normalization = "pdf",
   wecoma_fun = "mean",
   wecoma_na_action = "replace",
+  classes = NULL,
   ...
 )
 
@@ -36,6 +37,7 @@ lsp_search(
   normalization = "pdf",
   wecoma_fun = "mean",
   wecoma_na_action = "replace",
+  classes = NULL,
   ...
 )
 }
@@ -74,6 +76,8 @@ The default is "pdf".}
 \item{wecoma_fun}{For \code{"wecoma"} and \code{"wecove"} only. Function to calculate values from adjacent cells to contribute to exposure matrix, \code{"mean"} - calculate average values of local population densities from adjacent cells, \code{"geometric_mean"} - calculate geometric mean values of local population densities from adjacent cells, or \code{"focal"} assign a value from the focal cell}
 
 \item{wecoma_na_action}{For \code{"wecoma"} and \code{"wecove"} only. Decides on how to behave in the presence of missing values in \code{w}. Possible options are \code{"replace"}, \code{"omit"}, \code{"keep"}. The default, \code{"replace"}, replaces missing values with 0, \code{"omit"} does not use cells with missing values, and \code{"keep"} keeps missing values.}
+
+\item{classes}{Which classes (categories) should be analyzed? This parameter expects a list of the same length as the number of attributes in \code{x}, where each element of the list contains integer vector. The default is \code{NULL}, which means that the classes are calculated directly from the input data and all of them are used in the calculations.}
 
 \item{...}{Additional arguments for the \code{philentropy::distance} function.}
 }
