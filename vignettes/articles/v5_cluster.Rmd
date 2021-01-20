@@ -228,6 +228,10 @@ This dataset has 22 rows, where each row relates to one ecoregion.
 Each ecoregion is also related to a unique value in the `id` column.
 
 ```{r, echo=FALSE}
+ecoregions = st_transform(ecoregions, st_crs(landcover))
+```
+
+```{r, echo=FALSE}
 # https://medialab.github.io/iwanthue/
 my_pal = c("#d34359", "#62b93c", "#b75fcf", "#53c069", "#d44295", "#acb939", "#626edd", "#dc9e36", "#8156a8", "#4b8734", "#d98dc7", "#58c096", "#cc542a", "#48bbd2", "#bf814d", "#6686c8", "#968c30", "#a34d78", "#36815b", "#c26963", "#a2b36b", "#6b6829")
 plot(ecoregions["id"], main = NULL, col = my_pal, key.pos = 4, key.width = lcm(5))
