@@ -34,8 +34,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_github("r-spatial/stars", type = "source")
+          options(install.packages.check.source = "no")
           remotes::install_deps(dependencies = TRUE)
+          remotes::install_github("r-spatial/stars", type = "source")
           install.packages("pkgdown", type = "binary")
         shell: Rscript {0}
 
