@@ -18,8 +18,8 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: "[Stage] [macOS] Install gfortran afresh"
-        run: brew install --cask gfortran
+      # - name: "[Stage] [macOS] Install gfortran afresh"
+        # run: brew install --cask gfortran
 
       - name: Query dependencies
         run: |
