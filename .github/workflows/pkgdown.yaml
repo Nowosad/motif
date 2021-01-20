@@ -43,6 +43,7 @@ jobs:
           remotes::install_github("r-spatial/stars", type = "source")
           install.packages("pkgdown", type = "binary")
           remotes::install_cran("rcmdcheck")
+          remotes::install_cran("tmap", dependencies = TRUE, type = "binary")
         shell: Rscript {0}
 
       - name: Check
