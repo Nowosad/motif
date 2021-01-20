@@ -60,7 +60,7 @@ Feel free to contact us by creating [an issue](https://github.com/Nowosad/motif/
 
 To cite the `motif` package in publications, please use [this paper](https://doi.org/10.1007/s10980-020-01135-0):
 
-Nowosad, J. Motif: an open-source R tool for pattern-based spatial analysis. Landscape Ecol (2020). https://doi.org/10.1007/s10980-020-01135-0
+Nowosad, J. Motif: an open-source R tool for pattern-based spatial analysis. Landscape Ecol (2021). https://doi.org/10.1007/s10980-020-01135-0
 
 LaTeX/BibTeX version can be obtained with:
 ```

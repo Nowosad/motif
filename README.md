@@ -22,11 +22,8 @@ clustering to be performed on spatial patterns.
 ## Installation
 
 <!-- You can install the released version of motif from [CRAN](https://CRAN.R-project.org) with: -->
-
 <!-- ``` r -->
-
 <!-- install.packages("motif") -->
-
 <!-- ``` -->
 
 And the development version from [GitHub](https://github.com/) with:
@@ -63,7 +60,7 @@ To cite the `motif` package in publications, please use [this
 paper](https://doi.org/10.1007/s10980-020-01135-0):
 
 Nowosad, J. Motif: an open-source R tool for pattern-based spatial
-analysis. Landscape Ecol (2020).
+analysis. Landscape Ecol (2021).
 <https://doi.org/10.1007/s10980-020-01135-0>
 
 LaTeX/BibTeX version can be obtained with:
