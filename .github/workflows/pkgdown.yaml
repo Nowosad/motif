@@ -17,6 +17,7 @@ jobs:
         run: |
           options(repos = c(rspatial = 'https://r-spatial.r-universe.dev', CRAN = 'https://cloud.r-project.org'))
           install.packages(c("remotes", "rcmdcheck"))
+          install.packages("stars", repos = "https://r-spatial.r-universe.dev")
           remotes::install_deps(dependencies = TRUE)
           # remotes::install_deps(dependencies = TRUE, type = "binary")
           remotes::install_cran("tmap", dependencies = TRUE, type = "binary")
