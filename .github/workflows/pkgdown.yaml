@@ -15,12 +15,13 @@ jobs:
       - uses: r-lib/actions/setup-r@master
       - name: Install dependencies
         run: |
+          install.packages("stars", repos = "https://r-spatial.r-universe.dev")
           options(repos = c(rspatial = 'https://r-spatial.r-universe.dev', CRAN = 'https://cloud.r-project.org'))
           install.packages(c("remotes", "rcmdcheck"))
           install.packages("classInt")
+          remotes::install_github()
           #remotes::install_deps(dependencies = TRUE)
           remotes::install_deps(dependencies = TRUE, type = "mac.binary", repos = c(rspatial = 'https://r-spatial.r-universe.dev', CRAN = 'https://cloud.r-project.org'))
-          install.packages("stars", repos = "https://r-spatial.r-universe.dev")
           remotes::install_cran("tmap", dependencies = TRUE, type = "binary")
         shell: Rscript {0}
       - name: Check
