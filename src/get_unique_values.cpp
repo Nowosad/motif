@@ -19,3 +19,12 @@ std::vector<int> get_unique_values(const Rcpp::IntegerVector &x, bool na_omit)
   }
   return classes;
 }
+
+
+/*** R
+x = sample(1:5, size = 1e7, replace = TRUE)
+
+bench::mark(
+  get_unique_values(x, TRUE)
+)
+*/

@@ -14,7 +14,7 @@ Describes spatial patterns of categorical raster data for
     based on co-occurrence matrices but also allows for 
     any user-defined functions. 
     It enables spatial analysis such as search, change detection,
-    and clustering to be performed on spatial patterns.
+    and clustering to be performed on spatial patterns (Nowosad (2021) <https://doi.org/10.1007/s10980-020-01135-0>).
 }
 \seealso{
 Useful links:
