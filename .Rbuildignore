@@ -10,3 +10,5 @@
 ^\.circleci/config\.yml$
 ^\.github/workflows/pkgdown\.yaml$
 ^\.github$
+^newtests$
+^oldtests$
