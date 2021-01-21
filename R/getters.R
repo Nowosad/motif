@@ -143,23 +143,6 @@ get_polygons_single_proxy = function(window_id, x, window, ...){
   return(result)
 }
 
-# get_polygons_single_proxy = function(window_id, x, window, ...){
-#   # print(window_id)
-#   x_cropped = try(stars::st_as_stars(x[window[window_id, ]]), silent = TRUE)
-#   if (!inherits(x_cropped, "try-error")){
-#     result = lsp_signature(x_cropped, ...)
-#   } else {
-#     result = NULL
-#   }
-#   if (!is.null(result)){
-#     if ((nrow(result) == 1)){
-#       result$id = window[[window_id, 1]]
-#       result$na_prop = NA
-#     }
-#   }
-#   return(result)
-# }
-
 get_polygons_all = function(x, type, directions, window,
                             f, threshold, classes,
                             ordered, repeated, normalization,
