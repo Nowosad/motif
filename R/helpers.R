@@ -36,27 +36,6 @@ get_unique_values_proxy2 = function(x, window_size){
   lapply(x, guvp_one_layer, window_size, dimensions)
 }
 
-# get_unique_values_proxy = function(x, window_size, nr, nc){
-#   single_guv = function(i, x_path, window_size, nr, nc){
-#     ny_size = ifelse(i + window_size > nc, nc - i + 1, window_size)
-#     xstart = st_dimensions(x_path)[[1]][[1]]
-#     ystart = st_dimensions(x_path)[[2]][[1]]
-#     rasterio = list(nXOff = xstart,
-#                     nYOff = ystart + i - 1,
-#                     nXSize = xstart + nr - 1,
-#                     nYSize = ystart + ny_size - 1)
-#     x_vals = stars::read_stars(x_path, RasterIO = rasterio, proxy = FALSE)
-#     lapply(x_vals, get_unique_values, TRUE)
-#   }
-#   layer_guv = function(x_path, window_size, nr, nc){
-#     if (window_size == 0) window_size = nc
-#     yoffs = seq(1, nc, by = window_size)
-#     sort(unique(unlist(lapply(yoffs, single_guv, x_path, window_size, nr, nc))))
-#   }
-#   lapply(x, layer_guv, window_size, nr, nc)
-# }
-
-
 normalize_signature = function(x, normalization){
   if (normalization == "pdf"){
     return(x / sum(x))
