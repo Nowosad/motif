@@ -323,7 +323,7 @@ plot(landcover_grid_sfq2["quality"], pal = quality_pal[c(1, 3, 6)])
 ### `stars`
 
 To create a `stars` object with a new attribute `clust`, we should set `output = "stars"`.
-However, it is not yet possible to calculate the quality of the clusterings for the `stars` objects.
+However, it is not yet possible to calculate the quality of the clustering for the `stars` objects.
 
 ```{r}
 landcover_grid_stars2 = lsp_add_clusters(landcover_cove2, clusters2, 
