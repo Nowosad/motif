@@ -24,6 +24,7 @@ See examples.
 \examples{
 \dontrun{
 library(stars)
+library(sf)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 landform_cove = lsp_signature(landform,
                                type = "cove",
@@ -38,14 +39,11 @@ plot(landform_hclust)
 
 clusters = cutree(landform_hclust, k = 6)
 
-safe_pal = c("#88CCEE", "#CC6677", "#DDCC77",
-             "#117733", "#332288", "#888888")
+landform_grid_sf = lsp_add_clusters(landform_cove, clusters)
+plot(landform_grid_sf["clust"])
 
-landform_grid_stars = lsp_add_clusters(landform_cove, clusters)
-plot(landform_grid_stars["clust"], col = safe_pal)
-
-landform_grid_starsq = lsp_add_quality(landform_grid_stars,
+landform_grid_sfq = lsp_add_quality(landform_grid_sf,
                                        landform_dist)
-plot(landform_grid_starsq["quality"])
+plot(landform_grid_sfq["quality"])
 }
 }

@@ -36,7 +36,9 @@ landform_grid_sf = lsp_add_clusters(landform_cove,
 # plot(landform_grid_sf["clust"], pal = safe_pal)
 # mapview::mapview(landform_grid_sf["clust"])
 
-landform_grid_sfq = lsp_add_quality(landform_grid_sf, landform_dist)
+landform_grid_sfq_c = lsp_add_quality(landform_grid_sf, landform_dist)
+landform_grid_sfq_s = lsp_add_quality(landform_grid_sf, landform_dist, type = "segmentation")
+
 # plot(landform_grid_sf["inhomogeneity"])
 # plot(landform_grid_sf["isolation"])
 # plot(landform_grid_sf["quality"])
@@ -59,10 +61,11 @@ test_that("tests lsp_add_clusters works on sf", {
 
 test_that("tests lsp_add_quality works", {
   # expect_s3_class(landform_grid_starsq, "stars")
-  expect_s3_class(landform_grid_sfq, "sf")
+  expect_s3_class(landform_grid_sfq_c, "sf")
   # expect_equal(mean(landform_grid_starsq$quality, na.rm = TRUE),
   #              mean(landform_grid_sfq$quality, na.rm = TRUE))
-  expect_equal(mean(landform_grid_sfq$quality, na.rm = TRUE), 0.957, tolerance = .001)
+  expect_equal(mean(landform_grid_sfq_c$quality, na.rm = TRUE), 0.987, tolerance = .001)
+  expect_equal(mean(landform_grid_sfq_s$quality, na.rm = TRUE), 0.957, tolerance = .001)
 })
 
 test_that("region = TRUE is not implemented", {

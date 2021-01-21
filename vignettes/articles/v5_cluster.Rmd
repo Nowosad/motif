@@ -160,7 +160,7 @@ plot(lsp_extract(landcover, window = 100, id = 2172), key.pos = NULL)
 #### Quality
 
 We can also calculate the quality of the clusterings with the `lsp_add_quality()` function, which requires an output of `lsp_add_clusters()` as the first argument and output of `lsp_to_dist()` as the second one.
-It adds three new variables: `inhomogeneity`, `isolation`, and `quality`.
+It adds three new variables: `inhomogeneity`, `distinction`, and `quality`.
 
 ```{r}
 landcover_grid_sfq = lsp_add_quality(landcover_grid_sf, landcover_dist)
@@ -174,15 +174,15 @@ inhomogeneity_pal = hcl.colors(6, palette = "Emrld")
 plot(landcover_grid_sfq["inhomogeneity"], pal = inhomogeneity_pal)
 ```
 
-Isolation (`isolation`) is an average distance between the focus cluster and all of its neighbors. 
-This value is between 0 and 1, where the large value indicates that the cluster stands out from its surroundings.
+Distinction (`distinction`) is an average distance between the focus cluster and all the other clusters. 
+This value is between 0 and 1, where the large value indicates that the cluster stands out from the rest of the clusters.
 
 ```{r}
-isolation_pal = hcl.colors(6, palette = "Teal", rev = TRUE)
-plot(landcover_grid_sfq["isolation"], pal = isolation_pal)
+distinction_pal = hcl.colors(6, palette = "Teal", rev = TRUE)
+plot(landcover_grid_sfq["distinction"], pal = distinction_pal)
 ```
 
-Overall quality (`quality`) is calculated as `1 - (inhomogeneity / isolation)`.
+Overall quality (`quality`) is calculated as `1 - (inhomogeneity / distinction)`.
 This value is also between 0 and 1, where increased values indicate increased quality of clustering. 
 
 ```{r}
@@ -313,7 +313,7 @@ plot(landcover_grid_sfq2["inhomogeneity"], pal = inhomogeneity_pal[c(1, 3, 6)])
 ```
 
 ```{r}
-plot(landcover_grid_sfq2["isolation"], pal = isolation_pal[c(1, 3, 6)])
+plot(landcover_grid_sfq2["distinction"], pal = distinction_pal[c(1, 3, 6)])
 ```
 
 ```{r}

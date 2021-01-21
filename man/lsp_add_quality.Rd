@@ -2,9 +2,9 @@
 % Please edit documentation in R/lsp_add_quality.R
 \name{lsp_add_quality}
 \alias{lsp_add_quality}
-\title{Calculates quality of clustering}
+\title{Calculates quality metrics of clustering or segmentation}
 \usage{
-lsp_add_quality(x, x_dist, regions = FALSE)
+lsp_add_quality(x, x_dist, type = "cluster", regions = FALSE)
 }
 \arguments{
 \item{x}{Object of class \code{sf} - usually the output of the \code{lsp_add_clusters()} function}
@@ -12,10 +12,31 @@ lsp_add_quality(x, x_dist, regions = FALSE)
 \item{x_dist}{Object of class \code{dist} - usually the output of
 the \code{lsp_to_dist()} function}
 
+\item{type}{Either \code{"cluster"} or \code{"segmentation"}}
+
 \item{regions}{Not implemented yet}
 }
 \description{
-Calculates three quality metrics to evaluate spatial patterns' clustering:
+Calculates three metrics to evaluate quality of spatial patterns' clustering or segmentation.
+When the type is \code{"cluster"}, then metrics of inhomogeneity, distinction, and quality are calculated.
+When the type is \verb{"segmentation}, then metrics of inhomogeneity, isolation, and quality are calculated.
+For more information, see Details below.
+}
+\details{
+For type \code{"cluster"}, this function calculates three quality metrics to evaluate spatial patterns' clustering:
+(1) inhomogeneity - it measures a degree of mutual dissimilarity
+between all objects in a cluster. This value is between 0 and 1,
+where small value indicates that all objects in the cluster
+represent consistent patterns so the cluster is pattern-homogeneous.
+(2) distinction - it is an average distance between the focus cluster
+and all of the other clusters.
+This value is between 0 and 1, where large value indicates that the cluster
+stands out from the other clusters.
+(3) quality - overall quality of a cluster. It is calculated as
+1 - (inhomogeneity / distinction). This value is also between 0 and 1,
+where increased values indicate increased quality.
+
+For type \code{"segmentation"}, this function calculates three quality metrics to evaluate spatial patterns' segmentation:
 (1) inhomogeneity - it measures a degree of mutual dissimilarity
 between all objects in a cluster. This value is between 0 and 1,
 where small value indicates that all objects in the cluster
@@ -25,7 +46,7 @@ and all of its neighbors. This value is between 0 and 1,
 where large value indicates that the cluster
 stands out from its surroundings.
 (3) quality - overall quality of a cluster. It is calculated as
-1 - (inhomogeneity / isolation). This value is also between 0 and 1,
+1 - (inhomogeneity / distinction). This value is also between 0 and 1,
 where increased values indicate increased quality.
 }
 \examples{
