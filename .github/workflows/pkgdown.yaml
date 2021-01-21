@@ -43,6 +43,7 @@ jobs:
           remotes::install_github("r-spatial/stars", type = "source")
           install.packages("pkgdown", type = "binary")
           remotes::install_cran("rcmdcheck")
+          remotes::install_cran("covr")
           remotes::install_cran("tmap", dependencies = TRUE, type = "binary")
         shell: Rscript {0}
 
@@ -50,6 +51,10 @@ jobs:
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        shell: Rscript {0}
+
+      - name: Test coverage
+        run: covr::codecov()
         shell: Rscript {0}
 
       - name: Install package
