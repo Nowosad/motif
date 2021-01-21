@@ -62,8 +62,31 @@ lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, output = "star
 
   #test if x == y
 
-  classes_x = lapply(x, get_unique_values, TRUE)
-  classes_y = lapply(y, get_unique_values, TRUE)
+
+
+  #test if x == y
+
+  if (inherits(x, "stars_proxy") || inherits(y, "stars_proxy")){
+    # prepare window ----------------------------------------------------------
+    if (is.null(window)){
+      window_size = 0
+    } else if (is.numeric(window)){
+      window_size = window
+    }
+
+    classes_x = get_unique_values_proxy2(x,
+                                         ifelse(!is.null(window),
+                                                ceiling(nrow(x) / nrow(window_size)),
+                                                window_size))
+    classes_y = get_unique_values_proxy2(y,
+                                         ifelse(!is.null(window),
+                                                ceiling(nrow(y) / nrow(window_size)),
+                                                window_size))
+
+  } else {
+    classes_x = lapply(x, get_unique_values, TRUE)
+    classes_y = lapply(y, get_unique_values, TRUE)
+  }
 
   classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
   classes = lapply(classes, unique)
@@ -108,102 +131,6 @@ lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, output = "star
   # output_all = merge(output_x[!names(output_x) == "signature"],
   #                    output_y[!names(output_y) == "signature"],
   #                    by = "id")
-  # unify signatures
-  # attributes(output_x)
-
-  unit = "log2"
-
-  output_all$dist = mapply(
-    distance2,
-    output_x$signature,
-    output_y$signature,
-    method = dist_fun,
-    unit = unit,
-    ...
-  )
-
-  message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
-
-  if (output == "stars"){
-    output_stars = lsp_add_stars(x_metadata, window = window)
-
-    output_stars$na_prop_x = output_all$na_prop_x[match(output_stars$id, output_all$id)]
-    output_stars$na_prop_y = output_all$na_prop_y[match(output_stars$id, output_all$id)]
-    output_stars$dist = output_all$dist[match(output_stars$id, output_all$id)]
-
-    return(output_stars)
-
-  } else if (output == "sf"){
-    #return sf
-    output_sf = lsp_add_sf(x_metadata, window = window)
-    output_sf = merge(output_sf, output_all,
-                      by.x = names(output_sf)[1], by.y = "id")
-
-    return(output_sf)
-  }
-}
-
-#' @name lsp_compare
-#' @export
-lsp_compare.stars_proxy = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
-
-  x_metadata = stars::st_dimensions(x)
-
-  # prepare window ----------------------------------------------------------
-  if (is.null(window)){
-      window_size = 0
-  } else if (is.numeric(window)){
-      window_size = window
-  }
-
-  #test if x == y
-
-  classes_x = get_unique_values_proxy2(x,
-                                      ifelse(!is.null(window),
-                                             ceiling(nrow(x) / nrow(window_size)),
-                                             window_size))
-  classes_y = get_unique_values_proxy2(y,
-                                      ifelse(!is.null(window),
-                                             ceiling(nrow(y) / nrow(window_size)),
-                                             window_size))
-
-  classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
-  classes = lapply(classes, unique)
-
-  # use lapply here?
-  output_x = lsp_signature(
-    x,
-    type = type,
-    neighbourhood = neighbourhood,
-    window = window,
-    threshold = threshold,
-    ordered = ordered,
-    repeated = repeated,
-    normalization = normalization,
-    wecoma_fun = wecoma_fun,
-    wecoma_na_action = wecoma_na_action,
-    classes = classes
-  )
-
-  output_y = lsp_signature(
-    y,
-    type = type,
-    neighbourhood = neighbourhood,
-    window = window,
-    threshold = threshold,
-    ordered = ordered,
-    repeated = repeated,
-    normalization = normalization,
-    wecoma_fun = wecoma_fun,
-    wecoma_na_action = wecoma_na_action,
-    classes = classes
-  )
-
-  colnames(output_x)[which(colnames(output_x) == "na_prop")] = "na_prop_x"
-  colnames(output_y)[which(colnames(output_y) == "na_prop")] = "na_prop_y"
-
-  output_all = cbind(output_x[!names(output_x) == "signature"], output_y["na_prop_y"])
-
   # unify signatures
   # attributes(output_x)
 

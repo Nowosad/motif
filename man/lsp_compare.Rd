@@ -3,7 +3,6 @@
 \name{lsp_compare}
 \alias{lsp_compare}
 \alias{lsp_compare.stars}
-\alias{lsp_compare.stars_proxy}
 \title{Comparision between spatial patterns}
 \usage{
 lsp_compare(
@@ -24,23 +23,6 @@ lsp_compare(
 )
 
 \method{lsp_compare}{stars}(
-  x,
-  y,
-  type,
-  dist_fun,
-  window = NULL,
-  output = "stars",
-  neighbourhood = 4,
-  threshold = 0.5,
-  ordered = TRUE,
-  repeated = TRUE,
-  normalization = "pdf",
-  wecoma_fun = "mean",
-  wecoma_na_action = "replace",
-  ...
-)
-
-\method{lsp_compare}{stars_proxy}(
   x,
   y,
   type,

@@ -2,6 +2,7 @@
 
 * Improves and simplifies tests
 * Fixes code to work on cropped stars proxy
+* Adds `classes` argument to `lsp_search()`
 * Adds a type argument to `lsp_add_quality()`, making it possible to calculate either isolation (type = "segmentation") or distinction (type = "cluster")
 * Adds `lsp_add_examples()` to extract and add stars objects to an lsp object
 
