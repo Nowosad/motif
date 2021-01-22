@@ -5,6 +5,7 @@
 * Adds `classes` argument to `lsp_search()`
 * Adds a type argument to `lsp_add_quality()`, making it possible to calculate either isolation (type = "segmentation") or distinction (type = "cluster")
 * Adds `lsp_add_examples()` to extract and add stars objects to an lsp object
+* Adds `lsp_add_examples.sf` to extract and add stars objects to an sf object (the output of `lsp_search()`)
 
 # motif 0.3.12
 

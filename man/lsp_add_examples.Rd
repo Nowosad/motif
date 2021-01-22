@@ -3,14 +3,18 @@
 \name{lsp_add_examples}
 \alias{lsp_add_examples}
 \alias{lsp_add_examples.lsp}
+\alias{lsp_add_examples.sf}
 \title{Adds spatial data of each region in an lsp object}
 \usage{
 lsp_add_examples(x, y, window = NULL)
 
 \method{lsp_add_examples}{lsp}(x, y, window = NULL)
+
+\method{lsp_add_examples}{sf}(x, y, window = NULL)
 }
 \arguments{
-\item{x}{Object of class \code{lsp} - usually a subset of the output of \code{lsp_signature()}}
+\item{x}{Object of class \code{lsp} - usually a subset of the output of \code{lsp_signature()}
+or an object of class \code{sf} - usually a subset of the output of \code{lsp_search()}}
 
 \item{y}{Object of class \code{stars} or \code{stars_proxy}.}
 
