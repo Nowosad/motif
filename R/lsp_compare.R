@@ -62,25 +62,24 @@ lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, output = "star
 
   #test if x == y
 
-
-
-  #test if x == y
-
   if (inherits(x, "stars_proxy") || inherits(y, "stars_proxy")){
     # prepare window ----------------------------------------------------------
-    if (is.null(window)){
-      window_size = 0
+    if (missing(window) || is.null(window)){
+      if (is.null(window)){
+        window_size = 0
+      }
     } else if (is.numeric(window)){
       window_size = window
     }
+    nr_elements = ifelse(nrow(window) < 50, 50, nrow(window))
 
     classes_x = get_unique_values_proxy2(x,
-                                         ifelse(!is.null(window),
-                                                ceiling(nrow(x) / nrow(window_size)),
+                                         ifelse(is.null(window_size),
+                                                ceiling(nrow(x) / nr_elements),
                                                 window_size))
     classes_y = get_unique_values_proxy2(y,
-                                         ifelse(!is.null(window),
-                                                ceiling(nrow(y) / nrow(window_size)),
+                                         ifelse(is.null(window_size),
+                                                ceiling(nrow(y) / nr_elements),
                                                 window_size))
 
   } else {
