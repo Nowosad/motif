@@ -55,48 +55,18 @@ lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 
   directions = as.matrix(neighbourhood)
 
 # prepare window ----------------------------------------------------------
-  if (is.null(window)){
-    window_size = 0
-    window_shift = window_size
-    if (inherits(x, "stars_proxy")){
-      x = stars::st_as_stars(x)
-    }
-  } else if (is.numeric(window)){
-    window_size = window
-    window_shift = window_size
-  } else {
-    window_size = NULL
-    window_shift = NULL
-    if (inherits(x, "stars_proxy")){
-      # stop("window option is not implemented for stars_proxy yet", .call = FALSE)
-    } else {
-      # check for one column
-      window = stars::st_rasterize(window[1],
-                                   template = stars::st_as_stars(sf::st_bbox(x),
-                                                                 values = NA_integer_,
-                                                                 dx = x_delta_row,
-                                                                 dy = x_delta_col))
-      window = lapply(window, function(x) `mode<-`(x, "integer"))
-      window = window[[1]]
-    }
+  if (is.null(window) && inherits(x, "stars_proxy")){
+    x = stars::st_as_stars(x)
   }
+
+  window_meta = prepare_window(x, window)
+  window = window_meta[["window"]]
+  window_size = window_meta[["window_size"]]
+  window_shift = window_meta[["window_shift"]]
 
 # prepare classes ---------------------------------------------------------
   if (is.null(classes)){
-    if (inherits(x, "stars_proxy")){
-      nr_elements = ifelse(nrow(window) < 50, 50, nrow(window))
-      # classes = get_unique_values_proxy(x,
-      #                                   ifelse(is.null(window_size),
-      #                                          ceiling(nr / nr_elements),
-      #                                          window_size),
-      #                                   nr, nc)
-      classes = get_unique_values_proxy2(x,
-                                        ifelse(is.null(window_size),
-                                               ceiling(nr / nr_elements),
-                                               window_size))
-    } else {
-      classes = lapply(x, get_unique_values, TRUE)
-    }
+    classes = determine_classes(x, window, window_size)
   }
   if (inherits(classes, "numeric") || inherits(classes, "integer")){
     classes = list(classes)

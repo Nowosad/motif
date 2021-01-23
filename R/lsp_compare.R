@@ -71,21 +71,10 @@ lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, output = "star
     } else if (is.numeric(window)){
       window_size = window
     }
-    nr_elements = ifelse(nrow(window) < 50, 50, nrow(window))
-
-    classes_x = get_unique_values_proxy2(x,
-                                         ifelse(is.null(window_size),
-                                                ceiling(nrow(x) / nr_elements),
-                                                window_size))
-    classes_y = get_unique_values_proxy2(y,
-                                         ifelse(is.null(window_size),
-                                                ceiling(nrow(y) / nr_elements),
-                                                window_size))
-
-  } else {
-    classes_x = lapply(x, get_unique_values, TRUE)
-    classes_y = lapply(y, get_unique_values, TRUE)
   }
+
+  classes_x = determine_classes(x, window, window_size)
+  classes_y = determine_classes(y, window, window_size)
 
   classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
   classes = lapply(classes, unique)

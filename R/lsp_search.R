@@ -90,23 +90,8 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, output = "stars
     if (inherits(x, "stars_proxy")){
       x = stars::st_as_stars(x)
     }
-    classes_x = lapply(lapply(x, function(x) `mode<-`(x, "integer")),
-                       get_unique_values, TRUE)
-
-    if (inherits(y, "stars_proxy")) {
-      nr_elements = ifelse(nrow(window) < 50, 50, nrow(window))
-      classes_y = get_unique_values_proxy2(y,
-                                           ifelse(
-                                             is.null(window_size),
-                                             ceiling(nrow(y) / nr_elements),
-                                             window_size
-                                           ))
-    } else {
-      y = lapply(y, function(x) `mode<-`(x, "integer"))
-      y = stars::st_as_stars(y)
-      attr(y, "dimensions") = y_metadata
-      classes_y = lapply(y, get_unique_values, TRUE)
-    }
+    classes_x = determine_classes(x, window, window_size)
+    classes_y = determine_classes(y, window, window_size)
 
     classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
     classes = lapply(classes, unique)
