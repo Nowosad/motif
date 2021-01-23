@@ -16,7 +16,7 @@ determine_classes = function(x, window){
       window_size = NULL
     }
     nr_elements = ifelse(nrow(window) < 50, 50, nrow(window))
-    classes = get_unique_values_proxy2(x,
+    classes = get_unique_values_proxy(x,
                                        ifelse(is.null(window_size),
                                               ceiling(nrow(x) / nr_elements),
                                               window_size))
@@ -25,7 +25,7 @@ determine_classes = function(x, window){
   }
 }
 
-get_unique_values_proxy2 = function(x, window_size){
+get_unique_values_proxy = function(x, window_size){
   guvp_one_layer = function(x_path, window_size, dimensions){
     nc = ncol(dimensions)
     nr = nrow(dimensions)
