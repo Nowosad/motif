@@ -1,8 +1,7 @@
 #' Determine unique classes (internal function)
 #'
 #' @param x - a `stars` or `stars_proxy` object
-#' @param window - a `sf` object
-#' @param window_size - a single value numeric object
+#' @param window - a windows argument from `lsp_signature()`, `lsp_search()`, or `lsp_compare()`
 #'
 #' @return A list with vector of numbers (unique classes)
 determine_classes = function(x, window){
@@ -13,6 +12,8 @@ determine_classes = function(x, window){
       }
     } else if (is.numeric(window)){
       window_size = window
+    } else {
+      window_size = NULL
     }
     nr_elements = ifelse(nrow(window) < 50, 50, nrow(window))
     classes = get_unique_values_proxy2(x,

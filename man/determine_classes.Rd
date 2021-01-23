@@ -12,11 +12,7 @@ determine_classes(x, window)
 }}
 
 \item{window}{\itemize{
-\item a \code{sf} object
-}}
-
-\item{window_size}{\itemize{
-\item a single value numeric object
+\item a windows argument from \code{lsp_signature()}, \code{lsp_search()}, or \code{lsp_compare()}
 }}
 }
 \value{
