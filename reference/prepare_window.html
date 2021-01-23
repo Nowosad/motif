@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • motif</title>
+<title>Prepares window* arguments (internal function) — prepare_window • motif</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Prepares window* arguments (internal function) — prepare_window" />
+<meta property="og:description" content="Prepares window* arguments (internal function)" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +67,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -140,114 +141,37 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Prepares window* arguments (internal function)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Nowosad/motif/blob/master/R/prepare_window.R'><code>R/prepare_window.R</code></a></small>
+    <div class="hidden name"><code>prepare_window.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Prepares window* arguments (internal function)</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>prepare_window</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>window</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="determine_classes.html">determine_classes()</a></code> </p>
-        </td>
-        <td><p>Determine unique classes (internal function)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_add_clusters.html">lsp_add_clusters()</a></code> </p>
-        </td>
-        <td><p>Adds clusters' ids to a lsp object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_add_examples.html">lsp_add_examples()</a></code> </p>
-        </td>
-        <td><p>Adds spatial data of each region in an lsp object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_add_quality.html">lsp_add_quality()</a></code> </p>
-        </td>
-        <td><p>Calculates quality metrics of clustering or segmentation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_add_sf.html">lsp_add_sf()</a></code> </p>
-        </td>
-        <td><p>Creates or adds a sf object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_add_stars.html">lsp_add_stars()</a></code> </p>
-        </td>
-        <td><p>Creates or adds a stars object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_compare.html">lsp_compare()</a></code> </p>
-        </td>
-        <td><p>Comparision between spatial patterns</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_extract.html">lsp_extract()</a></code> </p>
-        </td>
-        <td><p>Extracts a local landscape</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_search.html">lsp_search()</a></code> </p>
-        </td>
-        <td><p>Search for similar spatial pattern</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_signature.html">lsp_signature()</a></code> </p>
-        </td>
-        <td><p>Creates a spatial signature</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_to_dist.html">lsp_to_dist()</a></code> </p>
-        </td>
-        <td><p>Calculate Distance Matrix</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsp_transform.html">lsp_transform()</a></code> </p>
-        </td>
-        <td><p>Tranforms lsp objects</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="prepare_window.html">prepare_window()</a></code> </p>
-        </td>
-        <td><p>Prepares window* arguments (internal function)</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Object of class <code>stars</code> or <code>stars_proxy</code></p></td>
+    </tr>
+    <tr>
+      <th>window</th>
+      <td><p>Specifies areas for analysis. It can be either: <code>NULL</code>, a numeric value, or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed for a whole area. If the <code>window</code> argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A list with <code>window</code>, <code>window_size</code>, and <code>window_shift</code></p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
