@@ -61,20 +61,8 @@ lsp_compare.stars = function(x, y, type, dist_fun, window = NULL, output = "star
   x_metadata = stars::st_dimensions(x)
 
   #test if x == y
-
-  if (inherits(x, "stars_proxy") || inherits(y, "stars_proxy")){
-    # prepare window ----------------------------------------------------------
-    if (missing(window) || is.null(window)){
-      if (is.null(window)){
-        window_size = 0
-      }
-    } else if (is.numeric(window)){
-      window_size = window
-    }
-  }
-
-  classes_x = determine_classes(x, window, window_size)
-  classes_y = determine_classes(y, window, window_size)
+  classes_x = determine_classes(x, window)
+  classes_y = determine_classes(y, window)
 
   classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
   classes = lapply(classes, unique)

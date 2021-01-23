@@ -5,8 +5,15 @@
 #' @param window_size - a single value numeric object
 #'
 #' @return A list with vector of numbers (unique classes)
-determine_classes = function(x, window, window_size){
+determine_classes = function(x, window){
   if (inherits(x, "stars_proxy")){
+    if (missing(window) || is.null(window)){
+      if (is.null(window)){
+        window_size = 0
+      }
+    } else if (is.numeric(window)){
+      window_size = window
+    }
     nr_elements = ifelse(nrow(window) < 50, 50, nrow(window))
     classes = get_unique_values_proxy2(x,
                                        ifelse(is.null(window_size),

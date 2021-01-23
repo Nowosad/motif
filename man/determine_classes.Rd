@@ -4,7 +4,7 @@
 \alias{determine_classes}
 \title{Determine unique classes (internal function)}
 \usage{
-determine_classes(x, window, window_size)
+determine_classes(x, window)
 }
 \arguments{
 \item{x}{\itemize{

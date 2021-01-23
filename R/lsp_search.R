@@ -76,22 +76,13 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, output = "stars
   x_metadata = stars::st_dimensions(x)
   y_metadata = stars::st_dimensions(y)
 
-  # prepare window ----------------------------------------------------------
-  if (missing(window) || is.null(window)){
-    if (is.null(window)){
-      window_size = 0
-    }
-  } else if (is.numeric(window)){
-    window_size = window
-  }
-
   # prepare classes ---------------------------------------------------------
   if (is.null(classes)){
     if (inherits(x, "stars_proxy")){
       x = stars::st_as_stars(x)
     }
-    classes_x = determine_classes(x, window, window_size)
-    classes_y = determine_classes(y, window, window_size)
+    classes_x = determine_classes(x, window)
+    classes_y = determine_classes(y, window)
 
     classes = mapply(c, classes_x, classes_y, SIMPLIFY = FALSE)
     classes = lapply(classes, unique)

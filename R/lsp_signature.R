@@ -66,7 +66,7 @@ lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 
 
 # prepare classes ---------------------------------------------------------
   if (is.null(classes)){
-    classes = determine_classes(x, window, window_size)
+    classes = determine_classes(x, window)
   }
   if (inherits(classes, "numeric") || inherits(classes, "integer")){
     classes = list(classes)
