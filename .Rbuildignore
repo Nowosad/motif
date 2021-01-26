@@ -12,3 +12,4 @@
 ^\.github$
 ^newtests$
 ^oldtests$
+^vignettes/articles$
