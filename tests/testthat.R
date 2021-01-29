@@ -4,36 +4,44 @@ library(sf)
 library(motif)
 
 # prepare regular stars ---------------------------------------------------
-landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"), proxy = FALSE)
-landform = read_stars(system.file("raster/landform.tif", package = "motif"), proxy = FALSE)
-landcoverold = read_stars(system.file("raster/landcover2001.tif", package = "motif"), proxy = FALSE)
+# landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"), proxy = FALSE)
+# landform = read_stars(system.file("raster/landform.tif", package = "motif"), proxy = FALSE)
+# landcoverold = read_stars(system.file("raster/landcover2001.tif", package = "motif"), proxy = FALSE)
 
 # prepare stars proxy -----------------------------------------------------
-landform_p = read_stars(system.file("raster/landform.tif", package = "motif"), proxy = TRUE)
-landcover_p = read_stars(system.file("raster/landcover2015.tif", package = "motif"), proxy = TRUE)
-landcoverold_p = read_stars(system.file("raster/landcover2001.tif", package = "motif"), proxy = TRUE)
+# landform_p = read_stars(system.file("raster/landform.tif", package = "motif"), proxy = TRUE)
+# landcover_p = read_stars(system.file("raster/landcover2015.tif", package = "motif"), proxy = TRUE)
+# landcoverold_p = read_stars(system.file("raster/landcover2001.tif", package = "motif"), proxy = TRUE)
 
 # prep test extent --------------------------------------------------------
-t_ext = st_bbox(c(xmin = -400000, xmax = -200000,
-                ymin = -600000, ymax = -400000),
-              crs = st_crs(landcover))
+# t_ext = st_bbox(c(xmin = -400000, xmax = -200000,
+#                 ymin = -600000, ymax = -400000),
+#               crs = st_crs(landcover))
 
 # prepare regular stars ---------------------------------------------------
-landcover = landcover[t_ext]
-landform = landform[t_ext]
-landcoverold = landcoverold[t_ext]
+# landcover = landcover[t_ext]
+# landform = landform[t_ext]
+# landcoverold = landcoverold[t_ext]
+landcover = read_stars(system.file("raster/landcover2015s.tif", package = "motif"), proxy = FALSE)
+landform = read_stars(system.file("raster/landforms.tif", package = "motif"), proxy = FALSE)
+landcoverold = read_stars(system.file("raster/landcover2001s.tif", package = "motif"), proxy = FALSE)
 
 # prepare stars proxy -----------------------------------------------------
-landform_p = st_crop(landform_p, t_ext)
-landcover_p = st_crop(landcover_p, t_ext)
-landcoverold_p = st_crop(landcoverold_p, t_ext)
+# landform_p = st_crop(landform_p, t_ext)
+# landcover_p = st_crop(landcover_p, t_ext)
+# landcoverold_p = st_crop(landcoverold_p, t_ext)
+landcover_p = read_stars(system.file("raster/landcover2015s.tif", package = "motif"), proxy = TRUE)
+landform_p = read_stars(system.file("raster/landforms.tif", package = "motif"), proxy = TRUE)
+landcoverold_p = read_stars(system.file("raster/landcover2001s.tif", package = "motif"), proxy = TRUE)
 
 # prepare poly ------------------------------------------------------------
-ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
-# st_crs(ecoregions) = st_crs(landform_p)
-ecoregions = st_transform(ecoregions, st_crs(landform_p))
-ecoregions = st_crop(ecoregions, t_ext)
-ecoregions = st_cast(ecoregions, "MULTIPOLYGON")
+# ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
+# # st_crs(ecoregions) = st_crs(landform_p)
+# ecoregions = st_transform(ecoregions, st_crs(landform_p))
+# ecoregions = st_crop(ecoregions, t_ext)
+# ecoregions = st_cast(ecoregions, "MULTIPOLYGON")
+ecoregions = read_sf(system.file("vector/ecoregionss.gpkg", package = "motif"))
+
 # prepare cont data -------------------------------------------------------
 set.seed(222)
 random_ndvi = landcover

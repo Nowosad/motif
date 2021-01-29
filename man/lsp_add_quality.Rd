@@ -16,6 +16,9 @@ the \code{lsp_to_dist()} function}
 
 \item{regions}{Not implemented yet}
 }
+\value{
+Object of class \code{sf} with three additional columns representing quality metrics.
+}
 \description{
 Calculates three metrics to evaluate quality of spatial patterns' clustering or segmentation.
 When the type is \code{"cluster"}, then metrics of inhomogeneity, distinction, and quality are calculated.

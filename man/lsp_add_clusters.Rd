@@ -16,13 +16,41 @@ the \code{lsp_signature()} function}
 
 \item{window}{Specifies areas for analysis. It can be either: \code{NULL} or an \code{sf} object. If \code{window=NULL} calculations are performed based on the metadata from \code{x}. If an \code{sf} object is provided, each feature (row) defines the extent of a local pattern. The \code{sf} object should have one attribute (otherwise, the first attribute is used as an id).}
 }
+\value{
+Object of class \code{sf} or \code{stars} (depending on the \code{output} argument) with an additional column \code{"clust"} representing clusters' id values.
+}
 \description{
 Adds clusters' ids to a lsp object.
 The output can be of \code{stars} or \code{sf} class.
 See examples.
 }
 \examples{
-\dontrun{
+
+library(stars)
+library(sf)
+landform = read_stars(system.file("raster/landforms.tif", package = "motif"))
+landform_cove = lsp_signature(landform,
+                               type = "cove",
+                               window = 200,
+                               normalization = "pdf")
+
+landform_dist = lsp_to_dist(landform_cove,
+                            dist_fun = "jensen-shannon")
+
+landform_hclust = hclust(landform_dist, method = "ward.D2")
+plot(landform_hclust)
+
+clusters = cutree(landform_hclust, k = 4)
+
+landform_grid_sf = lsp_add_clusters(landform_cove, clusters)
+plot(landform_grid_sf["clust"])
+
+landform_grid_sfq = lsp_add_quality(landform_grid_sf,
+                                       landform_dist)
+plot(landform_grid_sfq["quality"])
+
+\donttest{
+# larger data example
 library(stars)
 library(sf)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))

@@ -76,7 +76,7 @@ test_that("tests simple search results", {
                     c(1, 0.0555, 0.4532),
                     tolerance = .001)
   expect_equivalent(unlist(unique(s_wecove)),
-                    c(1, 0.0982, 0.4524),
+                    c(1, 0.0982, 0.451),
                     tolerance = .001)
   expect_equivalent(unlist(unique(s_incove)),
                     c(1, 0.0982, 0.3477),

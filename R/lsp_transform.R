@@ -17,7 +17,27 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' library(stars)
+#' landform = read_stars(system.file("raster/landforms.tif", package = "motif"))
+#' result_coma500 = lsp_signature(landform, type = "coma", threshold = 0.5, window = 500)
+#'
+#' #see how the first signature looks
+#' result_coma500$signature[[1]]
+#'
+#' my_function = function(mat){
+#'     mat_c = colSums(mat)
+#'     freqs = mat_c / sum(mat)
+#'     # entropy
+#'     -sum(freqs * log2(freqs), na.rm = TRUE)
+#' }
+#'
+#' result_coma500_2 = lsp_transform(result_coma500, my_function)
+#'
+#' #see how the first signature looks after transformation
+#' result_coma500_2$signature[[1]]
+#'
+#' \donttest{
+#' # larger data example
 #' library(stars)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' result_coma500 = lsp_signature(landform, type = "coma", threshold = 0.5, window = 500)

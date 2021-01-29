@@ -97,7 +97,30 @@ This function allows for several types of comparisons using different representa
 Additional parameters, such as neighbourhood or normalization types, are also available.
 }
 \examples{
-\dontrun{
+library(stars)
+
+landcover = read_stars(system.file("raster/landcover2015s.tif", package = "motif"))
+plot(landcover)
+
+ext = st_bbox(c(xmin = -249797.344531127, xmax = -211162.693944285,
+                ymin = -597280.143035389, ymax = -558645.492448547),
+                crs = st_crs(landcover))
+
+landcover_ext = landcover[ext]
+plot(landcover_ext)
+
+ecoregions = read_sf(system.file("vector/ecoregionss.gpkg", package = "motif"))
+plot(ecoregions["id"])
+
+s1 = lsp_search(landcover_ext, landcover, type = "cove",
+  dist_fun = "jensen-shannon", threshold = 0.9, window = 100)
+plot(s1["dist"])
+s2 = lsp_search(landcover_ext, landcover, type = "cove",
+  dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions["id"])
+plot(s2["dist"])
+
+\donttest{
+# larger data example
 library(stars)
 
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))

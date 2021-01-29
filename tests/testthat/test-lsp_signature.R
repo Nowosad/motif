@@ -57,7 +57,7 @@ test_that("tests composition", {
   expect_warning({result_composition = lsp_signature(c(landcover, landform),
                                                      type = "composition", threshold = 0.9)})
   expect_equal(ncol(result_composition$signature[[1]]),
-               length(sort(unique(c(landcover$landcover2015.tif)))))
+               length(sort(unique(c(landcover$landcover2015s.tif)))))
 })
 
 test_that("the output structure is correct", {
@@ -76,7 +76,7 @@ test_that("the output signature class is correct", {
 
 test_that("thumprint works corectly for whole area", {
   expect_equal(result_coma$signature[[1]],
-               comat::get_coma(landform$landform.tif))
+               comat::get_coma(landform$landforms.tif))
 })
 
 test_that("stars results are equal to stars.proxy results", {

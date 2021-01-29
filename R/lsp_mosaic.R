@@ -9,7 +9,8 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' # larger data example
 #' library(stars)
 #' library(sf)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))

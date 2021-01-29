@@ -1,4 +1,9 @@
-# motif 0.4
+# motif 0.4.1
+
+* Improves documentation
+* Adds small data and small data examples
+
+# motif 0.4.0
 
 * Improves and simplifies tests
 * Fixes code to work on cropped stars proxy

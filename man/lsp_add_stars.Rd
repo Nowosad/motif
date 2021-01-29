@@ -18,6 +18,9 @@ For \code{stars}, \code{window} or \code{window_size} can be used.}
 
 \item{window}{Specifies areas for analysis. It can be either: \code{NULL}, a numeric value, or an \code{sf} object. If \code{window=NULL} calculations are performed for a whole area. If the \code{window} argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an \code{sf} object is provided, each feature (row) defines the extent of a local pattern. The \code{sf} object should have one attribute (otherwise, the first attribute is used as an id).}
 }
+\value{
+A \code{stars} object converted from the input object or a provided set of parameters
+}
 \description{
 Creates or adds a stars object based on the input object or a set of parameters.
 It accepts either an object of class \code{stars} or \code{lsp}.
@@ -27,7 +30,20 @@ In the second case, the output converts the \code{lsp} object into
 a \code{stars} object.
 }
 \examples{
-\dontrun{
+library(stars)
+landform = read_stars(system.file("raster/landforms.tif", package = "motif"))
+plot(landform)
+landform_lsp = lsp_add_stars(landform, window = 100)
+plot(landform_lsp)
+
+lc_cove = lsp_signature(landform, type = "cove", window = 200, normalization = "pdf")
+lc_cove_lsp = lsp_add_stars(lc_cove)
+plot(lc_cove_lsp)
+plot(lc_cove_lsp["na_prop"])
+
+
+\donttest{
+# larger data example
 library(stars)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 plot(landform)

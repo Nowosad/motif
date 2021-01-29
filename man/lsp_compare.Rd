@@ -94,7 +94,18 @@ This function allows for several types of comparisons using different representa
 Additional parameters, such as neighbourhood or normalization types, are also available.
 }
 \examples{
-\dontrun{
+library(stars)
+
+lc15 = read_stars(system.file("raster/landcover2015s.tif", package = "motif"))
+lc01 = read_stars(system.file("raster/landcover2001s.tif", package = "motif"))
+ecoregions = read_sf(system.file("vector/ecoregionss.gpkg", package = "motif"))
+
+c1 = lsp_compare(lc01, lc15, type = "cove",
+    dist_fun = "jensen-shannon", window = ecoregions["id"])
+plot(c1["dist"])
+
+\donttest{
+# larger data example
 library(stars)
 
 lc15 = read_stars(system.file("raster/landcover2015.tif", package = "motif"))

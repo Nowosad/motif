@@ -29,7 +29,17 @@ An object of class `"dist"``
 Calculates a distance matrix based on an object of class \code{lsp}.
 }
 \examples{
-\dontrun{
+library(stars)
+landcover = read_stars(system.file("raster/landcover2015s.tif", package = "motif"))
+
+landcover_cove = lsp_signature(landcover, type = "cove", threshold = 0.9, window = 400)
+landcover_cove
+
+dist_cov = lsp_to_dist(landcover_cove, dist_fun = "jensen-shannon")
+dist_cov
+
+\donttest{
+# larger data example
 library(stars)
 landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
 

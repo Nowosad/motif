@@ -41,6 +41,8 @@
 #' 1 - (inhomogeneity / distinction). This value is also between 0 and 1,
 #' where increased values indicate increased quality.
 #'
+#' @return Object of class `sf` with three additional columns representing quality metrics.
+#'
 #' @examples
 #' # see examples of `lsp_add_clusters()`
 #'

@@ -30,7 +30,18 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' library(stars)
+#'
+#' landcover = read_stars(system.file("raster/landcover2015s.tif", package = "motif"))
+#'
+#' landcover_coma = lsp_signature(landcover, type = "coma", threshold = 0.9, window = 2000)
+#' landcover_coma
+#'
+#' landcover_comp = lsp_signature(landcover, type = "composition", threshold = 0.9)
+#' landcover_comp
+#'
+#' \donttest{
+#' # larger data example
 #' library(stars)
 #'
 #' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))

@@ -17,7 +17,8 @@ Creates a raster mosaic by rearranging spatial data for example regions.
 See examples.
 }
 \examples{
-\dontrun{
+\donttest{
+# larger data example
 library(stars)
 library(sf)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))

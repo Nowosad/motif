@@ -11,8 +11,23 @@
 #' For `stars`, `window` or `window_size` can be used.
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
 #'
+#' @return A `stars` object converted from the input object or a provided set of parameters
+#'
 #' @examples
-#' \dontrun{
+#' library(stars)
+#' landform = read_stars(system.file("raster/landforms.tif", package = "motif"))
+#' plot(landform)
+#' landform_lsp = lsp_add_stars(landform, window = 100)
+#' plot(landform_lsp)
+#'
+#' lc_cove = lsp_signature(landform, type = "cove", window = 200, normalization = "pdf")
+#' lc_cove_lsp = lsp_add_stars(lc_cove)
+#' plot(lc_cove_lsp)
+#' plot(lc_cove_lsp["na_prop"])
+#'
+#'
+#' \donttest{
+#' # larger data example
 #' library(stars)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' plot(landform)
@@ -163,8 +178,22 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
 #' For `stars`, `window` or `window_size` can be used.
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
 #'
+#' @return An `sf` object converted from the input object or a provided set of parameters
+#'
 #' @examples
+#' library(stars)
+#' landform = read_stars(system.file("raster/landforms.tif", package = "motif"))
+#' plot(landform)
+#' landform_lsp = lsp_add_sf(landform, window = 100)
+#' plot(landform_lsp)
+#'
+#' lc_cove = lsp_signature(landform, type = "cove", window = 200, normalization = "pdf")
+#' lc_cove_lsp = lsp_add_sf(lc_cove)
+#' plot(lc_cove_lsp["id"])
+#' plot(lc_cove_lsp["na_prop"])
+#'
 #' \dontrun{
+#' # larger data example
 #' library(stars)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 #' plot(landform)

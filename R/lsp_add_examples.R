@@ -1,7 +1,7 @@
-#' Adds spatial data of each region in an lsp object
+#' Adds spatial data of each region in an lsp or sf object
 #'
-#' Adds spatial data of each region in an lsp object.
-#' The output is an lsp object with an additional column `region`.
+#' Adds spatial data of each region in an lsp or sf object.
+#' The output is an lsp or sf object with an additional column `"region"`.
 #' See examples.
 #'
 #' @param x Object of class `lsp` - usually a subset of the output of `lsp_signature()`
@@ -9,8 +9,28 @@
 #' @param y Object of class `stars` or `stars_proxy`.
 #' @param window Specifies areas for analysis. It can be either: `NULL` or an `sf` object.
 #' The `sf` object is only needed for adding examples of irregular regions.
+#'
+#' @return The input object with a new column `"region"`.
+#' The `"region"` column is a list with a raster extracted for each row.
+#'
 #' @examples
-#' \dontrun{
+#'
+#' library(stars)
+#'
+#' landcover = read_stars(system.file("raster/landcover2015s.tif", package = "motif"))
+#'
+#' landcover_coma = lsp_signature(landcover, type = "coma", threshold = 0.9, window = 100)
+#' selected_coma = subset(landcover_coma, id %in% c(5, 10, 15, 35))
+#' selected_coma
+#'
+#' selected_coma = lsp_add_examples(x = selected_coma, y = landcover)
+#' selected_coma
+#'
+#' plot(selected_coma$region[[1]])
+#' plot(selected_coma$region[[4]])
+#'
+#' \donttest{
+#' # larger data example
 #' library(stars)
 #'
 #' landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))

@@ -13,11 +13,25 @@ lsp_extract(x, window, id)
 
 \item{id}{Id of the local landscape - it is possible to find in the output of \code{lsp_signature()}, \code{lsp_search()}, \code{lsp_compare()}, or \code{lsp_add_clusters()}.}
 }
+\value{
+A \code{stars} object cropped to the extent of a selected local landscape
+}
 \description{
 Extracts a local landscape from categorical raster data based on its id and provided \code{window} argument.
 }
 \examples{
-\dontrun{
+library(stars)
+landform = read_stars(system.file("raster/landforms.tif", package = "motif"))
+ecoregions = read_sf(system.file("vector/ecoregionss.gpkg", package = "motif"))
+
+extract1 = lsp_extract(x = landform, window = 100, id = 25)
+plot(extract1)
+
+extract2 = lsp_extract(x = landform, window = ecoregions["id"], id = 11)
+plot(extract2)
+
+\donttest{
+# larger data example
 library(stars)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
 ecoregions = read_sf(system.file("vector/ecoregions.gpkg", package = "motif"))
