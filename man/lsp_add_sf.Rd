@@ -41,7 +41,7 @@ lc_cove_lsp = lsp_add_sf(lc_cove)
 plot(lc_cove_lsp["id"])
 plot(lc_cove_lsp["na_prop"])
 
-\dontrun{
+\donttest{
 # larger data example
 library(stars)
 landform = read_stars(system.file("raster/landform.tif", package = "motif"))
