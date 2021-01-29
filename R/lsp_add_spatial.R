@@ -192,7 +192,7 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
 #' plot(lc_cove_lsp["id"])
 #' plot(lc_cove_lsp["na_prop"])
 #'
-#' \dontrun{
+#' \donttest{
 #' # larger data example
 #' library(stars)
 #' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
