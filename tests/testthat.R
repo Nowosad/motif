@@ -41,6 +41,7 @@ landcoverold_p = read_stars(system.file("raster/landcover2001s.tif", package = "
 # ecoregions = st_crop(ecoregions, t_ext)
 # ecoregions = st_cast(ecoregions, "MULTIPOLYGON")
 ecoregions = read_sf(system.file("vector/ecoregionss.gpkg", package = "motif"))
+ecoregions = st_transform(ecoregions, st_crs(landform))
 
 # prepare cont data -------------------------------------------------------
 set.seed(222)
