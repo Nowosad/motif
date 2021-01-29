@@ -18,6 +18,7 @@
 #' extract1 = lsp_extract(x = landform, window = 100, id = 25)
 #' plot(extract1)
 #'
+#' ecoregions = st_transform(ecoregions, st_crs(landform))
 #' extract2 = lsp_extract(x = landform, window = ecoregions["id"], id = 11)
 #' plot(extract2)
 #'
@@ -30,6 +31,7 @@
 #' extract1 = lsp_extract(x = landform, window = 100, id = 1895)
 #' plot(extract1)
 #'
+#' ecoregions = st_transform(ecoregions, st_crs(landform))
 #' extract2 = lsp_extract(x = landform, window = ecoregions["id"], id = 7)
 #' plot(extract2)
 #' }

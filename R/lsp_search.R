@@ -58,6 +58,8 @@
 #' s1 = lsp_search(landcover_ext, landcover, type = "cove",
 #'   dist_fun = "jensen-shannon", threshold = 0.9, window = 100)
 #' plot(s1["dist"])
+#'
+#' ecoregions = st_transform(ecoregions, st_crs(landcover))
 #' s2 = lsp_search(landcover_ext, landcover, type = "cove",
 #'   dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions["id"])
 #' plot(s2["dist"])
@@ -82,6 +84,8 @@
 #' s1 = lsp_search(landcover_ext, landcover, type = "cove",
 #'   dist_fun = "jensen-shannon", threshold = 0.9, window = 1000)
 #' plot(s1["dist"])
+#'
+#' ecoregions = st_transform(ecoregions, st_crs(landcover))
 #' s2 = lsp_search(landcover_ext, landcover, type = "cove",
 #'   dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions["id"])
 #' plot(s2["dist"])
