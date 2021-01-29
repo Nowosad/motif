@@ -81,7 +81,7 @@ See examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -170,7 +170,8 @@ See examples.</p>
     <p>A <code>stars</code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># larger data example</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/stars/'>stars</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/sf/'>sf</a></span><span class='op'>)</span>
 <span class='va'>landform</span> <span class='op'>=</span> <span class='fu'><a href='https://r-spatial.github.io/stars/reference/read_stars.html'>read_stars</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"raster/landform.tif"</span>, package <span class='op'>=</span> <span class='st'>"motif"</span><span class='op'>)</span><span class='op'>)</span>
@@ -181,15 +182,15 @@ See examples.</p>
 
 <span class='va'>landform_dist</span> <span class='op'>=</span> <span class='fu'><a href='lsp_to_dist.html'>lsp_to_dist</a></span><span class='op'>(</span><span class='va'>landform_cove</span>,
                             dist_fun <span class='op'>=</span> <span class='st'>"jensen-shannon"</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='message'>Metric: 'jensen-shannon' using unit: 'log2'; comparing: 288 vectors.</span></div><div class='input'>
 <span class='va'>landform_hclust</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></span><span class='op'>(</span><span class='va'>landform_dist</span>, method <span class='op'>=</span> <span class='st'>"ward.D2"</span><span class='op'>)</span>
 <span class='fu'><a href='https://r-spatial.github.io/stars/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>landform_hclust</span><span class='op'>)</span>
-
+</div><div class='img'><img src='lsp_mosaic-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='va'>clusters</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/cutree.html'>cutree</a></span><span class='op'>(</span><span class='va'>landform_hclust</span>, k <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 
 <span class='va'>landform_grid_sf</span> <span class='op'>=</span> <span class='fu'><a href='lsp_add_clusters.html'>lsp_add_clusters</a></span><span class='op'>(</span><span class='va'>landform_cove</span>, <span class='va'>clusters</span><span class='op'>)</span>
 <span class='fu'><a href='https://r-spatial.github.io/stars/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>landform_grid_sf</span><span class='op'>[</span><span class='st'>"clust"</span><span class='op'>]</span><span class='op'>)</span>
-
+</div><div class='img'><img src='lsp_mosaic-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='va'>landform_grid_sf_sel</span> <span class='op'>=</span> <span class='va'>landform_grid_sf</span> <span class='op'>%&gt;%</span>
     <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>na_prop</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>clust</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -197,12 +198,31 @@ See examples.</p>
 
 <span class='va'>landform_grid_sf_sel</span> <span class='op'>=</span> <span class='fu'><a href='lsp_add_examples.html'>lsp_add_examples</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>landform_grid_sf_sel</span>, y <span class='op'>=</span> <span class='va'>landform</span><span class='op'>)</span>
 <span class='va'>landform_grid_sf_sel</span>
-
+</div><div class='output co'>#&gt; Simple feature collection with 64 features and 5 fields
+#&gt; geometry type:  POLYGON
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: -851676.1 ymin: -1118556 xmax: 948323.9 ymax: -98556.49
+#&gt; projected CRS:  unnamed
+#&gt; <span style='color: #555555;'># A tibble: 64 x 6</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   clust [4]</span><span>
+#&gt;       id na_prop signature    clust                              geometry region
+#&gt;  </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>                         </span><span style='color: #555555;font-style: italic;'>&lt;POLYGON [m]&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>   160       0 </span><span style='color: #555555;'>&lt;dbl[,225] </span><span>…     1 ((-431676.1 -278556.5, -371676.1 -27… </span><span style='color: #555555;'>&lt;star</span><span>…
+#&gt; </span><span style='color: #555555;'> 2</span><span>   165       0 </span><span style='color: #555555;'>&lt;dbl[,225] </span><span>…     1 ((-131676.1 -278556.5, -71676.1 -278… </span><span style='color: #555555;'>&lt;star</span><span>…
+#&gt; </span><span style='color: #555555;'> 3</span><span>   204       0 </span><span style='color: #555555;'>&lt;dbl[,225] </span><span>…     1 ((-11676.1 -338556.5, 48323.9 -33855… </span><span style='color: #555555;'>&lt;star</span><span>…
+#&gt; </span><span style='color: #555555;'> 4</span><span>   165       0 </span><span style='color: #555555;'>&lt;dbl[,225] </span><span>…     1 ((-131676.1 -278556.5, -71676.1 -278… </span><span style='color: #555555;'>&lt;star</span><span>…
+#&gt; </span><span style='color: #555555;'> 5</span><span>   160       0 </span><span style='color: #555555;'>&lt;dbl[,225] </span><span>…     1 ((-431676.1 -278556.5, -371676.1 -27… </span><span style='color: #555555;'>&lt;star</span><span>…
+#&gt; </span><span style='color: #555555;'> 6</span><span>   164       0 </span><span style='color: #555555;'>&lt;dbl[,225] </span><span>…     1 ((-191676.1 -278556.5, -131676.1 -27… </span><span style='color: #555555;'>&lt;star</span><span>…
+#&gt; </span><span style='color: #555555;'> 7</span><span>   165       0 </span><span style='color: #555555;'>&lt;dbl[,225] </span><span>…     1 ((-131676.1 -278556.5, -71676.1 -278… </span><span style='color: #555555;'>&lt;star</span><span>…
+#&gt; </span><span style='color: #555555;'> 8</span><span>   165       0 </span><span style='color: #555555;'>&lt;dbl[,225] </span><span>…     1 ((-131676.1 -278556.5, -71676.1 -278… </span><span style='color: #555555;'>&lt;star</span><span>…
+#&gt; </span><span style='color: #555555;'> 9</span><span>   165       0 </span><span style='color: #555555;'>&lt;dbl[,225] </span><span>…     1 ((-131676.1 -278556.5, -71676.1 -278… </span><span style='color: #555555;'>&lt;star</span><span>…
+#&gt; </span><span style='color: #555555;'>10</span><span>   204       0 </span><span style='color: #555555;'>&lt;dbl[,225] </span><span>…     1 ((-11676.1 -338556.5, 48323.9 -33855… </span><span style='color: #555555;'>&lt;star</span><span>…
+#&gt; </span><span style='color: #555555;'># … with 54 more rows</span><span></div><div class='input'>
 <span class='va'>landform_clust_m</span> <span class='op'>=</span> <span class='fu'>lsp_mosaic</span><span class='op'>(</span><span class='va'>landform_grid_sf_sel</span><span class='op'>)</span>
 
 <span class='fu'><a href='https://r-spatial.github.io/stars/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>landform_clust_m</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+</div><div class='img'><img src='lsp_mosaic-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
