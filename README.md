@@ -5,10 +5,14 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](http://www.r-pkg.org/badges/version/motif)](https://cran.r-project.org/package=motif)
 [![GitHub action build
 status](https://github.com/Nowosad/motif/workflows/pkgdown/badge.svg)](https://github.com/Nowosad/motif/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/Nowosad/motif/branch/master/graph/badge.svg)](https://codecov.io/gh/Nowosad/motif?branch=master)
+[![CRAN RStudio mirror
+downloads](http://cranlogs.r-pkg.org/badges/motif)](https://cran.r-project.org/package=motif)
 <!-- badges: end -->
 
 The **motif** package implements and extends ideas of the pattern-based
