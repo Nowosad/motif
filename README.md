@@ -21,10 +21,12 @@ clustering to be performed on spatial patterns.
 
 ## Installation
 
-<!-- You can install the released version of motif from [CRAN](https://CRAN.R-project.org) with: -->
-<!-- ``` r -->
-<!-- install.packages("motif") -->
-<!-- ``` -->
+You can install the released version of motif from
+[CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("motif")
+```
 
 And the development version from [GitHub](https://github.com/) with:
 

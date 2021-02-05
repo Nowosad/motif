@@ -27,11 +27,11 @@ It enables spatial analysis such as search, change detection, and clustering to 
 
 ## Installation
 
-<!-- You can install the released version of motif from [CRAN](https://CRAN.R-project.org) with: -->
+You can install the released version of motif from [CRAN](https://CRAN.R-project.org) with:
 
-<!-- ``` r -->
-<!-- install.packages("motif") -->
-<!-- ``` -->
+``` r
+install.packages("motif")
+```
 
 And the development version from [GitHub](https://github.com/) with:
 
