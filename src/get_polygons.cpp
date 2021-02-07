@@ -15,8 +15,10 @@ List get_polygons(const List& input,
 
   int num_l = input.length();
 
-  arma::ivec classes_m = unique(m);
-  classes_m = classes_m.elem(find(classes_m != NA_INTEGER));
+  arma::ivec classes_m = unique(m.elem(find(m != INT_MIN)));
+
+  //arma::ivec classes_m = unique(m);
+  //classes_m = classes_m.elem(find(classes_m != NA_INTEGER));
   int classes_m_size = classes_m.size();
 
   // initialize objects

@@ -1,3 +1,7 @@
+# motif 0.4.2
+
+* Fixes CRAN gcc-UBSAN/clang-UBSAN RcppArmadillo issue
+
 # motif 0.4.1
 
 * Improves documentation
