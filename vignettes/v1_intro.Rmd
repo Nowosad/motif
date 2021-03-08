@@ -172,6 +172,6 @@ Importantly, spatial patterns' signatures can be used not only to describe lands
 
 You can find examples of each of the above applications in the vignettes:
 
-1. [Spatial patterns' search](https://nowosad.github.io/motif/articles/articles/search.html)
-2. [Spatial patterns' comparision](https://nowosad.github.io/motif/articles/articles/compare.html)
-3. [Spatial patterns' clustering](https://nowosad.github.io/motif/articles/articles/cluster.html)
+1. [Spatial patterns' search](https://nowosad.github.io/motif/articles/articles/v3_search.html)
+2. [Spatial patterns' comparision](https://nowosad.github.io/motif/articles/articles/v4_compare.html)
+3. [Spatial patterns' clustering](https://nowosad.github.io/motif/articles/articles/v5_cluster.html)
