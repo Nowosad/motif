@@ -70,7 +70,7 @@ landcover_cove = lsp_signature(landcover, type = "cove",
                                 window = 100, normalization = "pdf")
 ```
 
-Read the [Introduction to the motif package](https://nowosad.github.io/motif/articles/intro.html) vignette to learn more about spatial signatures.
+Read the [Introduction to the motif package](https://nowosad.github.io/motif/articles/v1_intro.html) vignette to learn more about spatial signatures.
 
 Next, we need to calculate the distance (dissimilairy) between each local landscape's pattern.
 This can be done with the `lsp_to_dist()` function, where we must provide the output of `lsp_signature()` and a distance/dissimilarity measure used (`dist_fun = "jensen-shannon"`).

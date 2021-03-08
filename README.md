@@ -44,15 +44,15 @@ remotes::install_github("Nowosad/motif")
 See the package’s vignettes:
 
 1.  [Introduction to the motif
-    package](https://nowosad.github.io/motif/articles/intro.html)
+    package](https://nowosad.github.io/motif/articles/v1_intro.html)
 2.  [Types of spatial patterns’
-    signatures](https://nowosad.github.io/motif/articles/articles/signatures.html)
+    signatures](https://nowosad.github.io/motif/articles/articles/v2_signatures.html)
 3.  [Spatial patterns’
-    search](https://nowosad.github.io/motif/articles/articles/search.html)
+    search](https://nowosad.github.io/motif/articles/articles/v3_search.html)
 4.  [Spatial patterns’
-    comparision](https://nowosad.github.io/motif/articles/articles/compare.html)
+    comparision](https://nowosad.github.io/motif/articles/articles/v4_compare.html)
 5.  [Spatial patterns’
-    clustering](https://nowosad.github.io/motif/articles/articles/cluster.html)
+    clustering](https://nowosad.github.io/motif/articles/articles/v5_cluster.html)
 
 ## Contribution
 
