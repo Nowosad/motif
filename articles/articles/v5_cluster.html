@@ -141,7 +141,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">landcover_cove</span> <span class="op">=</span> <span class="fu"><a href="../../reference/lsp_signature.html">lsp_signature</a></span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"cove"</span>,
                                 window <span class="op">=</span> <span class="fl">100</span>, normalization <span class="op">=</span> <span class="st">"pdf"</span><span class="op">)</span></code></pre></div>
-<p>Read the <a href="https://nowosad.github.io/motif/articles/intro.html">Introduction to the motif package</a> vignette to learn more about spatial signatures.</p>
+<p>Read the <a href="https://nowosad.github.io/motif/articles/v1_intro.html">Introduction to the motif package</a> vignette to learn more about spatial signatures.</p>
 <p>Next, we need to calculate the distance (dissimilairy) between each local landscape’s pattern. This can be done with the <code><a href="../../reference/lsp_to_dist.html">lsp_to_dist()</a></code> function, where we must provide the output of <code><a href="../../reference/lsp_signature.html">lsp_signature()</a></code> and a distance/dissimilarity measure used (<code>dist_fun = "jensen-shannon"</code>).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">landcover_dist</span> <span class="op">=</span> <span class="fu"><a href="../../reference/lsp_to_dist.html">lsp_to_dist</a></span><span class="op">(</span><span class="va">landcover_cove</span>, dist_fun <span class="op">=</span> <span class="st">"jensen-shannon"</span><span class="op">)</span>
