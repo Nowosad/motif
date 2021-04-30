@@ -181,7 +181,6 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, output = "stars
     output_sf = lsp_add_sf(y_metadata, window = window)
     output_sf = merge(output_sf, output_y,
                       by.x = names(output_sf)[1], by.y = "id")
-
     return(output_sf)
   }
 }

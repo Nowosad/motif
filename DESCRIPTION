@@ -15,7 +15,6 @@ Description: Describes spatial patterns of categorical raster data for
     and clustering to be performed on spatial patterns (Nowosad (2021) <doi:10.1007/s10980-020-01135-0>).
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Depends: 
