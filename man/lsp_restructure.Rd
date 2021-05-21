@@ -30,4 +30,6 @@ landcover = read_stars(system.file("raster/landcover2015s.tif", package = "motif
 landcover_cove = lsp_signature(landcover, type = "cove", threshold = 0.9, window = 100)
 landcover_cover = lsp_restructure(landcover_cove)
 landcover_cover
+
+lsp_add_sf(landcover_cover)
 }

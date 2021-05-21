@@ -56,6 +56,9 @@ where increased values indicate increased quality.
 # see examples of `lsp_add_clusters()`
 
 }
+\references{
+Jakub Nowosad & Tomasz F. Stepinski (2021) Pattern-based identification and mapping of landscape types using multi-thematic data, International Journal of Geographical Information Science, DOI: 10.1080/13658816.2021.1893324
+}
 \seealso{
 lsp_add_clusters
 }

@@ -41,6 +41,8 @@
 #' 1 - (inhomogeneity / distinction). This value is also between 0 and 1,
 #' where increased values indicate increased quality.
 #'
+#' @references Jakub Nowosad & Tomasz F. Stepinski (2021) Pattern-based identification and mapping of landscape types using multi-thematic data, International Journal of Geographical Information Science, DOI: 10.1080/13658816.2021.1893324
+#'
 #' @return Object of class `sf` with three additional columns representing quality metrics.
 #'
 #' @examples
