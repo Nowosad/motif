@@ -1,3 +1,7 @@
+# motif 0.4.3
+
+* Adds `lsp_restructure()` to split signatures from a list-column into many columns
+
 # motif 0.4.2
 
 * Fixes CRAN gcc-UBSAN/clang-UBSAN RcppArmadillo issue
