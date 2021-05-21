@@ -39,6 +39,15 @@ landform_grid_sf = lsp_add_clusters(landform_cove,
 landform_grid_sfq_c = lsp_add_quality(landform_grid_sf, landform_dist)
 landform_grid_sfq_s = lsp_add_quality(landform_grid_sf, landform_dist, type = "segmentation")
 
+landform_grid_sf_sel = landform_grid_sf %>%
+    dplyr::filter(na_prop < 0.01) %>%
+    dplyr::group_by(clust) %>%
+    dplyr::slice_sample(n = 4, replace = TRUE)
+
+landform_grid_sf_sel = lsp_add_examples(x = landform_grid_sf_sel, y = landform)
+
+landform_clust_m = lsp_mosaic(landform_grid_sf_sel)
+
 # plot(landform_grid_sf["inhomogeneity"])
 # plot(landform_grid_sf["isolation"])
 # plot(landform_grid_sf["quality"])
@@ -74,3 +83,11 @@ test_that("region = TRUE is not implemented", {
                                          regions = TRUE))
 })
 
+test_that("lsp_add_examples works", {
+  expect_equal(nrow(landform_grid_sf_sel), 16)
+})
+
+test_that("lsp_mosaic workds", {
+  expect_s3_class(landform_clust_m, "stars")
+  expect_equivalent(dim(landform_clust_m), c(400, 400, 4))
+})
