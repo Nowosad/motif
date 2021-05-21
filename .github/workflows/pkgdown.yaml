@@ -47,10 +47,6 @@ jobs:
           remotes::install_cran("tmap", dependencies = TRUE, type = "binary")
         shell: Rscript {0}
 
-      #- name: Test coverage
-      #  run: covr::codecov()
-      #  shell: Rscript {0}
-
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
@@ -65,3 +61,8 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
+
+      - name: Test coverage
+        run: covr::codecov()
+        shell: Rscript {0}
+
