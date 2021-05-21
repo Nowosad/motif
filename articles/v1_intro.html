@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -137,9 +137,9 @@
                                 normalization <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>
 <span class="va">landcover_comp</span>
 <span class="co">#&gt; # A tibble: 1 x 3</span>
-<span class="co">#&gt;      id na_prop signature        </span>
-<span class="co">#&gt; * &lt;int&gt;   &lt;dbl&gt; &lt;list&gt;           </span>
-<span class="co">#&gt; 1     1   0.666 &lt;int[,7] [1 × 7]&gt;</span></code></pre></div>
+<span class="co">#&gt;      id na_prop signature    </span>
+<span class="co">#&gt; * &lt;int&gt;   &lt;dbl&gt; &lt;list&gt;       </span>
+<span class="co">#&gt; 1     1   0.666 &lt;int [1 × 7]&gt;</span></code></pre></div>
 <p>The output of <code><a href="../reference/lsp_signature.html">lsp_signature()</a></code>, <code>landcover_comp</code>, has a new class <code>lsp</code>. It is a tibble with three columns:</p>
 <ul>
 <li>
@@ -171,18 +171,18 @@
 <code class="sourceCode R"><span class="va">landcover_coma</span> <span class="op">=</span> <span class="fu"><a href="../reference/lsp_signature.html">lsp_signature</a></span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"coma"</span>, window <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>
 <span class="va">landcover_coma</span>
 <span class="co">#&gt; # A tibble: 298 x 3</span>
-<span class="co">#&gt;       id na_prop signature        </span>
-<span class="co">#&gt;  * &lt;int&gt;   &lt;dbl&gt; &lt;list&gt;           </span>
-<span class="co">#&gt;  1     2  0.644  &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  2     3  0.0992 &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  3     4  0.145  &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  4     5  0.602  &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  5     6  0.775  &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  6     9  0.796  &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  7    38  0.255  &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  8    39  0      &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  9    40  0      &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt; 10    41  0      &lt;int[,7] [7 × 7]&gt;</span>
+<span class="co">#&gt;       id na_prop signature    </span>
+<span class="co">#&gt;  * &lt;int&gt;   &lt;dbl&gt; &lt;list&gt;       </span>
+<span class="co">#&gt;  1     2  0.644  &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  2     3  0.0992 &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  3     4  0.145  &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  4     5  0.602  &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  5     6  0.775  &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  6     9  0.796  &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  7    38  0.255  &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  8    39  0      &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  9    40  0      &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt; 10    41  0      &lt;int [7 × 7]&gt;</span>
 <span class="co">#&gt; # … with 288 more rows</span></code></pre></div>
 <p>Now, we have one row per local landscape, where each local landscape is described by an id (<code>id</code>), the proportion of cells with <code>NA</code>s (<code>na_prop</code>), and a signature (<code>signature</code>). For example, the first signature looks like this:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -210,18 +210,18 @@
 <code class="sourceCode R"><span class="va">landcover_coma_e</span> <span class="op">=</span> <span class="fu"><a href="../reference/lsp_signature.html">lsp_signature</a></span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"coma"</span>, window <span class="op">=</span> <span class="va">ecoregions</span><span class="op">[</span><span class="st">"id"</span><span class="op">]</span><span class="op">)</span>
 <span class="va">landcover_coma_e</span>
 <span class="co">#&gt; # A tibble: 22 x 3</span>
-<span class="co">#&gt;       id na_prop signature        </span>
-<span class="co">#&gt;  * &lt;int&gt;   &lt;dbl&gt; &lt;list&gt;           </span>
-<span class="co">#&gt;  1     1 0.114   &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  2     2 0.0851  &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  3     3 0.0377  &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  4     4 0.0914  &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  5     5 0       &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  6     6 0       &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  7     7 0.00285 &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  8     8 0.0720  &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt;  9     9 0.0508  &lt;int[,7] [7 × 7]&gt;</span>
-<span class="co">#&gt; 10    10 0       &lt;int[,7] [7 × 7]&gt;</span>
+<span class="co">#&gt;       id na_prop signature    </span>
+<span class="co">#&gt;  * &lt;int&gt;   &lt;dbl&gt; &lt;list&gt;       </span>
+<span class="co">#&gt;  1     1 0.114   &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  2     2 0.0851  &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  3     3 0.0377  &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  4     4 0.0914  &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  5     5 0       &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  6     6 0       &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  7     7 0.00285 &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  8     8 0.0720  &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt;  9     9 0.0508  &lt;int [7 × 7]&gt;</span>
+<span class="co">#&gt; 10    10 0       &lt;int [7 × 7]&gt;</span>
 <span class="co">#&gt; # … with 12 more rows</span></code></pre></div>
 <p>The output, <code>landcover_coma_e</code>, is also of the <code>lsp</code> class and contains three columns. The first column, <code>id</code>, has the same values as provided in the <code>window</code> argument above. The third column, <code>signature</code>, has a spatial signature for each polygon in the <code>ecoregions</code> dataset.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
