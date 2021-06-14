@@ -25,6 +25,8 @@
 #' plot(lc_cove_lsp)
 #' plot(lc_cove_lsp["na_prop"])
 #'
+#' lc_cove_lsp2 = lsp_add_stars(lc_cove, version = 2)
+#' plot(lc_cove_lsp2)
 #'
 #' \donttest{
 #' # larger data example
@@ -43,7 +45,7 @@
 #' @rdname lsp_add_stars
 #'
 #' @export
-lsp_add_stars = function(x = NULL, window = NULL) UseMethod("lsp_add_stars")
+lsp_add_stars = function(x = NULL, window = NULL, version = NULL) UseMethod("lsp_add_stars")
 
 #' @name lsp_add_stars
 #' @export
@@ -89,18 +91,29 @@ lsp_add_stars.default = function(x = NULL, window = NULL){
 
 #' @name lsp_add_stars
 #' @export
-lsp_add_stars.lsp = function(x = NULL, window = NULL){
+lsp_add_stars.lsp = function(x = NULL, window = NULL, version = 1){
   metadata = attr(x, "metadata")
   if (metadata$use_window && is.null(window)){
     stop("This function requires an sf object in the window argument for irregular local landscapes.", call. = FALSE)
   }
 
   if (is.null(window)){
-    output_stars = lsp_create_grid(x_crs = metadata$crs,
-                                   x_bb = metadata$bb,
-                                   x_delta_row = metadata$delta_y,
-                                   x_delta_col = metadata$delta_x,
-                                   window_shift = metadata$window_shift)
+    if (version == 1){
+      output_stars = lsp_create_grid(x_crs = metadata$crs,
+                                     x_bb = metadata$bb,
+                                     x_delta_row = metadata$delta_y,
+                                     x_delta_col = metadata$delta_x,
+                                     window_shift = metadata$window_shift)
+    } else if (version == 2){
+      nvars = length(x[1, "signature"][[1]][[1]])
+      output_stars = lsp_create_grid(x_crs = metadata$crs,
+                                     x_bb = metadata$bb,
+                                     x_delta_row = metadata$delta_y,
+                                     x_delta_col = metadata$delta_x,
+                                     window_shift = metadata$window_shift,
+                                     nz = nvars)
+    }
+
   } else {
     output_stars = stars::st_rasterize(window[1],
                                  template = stars::st_as_stars(metadata$bb,
@@ -109,10 +122,18 @@ lsp_add_stars.lsp = function(x = NULL, window = NULL){
                                                                dy = metadata$delta_x))
   }
 
-  output_stars = join_stars(output_stars, x, by = "id")
+  if (version == 2){
+    output_stars = join_stars2(output_stars, x, by = "id")
+  } else {
+    output_stars = join_stars(output_stars, x, by = "id")
+  }
 
   return(output_stars)
 }
+
+# stars = output_stars
+# df = x
+# by = "id"
 
 join_stars = function(stars, df, by){
   true_dim = dim(stars[[by]])
@@ -135,8 +156,31 @@ join_stars = function(stars, df, by){
   return(stars)
 }
 
+join_stars2 = function(stars, df, by){
+  nvars = length(df[1, "signature"][[1]][[1]])
+  true_dim = dim(stars[[by]])
+  matched_ids = match(stars[[by]][,,1], df[[by]])
 
-lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
+  selected_colnames = "signature"
+
+  selected_vals = df[[selected_colnames]][matched_ids]
+
+  selected_vals[vapply(selected_vals, is.null, FUN.VALUE = TRUE)] = list(rep(NA, nvars))
+
+  selected_vals = do.call(rbind, selected_vals)
+  selected_vals = as.vector(selected_vals)
+
+  selected_vals = unlist(selected_vals)
+  dim(selected_vals) = true_dim
+
+  stars[[selected_colnames]] = selected_vals
+  stars[["id"]] = NULL
+  names(st_dimensions(stars))[3] = "values"
+  return(stars)
+}
+
+
+lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift, nz){
 
   cellshift = c(window_shift * x_delta_row,
                 window_shift * x_delta_col)
@@ -157,7 +201,8 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
   output = stars::st_as_stars(output_bb,
                        nx = unname(output_n_row),
                        ny = unname(output_n_col),
-                       values = as.integer(seq_len(output_n_row * output_n_col)))
+                       values = as.integer(seq_len(output_n_row * output_n_col)),
+                       nz = nz)
 
   output = sf::st_set_crs(output, value = x_crs)
   names(output) = "id"
