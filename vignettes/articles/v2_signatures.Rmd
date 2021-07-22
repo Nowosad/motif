@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The fundamental element of the pattern-based spatial analysis is a numerical describtion of spatial patterns (so-called signature).
+The fundamental element of the pattern-based spatial analysis is a numerical description of spatial patterns (so-called signature).
 This vignette shows how to derive spatial signatures using the `lsp_signature()` function on example datasets.
 Let's start by attaching necessary packages:
 
