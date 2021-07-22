@@ -1,0 +1,144 @@
+---
+title: "Extracting the proportion of different classes in many regular local landscapes"
+author: "Jakub Nowosad"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+  github_document:
+    html_preview: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  dev = "png"
+)
+```
+
+The pattern-based analysis, as explained in Nowosad (2021), is concerned with describing spatial patterns for many local landscapes - blocks of cells containing a local pattern of a cell-based variable(s). 
+One of its core ideas is to transform information stored in each local landscape's cells into a spatial signature — a statistical description of a pattern.
+
+The proportion of different classes, also known as *composition*, can be considered as a basic spatial signature of categorical rasters.
+It is well-known that composition is a fundamental element of a landscape pattern (Riitters, 2019), and for example, the proportion of different land cover classes has a significant impact on environmental processes. 
+
+The role of this vignette is to show how to calculate the proportion of different classes in many regular local landscapes using the **motif** package. 
+Let’s start by attaching necessary packages:
+
+```{r, message=FALSE}
+library(motif)
+library(sf)
+library(stars)
+```
+
+For this vignette, we use the `"raster/landcover2015.tif"` file, which contains land cover data for New Guinea, with seven possible categories: (1) agriculture, (2) forest, (3) grassland, (5) settlement, (6) shrubland, (7) sparse vegetation, and (9) water.
+
+```{r}
+landcover = read_stars(system.file("raster/landcover2015.tif", package = "motif"))
+landcover = droplevels(landcover)
+plot(landcover, key.pos = 4, key.width = lcm(5), main = NULL)
+```
+
+# New grid
+
+One possible approach is just to set up size of a local landscape in the `lsp_signature()` function. 
+For example, `window = 100` divides the input raster into a number of non-overlapping 100 by 100 cells local landscapes.
+To extract the proportion of different classes in the `landcover` raster, we need to set `type` to `"composition"`^[Additionally, if you want to get the actual number of cells (not their proportions), you can set `normalization` to `"none"`].
+
+```{r}
+landcover_comp = lsp_signature(landcover,
+                               type = "composition", 
+                               threshold = 1, 
+                               window = 100)
+```
+
+Information about the composition of each local landscape is stored in a list-column named `signature`.
+
+```{r}
+landcover_comp
+```
+
+Objects of this structure can be next used in many spatial pattern-based analysis, such as [search](https://nowosad.github.io/motif/articles/articles/v3_search.html), [comparision](https://nowosad.github.io/motif/articles/articles/v4_compare.html), or [clustering](https://nowosad.github.io/motif/articles/articles/v5_cluster.html).
+However, it could be useful for some operations to have each proportion as a separate column.
+This can be done with the `lsp_restructure()` function.
+
+```{r}
+landcover_comp = lsp_restructure(landcover_comp)
+```
+
+Now, each land cover category has a separate column, but the columns' names are meaningless.
+To add column names representing actual land cover categories, we can extract correct names from the `landcover_comp` object attributes. 
+
+```{r}
+true_colnames = attr(landcover_comp, "metadata")$vals[[1]]
+names(landcover_comp)[3:ncol(landcover_comp)] = true_colnames
+landcover_comp
+```
+
+The above result is a special data frame of class `lsp`.
+This allows us to easily add spatial information about the borders of the local landscapes with `lsp_add_sf()`.
+
+```{r}
+landcover_comp_sf = lsp_add_sf(landcover_comp) # this function adds our grid as an sf object
+```
+
+Now, the proportions of land cover categories can be visualized with the `plot()` function ^[Try `border = NA` to remove the local landscape border lines].
+All categories:
+
+```{r}
+plot(landcover_comp_sf[-c(1, 2)], border = NA)
+```
+
+Just the second category - forest:
+
+```{r}
+plot(landcover_comp_sf["2"])
+```
+
+# Existing areas
+
+The second approach is to create or use existing local landscape areas in the form of an `sf` polygons.
+Importantly, this approach could be visibly slower - therefore, if your local landscapes are represented by a regular grid, we recommend using the first approach.
+
+For example, here, we create a `my_grid` object - a set of `sf` polygons, where each polygon has a size of 30 by 30 km and a unique `id` column.
+
+```{r}
+my_grid = st_make_grid(landcover, cellsize = 30000)
+my_grid = st_sf(data.frame(id = seq(length(my_grid), 1, by = -1)), geom = my_grid)
+plot(my_grid)
+```
+
+The next steps are the same as in the first approach - we use the `lsp_signature()`, `lsp_restructure()`, and `lsp_add_sf()` functions.
+There are only two slight differences.
+Firstly, we use our `my_grid` object as the value of the `window` argument.
+
+```{r}
+landcover_comp2 = lsp_signature(landcover,
+                               type = "composition", 
+                               threshold = 1,
+                               window = my_grid)
+landcover_comp2 = lsp_restructure(landcover_comp2)
+names(landcover_comp2)[3:ncol(landcover_comp2)] = attr(landcover_comp2, "metadata")$vals[[1]]
+landcover_comp2
+```
+
+The second difference is when we want to convert our results to a spatial object.
+In this case, we need to provide our `my_grid` object as the value of the `window` argument in `lsp_add_sf()`.
+
+Proportions of each land cover categories:
+```{r}
+landcover_comp_sf2 = lsp_add_sf(landcover_comp2, window = my_grid)
+plot(landcover_comp_sf2[-c(1, 2)], border = NA)
+```
+
+Just the second category - forest:
+
+```{r}
+plot(landcover_comp_sf2["2"])
+```
+
+# References
+
+- Riitters, K. Pattern metrics for a transdisciplinary landscape ecology. Landscape Ecol 34, 2057–2063 (2019). https://doi.org/10.1007/s10980-018-0755-4
+- Nowosad, J. Motif: an open-source R tool for pattern-based spatial analysis. Landscape Ecol 36, 29–43 (2021). https://doi.org/10.1007/s10980-020-01135-0
