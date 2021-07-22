@@ -53,6 +53,9 @@ See the package’s vignettes:
     comparision](https://nowosad.github.io/motif/articles/articles/v4_compare.html)
 5.  [Spatial patterns’
     clustering](https://nowosad.github.io/motif/articles/articles/v5_cluster.html)
+6.  [Extracting the proportion of different classes in many regular
+    local
+    landscapes](https://nowosad.github.io/motif/articles/articles/v6_composition.html)
 
 ## Contribution
 
