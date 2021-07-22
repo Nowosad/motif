@@ -18,9 +18,6 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-      # - name: "[Stage] [macOS] Install gfortran afresh"
-        # run: brew install --cask gfortran
-
       - name: Query dependencies
         run: |
           install.packages(c('remotes', 'rcmdcheck'))
@@ -37,19 +34,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          options(install.packages.check.source = "no")
-          #install.packages("stars", type = "binary")
           remotes::install_deps(dependencies = TRUE)
-          #remotes::install_github("r-spatial/stars", type = "source")
-          install.packages("pkgdown", type = "binary")
           remotes::install_cran("covr")
-          #remotes::install_cran("tmap", dependencies = TRUE, type = "binary")
+          install.packages("pkgdown", type = "binary")
         shell: Rscript {0}
 
       - name: Check
-        env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        run: |
+          options(crayon.enabled = TRUE)
+          rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
         shell: Rscript {0}
 
       - name: Install package
@@ -64,4 +57,3 @@ jobs:
       - name: Test coverage
         run: covr::codecov()
         shell: Rscript {0}
-
