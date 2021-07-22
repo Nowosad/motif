@@ -115,6 +115,9 @@
       <a href="../articles/articles/v5_cluster.html">Spatial patterns' clustering</a>
     </li>
     <li>
+      <a href="../articles/articles/v6_composition.html">Extracting the proportion of different classes in many regular local landscapes</a>
+    </li>
+    <li>
       <a href="../articles/v1_intro.html">Introduction to the motif package</a>
     </li>
   </ul>
@@ -199,7 +202,7 @@
 <span class='va'>ecoregions</span> <span class='op'>=</span> <span class='fu'><a href='https://r-spatial.github.io/stars/reference/st_transform.html'>st_transform</a></span><span class='op'>(</span><span class='va'>ecoregions</span>, <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_crs.html'>st_crs</a></span><span class='op'>(</span><span class='va'>landform</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>extract2</span> <span class='op'>=</span> <span class='fu'>lsp_extract</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>landform</span>, window <span class='op'>=</span> <span class='va'>ecoregions</span><span class='op'>[</span><span class='st'>"id"</span><span class='op'>]</span>, id <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span>
 <span class='fu'><a href='https://r-spatial.github.io/stars/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>extract2</span><span class='op'>)</span>
-</div><div class='img'><img src='lsp_extract-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; <span class='error'>Error in image.stars(x, ..., axes = axes, breaks = breaks, col = col,     key.pos = key.pos, key.width = key.width, key.length = key.length,     main = NULL): rgb plotting not supported on this device</span></div><div class='input'><span class='co'># }</span>
+</div><div class='img'><img src='lsp_extract-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; downsample set to c(1,1)</div><div class='output co'>#&gt; <span class='error'>Error in image.stars(x, ..., axes = axes, breaks = breaks, col = col,     key.pos = key.pos, key.width = key.width, key.length = key.length,     main = NULL): rgb plotting not supported on this device</span></div><div class='input'><span class='co'># }</span>
 </div><div class='img'><img src='lsp_extract-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

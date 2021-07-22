@@ -73,6 +73,9 @@
       <a href="../articles/articles/v5_cluster.html">Spatial patterns' clustering</a>
     </li>
     <li>
+      <a href="../articles/articles/v6_composition.html">Extracting the proportion of different classes in many regular local landscapes</a>
+    </li>
+    <li>
       <a href="../articles/v1_intro.html">Introduction to the motif package</a>
     </li>
   </ul>
@@ -118,9 +121,10 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/">stars</a></span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: abind</span>
 <span class="co">#&gt; Loading required package: sf</span>
-<span class="co">#&gt; Linking to GEOS 3.8.1, GDAL 3.1.4, PROJ 6.3.1</span>
+<span class="co">#&gt; Linking to GEOS 3.8.1, GDAL 3.2.0, PROJ 7.2.0</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
 <span class="va">landcover</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/read_stars.html">read_stars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"raster/landcover2015.tif"</span>, package <span class="op">=</span> <span class="st">"motif"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; downsample set to c(13,13)</code></pre>
 <p><img src="v1_intro_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 <div id="signatures" class="section level2">
 <h2 class="hasAnchor">
@@ -130,7 +134,7 @@
 <a href="#whole-area" class="anchor"></a>Whole area</h3>
 <p>We can see that most of the island is covered by forest, with some agriculture and smaller areas of the other classes. It is also reasonably easy to describe these proportions (so-called composition) numerically - we just need to count cells of each category for the whole data.</p>
 <p>We can use the <code><a href="../reference/lsp_signature.html">lsp_signature()</a></code> function for this. It requires a <code>stars</code> object as the first input and the type of a signature to calculate - <code>"composition"</code> in this case. There are also several additional arguments, including <code>threshold</code> - a share (between 0 and 1) of NA cells to allow signature calculation and <code>normalization</code> - decision if the output vector should be normalized.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">landcover_comp</span> <span class="op">=</span> <span class="fu"><a href="../reference/lsp_signature.html">lsp_signature</a></span><span class="op">(</span><span class="va">landcover</span>, 
                                 type <span class="op">=</span> <span class="st">"composition"</span>,
                                 threshold <span class="op">=</span> <span class="fl">1</span>,
@@ -150,7 +154,7 @@
 <code>signature</code> - a list-column containing with calculated signatures</li>
 </ul>
 <p>We can take a look at the last column:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">landcover_comp</span><span class="op">$</span><span class="va">signature</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt;           1       2     3    4    5     6      7</span>
@@ -165,9 +169,10 @@
 <h3 class="hasAnchor">
 <a href="#regular-local-landscapes" class="anchor"></a>Regular local landscapes</h3>
 <p>Another approach would be to divide this large area into many regular rectangles (we refer to them as local landscapes) and to calculate a signature in each of them. The previously used signature, <code>"composition"</code> has one important flaw though. It only describes how many cells of each category we have. However, it does not distinguish an area with the left half of forest and right half of agriculture from an area with forest mixed with agriculture (think of a green-yellow checkerboard). Gladly, several more types of signatures do exist. It includes a co-occurrence matrix (<code>type = "coma"</code>). <code>"coma"</code> goes to each cell, looks at its value, looks at the values of its neighbors and counts how many neighbors of each class our central cell has.</p>
+<pre><code>#&gt; downsample set to c(13,13)</code></pre>
 <p><img src="v1_intro_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>This time, we set the <code>window</code> argument to <code>200</code>, which means that each local landscape will consist of 200 by 200 cells. In this example, each cell has a resolution of 300 by 300 meters, therefore a local landscape will be 60000 by 60000 meters (60 by 60 kilometers).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">landcover_coma</span> <span class="op">=</span> <span class="fu"><a href="../reference/lsp_signature.html">lsp_signature</a></span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"coma"</span>, window <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>
 <span class="va">landcover_coma</span>
 <span class="co">#&gt; # A tibble: 298 x 3</span>
@@ -185,7 +190,7 @@
 <span class="co">#&gt; 10    41  0      &lt;int [7 × 7]&gt;</span>
 <span class="co">#&gt; # … with 288 more rows</span></code></pre></div>
 <p>Now, we have one row per local landscape, where each local landscape is described by an id (<code>id</code>), the proportion of cells with <code>NA</code>s (<code>na_prop</code>), and a signature (<code>signature</code>). For example, the first signature looks like this:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">landcover_coma</span><span class="op">$</span><span class="va">signature</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co">#&gt;    1     2 3 4 5 6    7</span>
 <span class="co">#&gt; 1 16    24 0 0 0 0   12</span>
@@ -201,12 +206,12 @@
 <h3 class="hasAnchor">
 <a href="#irregular-local-landscapes" class="anchor"></a>Irregular local landscapes</h3>
 <p>The <strong>motif</strong> package also allows using irregular regions based on the user-provided polygons. It has an example spatial vector dataset, <code>ecoregions.gpkg</code>, which contains terrestrial ecoregions for New Guinea from <a href="https://ecoregions2017.appspot.com/" class="uri">https://ecoregions2017.appspot.com/</a>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ecoregions</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">read_sf</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"vector/ecoregions.gpkg"</span>, package <span class="op">=</span> <span class="st">"motif"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>This dataset has 22 rows, where each row relates to one ecoregion. Each ecoregion is also related to a unique value in the <code>id</code> column.</p>
 <p><img src="v1_intro_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <p>Now, we need to provide this dataset and its identity column to the <code>window</code> argument of <code><a href="../reference/lsp_signature.html">lsp_signature()</a></code>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">landcover_coma_e</span> <span class="op">=</span> <span class="fu"><a href="../reference/lsp_signature.html">lsp_signature</a></span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"coma"</span>, window <span class="op">=</span> <span class="va">ecoregions</span><span class="op">[</span><span class="st">"id"</span><span class="op">]</span><span class="op">)</span>
 <span class="va">landcover_coma_e</span>
 <span class="co">#&gt; # A tibble: 22 x 3</span>
@@ -224,7 +229,7 @@
 <span class="co">#&gt; 10    10 0       &lt;int [7 × 7]&gt;</span>
 <span class="co">#&gt; # … with 12 more rows</span></code></pre></div>
 <p>The output, <code>landcover_coma_e</code>, is also of the <code>lsp</code> class and contains three columns. The first column, <code>id</code>, has the same values as provided in the <code>window</code> argument above. The third column, <code>signature</code>, has a spatial signature for each polygon in the <code>ecoregions</code> dataset.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">landcover_coma_e</span><span class="op">$</span><span class="va">signature</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co">#&gt;     1     2 3  4 5 6    7</span>
 <span class="co">#&gt; 1 662   752 0  1 0 0   13</span>
@@ -240,7 +245,7 @@
 <h2 class="hasAnchor">
 <a href="#large-data-support" class="anchor"></a>Large data support</h2>
 <p>The <strong>motif</strong> package also supports large raster datasets, including rasters that do not fit into the RAM. It just requres reading the input data as a <code>stars.proxy</code> by adding <code>proxy = TRUE</code> to the <code><a href="https://r-spatial.github.io/stars/reference/read_stars.html">read_stars()</a></code> function:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">landcover_proxy</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/read_stars.html">read_stars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"raster/landcover2015.tif"</span>, package <span class="op">=</span> <span class="st">"motif"</span><span class="op">)</span>,
                              proxy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>The rest of the calculations are the same as above.</p>
