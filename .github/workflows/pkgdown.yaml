@@ -40,6 +40,7 @@ jobs:
           options(repos = c(rspatial = 'https://r-spatial.r-universe.dev',
                             CRAN = 'https://cloud.r-project.org'))
           install.packages("sf")
+          install.packages("tmap")
 
         shell: Rscript {0}
 
