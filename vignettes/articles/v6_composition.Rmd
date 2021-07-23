@@ -6,6 +6,7 @@ output:
   html_document:
   github_document:
     html_preview: true
+bibliography: refs.bib
 ---
 
 ```{r, include = FALSE}
@@ -17,11 +18,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-The pattern-based analysis, as explained in Nowosad (2021), is concerned with describing spatial patterns for many local landscapes - blocks of cells containing a local pattern of a cell-based variable(s). 
+The pattern-based analysis, as explained in @Nowosad2021, is concerned with describing spatial patterns for many local landscapes - blocks of cells containing a local pattern of a cell-based variable(s). 
 One of its core ideas is to transform information stored in each local landscape's cells into a spatial signature — a statistical description of a pattern.
 
 The proportion of different classes, also known as *composition*, can be considered as a basic spatial signature of categorical rasters.
-It is well-known that composition is a fundamental element of a landscape pattern (Riitters, 2019), and for example, the proportion of different land cover classes has a significant impact on environmental processes. 
+It is well-known that composition is a fundamental element of a landscape pattern [@Riitters2019], and for example, the proportion of different land cover classes has a significant impact on environmental processes. 
 
 The role of this vignette is to show how to calculate the proportion of different classes in many regular local landscapes using the **motif** package. 
 Let’s start by attaching necessary packages:
@@ -139,6 +140,3 @@ plot(landcover_comp_sf2["2"])
 ```
 
 # References
-
-- Riitters, K. Pattern metrics for a transdisciplinary landscape ecology. Landscape Ecol 34, 2057–2063 (2019). https://doi.org/10.1007/s10980-018-0755-4
-- Nowosad, J. Motif: an open-source R tool for pattern-based spatial analysis. Landscape Ecol 36, 29–43 (2021). https://doi.org/10.1007/s10980-020-01135-0
