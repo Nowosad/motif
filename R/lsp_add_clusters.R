@@ -1,15 +1,15 @@
 #' Adds clusters' ids to a lsp object
 #'
 #' Adds clusters' ids to a lsp object.
-#' The output can be of `stars` or `sf` class.
+#' The output can be of `stars`, `sf`, or `terra` class.
 #' See examples.
 #'
 #' @param x Object of class `lsp` - usually the output of
 #' the `lsp_signature()` function
 #' @param clust Vector containing an id value for each row in `x`
-#' @param output The class of the output. Either `"stars"` or `"sf"`
+#' @param output The class of the output. Either `stars`, `sf`, or `terra`
 #' @param window Specifies areas for analysis. It can be either: `NULL` or an `sf` object. If `window=NULL` calculations are performed based on the metadata from `x`. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
-#' @return Object of class `sf` or `stars` (depending on the `output` argument) with an additional column `"clust"` representing clusters' id values.
+#' @return Object of class `stars`, `sf`, or `terra` (depending on the `output` argument) with an additional column `"clust"` representing clusters' id values.
 #'
 #' @examples
 #'
@@ -68,6 +68,8 @@ lsp_add_clusters = function(x, clust, output = "sf", window = NULL){
     x = lsp_add_stars(x, window = window)
   } else if (output == "sf"){
     x = lsp_add_sf(x, window = window)
+  } else if (output == "terra"){
+    x = lsp_add_terra(x, window = window)
   }
   return(x)
 }

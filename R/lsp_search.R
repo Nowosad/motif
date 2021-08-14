@@ -6,12 +6,12 @@
 #' This function allows for several types of comparisons using different representations of spatial patterns, including "coma" (co-occurrence matrix), "cove" (co-occurrence vector), "cocoma" (co-located co-occurrence matrix), "cocove" (co-located co-occurrence vector), "wecoma" (weighted co-occurrence matrix), "wecove" (weighted co-occurrence vector), "incoma" (integrated co-occurrence matrix), "incove" (integrated co-occurrence vector). These representations are created for both datasets, and next a distance between them is calculated using a selected measure from the `philentropy::distance` function.
 #' Additional parameters, such as neighbourhood or normalization types, are also available.
 #'
-#' @param x Object of class `stars` or `stars_proxy`. It should have one attribute (for `"coma"`, `"cove"`), two attributes (`"cocoma"`, `"cocove"`, `"wecoma"`, `"wecove"`), two or more attributes (`"incoma"`, `"incove"`), or any number of attributes suitable for user-defined functions.
-#' @param y Object of class `stars` or `stars_proxy`. It should have one attribute (for `"coma"`, `"cove"`), two attributes (`"cocoma"`, `"cocove"`, `"wecoma"`, `"wecove"`), two or more attributes (`"incoma"`, `"incove"`), or any number of attributes suitable for user-defined functions.
+#' @param x Object of class `stars`, `stars_proxy`, or terra's `SpatRaster`. It should have one attribute (for `"coma"`, `"cove"`), two attributes (`"cocoma"`, `"cocove"`, `"wecoma"`, `"wecove"`), two or more attributes (`"incoma"`, `"incove"`), or any number of attributes suitable for user-defined functions.
+#' @param y Object of class `stars`, `stars_proxy`, or terra's `SpatRaster`. It should have one attribute (for `"coma"`, `"cove"`), two attributes (`"cocoma"`, `"cocove"`, `"wecoma"`, `"wecove"`), two or more attributes (`"incoma"`, `"incove"`), or any number of attributes suitable for user-defined functions.
 #' @param type Type of the calculated signature. It can be `"coma"` (co-occurrence matrix), `"cove"` (co-occurrence vector), `"cocoma"` (co-located co-occurrence matrix), `"cocove"` (co-located co-occurrence vector), `"wecoma"` (weighted co-occurrence matrix), `"wecove"` (weighted co-occurrence vector), `"incoma"` (integrated co-occurrence matrix), `"incove"` (integrated co-occurrence vector), `"composition"` or any function that can summarize `stars` objects.
 #' @param dist_fun Distance measure used. This function uses the `philentropy::distance` function in the background. Run `philentropy::getDistMethods()` to find possible distance measures.
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
-#' @param output The class of the output. Either `"stars"` or `"sf"`
+#' @param output The class of the output. Either `"stars"`, `"sf"`, or `terra`
 #' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
 #' 4 (rook's case) or 8 (queen's case). The default is 4.
 #' @param threshold The share of NA cells to allow metrics calculation.
@@ -31,7 +31,7 @@
 #' @param classes Which classes (categories) should be analyzed? This parameter expects a list of the same length as the number of attributes in `x`, where each element of the list contains integer vector. The default is `NULL`, which means that the classes are calculated directly from the input data and all of them are used in the calculations.
 #' @param ... Additional arguments for the `philentropy::distance` function.
 #'
-#' @return Object of class `stars`.
+#' @return Object of class `stars` (or `sf` or terra's `SpatRaster`, depending on the `output` argument).
 #' It has three attributes:
 #' (1) `id` - an id of each window.
 #' For irregular windows, it is the values provided in the `window` argument,
@@ -97,7 +97,12 @@ lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", nei
 #' @name lsp_search
 #' @export
 lsp_search.stars = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL, ...){
-
+  if (inherits(x, "SpatRaster")){
+    x = stars::st_as_stars(x)
+  }
+  if (inherits(y, "SpatRaster")){
+    y = stars::st_as_stars(y)
+  }
 
   # get metadata ------------------------------------------------------------
   x_metadata = stars::st_dimensions(x)
@@ -162,7 +167,7 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, output = "stars
   message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
   # prepare result ----------------------------------------------------------
-  if (output == "stars"){
+  if (output == "stars" || output == "terra"){
     output_y$signature = NULL
     output_stars = lsp_add_stars(y_metadata, window = window)
 
@@ -174,7 +179,11 @@ lsp_search.stars = function(x, y, type, dist_fun, window = NULL, output = "stars
     # output_stars$dist[which(output_stars$id %in% output$id)] = output$dist
     output_stars$dist = output_y$dist[match(output_stars$id, output_y$id)]
 
-    return(output_stars)
+    if (output == "stars"){
+      return(output_stars)
+    } else {
+      return(st_as_terra2(output_stars))
+    }
 
   } else if (output == "sf"){
     #return sf

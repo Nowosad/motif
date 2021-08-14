@@ -2,7 +2,7 @@
 % Please edit documentation in R/lsp_transform.R
 \name{lsp_transform}
 \alias{lsp_transform}
-\title{Tranforms lsp objects}
+\title{Transforms lsp objects}
 \usage{
 lsp_transform(x, fun, ...)
 }

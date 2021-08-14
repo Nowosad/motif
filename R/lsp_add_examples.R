@@ -6,7 +6,7 @@
 #'
 #' @param x Object of class `lsp` - usually a subset of the output of `lsp_signature()`
 #' or an object of class `sf` - usually a subset of the output of `lsp_search()`
-#' @param y Object of class `stars` or `stars_proxy`.
+#' @param y Object of class `stars`, `stars_proxy`, or terra's `SpatRaster`.
 #' @param window Specifies areas for analysis. It can be either: `NULL` or an `sf` object.
 #' The `sf` object is only needed for adding examples of irregular regions.
 #'
@@ -54,7 +54,9 @@ lsp_add_examples = function(x, y, window = NULL) UseMethod("lsp_add_examples")
 #' @name lsp_add_examples
 #' @export
 lsp_add_examples.lsp = function(x, y, window = NULL){
-
+  if (inherits(y, "SpatRaster")){
+    y = stars::st_as_stars(y)
+  }
   windows_sf = lsp_add_sf(x = x, window = window)
 
   x$region = vector(mode = "list", length = nrow(x))
@@ -75,7 +77,9 @@ lsp_add_examples.sf = function(x, y, window = NULL){
   if (!inherits(x, "tbl_df")){
     x = sf::st_as_sf(tibble::as_tibble(x))
   }
-
+  if (inherits(y, "SpatRaster")){
+    y = stars::st_as_stars(y)
+  }
   windows_sf = x
   x$region = vector(mode = "list", length = nrow(x))
   for (i in seq_len(nrow(x))){

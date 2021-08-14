@@ -19,7 +19,7 @@ lsp_signature(
 )
 }
 \arguments{
-\item{x}{Object of class \code{stars} or \code{stars_proxy}. It should have one attribute (for \code{"coma"}, \code{"cove"}), two attributes (\code{"cocoma"}, \code{"cocove"}, \code{"wecoma"}, \code{"wecove"}), two or more attributes (\code{"incoma"}, \code{"incove"}), or any number of attributes suitable for user-defined functions.}
+\item{x}{Object of class \code{stars}, \code{stars_proxy}, or terra's \code{SpatRaster}. It should have one attribute (for \code{"coma"}, \code{"cove"}), two attributes (\code{"cocoma"}, \code{"cocove"}, \code{"wecoma"}, \code{"wecove"}), two or more attributes (\code{"incoma"}, \code{"incove"}), or any number of attributes suitable for user-defined functions.}
 
 \item{type}{Type of the calculated signature. It can be \code{"coma"} (co-occurrence matrix), \code{"cove"} (co-occurrence vector), \code{"cocoma"} (co-located co-occurrence matrix), \code{"cocove"} (co-located co-occurrence vector), \code{"wecoma"} (weighted co-occurrence matrix), \code{"wecove"} (weighted co-occurrence vector), \code{"incoma"} (integrated co-occurrence matrix), \code{"incove"} (integrated co-occurrence vector), \code{"composition"} or any function that can summarize \code{stars} objects.}
 

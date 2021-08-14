@@ -4,13 +4,15 @@
 \alias{lsp_mosaic}
 \title{Creates a raster mosaic}
 \usage{
-lsp_mosaic(x)
+lsp_mosaic(x, output = "stars")
 }
 \arguments{
 \item{x}{Usually the output of the \code{lsp_add_examples()} function}
+
+\item{output}{The class of the output. Either \code{"stars"} or \code{terra}}
 }
 \value{
-A \code{stars} object
+A \code{stars} or \code{terra} object
 }
 \description{
 Creates a raster mosaic by rearranging spatial data for example regions.
