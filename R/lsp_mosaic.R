@@ -4,8 +4,9 @@
 #' See examples.
 #'
 #' @param x Usually the output of the `lsp_add_examples()` function
+#' @param output The class of the output. Either `"stars"` or `terra`
 #'
-#' @return A `stars` object
+#' @return A `stars` or `terra` object
 #' @export
 #'
 #' @examples
@@ -42,7 +43,7 @@
 #'
 #' plot(landform_clust_m)
 #' }
-lsp_mosaic = function(x){
+lsp_mosaic = function(x, output = "stars"){
   if ("clust" %in% names(x)){
     unique_clust = unique(x$clust)
     all_mosaics = lapply(unique_clust, lsp_one_mosaic, x = x)
@@ -50,6 +51,9 @@ lsp_mosaic = function(x){
     all_mosaics = do.call(c, all_mosaics)
   } else {
     all_mosaics = lsp_one_mosaic(x)
+  }
+  if (output == "terra"){
+    all_mosaics = st_as_terra2(all_mosaics)
   }
   return(all_mosaics)
 }

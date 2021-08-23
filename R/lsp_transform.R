@@ -1,4 +1,4 @@
-#' Tranforms lsp objects
+#' Transforms lsp objects
 #'
 #' It allows for transforming spatial signatures (outputs of
 #' the `lsp_signature()` function) using user-provided functions.

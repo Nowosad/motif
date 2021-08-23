@@ -165,6 +165,44 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
   return(output)
 }
 
+#' Creates or adds a terra object
+#'
+#' Creates or adds a terra object based on the input object or a set of parameters.
+#' It accepts either an object of class `stars` or `lsp`.
+#' In the first case, the output is created based on
+#' the `window` parameter.
+#' In the second case, the output converts the `lsp` object into
+#' a `terra` object.
+#'
+#' @param x Object of class `stars` or `lsp`.
+#' For `stars`, `window` or `window_size` can be used.
+#' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
+#'
+#' @return A `terra` object converted from the input object or a provided set of parameters
+#'
+#' @examples
+#' library(stars)
+#' library(terra)
+#' landform = read_stars(system.file("raster/landforms.tif", package = "motif"))
+#' plot(landform)
+#' landform_lsp = lsp_add_terra(landform, window = 100)
+#' plot(landform_lsp)
+#'
+#' lc_cove = lsp_signature(landform, type = "cove", window = 200, normalization = "pdf")
+#' lc_cove_lsp = lsp_add_terra(lc_cove)
+#' plot(lc_cove_lsp)
+#' plot(lc_cove_lsp["na_prop"])
+#'
+#' @export
+lsp_add_terra = function(x = NULL, window = NULL){
+  if (!requireNamespace("terra", quietly = TRUE)){
+    stop("package terra required, please install it first") # nocov
+  }
+  output = lsp_add_stars(x = x, window = window)
+  output = st_as_terra2(output)
+  return(output)
+}
+
 #' Creates or adds a sf object
 #'
 #' Creates or adds a sf object based on the input object or a set of parameters.

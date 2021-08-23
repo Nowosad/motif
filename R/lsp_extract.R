@@ -2,11 +2,12 @@
 #'
 #' Extracts a local landscape from categorical raster data based on its id and provided `window` argument.
 #'
-#' @param x Object of class `stars` or `stars_proxy`.
+#' @param x Object of class `stars`, `stars_proxy`, or terra's `SpatRaster`.
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object.
 #' @param id Id of the local landscape - it is possible to find in the output of `lsp_signature()`, `lsp_search()`, `lsp_compare()`, or `lsp_add_clusters()`.
+#' @param output The class of the output. Either `"stars"` or `terra`
 #'
-#' @return A `stars` object cropped to the extent of a selected local landscape
+#' @return A `stars`or `terra` object cropped to the extent of a selected local landscape
 #'
 #' @export
 #'
@@ -35,8 +36,16 @@
 #' extract2 = lsp_extract(x = landform, window = ecoregions["id"], id = 7)
 #' plot(extract2)
 #' }
-lsp_extract = function(x, window, id){
+lsp_extract = function(x, window, id, output = "stars"){
+  if (inherits(x, "SpatRaster")){
+    x = stars::st_as_stars(x)
+  }
   windows_sf = lsp_add_sf(x = x, window = window)
   windows_sf = windows_sf[windows_sf$id == id, ]
-  stars::st_as_stars(x[windows_sf])
+  output_stars = stars::st_as_stars(x[windows_sf])
+  if (output == "stars"){
+    return(output_stars)
+  } else if (output == "terra"){
+    return(st_as_terra2(output_stars))
+  }
 }

@@ -16,7 +16,7 @@ lsp_add_examples(x, y, window = NULL)
 \item{x}{Object of class \code{lsp} - usually a subset of the output of \code{lsp_signature()}
 or an object of class \code{sf} - usually a subset of the output of \code{lsp_search()}}
 
-\item{y}{Object of class \code{stars} or \code{stars_proxy}.}
+\item{y}{Object of class \code{stars}, \code{stars_proxy}, or terra's \code{SpatRaster}.}
 
 \item{window}{Specifies areas for analysis. It can be either: \code{NULL} or an \code{sf} object.
 The \code{sf} object is only needed for adding examples of irregular regions.}

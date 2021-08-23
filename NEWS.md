@@ -1,3 +1,7 @@
+# motif 0.5.0
+
+* Adds support for inputs and outputs with the terra's `SpatRaster` class
+
 # motif 0.4.3
 
 * Adds `lsp_restructure()` to split signatures from a list-column into many columns

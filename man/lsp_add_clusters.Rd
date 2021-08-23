@@ -12,16 +12,16 @@ the \code{lsp_signature()} function}
 
 \item{clust}{Vector containing an id value for each row in \code{x}}
 
-\item{output}{The class of the output. Either \code{"stars"} or \code{"sf"}}
+\item{output}{The class of the output. Either \code{stars}, \code{sf}, or \code{terra}}
 
 \item{window}{Specifies areas for analysis. It can be either: \code{NULL} or an \code{sf} object. If \code{window=NULL} calculations are performed based on the metadata from \code{x}. If an \code{sf} object is provided, each feature (row) defines the extent of a local pattern. The \code{sf} object should have one attribute (otherwise, the first attribute is used as an id).}
 }
 \value{
-Object of class \code{sf} or \code{stars} (depending on the \code{output} argument) with an additional column \code{"clust"} representing clusters' id values.
+Object of class \code{stars}, \code{sf}, or \code{terra} (depending on the \code{output} argument) with an additional column \code{"clust"} representing clusters' id values.
 }
 \description{
 Adds clusters' ids to a lsp object.
-The output can be of \code{stars} or \code{sf} class.
+The output can be of \code{stars}, \code{sf}, or \code{terra} class.
 See examples.
 }
 \examples{

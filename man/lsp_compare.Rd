@@ -3,7 +3,7 @@
 \name{lsp_compare}
 \alias{lsp_compare}
 \alias{lsp_compare.stars}
-\title{Comparision between spatial patterns}
+\title{Comparison between spatial patterns}
 \usage{
 lsp_compare(
   x,
@@ -40,9 +40,9 @@ lsp_compare(
 )
 }
 \arguments{
-\item{x}{Object of class \code{stars} or \code{stars_proxy}. It should have one attribute (for \code{"coma"}, \code{"cove"}), two attributes (\code{"cocoma"}, \code{"cocove"}, \code{"wecoma"}, \code{"wecove"}), two or more attributes (\code{"incoma"}, \code{"incove"}), or any number of attributes suitable for user-defined functions.}
+\item{x}{Object of class \code{stars}, \code{stars_proxy}, or terra's \code{SpatRaster}. It should have one attribute (for \code{"coma"}, \code{"cove"}), two attributes (\code{"cocoma"}, \code{"cocove"}, \code{"wecoma"}, \code{"wecove"}), two or more attributes (\code{"incoma"}, \code{"incove"}), or any number of attributes suitable for user-defined functions.}
 
-\item{y}{Object of class \code{stars} or \code{stars_proxy}. It should have one attribute (for \code{"coma"}, \code{"cove"}), two attributes (\code{"cocoma"}, \code{"cocove"}, \code{"wecoma"}, \code{"wecove"}), two or more attributes (\code{"incoma"}, \code{"incove"}), or any number of attributes suitable for user-defined functions.}
+\item{y}{Object of class \code{stars}, \code{stars_proxy}, or terra's \code{SpatRaster}. It should have one attribute (for \code{"coma"}, \code{"cove"}), two attributes (\code{"cocoma"}, \code{"cocove"}, \code{"wecoma"}, \code{"wecove"}), two or more attributes (\code{"incoma"}, \code{"incove"}), or any number of attributes suitable for user-defined functions.}
 
 \item{type}{Type of the calculated signature. It can be \code{"coma"} (co-occurrence matrix), \code{"cove"} (co-occurrence vector), \code{"cocoma"} (co-located co-occurrence matrix), \code{"cocove"} (co-located co-occurrence vector), \code{"wecoma"} (weighted co-occurrence matrix), \code{"wecove"} (weighted co-occurrence vector), \code{"incoma"} (integrated co-occurrence matrix), \code{"incove"} (integrated co-occurrence vector), \code{"composition"} or any function that can summarize \code{stars} objects.}
 
@@ -50,7 +50,7 @@ lsp_compare(
 
 \item{window}{Specifies areas for analysis. It can be either: \code{NULL}, a numeric value, or an \code{sf} object. If \code{window=NULL} calculations are performed for a whole area. If the \code{window} argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an \code{sf} object is provided, each feature (row) defines the extent of a local pattern. The \code{sf} object should have one attribute (otherwise, the first attribute is used as an id).}
 
-\item{output}{The class of the output. Either \code{"stars"} or \code{"sf"}}
+\item{output}{The class of the output. Either \code{"stars"}, \code{"sf"}, or \code{terra}}
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
 4 (rook's case) or 8 (queen's case). The default is 4.}
@@ -78,7 +78,7 @@ The default is "pdf".}
 \item{...}{Additional arguments for the \code{philentropy::distance} function.}
 }
 \value{
-Object of class \code{stars}.
+Object of class \code{stars} (or \code{sf} or terra's \code{SpatRaster}, depending on the \code{output} argument).
 It has four attributes:
 (1) \code{id} - an id of each window.
 For irregular windows, it is the values provided in the \code{window} argument,
