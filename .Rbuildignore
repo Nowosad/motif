@@ -13,3 +13,4 @@
 ^newtests$
 ^oldtests$
 ^vignettes/articles$
+^CRAN-RELEASE$
