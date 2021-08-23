@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Comparision between spatial patterns — lsp_compare • motif</title>
+<title>Comparison between spatial patterns — lsp_compare • motif</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Comparision between spatial patterns — lsp_compare" />
+<meta property="og:title" content="Comparison between spatial patterns — lsp_compare" />
 <meta property="og:description" content="Compares two spatial datasets containing categorical raster data.
 It accepts a categorical raster dataset with one or more attributes, and compares it to the second dataset with the same attributes and dimensions.
 The both dataset are either compared to as whole areas, areas divided into regular windows, or areas divided into irregular windows.
@@ -84,7 +84,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -150,7 +150,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Comparision between spatial patterns</h1>
+    <h1>Comparison between spatial patterns</h1>
     <small class="dont-index">Source: <a href='https://github.com/Nowosad/motif/blob/master/R/lsp_compare.R'><code>R/lsp_compare.R</code></a></small>
     <div class="hidden name"><code>lsp_compare.Rd</code></div>
     </div>
@@ -203,11 +203,11 @@ Additional parameters, such as neighbourhood or normalization types, are also av
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Object of class <code>stars</code> or <code>stars_proxy</code>. It should have one attribute (for <code>"coma"</code>, <code>"cove"</code>), two attributes (<code>"cocoma"</code>, <code>"cocove"</code>, <code>"wecoma"</code>, <code>"wecove"</code>), two or more attributes (<code>"incoma"</code>, <code>"incove"</code>), or any number of attributes suitable for user-defined functions.</p></td>
+      <td><p>Object of class <code>stars</code>, <code>stars_proxy</code>, or terra's <code>SpatRaster</code>. It should have one attribute (for <code>"coma"</code>, <code>"cove"</code>), two attributes (<code>"cocoma"</code>, <code>"cocove"</code>, <code>"wecoma"</code>, <code>"wecove"</code>), two or more attributes (<code>"incoma"</code>, <code>"incove"</code>), or any number of attributes suitable for user-defined functions.</p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>Object of class <code>stars</code> or <code>stars_proxy</code>. It should have one attribute (for <code>"coma"</code>, <code>"cove"</code>), two attributes (<code>"cocoma"</code>, <code>"cocove"</code>, <code>"wecoma"</code>, <code>"wecove"</code>), two or more attributes (<code>"incoma"</code>, <code>"incove"</code>), or any number of attributes suitable for user-defined functions.</p></td>
+      <td><p>Object of class <code>stars</code>, <code>stars_proxy</code>, or terra's <code>SpatRaster</code>. It should have one attribute (for <code>"coma"</code>, <code>"cove"</code>), two attributes (<code>"cocoma"</code>, <code>"cocove"</code>, <code>"wecoma"</code>, <code>"wecove"</code>), two or more attributes (<code>"incoma"</code>, <code>"incove"</code>), or any number of attributes suitable for user-defined functions.</p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -223,7 +223,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
     </tr>
     <tr>
       <th>output</th>
-      <td><p>The class of the output. Either <code>"stars"</code> or <code>"sf"</code></p></td>
+      <td><p>The class of the output. Either <code>"stars"</code>, <code>"sf"</code>, or <code>terra</code></p></td>
     </tr>
     <tr>
       <th>neighbourhood</th>
@@ -270,7 +270,7 @@ The default is "pdf".</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Object of class <code>stars</code>.
+    <p>Object of class <code>stars</code> (or <code>sf</code> or terra's <code>SpatRaster</code>, depending on the <code>output</code> argument).
 It has four attributes:
 (1) <code>id</code> - an id of each window.
 For irregular windows, it is the values provided in the <code>window</code> argument,

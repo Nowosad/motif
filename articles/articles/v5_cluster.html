@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -107,7 +107,7 @@
       <h1 data-toc-skip>Spatial patterns’ clustering</h1>
                         <h4 class="author">Jakub Nowosad</h4>
             
-            <h4 class="date">2021-07-23</h4>
+            <h4 class="date">2021-08-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Nowosad/motif/blob/master/vignettes/articles/v5_cluster.Rmd"><code>vignettes/articles/v5_cluster.Rmd</code></a></small>
       <div class="hidden name"><code>v5_cluster.Rmd</code></div>
@@ -123,10 +123,13 @@
 <span class="co">#&gt; Loading required package: abind</span>
 <span class="co">#&gt; Loading required package: sf</span>
 <span class="co">#&gt; Linking to GEOS 3.8.1, GDAL 3.2.0, PROJ 7.2.0</span>
+<span class="co">#&gt; Registered S3 method overwritten by 'stars':</span>
+<span class="co">#&gt;   method            from</span>
+<span class="co">#&gt;   st_crs.SpatRaster sf</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
-<span class="va">safe_pal6</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#88CCEE"</span>, <span class="st">"#CC6677"</span>, <span class="st">"#DDCC77"</span>,
+<span class="va">safe_pal6</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html">c</a></span><span class="op">(</span><span class="st">"#88CCEE"</span>, <span class="st">"#CC6677"</span>, <span class="st">"#DDCC77"</span>,
              <span class="st">"#117733"</span>, <span class="st">"#332288"</span>, <span class="st">"#888888"</span><span class="op">)</span>
-<span class="va">safe_pal4</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#88CCEE"</span>, <span class="st">"#CC6677"</span>, <span class="st">"#DDCC77"</span>, <span class="st">"#117733"</span><span class="op">)</span></code></pre></div>
+<span class="va">safe_pal4</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html">c</a></span><span class="op">(</span><span class="st">"#88CCEE"</span>, <span class="st">"#CC6677"</span>, <span class="st">"#DDCC77"</span>, <span class="st">"#117733"</span><span class="op">)</span></code></pre></div>
 <p>Spatial patterns’ clustering requires one spatial object. For this vignette, we will read the <code>"raster/landcover2015.tif"</code> file.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">landcover</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/read_stars.html">read_stars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"raster/landcover2015.tif"</span>, package <span class="op">=</span> <span class="st">"motif"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -180,7 +183,7 @@
 <p>Now, it is possible see some examples of each cluster.</p>
 <p>For example, we can get id values of randomly selected local landscapes from the first cluster.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">landcover_grid_sf_1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">landcover_grid_sf</span>, <span class="va">clust</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">landcover_grid_sf_1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/subset.html">subset</a></span><span class="op">(</span><span class="va">landcover_grid_sf</span>, <span class="va">clust</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">landcover_grid_sf_1</span><span class="op">$</span><span class="va">id</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; [1] 1146 1070 1376</span></code></pre></div>
 <p>Next, we can extract them using <code><a href="../../reference/lsp_extract.html">lsp_extract()</a></code>. This cluster contains landscapes mostly covered by forest with small areas of agriculture.</p>
@@ -195,7 +198,7 @@
 <p><img src="v5_cluster_files/figure-html/unnamed-chunk-15-3.png" width="672"></p>
 <p>This approach can be used for any other cluster.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">landcover_grid_sf_6</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">landcover_grid_sf</span>, <span class="va">clust</span> <span class="op">==</span> <span class="fl">6</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">landcover_grid_sf_6</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/subset.html">subset</a></span><span class="op">(</span><span class="va">landcover_grid_sf</span>, <span class="va">clust</span> <span class="op">==</span> <span class="fl">6</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">landcover_grid_sf_6</span><span class="op">$</span><span class="va">id</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; [1] 2579 2027 2577</span></code></pre></div>
 <p>The sixth cluster is covered by frest, grassland, with smaller areas of water and sparse vegetation.</p>
@@ -290,7 +293,7 @@
 <a href="#samples-1" class="anchor"></a>Samples</h4>
 <p>The first cluser, for example, consists of nine ecoregions, from which we sampled only three.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">landcover_grid_sf2_1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">landcover_grid_sf2</span>, <span class="va">clust</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">landcover_grid_sf2_1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/subset.html">subset</a></span><span class="op">(</span><span class="va">landcover_grid_sf2</span>, <span class="va">clust</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">landcover_grid_sf2_1</span><span class="op">$</span><span class="va">id</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; [1] 10  1 22</span></code></pre></div>
 <p>Next, we can extract their land cover using <code><a href="../../reference/lsp_extract.html">lsp_extract()</a></code>. This cluster contains landscapes mostly covered by forest with small areas of agriculture.</p>
@@ -312,13 +315,13 @@
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">landcover_grid_sfq2</span> <span class="op">=</span> <span class="fu"><a href="../../reference/lsp_add_quality.html">lsp_add_quality</a></span><span class="op">(</span><span class="va">landcover_grid_sf2</span>, <span class="va">landcover_dist2</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/stars/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">landcover_grid_sfq2</span><span class="op">[</span><span class="st">"inhomogeneity"</span><span class="op">]</span>, pal <span class="op">=</span> <span class="va">inhomogeneity_pal</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">6</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/stars/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">landcover_grid_sfq2</span><span class="op">[</span><span class="st">"inhomogeneity"</span><span class="op">]</span>, pal <span class="op">=</span> <span class="va">inhomogeneity_pal</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">6</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="v5_cluster_files/figure-html/unnamed-chunk-40-1.png" width="672"></p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/stars/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">landcover_grid_sfq2</span><span class="op">[</span><span class="st">"distinction"</span><span class="op">]</span>, pal <span class="op">=</span> <span class="va">distinction_pal</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">6</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/stars/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">landcover_grid_sfq2</span><span class="op">[</span><span class="st">"distinction"</span><span class="op">]</span>, pal <span class="op">=</span> <span class="va">distinction_pal</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">6</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="v5_cluster_files/figure-html/unnamed-chunk-41-1.png" width="672"></p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/stars/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">landcover_grid_sfq2</span><span class="op">[</span><span class="st">"quality"</span><span class="op">]</span>, pal <span class="op">=</span> <span class="va">quality_pal</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">6</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/stars/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">landcover_grid_sfq2</span><span class="op">[</span><span class="st">"quality"</span><span class="op">]</span>, pal <span class="op">=</span> <span class="va">quality_pal</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">6</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="v5_cluster_files/figure-html/unnamed-chunk-42-1.png" width="672"></p>
 </div>
 </div>

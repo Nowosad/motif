@@ -81,7 +81,7 @@ See examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -157,7 +157,7 @@ See examples." />
 See examples.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lsp_mosaic</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>lsp_mosaic</span><span class='op'>(</span><span class='va'>x</span>, output <span class='op'>=</span> <span class='st'>"stars"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,11 +166,15 @@ See examples.</p>
       <th>x</th>
       <td><p>Usually the output of the <code><a href='lsp_add_examples.html'>lsp_add_examples()</a></code> function</p></td>
     </tr>
+    <tr>
+      <th>output</th>
+      <td><p>The class of the output. Either <code>"stars"</code> or <code>terra</code></p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>stars</code> object</p>
+    <p>A <code>stars</code> or <code>terra</code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
@@ -206,20 +210,20 @@ See examples.</p>
 #&gt; Dimension:     XY
 #&gt; Bounding box:  xmin: -851676.1 ymin: -1118556 xmax: 948323.9 ymax: -98556.49
 #&gt; Projected CRS: unnamed
-#&gt; <span style='color: #949494;'># A tibble: 64 x 6</span>
+#&gt; <span style='color: #949494;'># A tibble: 64 × 6</span>
 #&gt; <span style='color: #949494;'># Groups:   clust [4]</span>
-#&gt;       id na_prop signature   clust                              geometry region 
-#&gt;  <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>                         <span style='color: #949494; font-style: italic;'>&lt;POLYGON [m]&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span> 
-#&gt; <span style='color: #BCBCBC;'> 1</span>   160       0 <span style='color: #949494;'>&lt;dbl [1 × </span>…     1 ((-431676.1 -278556.5, -371676.1 -27… <span style='color: #949494;'>&lt;stars</span>…
-#&gt; <span style='color: #BCBCBC;'> 2</span>   165       0 <span style='color: #949494;'>&lt;dbl [1 × </span>…     1 ((-131676.1 -278556.5, -71676.1 -278… <span style='color: #949494;'>&lt;stars</span>…
-#&gt; <span style='color: #BCBCBC;'> 3</span>   204       0 <span style='color: #949494;'>&lt;dbl [1 × </span>…     1 ((-11676.1 -338556.5, 48323.9 -33855… <span style='color: #949494;'>&lt;stars</span>…
-#&gt; <span style='color: #BCBCBC;'> 4</span>   165       0 <span style='color: #949494;'>&lt;dbl [1 × </span>…     1 ((-131676.1 -278556.5, -71676.1 -278… <span style='color: #949494;'>&lt;stars</span>…
-#&gt; <span style='color: #BCBCBC;'> 5</span>   160       0 <span style='color: #949494;'>&lt;dbl [1 × </span>…     1 ((-431676.1 -278556.5, -371676.1 -27… <span style='color: #949494;'>&lt;stars</span>…
-#&gt; <span style='color: #BCBCBC;'> 6</span>   164       0 <span style='color: #949494;'>&lt;dbl [1 × </span>…     1 ((-191676.1 -278556.5, -131676.1 -27… <span style='color: #949494;'>&lt;stars</span>…
-#&gt; <span style='color: #BCBCBC;'> 7</span>   165       0 <span style='color: #949494;'>&lt;dbl [1 × </span>…     1 ((-131676.1 -278556.5, -71676.1 -278… <span style='color: #949494;'>&lt;stars</span>…
-#&gt; <span style='color: #BCBCBC;'> 8</span>   165       0 <span style='color: #949494;'>&lt;dbl [1 × </span>…     1 ((-131676.1 -278556.5, -71676.1 -278… <span style='color: #949494;'>&lt;stars</span>…
-#&gt; <span style='color: #BCBCBC;'> 9</span>   165       0 <span style='color: #949494;'>&lt;dbl [1 × </span>…     1 ((-131676.1 -278556.5, -71676.1 -278… <span style='color: #949494;'>&lt;stars</span>…
-#&gt; <span style='color: #BCBCBC;'>10</span>   204       0 <span style='color: #949494;'>&lt;dbl [1 × </span>…     1 ((-11676.1 -338556.5, 48323.9 -33855… <span style='color: #949494;'>&lt;stars</span>…
+#&gt;       id na_prop signature       clust                          geometry region 
+#&gt;  <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>                     <span style='color: #949494; font-style: italic;'>&lt;POLYGON [m]&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span> 
+#&gt; <span style='color: #BCBCBC;'> 1</span>   160       0 <span style='color: #949494;'>&lt;dbl [1 × 225]&gt;</span>     1 ((-431676.1 -278556.5, -371676.1… <span style='color: #949494;'>&lt;stars</span>…
+#&gt; <span style='color: #BCBCBC;'> 2</span>   165       0 <span style='color: #949494;'>&lt;dbl [1 × 225]&gt;</span>     1 ((-131676.1 -278556.5, -71676.1 … <span style='color: #949494;'>&lt;stars</span>…
+#&gt; <span style='color: #BCBCBC;'> 3</span>   204       0 <span style='color: #949494;'>&lt;dbl [1 × 225]&gt;</span>     1 ((-11676.1 -338556.5, 48323.9 -3… <span style='color: #949494;'>&lt;stars</span>…
+#&gt; <span style='color: #BCBCBC;'> 4</span>   165       0 <span style='color: #949494;'>&lt;dbl [1 × 225]&gt;</span>     1 ((-131676.1 -278556.5, -71676.1 … <span style='color: #949494;'>&lt;stars</span>…
+#&gt; <span style='color: #BCBCBC;'> 5</span>   160       0 <span style='color: #949494;'>&lt;dbl [1 × 225]&gt;</span>     1 ((-431676.1 -278556.5, -371676.1… <span style='color: #949494;'>&lt;stars</span>…
+#&gt; <span style='color: #BCBCBC;'> 6</span>   164       0 <span style='color: #949494;'>&lt;dbl [1 × 225]&gt;</span>     1 ((-191676.1 -278556.5, -131676.1… <span style='color: #949494;'>&lt;stars</span>…
+#&gt; <span style='color: #BCBCBC;'> 7</span>   165       0 <span style='color: #949494;'>&lt;dbl [1 × 225]&gt;</span>     1 ((-131676.1 -278556.5, -71676.1 … <span style='color: #949494;'>&lt;stars</span>…
+#&gt; <span style='color: #BCBCBC;'> 8</span>   165       0 <span style='color: #949494;'>&lt;dbl [1 × 225]&gt;</span>     1 ((-131676.1 -278556.5, -71676.1 … <span style='color: #949494;'>&lt;stars</span>…
+#&gt; <span style='color: #BCBCBC;'> 9</span>   165       0 <span style='color: #949494;'>&lt;dbl [1 × 225]&gt;</span>     1 ((-131676.1 -278556.5, -71676.1 … <span style='color: #949494;'>&lt;stars</span>…
+#&gt; <span style='color: #BCBCBC;'>10</span>   204       0 <span style='color: #949494;'>&lt;dbl [1 × 225]&gt;</span>     1 ((-11676.1 -338556.5, 48323.9 -3… <span style='color: #949494;'>&lt;stars</span>…
 #&gt; <span style='color: #949494;'># … with 54 more rows</span></div><div class='input'>
 <span class='va'>landform_clust_m</span> <span class='op'>=</span> <span class='fu'>lsp_mosaic</span><span class='op'>(</span><span class='va'>landform_grid_sf_sel</span><span class='op'>)</span>
 

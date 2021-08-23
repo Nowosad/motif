@@ -84,7 +84,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -205,11 +205,11 @@ Additional parameters, such as neighbourhood or normalization types, are also av
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Object of class <code>stars</code> or <code>stars_proxy</code>. It should have one attribute (for <code>"coma"</code>, <code>"cove"</code>), two attributes (<code>"cocoma"</code>, <code>"cocove"</code>, <code>"wecoma"</code>, <code>"wecove"</code>), two or more attributes (<code>"incoma"</code>, <code>"incove"</code>), or any number of attributes suitable for user-defined functions.</p></td>
+      <td><p>Object of class <code>stars</code>, <code>stars_proxy</code>, or terra's <code>SpatRaster</code>. It should have one attribute (for <code>"coma"</code>, <code>"cove"</code>), two attributes (<code>"cocoma"</code>, <code>"cocove"</code>, <code>"wecoma"</code>, <code>"wecove"</code>), two or more attributes (<code>"incoma"</code>, <code>"incove"</code>), or any number of attributes suitable for user-defined functions.</p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>Object of class <code>stars</code> or <code>stars_proxy</code>. It should have one attribute (for <code>"coma"</code>, <code>"cove"</code>), two attributes (<code>"cocoma"</code>, <code>"cocove"</code>, <code>"wecoma"</code>, <code>"wecove"</code>), two or more attributes (<code>"incoma"</code>, <code>"incove"</code>), or any number of attributes suitable for user-defined functions.</p></td>
+      <td><p>Object of class <code>stars</code>, <code>stars_proxy</code>, or terra's <code>SpatRaster</code>. It should have one attribute (for <code>"coma"</code>, <code>"cove"</code>), two attributes (<code>"cocoma"</code>, <code>"cocove"</code>, <code>"wecoma"</code>, <code>"wecove"</code>), two or more attributes (<code>"incoma"</code>, <code>"incove"</code>), or any number of attributes suitable for user-defined functions.</p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -225,7 +225,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
     </tr>
     <tr>
       <th>output</th>
-      <td><p>The class of the output. Either <code>"stars"</code> or <code>"sf"</code></p></td>
+      <td><p>The class of the output. Either <code>"stars"</code>, <code>"sf"</code>, or <code>terra</code></p></td>
     </tr>
     <tr>
       <th>neighbourhood</th>
@@ -276,7 +276,7 @@ The default is "pdf".</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Object of class <code>stars</code>.
+    <p>Object of class <code>stars</code> (or <code>sf</code> or terra's <code>SpatRaster</code>, depending on the <code>output</code> argument).
 It has three attributes:
 (1) <code>id</code> - an id of each window.
 For irregular windows, it is the values provided in the <code>window</code> argument,
@@ -289,7 +289,7 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 <span class='va'>landcover</span> <span class='op'>=</span> <span class='fu'><a href='https://r-spatial.github.io/stars/reference/read_stars.html'>read_stars</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"raster/landcover2015s.tif"</span>, package <span class='op'>=</span> <span class='st'>"motif"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://r-spatial.github.io/stars/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>landcover</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; downsample set to c(1,1)</div><div class='img'><img src='lsp_search-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='va'>ext</span> <span class='op'>=</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_bbox.html'>st_bbox</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>xmin <span class='op'>=</span> <span class='op'>-</span><span class='fl'>249797.344531127</span>, xmax <span class='op'>=</span> <span class='op'>-</span><span class='fl'>211162.693944285</span>,
+<span class='va'>ext</span> <span class='op'>=</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_bbox.html'>st_bbox</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/terra/man/c.html'>c</a></span><span class='op'>(</span>xmin <span class='op'>=</span> <span class='op'>-</span><span class='fl'>249797.344531127</span>, xmax <span class='op'>=</span> <span class='op'>-</span><span class='fl'>211162.693944285</span>,
                 ymin <span class='op'>=</span> <span class='op'>-</span><span class='fl'>597280.143035389</span>, ymax <span class='op'>=</span> <span class='op'>-</span><span class='fl'>558645.492448547</span><span class='op'>)</span>,
                 crs <span class='op'>=</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_crs.html'>st_crs</a></span><span class='op'>(</span><span class='va'>landcover</span><span class='op'>)</span><span class='op'>)</span>
 
@@ -315,7 +315,7 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 <span class='va'>landcover</span> <span class='op'>=</span> <span class='fu'><a href='https://r-spatial.github.io/stars/reference/read_stars.html'>read_stars</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"raster/landcover2015.tif"</span>, package <span class='op'>=</span> <span class='st'>"motif"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://r-spatial.github.io/stars/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>landcover</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; downsample set to c(11,11)</div><div class='output co'>#&gt; <span class='error'>Error in image.stars(x, ..., axes = axes, breaks = breaks, col = col,     key.pos = key.pos, key.width = key.width, key.length = key.length,     main = NULL): rgb plotting not supported on this device</span></div><div class='input'>
-<span class='va'>ext</span> <span class='op'>=</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_bbox.html'>st_bbox</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>xmin <span class='op'>=</span> <span class='op'>-</span><span class='fl'>249797.344531127</span>, xmax <span class='op'>=</span> <span class='op'>-</span><span class='fl'>211162.693944285</span>,
+<span class='va'>ext</span> <span class='op'>=</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_bbox.html'>st_bbox</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/terra/man/c.html'>c</a></span><span class='op'>(</span>xmin <span class='op'>=</span> <span class='op'>-</span><span class='fl'>249797.344531127</span>, xmax <span class='op'>=</span> <span class='op'>-</span><span class='fl'>211162.693944285</span>,
                 ymin <span class='op'>=</span> <span class='op'>-</span><span class='fl'>597280.143035389</span>, ymax <span class='op'>=</span> <span class='op'>-</span><span class='fl'>558645.492448547</span><span class='op'>)</span>,
                 crs <span class='op'>=</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_crs.html'>st_crs</a></span><span class='op'>(</span><span class='va'>landcover</span><span class='op'>)</span><span class='op'>)</span>
 

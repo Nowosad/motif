@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -174,7 +174,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Object of class <code>stars</code> or <code>stars_proxy</code>. It should have one attribute (for <code>"coma"</code>, <code>"cove"</code>), two attributes (<code>"cocoma"</code>, <code>"cocove"</code>, <code>"wecoma"</code>, <code>"wecove"</code>), two or more attributes (<code>"incoma"</code>, <code>"incove"</code>), or any number of attributes suitable for user-defined functions.</p></td>
+      <td><p>Object of class <code>stars</code>, <code>stars_proxy</code>, or terra's <code>SpatRaster</code>. It should have one attribute (for <code>"coma"</code>, <code>"cove"</code>), two attributes (<code>"cocoma"</code>, <code>"cocove"</code>, <code>"wecoma"</code>, <code>"wecove"</code>), two or more attributes (<code>"incoma"</code>, <code>"incove"</code>), or any number of attributes suitable for user-defined functions.</p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -241,13 +241,13 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 
 <span class='va'>landcover_coma</span> <span class='op'>=</span> <span class='fu'>lsp_signature</span><span class='op'>(</span><span class='va'>landcover</span>, type <span class='op'>=</span> <span class='st'>"coma"</span>, threshold <span class='op'>=</span> <span class='fl'>0.9</span>, window <span class='op'>=</span> <span class='fl'>2000</span><span class='op'>)</span>
 <span class='va'>landcover_coma</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 3</span>
 #&gt;      id na_prop signature    
 #&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>       
 #&gt; <span style='color: #BCBCBC;'>1</span>     1   0.895 <span style='color: #949494;'>&lt;int [7 × 7]&gt;</span></div><div class='input'>
 <span class='va'>landcover_comp</span> <span class='op'>=</span> <span class='fu'>lsp_signature</span><span class='op'>(</span><span class='va'>landcover</span>, type <span class='op'>=</span> <span class='st'>"composition"</span>, threshold <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span>
 <span class='va'>landcover_comp</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 3</span>
 #&gt;      id na_prop signature    
 #&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>       
 #&gt; <span style='color: #BCBCBC;'>1</span>     1  0.055<span style='text-decoration: underline;'>5</span> <span style='color: #949494;'>&lt;dbl [1 × 7]&gt;</span></div><div class='input'>
@@ -259,7 +259,7 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 
 <span class='va'>landcover_coma</span> <span class='op'>=</span> <span class='fu'>lsp_signature</span><span class='op'>(</span><span class='va'>landcover</span>, type <span class='op'>=</span> <span class='st'>"coma"</span>, threshold <span class='op'>=</span> <span class='fl'>0.9</span>, window <span class='op'>=</span> <span class='fl'>2000</span><span class='op'>)</span>
 <span class='va'>landcover_coma</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 × 3</span>
 #&gt;      id na_prop signature    
 #&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>       
 #&gt; <span style='color: #BCBCBC;'>1</span>     1   0.659 <span style='color: #949494;'>&lt;int [7 × 7]&gt;</span>
@@ -270,7 +270,7 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 #&gt; <span style='color: #BCBCBC;'>6</span>     8   0.804 <span style='color: #949494;'>&lt;int [7 × 7]&gt;</span></div><div class='input'>
 <span class='va'>landcover_comp</span> <span class='op'>=</span> <span class='fu'>lsp_signature</span><span class='op'>(</span><span class='va'>landcover</span>, type <span class='op'>=</span> <span class='st'>"composition"</span>, threshold <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span>
 <span class='va'>landcover_comp</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 3</span>
 #&gt;      id na_prop signature    
 #&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>       
 #&gt; <span style='color: #BCBCBC;'>1</span>     1   0.666 <span style='color: #949494;'>&lt;dbl [1 × 7]&gt;</span></div><div class='input'><span class='co'># }</span>

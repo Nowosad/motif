@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -155,14 +155,14 @@
     <p>Extracts a local landscape from categorical raster data based on its id and provided <code>window</code> argument.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lsp_extract</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>window</span>, <span class='va'>id</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>lsp_extract</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>window</span>, <span class='va'>id</span>, output <span class='op'>=</span> <span class='st'>"stars"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Object of class <code>stars</code> or <code>stars_proxy</code>.</p></td>
+      <td><p>Object of class <code>stars</code>, <code>stars_proxy</code>, or terra's <code>SpatRaster</code>.</p></td>
     </tr>
     <tr>
       <th>window</th>
@@ -172,11 +172,15 @@
       <th>id</th>
       <td><p>Id of the local landscape - it is possible to find in the output of <code><a href='lsp_signature.html'>lsp_signature()</a></code>, <code><a href='lsp_search.html'>lsp_search()</a></code>, <code><a href='lsp_compare.html'>lsp_compare()</a></code>, or <code><a href='lsp_add_clusters.html'>lsp_add_clusters()</a></code>.</p></td>
     </tr>
+    <tr>
+      <th>output</th>
+      <td><p>The class of the output. Either <code>"stars"</code> or <code>terra</code></p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>stars</code> object cropped to the extent of a selected local landscape</p>
+    <p>A <code>stars</code>or <code>terra</code> object cropped to the extent of a selected local landscape</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/stars/'>stars</a></span><span class='op'>)</span>

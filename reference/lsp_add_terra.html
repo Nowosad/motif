@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • motif</title>
+<title>Creates or adds a terra object — lsp_add_terra • motif</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,13 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Creates or adds a terra object — lsp_add_terra" />
+<meta property="og:description" content="Creates or adds a terra object based on the input object or a set of parameters.
+It accepts either an object of class stars or lsp.
+In the first case, the output is created based on
+the window parameter.
+In the second case, the output converts the lsp object into
+a terra object." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +72,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -145,85 +151,60 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/Nowosad/motif/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Creates or adds a terra object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Nowosad/motif/blob/master/R/lsp_add_spatial.R'><code>R/lsp_add_spatial.R</code></a></small>
+    <div class="hidden name"><code>lsp_add_terra.Rd</code></div>
     </div>
 
-    <div id="motif-050" class="section level1">
-<h1 class="page-header" data-toc-text="0.5.0">
-<a href="#motif-050" class="anchor"></a>motif 0.5.0<small> Unreleased </small>
-</h1>
-<ul>
-<li>Adds support for inputs and outputs with the terra’s <code>SpatRaster</code> class</li>
-</ul>
-</div>
-    <div id="motif-043" class="section level1">
-<h1 class="page-header" data-toc-text="0.4.3">
-<a href="#motif-043" class="anchor"></a>motif 0.4.3<small> 2021-06-03 </small>
-</h1>
-<ul>
-<li>Adds <code><a href="../reference/lsp_restructure.html">lsp_restructure()</a></code> to split signatures from a list-column into many columns</li>
-</ul>
-</div>
-    <div id="motif-042" class="section level1">
-<h1 class="page-header" data-toc-text="0.4.2">
-<a href="#motif-042" class="anchor"></a>motif 0.4.2<small> Unreleased </small>
-</h1>
-<ul>
-<li>Fixes CRAN gcc-UBSAN/clang-UBSAN RcppArmadillo issue</li>
-</ul>
-</div>
-    <div id="motif-041" class="section level1">
-<h1 class="page-header" data-toc-text="0.4.1">
-<a href="#motif-041" class="anchor"></a>motif 0.4.1<small> 2021-02-05 </small>
-</h1>
-<ul>
-<li>Improves documentation</li>
-<li>Adds small data and small data examples</li>
-</ul>
-</div>
-    <div id="motif-040" class="section level1">
-<h1 class="page-header" data-toc-text="0.4.0">
-<a href="#motif-040" class="anchor"></a>motif 0.4.0<small> Unreleased </small>
-</h1>
-<ul>
-<li>Improves and simplifies tests</li>
-<li>Fixes code to work on cropped stars proxy</li>
-<li>Adds <code>classes</code> argument to <code><a href="../reference/lsp_search.html">lsp_search()</a></code>
-</li>
-<li>Adds a type argument to <code><a href="../reference/lsp_add_quality.html">lsp_add_quality()</a></code>, making it possible to calculate either isolation (type = “segmentation”) or distinction (type = “cluster”)</li>
-<li>Adds <code><a href="../reference/lsp_add_examples.html">lsp_add_examples()</a></code> to extract and add stars objects to an lsp object</li>
-<li>Adds <code>lsp_add_examples.sf</code> to extract and add stars objects to an sf object (the output of <code><a href="../reference/lsp_search.html">lsp_search()</a></code>)</li>
-<li>Adds <code><a href="../reference/lsp_mosaic.html">lsp_mosaic()</a></code> to create artificial landscapes by rearranging spatial data for example regions</li>
-<li>Creates internal <code><a href="../reference/determine_classes.html">determine_classes()</a></code> function</li>
-<li>Creates internal <code><a href="../reference/prepare_window.html">prepare_window()</a></code> function</li>
-</ul>
-</div>
-    <div id="motif-0312" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.12">
-<a href="#motif-0312" class="anchor"></a>motif 0.3.12<small> Unreleased </small>
-</h1>
-<ul>
-<li>The Nowosad (2021) paper has been published <a href="https://doi.org/10.1007/s10980-020-01135-0" class="uri">https://doi.org/10.1007/s10980-020-01135-0</a>)</li>
-<li>First stable version</li>
-</ul>
-</div>
-    <div id="motif-0009000" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.0.9000">
-<a href="#motif-0009000" class="anchor"></a>motif 0.0.0.9000<small> Unreleased </small>
-</h1>
-<ul>
-<li>Added a <code>NEWS.md</code> file to track changes to the package</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Creates or adds a terra object based on the input object or a set of parameters.
+It accepts either an object of class <code>stars</code> or <code>lsp</code>.
+In the first case, the output is created based on
+the <code>window</code> parameter.
+In the second case, the output converts the <code>lsp</code> object into
+a <code>terra</code> object.</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>lsp_add_terra</span><span class='op'>(</span>x <span class='op'>=</span> <span class='cn'>NULL</span>, window <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Object of class <code>stars</code> or <code>lsp</code>.
+For <code>stars</code>, <code>window</code> or <code>window_size</code> can be used.</p></td>
+    </tr>
+    <tr>
+      <th>window</th>
+      <td><p>Specifies areas for analysis. It can be either: <code>NULL</code>, a numeric value, or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed for a whole area. If the <code>window</code> argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <code>terra</code> object converted from the input object or a provided set of parameters</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/stars/'>stars</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rspatial.org/terra/'>terra</a></span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>terra version 1.3.22</span></div><div class='input'><span class='va'>landform</span> <span class='op'>=</span> <span class='fu'><a href='https://r-spatial.github.io/stars/reference/read_stars.html'>read_stars</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"raster/landforms.tif"</span>, package <span class='op'>=</span> <span class='st'>"motif"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://r-spatial.github.io/stars/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>landform</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; downsample set to c(1,1)</div><div class='img'><img src='lsp_add_terra-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>landform_lsp</span> <span class='op'>=</span> <span class='fu'>lsp_add_terra</span><span class='op'>(</span><span class='va'>landform</span>, window <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+<span class='fu'><a href='https://r-spatial.github.io/stars/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>landform_lsp</span><span class='op'>)</span>
+</div><div class='img'><img src='lsp_add_terra-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>lc_cove</span> <span class='op'>=</span> <span class='fu'><a href='lsp_signature.html'>lsp_signature</a></span><span class='op'>(</span><span class='va'>landform</span>, type <span class='op'>=</span> <span class='st'>"cove"</span>, window <span class='op'>=</span> <span class='fl'>200</span>, normalization <span class='op'>=</span> <span class='st'>"pdf"</span><span class='op'>)</span>
+<span class='va'>lc_cove_lsp</span> <span class='op'>=</span> <span class='fu'>lsp_add_terra</span><span class='op'>(</span><span class='va'>lc_cove</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Column signature is of a list class and will be dropped from the output object.</span></div><div class='input'><span class='fu'><a href='https://r-spatial.github.io/stars/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>lc_cove_lsp</span><span class='op'>)</span>
+</div><div class='img'><img src='lsp_add_terra-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://r-spatial.github.io/stars/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>lc_cove_lsp</span><span class='op'>[</span><span class='st'>"na_prop"</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='img'><img src='lsp_add_terra-4.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 
