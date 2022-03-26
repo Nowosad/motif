@@ -32,6 +32,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -44,42 +46,36 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/articles/v2_signatures.html">Types of spatial patterns' signatures</a>
+      <a href="articles/v2_signatures.html">Types of spatial patterns' signatures</a>
     </li>
     <li>
-      <a href="articles/articles/v3_search.html">Spatial patterns' search</a>
+      <a href="articles/v3_search.html">Spatial patterns' search</a>
     </li>
     <li>
-      <a href="articles/articles/v4_compare.html">Spatial patterns' comparision</a>
+      <a href="articles/v4_compare.html">Spatial patterns' comparision</a>
     </li>
     <li>
-      <a href="articles/articles/v5_cluster.html">Spatial patterns' clustering</a>
+      <a href="articles/v5_cluster.html">Spatial patterns' clustering</a>
     </li>
     <li>
-      <a href="articles/articles/v6_composition.html">Extracting the proportion of different classes in many regular local landscapes</a>
+      <a href="articles/v6_composition.html">Extracting the proportion of different classes in many regular local landscapes</a>
     </li>
     <li>
       <a href="articles/v1_intro.html">Introduction to the motif package</a>
@@ -92,7 +88,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/Nowosad/motif/">
+  <a href="https://github.com/Nowosad/motif/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -109,47 +105,46 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="motif-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#motif-" class="anchor"></a>motif <img src="reference/figures/logo.png" align="right" width="150">
+<div class="section level1">
+<div class="page-header"><h1 id="motif-">motif <img src="reference/figures/logo.png" align="right" width="150"><a class="anchor" aria-label="anchor" href="#motif-"></a>
 </h1></div>
 <!-- badges: start -->
 
 <p>The <strong>motif</strong> package implements and extends ideas of the pattern-based spatial analysis in R. It describes spatial patterns of categorical raster data for any defined regular and irregular areas. Patterns are represented quantitatively using built-in signatures based on co-occurrence matrices but also allows for any user-defined functions. It enables spatial analysis such as search, change detection, and clustering to be performed on spatial patterns.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of motif from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the released version of motif from <a href="https://CRAN.R-project.org" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"motif"</span><span class="op">)</span></code></pre></div>
-<p>And the development version from <a href="https://github.com/">GitHub</a> with:</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"motif"</span><span class="op">)</span></code></pre></div>
+<p>And the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"Nowosad/motif"</span><span class="op">)</span></code></pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Nowosad/motif"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="documentation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#documentation" class="anchor"></a>Documentation</h2>
+<div class="section level2">
+<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h2>
 <p>See the package’s vignettes:</p>
-<ol>
-<li><a href="https://nowosad.github.io/motif/articles/v1_intro.html">Introduction to the motif package</a></li>
-<li><a href="https://nowosad.github.io/motif/articles/articles/v2_signatures.html">Types of spatial patterns’ signatures</a></li>
-<li><a href="https://nowosad.github.io/motif/articles/articles/v3_search.html">Spatial patterns’ search</a></li>
-<li><a href="https://nowosad.github.io/motif/articles/articles/v4_compare.html">Spatial patterns’ comparision</a></li>
-<li><a href="https://nowosad.github.io/motif/articles/articles/v5_cluster.html">Spatial patterns’ clustering</a></li>
-<li><a href="https://nowosad.github.io/motif/articles/articles/v6_composition.html">Extracting the proportion of different classes in many regular local landscapes</a></li>
+<ol style="list-style-type: decimal">
+<li><a href="https://nowosad.github.io/motif/articles/v1_intro.html" class="external-link">Introduction to the motif package</a></li>
+<li><a href="https://nowosad.github.io/motif/articles/articles/v2_signatures.html" class="external-link">Types of spatial patterns’ signatures</a></li>
+<li><a href="https://nowosad.github.io/motif/articles/articles/v3_search.html" class="external-link">Spatial patterns’ search</a></li>
+<li><a href="https://nowosad.github.io/motif/articles/articles/v4_compare.html" class="external-link">Spatial patterns’ comparision</a></li>
+<li><a href="https://nowosad.github.io/motif/articles/articles/v5_cluster.html" class="external-link">Spatial patterns’ clustering</a></li>
+<li><a href="https://nowosad.github.io/motif/articles/articles/v6_composition.html" class="external-link">Extracting the proportion of different classes in many regular local landscapes</a></li>
 </ol>
 </div>
-<div id="contribution" class="section level2">
-<h2 class="hasAnchor">
-<a href="#contribution" class="anchor"></a>Contribution</h2>
-<p>Contributions to this package are welcome. The preferred method of contribution is through a GitHub pull request. Feel free to contact us by creating <a href="https://github.com/Nowosad/motif/issues">an issue</a>.</p>
+<div class="section level2">
+<h2 id="contribution">Contribution<a class="anchor" aria-label="anchor" href="#contribution"></a>
+</h2>
+<p>Contributions to this package are welcome. The preferred method of contribution is through a GitHub pull request. Feel free to contact us by creating <a href="https://github.com/Nowosad/motif/issues" class="external-link">an issue</a>.</p>
 </div>
-<div id="citation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h2>
-<p>To cite the <code>motif</code> package in publications, please use <a href="https://doi.org/10.1007/s10980-020-01135-0">this paper</a>:</p>
-<p>Nowosad, J. Motif: an open-source R tool for pattern-based spatial analysis. Landscape Ecol (2021). <a href="https://doi.org/10.1007/s10980-020-01135-0" class="uri">https://doi.org/10.1007/s10980-020-01135-0</a></p>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>To cite the <code>motif</code> package in publications, please use <a href="https://doi.org/10.1007/s10980-020-01135-0" class="external-link">this paper</a>:</p>
+<p>Nowosad, J. Motif: an open-source R tool for pattern-based spatial analysis. Landscape Ecol (2021). <a href="https://doi.org/10.1007/s10980-020-01135-0" class="external-link uri">https://doi.org/10.1007/s10980-020-01135-0</a></p>
 <p>LaTeX/BibTeX version can be obtained with:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(motif)</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="kw">citation</span>(<span class="st">"motif"</span>)</span></code></pre></div>
@@ -159,55 +154,59 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=motif">https://​cloud.r-project.org/​package=motif</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/Nowosad/motif/">https://​github.com/​Nowosad/​motif/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/Nowosad/motif/issues">https://​github.com/​Nowosad/​motif/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-<div class="citation">
-<h2>Citation</h2>
-<ul class="list-unstyled">
-<li><a href="authors.html">Citing motif</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Jakub Nowosad <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-1057-3721" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="https://cloud.r-project.org/package=motif" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/Nowosad/motif/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/Nowosad/motif/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=motif"><img src="http://www.r-pkg.org/badges/version/motif" alt="CRAN status"></a></li>
-<li><a href="https://github.com/Nowosad/motif/actions"><img src="https://github.com/Nowosad/motif/workflows/pkgdown/badge.svg" alt="GitHub action build status"></a></li>
-<li><a href="https://codecov.io/gh/Nowosad/motif?branch=master"><img src="https://codecov.io/gh/Nowosad/motif/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://cran.r-project.org/package=motif"><img src="http://cranlogs.r-pkg.org/badges/motif" alt="CRAN RStudio mirror downloads"></a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing motif</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Jakub Nowosad <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-1057-3721" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=motif" class="external-link"><img src="http://www.r-pkg.org/badges/version/motif" alt="CRAN status"></a></li>
+<li><a href="https://github.com/Nowosad/motif/actions" class="external-link"><img src="https://github.com/Nowosad/motif/workflows/pkgdown/badge.svg" alt="GitHub action build status"></a></li>
+<li><a href="https://codecov.io/gh/Nowosad/motif?branch=master" class="external-link"><img src="https://codecov.io/gh/Nowosad/motif/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://cran.r-project.org/package=motif" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/motif" alt="CRAN RStudio mirror downloads"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Jakub Nowosad.</p>
+  <p></p>
+<p>Developed by Jakub Nowosad.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -215,6 +214,8 @@
 
   
 
+
+  
 
   </body>
 </html>

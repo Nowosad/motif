@@ -1,12 +1,12 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
-  articles/v2_signatures: v2_signatures.html
-  articles/v3_search: v3_search.html
-  articles/v4_compare: v4_compare.html
-  articles/v5_cluster: v5_cluster.html
-  articles/v6_composition: v6_composition.html
+  v2_signatures: v2_signatures.html
+  v3_search: v3_search.html
+  v4_compare: v4_compare.html
+  v5_cluster: v5_cluster.html
+  v6_composition: v6_composition.html
   v1_intro: v1_intro.html
-last_built: 2021-08-23T11:41Z
+last_built: 2022-03-26T18:37Z
 
