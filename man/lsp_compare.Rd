@@ -2,27 +2,9 @@
 % Please edit documentation in R/lsp_compare.R
 \name{lsp_compare}
 \alias{lsp_compare}
-\alias{lsp_compare.stars}
 \title{Comparison between spatial patterns}
 \usage{
 lsp_compare(
-  x,
-  y,
-  type,
-  dist_fun,
-  window = NULL,
-  output = "stars",
-  neighbourhood = 4,
-  threshold = 0.5,
-  ordered = TRUE,
-  repeated = TRUE,
-  normalization = "pdf",
-  wecoma_fun = "mean",
-  wecoma_na_action = "replace",
-  ...
-)
-
-\method{lsp_compare}{stars}(
   x,
   y,
   type,
