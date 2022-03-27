@@ -67,8 +67,6 @@
 #'     dist_fun = "jensen-shannon", window = ecoregions["id"])
 #' plot(c1["dist"])
 #' }
-#' @name lsp_compare
-#' @export
 lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
   if (inherits(x, "SpatRaster")){
     x = stars::st_as_stars(x)
