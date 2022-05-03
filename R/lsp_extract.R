@@ -46,6 +46,6 @@ lsp_extract = function(x, window, id, output = "stars"){
   if (output == "stars"){
     return(output_stars)
   } else if (output == "terra"){
-    return(st_as_terra2(output_stars))
+    return(terra::rast(output_stars))
   }
 }

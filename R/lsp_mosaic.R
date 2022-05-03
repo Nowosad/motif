@@ -53,7 +53,7 @@ lsp_mosaic = function(x, output = "stars"){
     all_mosaics = lsp_one_mosaic(x)
   }
   if (output == "terra"){
-    all_mosaics = st_as_terra2(all_mosaics)
+    all_mosaics = terra::rast(all_mosaics)
   }
   return(all_mosaics)
 }

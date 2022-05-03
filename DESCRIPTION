@@ -1,6 +1,6 @@
 Package: motif
 Title: Local Pattern Analysis
-Version: 0.5.1
+Version: 0.5.2
 Authors@R: c(
     person(given = "Jakub", family = "Nowosad", 
     role = c("aut", "cre"),
@@ -25,7 +25,7 @@ LinkingTo:
     RcppArmadillo
 Imports: 
     comat,
-    philentropy,
+    philentropy (>= 0.6.0),
     Rcpp,
     sf,
     stars,

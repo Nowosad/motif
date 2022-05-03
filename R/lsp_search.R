@@ -151,7 +151,8 @@ lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", nei
   unit = "log2"
   output_y$dist = unlist(lapply(
     output_y$signature,
-    distance2,
+    # distance2,
+    philentropy::dist_one_one,
     P = output_x$signature[[1]],
     method = dist_fun,
     unit = unit,
@@ -176,7 +177,7 @@ lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", nei
     if (output == "stars"){
       return(output_stars)
     } else {
-      return(st_as_terra2(output_stars))
+      return(terra::rast(output_stars))
     }
 
   } else if (output == "sf"){

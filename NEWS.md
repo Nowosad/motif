@@ -1,3 +1,7 @@
+# motif 0.5.2
+
+* Speeds up distance calculations in `lsp_search` and `lsp_compare`
+
 # motif 0.5.1
 
 * Improves support for inputs with the terra's `SpatRaster` class

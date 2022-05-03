@@ -129,7 +129,8 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", ne
   unit = "log2"
 
   output_all$dist = mapply(
-    distance2,
+    # distance2,
+    philentropy::dist_one_one,
     output_x$signature,
     output_y$signature,
     method = dist_fun,
@@ -148,7 +149,7 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", ne
     if (output == "stars"){
       return(output_stars)
     } else {
-      return(st_as_terra2(output_stars))
+      return(terra::rast(output_stars))
     }
   } else if (output == "sf"){
     #return sf

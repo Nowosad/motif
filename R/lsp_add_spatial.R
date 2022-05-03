@@ -199,7 +199,7 @@ lsp_add_terra = function(x = NULL, window = NULL){
     stop("package terra required, please install it first") # nocov
   }
   output = lsp_add_stars(x = x, window = window)
-  output = st_as_terra2(output)
+  output = terra::rast(output)
   return(output)
 }
 
