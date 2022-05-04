@@ -254,6 +254,9 @@ lsp_add_sf = function(x = NULL, window = NULL) UseMethod("lsp_add_sf")
 lsp_add_sf.default = function(x = NULL, window = NULL){
 
   if (is.numeric(window) && window != 0){
+    if (inherits(x, "SpatRaster")){
+      x = stars::st_as_stars(x)
+    }
     x_nrow = nrow(x)
     x_ncol = ncol(x)
 
