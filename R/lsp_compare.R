@@ -149,7 +149,10 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", ne
     if (output == "stars"){
       return(output_stars)
     } else {
-      return(terra::rast(output_stars))
+      output_names = names(output_stars)
+      output_stars = terra::rast(output_stars)
+      names(output_stars) = output_names
+      return(output_stars)
     }
   } else if (output == "sf"){
     #return sf
