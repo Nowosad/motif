@@ -125,6 +125,10 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", ne
   #                    by = "id")
   # unify signatures
   # attributes(output_x)
+  if (nrow(output_all) == 0){
+    stop("Cannot calculate signatures. Have you tried using a smaller `window` or a larger `threshold` value?",
+         call. = FALSE)
+  }
 
   unit = "log2"
 
