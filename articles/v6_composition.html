@@ -103,7 +103,7 @@
       <h1 data-toc-skip>Extracting the proportion of different classes in many regular local landscapes</h1>
                         <h4 data-toc-skip class="author">Jakub Nowosad</h4>
             
-            <h4 data-toc-skip class="date">2022-05-05</h4>
+            <h4 data-toc-skip class="date">2022-05-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Nowosad/motif/blob/HEAD/vignettes/articles/v6_composition.Rmd" class="external-link"><code>vignettes/articles/v6_composition.Rmd</code></a></small>
       <div class="hidden name"><code>v6_composition.Rmd</code></div>
@@ -116,7 +116,7 @@
 <p>The proportion of different classes, also known as <em>composition</em>, can be considered as a basic spatial signature of categorical rasters. It is well-known that composition is a fundamental element of a landscape pattern <span class="citation">(Riitters 2019)</span>, and for example, the proportion of different land cover classes has a significant impact on environmental processes.</p>
 <p>The role of this vignette is to show how to calculate the proportion of different classes in many regular local landscapes using the <strong>motif</strong> package. Let’s start by attaching necessary packages:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nowosad.github.io/motif/" class="external-link">motif</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jakubnowosad.com/motif/" class="external-link">motif</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span></code></pre></div>
 <p>For this vignette, we use the <code>"raster/landcover2015.tif"</code> file, which contains land cover data for New Guinea, with seven possible categories: (1) agriculture, (2) forest, (3) grassland, (5) settlement, (6) shrubland, (7) sparse vegetation, and (9) water.</p>

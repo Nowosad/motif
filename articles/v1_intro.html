@@ -113,7 +113,7 @@
 <p>The <strong>motif</strong> package implements ideas of the pattern-based spatial analysis in R. Its role is to describe spatial patterns of categorical raster data for any defined regular and irregular areas. Patterns are represented quantitatively using built-in signatures based on co-occurrence matrices but also allows for any user-defined functions. It also enables spatial analysis such as search, change detection, and clustering to be performed on spatial patterns.</p>
 <p>The <strong>motif</strong> package works on raster data represented by <code>stars</code> objects. It has several example datasets, including <code>"raster/landcover2015.tif"</code>. This file contains a land cover data for New Guinea, with seven possible categories: (1) agriculture, (2) forest, (3) grassland, (5) settlement, (6) shrubland, (7) sparse vegetation, and (9) water.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nowosad.github.io/motif/" class="external-link">motif</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jakubnowosad.com/motif/" class="external-link">motif</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: abind</span>
 <span class="co">#&gt; Loading required package: sf</span>
@@ -196,7 +196,7 @@
 <span class="co">#&gt; 5  0     0 0 0 0 0    0</span>
 <span class="co">#&gt; 6  0     0 0 0 0 0    0</span>
 <span class="co">#&gt; 7 12   255 0 0 0 0 1644</span></code></pre></div>
-<p>It is a matrix where each row and column represent subsequent land cover classes. For example, 141250 times forest cell is next to anther forest cell, and 226 times water cell is next to forest cell. You can learn more about this signature at <a href="https://nowosad.github.io/comat/articles/coma.html" class="external-link uri">https://nowosad.github.io/comat/articles/coma.html</a>. Additional signatures are described in the <a href="https://nowosad.github.io/motif/articles/articles/signatures.html" class="external-link">Spatial patterns’ signatures</a> vignette.</p>
+<p>It is a matrix where each row and column represent subsequent land cover classes. For example, 141250 times forest cell is next to anther forest cell, and 226 times water cell is next to forest cell. You can learn more about this signature at <a href="https://jakubnowosad.com/comat/articles/coma.html" class="external-link uri">https://jakubnowosad.com/comat/articles/coma.html</a>. Additional signatures are described in the <a href="https://jakubnowosad.com/motif/articles/v2_signatures.html" class="external-link">Spatial patterns’ signatures</a> vignette.</p>
 </div>
 <div class="section level3">
 <h3 id="irregular-local-landscapes">Irregular local landscapes<a class="anchor" aria-label="anchor" href="#irregular-local-landscapes"></a>
@@ -253,9 +253,9 @@
 <!-- create a summary image -->
 <p>You can find examples of each of the above applications in the vignettes:</p>
 <ol style="list-style-type: decimal">
-<li><a href="https://nowosad.github.io/motif/articles/articles/v3_search.html" class="external-link">Spatial patterns’ search</a></li>
-<li><a href="https://nowosad.github.io/motif/articles/articles/v4_compare.html" class="external-link">Spatial patterns’ comparision</a></li>
-<li><a href="https://nowosad.github.io/motif/articles/articles/v5_cluster.html" class="external-link">Spatial patterns’ clustering</a></li>
+<li><a href="https://jakubnowosad.com/motif/articles/v3_search.html" class="external-link">Spatial patterns’ search</a></li>
+<li><a href="https://jakubnowosad.com/motif/articles/v4_compare.html" class="external-link">Spatial patterns’ comparision</a></li>
+<li><a href="https://jakubnowosad.com/motif/articles/v5_cluster.html" class="external-link">Spatial patterns’ clustering</a></li>
 </ol>
 </div>
   </div>
