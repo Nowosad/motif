@@ -38,6 +38,6 @@ Suggests:
     rmarkdown,
     testthat (>= 2.1.0),
     terra
-URL: https://nowosad.github.io/motif/
+URL: https://jakubnowosad.com/motif/
 BugReports: https://github.com/Nowosad/motif/issues
 VignetteBuilder: knitr

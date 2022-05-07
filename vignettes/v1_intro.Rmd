@@ -115,8 +115,8 @@ landcover_coma$signature[[1]]
 
 It is a matrix where each row and column represent subsequent land cover classes.
 For example, 141250 times forest cell is next to anther forest cell, and 226 times water cell is next to forest cell. 
-You can learn more about this signature at https://nowosad.github.io/comat/articles/coma.html.
-Additional signatures are described in the [Spatial patterns' signatures](https://nowosad.github.io/motif/articles/articles/signatures.html) vignette.
+You can learn more about this signature at https://jakubnowosad.com/comat/articles/coma.html.
+Additional signatures are described in the [Spatial patterns' signatures](https://jakubnowosad.com/motif/articles/v2_signatures.html) vignette.
 
 ### Irregular local landscapes
 
@@ -172,6 +172,6 @@ Importantly, spatial patterns' signatures can be used not only to describe lands
 
 You can find examples of each of the above applications in the vignettes:
 
-1. [Spatial patterns' search](https://nowosad.github.io/motif/articles/articles/v3_search.html)
-2. [Spatial patterns' comparision](https://nowosad.github.io/motif/articles/articles/v4_compare.html)
-3. [Spatial patterns' clustering](https://nowosad.github.io/motif/articles/articles/v5_cluster.html)
+1. [Spatial patterns' search](https://jakubnowosad.com/motif/articles/v3_search.html)
+2. [Spatial patterns' comparision](https://jakubnowosad.com/motif/articles/v4_compare.html)
+3. [Spatial patterns' clustering](https://jakubnowosad.com/motif/articles/v5_cluster.html)

@@ -13,7 +13,7 @@ Describes spatial patterns of categorical raster data for any defined regular an
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://nowosad.github.io/motif/}
+  \item \url{https://jakubnowosad.com/motif/}
   \item Report bugs at \url{https://github.com/Nowosad/motif/issues}
 }
 
