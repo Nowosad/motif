@@ -2,7 +2,7 @@
 #'
 #' Calculates three metrics to evaluate quality of spatial patterns' clustering or segmentation.
 #' When the type is `"cluster"`, then metrics of inhomogeneity, distinction, and quality are calculated.
-#' When the type is `"segmentation`, then metrics of inhomogeneity, isolation, and quality are calculated.
+#' When the type is `"segmentation"`, then metrics of inhomogeneity, isolation, and quality are calculated.
 #' For more information, see Details below.
 #'
 #' @param x Object of class `sf` - usually the output of the `lsp_add_clusters()` function
