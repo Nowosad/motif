@@ -184,14 +184,14 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
 #' library(stars)
 #' library(terra)
 #' landform = read_stars(system.file("raster/landforms.tif", package = "motif"))
-#' plot(landform)
+#' #plot(landform)
 #' landform_lsp = lsp_add_terra(landform, window = 100)
 #' plot(landform_lsp)
 #'
-#' lc_cove = lsp_signature(landform, type = "cove", window = 200, normalization = "pdf")
-#' lc_cove_lsp = lsp_add_terra(lc_cove)
-#' plot(lc_cove_lsp)
-#' plot(lc_cove_lsp["na_prop"])
+#' #lc_cove = lsp_signature(landform, type = "cove", window = 200, normalization = "pdf")
+#' #lc_cove_lsp = lsp_add_terra(lc_cove)
+#' #plot(lc_cove_lsp)
+#' #plot(lc_cove_lsp["na_prop"])
 #'
 #' @export
 lsp_add_terra = function(x = NULL, window = NULL){
