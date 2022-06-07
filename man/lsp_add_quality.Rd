@@ -22,7 +22,7 @@ Object of class \code{sf} with three additional columns representing quality met
 \description{
 Calculates three metrics to evaluate quality of spatial patterns' clustering or segmentation.
 When the type is \code{"cluster"}, then metrics of inhomogeneity, distinction, and quality are calculated.
-When the type is \verb{"segmentation}, then metrics of inhomogeneity, isolation, and quality are calculated.
+When the type is \code{"segmentation"}, then metrics of inhomogeneity, isolation, and quality are calculated.
 For more information, see Details below.
 }
 \details{

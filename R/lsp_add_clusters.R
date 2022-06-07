@@ -25,16 +25,16 @@
 #'                             dist_fun = "jensen-shannon")
 #'
 #' landform_hclust = hclust(landform_dist, method = "ward.D2")
-#' plot(landform_hclust)
+#' #plot(landform_hclust)
 #'
 #' clusters = cutree(landform_hclust, k = 4)
 #'
 #' landform_grid_sf = lsp_add_clusters(landform_cove, clusters)
-#' plot(landform_grid_sf["clust"])
+#' #plot(landform_grid_sf["clust"])
 #'
-#' landform_grid_sfq = lsp_add_quality(landform_grid_sf,
-#'                                        landform_dist)
-#' plot(landform_grid_sfq["quality"])
+#' #landform_grid_sfq = lsp_add_quality(landform_grid_sf,
+#' #                                        landform_dist)
+#' #plot(landform_grid_sfq["quality"])
 #'
 #' \donttest{
 #' # larger data example

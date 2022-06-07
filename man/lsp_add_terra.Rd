@@ -27,13 +27,13 @@ a \code{terra} object.
 library(stars)
 library(terra)
 landform = read_stars(system.file("raster/landforms.tif", package = "motif"))
-plot(landform)
+#plot(landform)
 landform_lsp = lsp_add_terra(landform, window = 100)
-plot(landform_lsp)
+#plot(landform_lsp)
 
-lc_cove = lsp_signature(landform, type = "cove", window = 200, normalization = "pdf")
-lc_cove_lsp = lsp_add_terra(lc_cove)
-plot(lc_cove_lsp)
-plot(lc_cove_lsp["na_prop"])
+#lc_cove = lsp_signature(landform, type = "cove", window = 200, normalization = "pdf")
+#lc_cove_lsp = lsp_add_terra(lc_cove)
+#plot(lc_cove_lsp)
+#plot(lc_cove_lsp["na_prop"])
 
 }
