@@ -110,19 +110,14 @@ For <code>stars</code>, <code>window</code> or <code>window_size</code> can be u
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> terra 1.5.21</span>
 <span class="r-in"><span class="va">landform</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/read_stars.html" class="external-link">read_stars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"raster/landforms.tif"</span>, package <span class="op">=</span> <span class="st">"motif"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">landform</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="lsp_add_terra-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="co">#plot(landform)</span></span>
 <span class="r-in"><span class="va">landform_lsp</span> <span class="op">=</span> <span class="fu">lsp_add_terra</span><span class="op">(</span><span class="va">landform</span>, window <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">landform_lsp</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="lsp_add_terra-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="co">#plot(landform_lsp)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">lc_cove</span> <span class="op">=</span> <span class="fu"><a href="lsp_signature.html">lsp_signature</a></span><span class="op">(</span><span class="va">landform</span>, type <span class="op">=</span> <span class="st">"cove"</span>, window <span class="op">=</span> <span class="fl">200</span>, normalization <span class="op">=</span> <span class="st">"pdf"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">lc_cove_lsp</span> <span class="op">=</span> <span class="fu">lsp_add_terra</span><span class="op">(</span><span class="va">lc_cove</span><span class="op">)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Column signature is of a list class and will be dropped from the output object.</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lc_cove_lsp</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="lsp_add_terra-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lc_cove_lsp</span><span class="op">[</span><span class="st">"na_prop"</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="lsp_add_terra-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="co">#lc_cove = lsp_signature(landform, type = "cove", window = 200, normalization = "pdf")</span></span>
+<span class="r-in"><span class="co">#lc_cove_lsp = lsp_add_terra(lc_cove)</span></span>
+<span class="r-in"><span class="co">#plot(lc_cove_lsp)</span></span>
+<span class="r-in"><span class="co">#plot(lc_cove_lsp["na_prop"])</span></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
