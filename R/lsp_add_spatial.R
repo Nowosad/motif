@@ -49,6 +49,14 @@ lsp_add_stars = function(x = NULL, window = NULL) UseMethod("lsp_add_stars")
 #' @export
 lsp_add_stars.default = function(x = NULL, window = NULL){
 
+  if (length(window) == 2){
+    window_shift = window[2]
+    window = window[1]
+  } else if (length(window) == 1){
+    window = window[1]
+    window_shift = window[1]
+  }
+
   if (is.numeric(window) && window != 0){
     x_nrow = nrow(x)
     x_ncol = ncol(x)
@@ -62,7 +70,7 @@ lsp_add_stars.default = function(x = NULL, window = NULL){
                              x_bb = x_bb,
                              x_delta_row = x_delta_row,
                              x_delta_col = x_delta_col,
-                             window_shift = window)
+                             window_shift = window_shift)
     return(output)
 
   } else if (is.null(window)){
