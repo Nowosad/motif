@@ -38,9 +38,11 @@ jobs:
           remotes::install_cran("covr")
           install.packages("pkgdown", type = "binary")
           options(repos = c(rspatial = 'https://r-spatial.r-universe.dev',
+                            rspatial2 = 'https://rspatial.r-universe.dev',
                             CRAN = 'https://cloud.r-project.org'))
           install.packages("sf")
           install.packages("tmap")
+          install.packages("terra")
 
         shell: Rscript {0}
 
