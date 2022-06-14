@@ -1,3 +1,7 @@
+# motif 0.6.0
+
+* Adds possibility of providing two numerical values to `window`, where the first one represents the expected window size and the second one is the window shift
+
 # motif 0.5.2
 
 * Speeds up distance calculations in `lsp_search` and `lsp_compare`

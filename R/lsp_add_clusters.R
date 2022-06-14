@@ -36,31 +36,30 @@
 #' #                                        landform_dist)
 #' #plot(landform_grid_sfq["quality"])
 #'
-#' \donttest{
-#' # larger data example
-#' library(stars)
-#' library(sf)
-#' landform = read_stars(system.file("raster/landform.tif", package = "motif"))
-#' landform_cove = lsp_signature(landform,
-#'                                type = "cove",
-#'                                window = 200,
-#'                                normalization = "pdf")
-#'
-#' landform_dist = lsp_to_dist(landform_cove,
-#'                             dist_fun = "jensen-shannon")
-#'
-#' landform_hclust = hclust(landform_dist, method = "ward.D2")
-#' plot(landform_hclust)
-#'
-#' clusters = cutree(landform_hclust, k = 6)
-#'
-#' landform_grid_sf = lsp_add_clusters(landform_cove, clusters)
-#' plot(landform_grid_sf["clust"])
-#'
-#' landform_grid_sfq = lsp_add_quality(landform_grid_sf,
-#'                                        landform_dist)
-#' plot(landform_grid_sfq["quality"])
-#' }
+#' ## larger data example
+#' # library(stars)
+#' # library(sf)
+#' # landform = read_stars(system.file("raster/landform.tif", package = "motif"),
+#' #                       proxy = FALSE)
+#' # landform_cove = lsp_signature(landform,
+#' #                                type = "cove",
+#' #                                window = 200,
+#' #                                normalization = "pdf")
+#' #
+#' # landform_dist = lsp_to_dist(landform_cove,
+#' #                             dist_fun = "jensen-shannon")
+#' #
+#' # landform_hclust = hclust(landform_dist, method = "ward.D2")
+#' # plot(landform_hclust)
+#' #
+#' # clusters = cutree(landform_hclust, k = 6)
+#' #
+#' # landform_grid_sf = lsp_add_clusters(landform_cove, clusters)
+#' # plot(landform_grid_sf["clust"])
+#' #
+#' # landform_grid_sfq = lsp_add_quality(landform_grid_sf,
+#' #                                        landform_dist)
+#' # plot(landform_grid_sfq["quality"])
 #' @export
 lsp_add_clusters = function(x, clust, output = "sf", window = NULL){
   x$clust = clust

@@ -9,8 +9,14 @@ prepare_window = function(x, window){
     window_size = 0
     window_shift = window_size
   } else if (is.numeric(window)){
-    window_size = window
-    window_shift = window_size
+    if (length(window) == 1){
+      window_size = window
+      window_shift = window_size
+    } else {
+      window_size = window[[1]]
+      window_shift = window[[2]]
+      window = window[[1]]
+    }
   } else {
     window_size = NULL
     window_shift = NULL

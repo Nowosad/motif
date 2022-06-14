@@ -33,7 +33,7 @@ lsp_search(
 
 \item{window}{Specifies areas for analysis. It can be either: \code{NULL}, a numeric value, or an \code{sf} object. If \code{window=NULL} calculations are performed for a whole area. If the \code{window} argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an \code{sf} object is provided, each feature (row) defines the extent of a local pattern. The \code{sf} object should have one attribute (otherwise, the first attribute is used as an id).}
 
-\item{output}{The class of the output. Either \code{"stars"}, \code{"sf"}, or \code{terra}}
+\item{output}{The class of the output. Either \code{"stars"}, \code{"sf"}, or \code{"terra"}}
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
 4 (rook's case) or 8 (queen's case). The default is 4.}
