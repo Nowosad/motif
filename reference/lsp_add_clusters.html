@@ -90,16 +90,25 @@ See examples.</p>
     <dl><dt>x</dt>
 <dd><p>Object of class <code>lsp</code> - usually the output of
 the <code><a href="lsp_signature.html">lsp_signature()</a></code> function</p></dd>
+
+
 <dt>clust</dt>
 <dd><p>Vector containing an id value for each row in <code>x</code></p></dd>
+
+
 <dt>output</dt>
 <dd><p>The class of the output. Either <code>stars</code>, <code>sf</code>, or <code>terra</code></p></dd>
+
+
 <dt>window</dt>
 <dd><p>Specifies areas for analysis. It can be either: <code>NULL</code> or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed based on the metadata from <code>x</code>. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Object of class <code>stars</code>, <code>sf</code>, or <code>terra</code> (depending on the <code>output</code> argument) with an additional column <code>"clust"</code> representing clusters' id values.</p>
+    
+
+<p>Object of class <code>stars</code>, <code>sf</code>, or <code>terra</code> (depending on the <code>output</code> argument) with an additional column <code>"clust"</code> representing clusters' id values.</p>
     </div>
 
     <div id="ref-examples">
@@ -132,35 +141,30 @@ the <code><a href="lsp_signature.html">lsp_signature()</a></code> function</p></
 <span class="r-in"><span class="co">#                                        landform_dist)</span></span>
 <span class="r-in"><span class="co">#plot(landform_grid_sfq["quality"])</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># larger data example</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">landform</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/read_stars.html" class="external-link">read_stars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"raster/landform.tif"</span>, package <span class="op">=</span> <span class="st">"motif"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">landform_cove</span> <span class="op">=</span> <span class="fu"><a href="lsp_signature.html">lsp_signature</a></span><span class="op">(</span><span class="va">landform</span>,</span>
-<span class="r-in">                               type <span class="op">=</span> <span class="st">"cove"</span>,</span>
-<span class="r-in">                               window <span class="op">=</span> <span class="fl">200</span>,</span>
-<span class="r-in">                               normalization <span class="op">=</span> <span class="st">"pdf"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">landform_dist</span> <span class="op">=</span> <span class="fu"><a href="lsp_to_dist.html">lsp_to_dist</a></span><span class="op">(</span><span class="va">landform_cove</span>,</span>
-<span class="r-in">                            dist_fun <span class="op">=</span> <span class="st">"jensen-shannon"</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Metric: 'jensen-shannon' using unit: 'log2'; comparing: 288 vectors.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">landform_hclust</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="va">landform_dist</span>, method <span class="op">=</span> <span class="st">"ward.D2"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">landform_hclust</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="lsp_add_clusters-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">clusters</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cutree.html" class="external-link">cutree</a></span><span class="op">(</span><span class="va">landform_hclust</span>, k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">landform_grid_sf</span> <span class="op">=</span> <span class="fu">lsp_add_clusters</span><span class="op">(</span><span class="va">landform_cove</span>, <span class="va">clusters</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">landform_grid_sf</span><span class="op">[</span><span class="st">"clust"</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="lsp_add_clusters-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">landform_grid_sfq</span> <span class="op">=</span> <span class="fu"><a href="lsp_add_quality.html">lsp_add_quality</a></span><span class="op">(</span><span class="va">landform_grid_sf</span>,</span>
-<span class="r-in">                                       <span class="va">landform_dist</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">landform_grid_sfq</span><span class="op">[</span><span class="st">"quality"</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="lsp_add_clusters-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span class="co">## larger data example</span></span>
+<span class="r-in"><span class="co"># library(stars)</span></span>
+<span class="r-in"><span class="co"># library(sf)</span></span>
+<span class="r-in"><span class="co"># landform = read_stars(system.file("raster/landform.tif", package = "motif"),</span></span>
+<span class="r-in"><span class="co">#                       proxy = FALSE)</span></span>
+<span class="r-in"><span class="co"># landform_cove = lsp_signature(landform,</span></span>
+<span class="r-in"><span class="co">#                                type = "cove",</span></span>
+<span class="r-in"><span class="co">#                                window = 200,</span></span>
+<span class="r-in"><span class="co">#                                normalization = "pdf")</span></span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="co"># landform_dist = lsp_to_dist(landform_cove,</span></span>
+<span class="r-in"><span class="co">#                             dist_fun = "jensen-shannon")</span></span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="co"># landform_hclust = hclust(landform_dist, method = "ward.D2")</span></span>
+<span class="r-in"><span class="co"># plot(landform_hclust)</span></span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="co"># clusters = cutree(landform_hclust, k = 6)</span></span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="co"># landform_grid_sf = lsp_add_clusters(landform_cove, clusters)</span></span>
+<span class="r-in"><span class="co"># plot(landform_grid_sf["clust"])</span></span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="co"># landform_grid_sfq = lsp_add_quality(landform_grid_sf,</span></span>
+<span class="r-in"><span class="co">#                                        landform_dist)</span></span>
+<span class="r-in"><span class="co"># plot(landform_grid_sfq["quality"])</span></span>
 </code></pre></div>
     </div>
   </div>
@@ -175,7 +179,7 @@ the <code><a href="lsp_signature.html">lsp_signature()</a></code> function</p></
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

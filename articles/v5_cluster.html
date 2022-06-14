@@ -103,7 +103,7 @@
       <h1 data-toc-skip>Spatial patterns’ clustering</h1>
                         <h4 data-toc-skip class="author">Jakub Nowosad</h4>
             
-            <h4 data-toc-skip class="date">2022-06-07</h4>
+            <h4 data-toc-skip class="date">2022-06-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Nowosad/motif/blob/HEAD/vignettes/articles/v5_cluster.Rmd" class="external-link"><code>vignettes/articles/v5_cluster.Rmd</code></a></small>
       <div class="hidden name"><code>v5_cluster.Rmd</code></div>
@@ -210,7 +210,9 @@
 </h4>
 <p>We can also calculate the quality of the clusterings with the <code><a href="../reference/lsp_add_quality.html">lsp_add_quality()</a></code> function, which requires an output of <code><a href="../reference/lsp_add_clusters.html">lsp_add_clusters()</a></code> as the first argument and output of <code><a href="../reference/lsp_to_dist.html">lsp_to_dist()</a></code> as the second one. It adds three new variables: <code>inhomogeneity</code>, <code>distinction</code>, and <code>quality</code>.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">landcover_grid_sfq</span> <span class="op">=</span> <span class="fu"><a href="../reference/lsp_add_quality.html">lsp_add_quality</a></span><span class="op">(</span><span class="va">landcover_grid_sf</span>, <span class="va">landcover_dist</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">landcover_grid_sfq</span> <span class="op">=</span> <span class="fu"><a href="../reference/lsp_add_quality.html">lsp_add_quality</a></span><span class="op">(</span><span class="va">landcover_grid_sf</span>, <span class="va">landcover_dist</span><span class="op">)</span>
+<span class="co">#&gt; Warning: no function found corresponding to methods exports from 'raster' for:</span>
+<span class="co">#&gt; 'area'</span></code></pre></div>
 <p>Inhomogeneity (<code>inhomogeneity</code>) measures a degree of mutual dissimilarity between all objects in a cluster. This value is between 0 and 1, where the small value indicates that all objects in the cluster represent consistent patterns so the cluster is pattern-homogeneous.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">inhomogeneity_pal</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">6</span>, palette <span class="op">=</span> <span class="st">"Emrld"</span><span class="op">)</span>
@@ -351,7 +353,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer>

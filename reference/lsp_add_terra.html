@@ -96,19 +96,24 @@ a <code>terra</code> object.</p>
     <dl><dt>x</dt>
 <dd><p>Object of class <code>stars</code> or <code>lsp</code>.
 For <code>stars</code>, <code>window</code> or <code>window_size</code> can be used.</p></dd>
+
+
 <dt>window</dt>
 <dd><p>Specifies areas for analysis. It can be either: <code>NULL</code>, a numeric value, or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed for a whole area. If the <code>window</code> argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>terra</code> object converted from the input object or a provided set of parameters</p>
+    
+
+<p>A <code>terra</code> object converted from the input object or a provided set of parameters</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> terra 1.5.21</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> terra 1.5.42</span>
 <span class="r-in"><span class="va">landform</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/read_stars.html" class="external-link">read_stars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"raster/landforms.tif"</span>, package <span class="op">=</span> <span class="st">"motif"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="co">#plot(landform)</span></span>
 <span class="r-in"><span class="va">landform_lsp</span> <span class="op">=</span> <span class="fu">lsp_add_terra</span><span class="op">(</span><span class="va">landform</span>, window <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
@@ -133,7 +138,7 @@ For <code>stars</code>, <code>window</code> or <code>window_size</code> can be u
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

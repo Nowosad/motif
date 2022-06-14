@@ -97,38 +97,61 @@
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>Object of class <code>stars</code>, <code>stars_proxy</code>, or terra's <code>SpatRaster</code>. It should have one attribute (for <code>"coma"</code>, <code>"cove"</code>), two attributes (<code>"cocoma"</code>, <code>"cocove"</code>, <code>"wecoma"</code>, <code>"wecove"</code>), two or more attributes (<code>"incoma"</code>, <code>"incove"</code>), or any number of attributes suitable for user-defined functions.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>Type of the calculated signature. It can be <code>"coma"</code> (co-occurrence matrix), <code>"cove"</code> (co-occurrence vector), <code>"cocoma"</code> (co-located co-occurrence matrix), <code>"cocove"</code> (co-located co-occurrence vector), <code>"wecoma"</code> (weighted co-occurrence matrix), <code>"wecove"</code> (weighted co-occurrence vector), <code>"incoma"</code> (integrated co-occurrence matrix), <code>"incove"</code> (integrated co-occurrence vector), <code>"composition"</code> or any function that can summarize <code>stars</code> objects.</p></dd>
+
+
 <dt>window</dt>
 <dd><p>Specifies areas for analysis. It can be either: <code>NULL</code>, a numeric value, or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed for a whole area. If the <code>window</code> argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></dd>
+
+
 <dt>neighbourhood</dt>
 <dd><p>The number of directions in which cell adjacencies are considered as neighbours:
 4 (rook's case) or 8 (queen's case). The default is 4.</p></dd>
+
+
 <dt>threshold</dt>
 <dd><p>The share of NA cells (0-1) to allow metrics calculation.</p></dd>
+
+
 <dt>ordered</dt>
 <dd><p>For <code>"cove"</code>, <code>"cocove"</code>, <code>"wecove"</code> and <code>"incove"</code> only. The type of pairs considered.
 Either "ordered" (TRUE) or "unordered" (FALSE).
 The default is TRUE.</p></dd>
+
+
 <dt>repeated</dt>
 <dd><p>For <code>"incove"</code> only. Should the repeated co-located co-occurrence matrices be used?
 Either "ordered" (TRUE) or "unordered" (FALSE).
 The default is TRUE.</p></dd>
+
+
 <dt>normalization</dt>
 <dd><p>For <code>"cove"</code>, <code>"cocove"</code>, <code>"wecove"</code>, <code>"incove"</code>, <code>"composition"</code>, or user-provided functions only. Should the output vector be normalized?
 Either "none" or "pdf".
 The "pdf" option normalizes a vector to sum to one.
 The default is "pdf".</p></dd>
+
+
 <dt>wecoma_fun</dt>
 <dd><p>For <code>"wecoma"</code> and <code>"wecove"</code> only. Function to calculate values from adjacent cells to contribute to exposure matrix, <code>"mean"</code> - calculate average values of local population densities from adjacent cells, <code>"geometric_mean"</code> - calculate geometric mean values of local population densities from adjacent cells, or <code>"focal"</code> assign a value from the focal cell</p></dd>
+
+
 <dt>wecoma_na_action</dt>
 <dd><p>For <code>"wecoma"</code> and <code>"wecove"</code> only. Decides on how to behave in the presence of missing values in <code>w</code>. Possible options are <code>"replace"</code>, <code>"omit"</code>, <code>"keep"</code>. The default, <code>"replace"</code>, replaces missing values with 0, <code>"omit"</code> does not use cells with missing values, and <code>"keep"</code> keeps missing values.</p></dd>
+
+
 <dt>classes</dt>
 <dd><p>Which classes (categories) should be analyzed? This parameter expects a list of the same length as the number of attributes in <code>x</code>, where each element of the list contains integer vector. The default is <code>NULL</code>, which means that the classes are calculated directly from the input data and all of them are used in the calculations.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Object of class <code>lsp</code>.
+    
+
+<p>Object of class <code>lsp</code>.
 It has three columns: (1) <code>id</code> - an id of each window.
 For irregular windows, it is the values provided in the <code>window</code> argument,
 (2) <code>na_prop</code> - share (0-1) of <code>NA</code> cells for each window,
@@ -194,7 +217,7 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>
