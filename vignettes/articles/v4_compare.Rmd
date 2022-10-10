@@ -1,5 +1,5 @@
 ---
-title: "Spatial patterns' comparision"
+title: "Spatial patterns' comparison"
 author: "Jakub Nowosad"
 date: "`r Sys.Date()`"
 output: 
@@ -54,7 +54,7 @@ Our goal here is to find areas with the largest changes of land cover spatial pa
 
 ## Regular local landscapes
 
-Spatial patterns' comparision can be done using the `lsp_compare()` function.
+Spatial patterns' comparison can be done using the `lsp_compare()` function.
 It expects two spatial objects, a type of spatial signature used (`"cove"`), distance function to measure dissimilarity (change) between spatial patterns (`"dist_fun"`).
 By default the whole area is compared, it can be changed with the `window` argument.
 Here, `window = 100` means that the study area is be divided into local landscapes of 100 by 100 cells.
@@ -120,7 +120,7 @@ my_pal = c("#d34359", "#62b93c", "#b75fcf", "#53c069", "#d44295", "#acb939", "#6
 plot(ecoregions["id"], main = NULL, col = my_pal, key.pos = 4, key.width = lcm(5))
 ```
 
-Comparision of spatial patterns for irregular local landscapes requires setting `window = ecoregions["id"]`.
+Comparison of spatial patterns for irregular local landscapes requires setting `window = ecoregions["id"]`.
 
 ```{r}
 compare_2 = lsp_compare(landcover, landcoverold, 

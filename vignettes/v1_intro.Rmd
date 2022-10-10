@@ -154,7 +154,7 @@ landcover_coma_e$signature[[1]]
 ## Large data support
 
 The **motif** package also supports large raster datasets, including rasters that do not fit into the RAM.
-It just requres reading the input data as a `stars.proxy` by adding `proxy = TRUE` to the `read_stars()` function:
+It just requires reading the input data as a `stars.proxy` by adding `proxy = TRUE` to the `read_stars()` function:
 
 ```{r}
 landcover_proxy = read_stars(system.file("raster/landcover2015.tif", package = "motif"),
@@ -173,5 +173,5 @@ Importantly, spatial patterns' signatures can be used not only to describe lands
 You can find examples of each of the above applications in the vignettes:
 
 1. [Spatial patterns' search](https://jakubnowosad.com/motif/articles/v3_search.html)
-2. [Spatial patterns' comparision](https://jakubnowosad.com/motif/articles/v4_compare.html)
+2. [Spatial patterns' comparison](https://jakubnowosad.com/motif/articles/v4_compare.html)
 3. [Spatial patterns' clustering](https://jakubnowosad.com/motif/articles/v5_cluster.html)
