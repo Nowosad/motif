@@ -49,6 +49,10 @@ lsp_add_stars = function(x = NULL, window = NULL) UseMethod("lsp_add_stars")
 #' @export
 lsp_add_stars.default = function(x = NULL, window = NULL){
 
+  if (inherits(x, "SpatRaster")){
+    x = stars::st_as_stars(x)
+  }
+
   if (length(window) == 2){
     window_shift = window[2]
     window = window[1]

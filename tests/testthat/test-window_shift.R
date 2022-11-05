@@ -21,10 +21,10 @@ plot(landform_lsp_stars[1])
 
 library(terra)
 landform_lsp_cove_terra = lsp_add_terra(landform_cove)
-plot(landform_lsp_cove_terra)
+terra::plot(landform_lsp_cove_terra)
 
 landform_lsp_terra = lsp_add_terra(landform, window = c(200, 100))
-plot(landform_lsp_terra)
+terra::plot(landform_lsp_terra)
 
 s_cove = lsp_search(landform_ext,
                     landform,

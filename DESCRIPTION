@@ -1,6 +1,6 @@
 Package: motif
 Title: Local Pattern Analysis
-Version: 0.5.2
+Version: 0.5.3
 Authors@R: c(
     person(given = "Jakub", family = "Nowosad", 
     role = c("aut", "cre"),
@@ -16,7 +16,7 @@ Description: Describes spatial patterns of categorical raster data for
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Depends: 
     R (>= 3.1)
 LinkingTo: 
