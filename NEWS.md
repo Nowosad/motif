@@ -1,3 +1,7 @@
+# motif 0.6.1
+
+* `lsp_add_stars` and `lsp_add_terra` now do not drop the `signature` list-column, but restructures it into many raster layers
+
 # motif 0.6.0
 
 * Adds possibility of providing two numerical values to `window`, where the first one represents the expected window size and the second one is the window shift

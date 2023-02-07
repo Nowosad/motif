@@ -116,7 +116,7 @@ lsp_add_stars.lsp = function(x = NULL, window = NULL){
                                                                dx = metadata$delta_y,
                                                                dy = metadata$delta_x))
   }
-
+  x = lsp_restructure(x)
   output_stars = join_stars(output_stars, x, by = "id")
 
   return(output_stars)
