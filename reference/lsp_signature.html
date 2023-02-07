@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.1</span>
       </span>
     </div>
 
@@ -78,19 +78,19 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">lsp_signature</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">type</span>,
-  window <span class="op">=</span> <span class="cn">NULL</span>,
-  neighbourhood <span class="op">=</span> <span class="fl">4</span>,
-  threshold <span class="op">=</span> <span class="fl">0.9</span>,
-  ordered <span class="op">=</span> <span class="cn">TRUE</span>,
-  repeated <span class="op">=</span> <span class="cn">TRUE</span>,
-  normalization <span class="op">=</span> <span class="st">"pdf"</span>,
-  wecoma_fun <span class="op">=</span> <span class="st">"mean"</span>,
-  wecoma_na_action <span class="op">=</span> <span class="st">"replace"</span>,
-  classes <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lsp_signature</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">type</span>,</span>
+<span>  window <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  neighbourhood <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  threshold <span class="op">=</span> <span class="fl">0.9</span>,</span>
+<span>  ordered <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  repeated <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  normalization <span class="op">=</span> <span class="st">"pdf"</span>,</span>
+<span>  wecoma_fun <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>  wecoma_na_action <span class="op">=</span> <span class="st">"replace"</span>,</span>
+<span>  classes <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -160,32 +160,32 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">landcover</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/read_stars.html" class="external-link">read_stars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"raster/landcover2015s.tif"</span>, package <span class="op">=</span> <span class="st">"motif"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">landcover_coma</span> <span class="op">=</span> <span class="fu">lsp_signature</span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"coma"</span>, threshold <span class="op">=</span> <span class="fl">0.9</span>, window <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">landcover_coma</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">landcover</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/read_stars.html" class="external-link">read_stars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"raster/landcover2015s.tif"</span>, package <span class="op">=</span> <span class="st">"motif"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">landcover_coma</span> <span class="op">=</span> <span class="fu">lsp_signature</span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"coma"</span>, threshold <span class="op">=</span> <span class="fl">0.9</span>, window <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">landcover_coma</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id na_prop signature    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1   0.895 <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">landcover_comp</span> <span class="op">=</span> <span class="fu">lsp_signature</span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"composition"</span>, threshold <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">landcover_comp</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">landcover_comp</span> <span class="op">=</span> <span class="fu">lsp_signature</span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"composition"</span>, threshold <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">landcover_comp</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id na_prop signature    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1  0.055<span style="text-decoration: underline;">5</span> <span style="color: #949494;">&lt;dbl [1 × 7]&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># larger data example</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">landcover</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/read_stars.html" class="external-link">read_stars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"raster/landcover2015.tif"</span>, package <span class="op">=</span> <span class="st">"motif"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">landcover_coma</span> <span class="op">=</span> <span class="fu">lsp_signature</span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"coma"</span>, threshold <span class="op">=</span> <span class="fl">0.9</span>, window <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">landcover_coma</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># larger data example</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">landcover</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/read_stars.html" class="external-link">read_stars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"raster/landcover2015.tif"</span>, package <span class="op">=</span> <span class="st">"motif"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">landcover_coma</span> <span class="op">=</span> <span class="fu">lsp_signature</span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"coma"</span>, threshold <span class="op">=</span> <span class="fl">0.9</span>, window <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">landcover_coma</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id na_prop signature    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       </span>
@@ -195,14 +195,14 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     6   0.671 <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     7   0.509 <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     8   0.804 <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">landcover_comp</span> <span class="op">=</span> <span class="fu">lsp_signature</span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"composition"</span>, threshold <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">landcover_comp</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">landcover_comp</span> <span class="op">=</span> <span class="fu">lsp_signature</span><span class="op">(</span><span class="va">landcover</span>, type <span class="op">=</span> <span class="st">"composition"</span>, threshold <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">landcover_comp</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id na_prop signature    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1   0.666 <span style="color: #949494;">&lt;dbl [1 × 7]&gt;</span></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -217,7 +217,7 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
