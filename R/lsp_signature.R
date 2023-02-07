@@ -52,7 +52,7 @@
 #' landcover_comp = lsp_signature(landcover, type = "composition", threshold = 0.9)
 #' landcover_comp
 #' }
-lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 0.9, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL){
+lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 0.9, ordered = FALSE, repeated = FALSE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL){
   if (inherits(x, "SpatRaster")){
     x = stars::st_as_stars(x)
   }

@@ -21,7 +21,7 @@ test_that("the output structure is correct", {
   expect_equal(nrow(landform_lsp_sf), 49)
   expect_equal(unname(dim(landform_lsp_cove_stars)), c(7, 7))
   expect_equal(unname(dim(landform_lsp_stars)), c(7, 7))
-  expect_equal(dim(landform_lsp_cove_terra), c(7, 7, 146))
+  expect_equal(dim(landform_lsp_cove_terra), c(7, 7, 80))
   expect_equal(dim(landform_lsp_terra), c(7, 7, 1))
 })
 

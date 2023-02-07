@@ -100,17 +100,17 @@ test_that("thumprint works corectly for window", {
 test_that("wecoma works corectly", {
   expect_equal(result_wecove$na_prop,
                0.0982, tolerance = .001)
-  expect_equal(ncol(result_wecove$signature[[1]]), 144)
+  expect_equal(ncol(result_wecove$signature[[1]]), 78)
 })
 
 test_that("cocove works corectly", {
-  expect_equal(ncol(result_cocove1000$signature[[1]]), 84)
+  expect_equal(ncol(result_cocove1000$signature[[1]]), 28)
 })
 
 test_that("incoma works corectly", {
   expect_equal(result_incove$na_prop,
                0.0982, tolerance = .001)
-  expect_equal(ncol(result_incove$signature[[1]]), 361)
+  expect_equal(ncol(result_incove$signature[[1]]), 190)
 })
 
 test_that("na_prop works correctly", {
