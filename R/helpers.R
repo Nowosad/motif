@@ -5,7 +5,8 @@ distance2 = function(P, Q, method, p = NULL, test.na = TRUE, unit, est.prob = NU
                         p = p,
                         test.na = test.na,
                         unit = unit,
-                        est.prob = est.prob))
+                        est.prob = est.prob,
+                        mute.message = TRUE))
 }
 
 normalize_signature = function(x, normalization){
