@@ -2,6 +2,7 @@
 
 * `lsp_add_stars` and `lsp_add_terra` now do not drop the `signature` list-column, but restructures it into many raster layers
 * Changes defaults in `lsp_signature` to `ordered = FALSE` and `repeated = FALSE` (both were `TRUE` before)
+* Improves handling of terra's `SpatRaster` class in `lsp_extract`
 * Mutes `philentropy::distance` messages
 
 # motif 0.6.0

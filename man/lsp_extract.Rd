@@ -13,7 +13,7 @@ lsp_extract(x, window, id, output = "stars")
 
 \item{id}{Id of the local landscape - it is possible to find in the output of \code{lsp_signature()}, \code{lsp_search()}, \code{lsp_compare()}, or \code{lsp_add_clusters()}.}
 
-\item{output}{The class of the output. Either \code{"stars"} or \code{terra}}
+\item{output}{The class of the output. Either \code{"stars"} or \code{"terra"}}
 }
 \value{
 A \code{stars}or \code{terra} object cropped to the extent of a selected local landscape
