@@ -41,7 +41,7 @@ lsp_extract = function(x, window, id){
   if (inherits(x, "stars")){
     output_stars = stars::st_as_stars(x[windows_sf])
     return(output_stars)
-  } else if (inherits(x, "terra")){
+  } else if (inherits(x, "SpatRaster")){
     output_terra = terra::crop(x, windows_sf)
     return(output_terra)
   }
