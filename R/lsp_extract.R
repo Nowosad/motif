@@ -5,7 +5,6 @@
 #' @param x Object of class `stars`, `stars_proxy`, or terra's `SpatRaster`.
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object.
 #' @param id Id of the local landscape - it is possible to find in the output of `lsp_signature()`, `lsp_search()`, `lsp_compare()`, or `lsp_add_clusters()`.
-#' @param output The class of the output. Either `"stars"` or `"terra"`
 #'
 #' @return A `stars`or `terra` object cropped to the extent of a selected local landscape
 #'
@@ -36,13 +35,13 @@
 #' extract2 = lsp_extract(x = landform, window = ecoregions["id"], id = 7)
 #' plot(extract2)
 #' }
-lsp_extract = function(x, window, id, output = "stars"){
+lsp_extract = function(x, window, id){
   windows_sf = lsp_add_sf(x = x, window = window)
   windows_sf = windows_sf[windows_sf$id == id, ]
-  if (output == "stars"){
+  if (inherits(x, "stars")){
     output_stars = stars::st_as_stars(x[windows_sf])
     return(output_stars)
-  } else if (output == "terra"){
+  } else if (inherits(x, "terra")){
     output_terra = terra::crop(x, windows_sf)
     return(output_terra)
   }
