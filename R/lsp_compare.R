@@ -142,7 +142,7 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", ne
     ...
   )
 
-  message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
+  #message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
   if (output == "stars" || output == "terra"){
     output_stars = lsp_add_stars(x_metadata, window = window)
