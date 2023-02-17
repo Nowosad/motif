@@ -159,7 +159,7 @@ lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", nei
     ...
   ))
 
-  message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
+  # message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
   # prepare result ----------------------------------------------------------
   if (output == "stars" || output == "terra"){
