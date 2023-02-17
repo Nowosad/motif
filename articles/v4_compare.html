@@ -145,8 +145,7 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_1</span> <span class="op">=</span> <span class="fu"><a href="../reference/lsp_compare.html">lsp_compare</a></span><span class="op">(</span><span class="va">landcover</span>, <span class="va">landcoverold</span>,</span>
 <span>                        type <span class="op">=</span> <span class="st">"cove"</span>, dist_fun <span class="op">=</span> <span class="st">"jensen-shannon"</span>,</span>
-<span>                        window <span class="op">=</span> <span class="fl">100</span>, threshold <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Metric: 'jensen-shannon' using unit: 'log2'.</span></span></code></pre></div>
+<span>                        window <span class="op">=</span> <span class="fl">100</span>, threshold <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span></code></pre></div>
 <p>The output is a <code>stars</code> object with a <code>dist</code> argument, with the value of 0 indicating no change, and larger values (up to 1) representing changes of a bigger magnitude.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_breaks</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">1.01</span><span class="op">)</span></span>
@@ -185,8 +184,7 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_2</span> <span class="op">=</span> <span class="fu"><a href="../reference/lsp_compare.html">lsp_compare</a></span><span class="op">(</span><span class="va">landcover</span>, <span class="va">landcoverold</span>, </span>
 <span>                        type <span class="op">=</span> <span class="st">"cove"</span>, dist_fun <span class="op">=</span> <span class="st">"jensen-shannon"</span>, </span>
-<span>                        window <span class="op">=</span> <span class="va">ecoregions</span><span class="op">[</span><span class="st">"id"</span><span class="op">]</span>, threshold <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Metric: 'jensen-shannon' using unit: 'log2'.</span></span></code></pre></div>
+<span>                        window <span class="op">=</span> <span class="va">ecoregions</span><span class="op">[</span><span class="st">"id"</span><span class="op">]</span>, threshold <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span></code></pre></div>
 <p>Spatial patterns of land cover stayed very similar for most of the ecoregions, with just two exceptions:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_breaks</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">1.01</span><span class="op">)</span></span>
