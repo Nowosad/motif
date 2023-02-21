@@ -90,7 +90,7 @@
 #'   dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions["id"])
 #' plot(s2["dist"])
 #' }
-lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = TRUE, repeated = TRUE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL, ...){
+lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = FALSE, repeated = FALSE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL, ...){
   if (inherits(x, "SpatRaster")){
     x = stars::st_as_stars(x)
   }
