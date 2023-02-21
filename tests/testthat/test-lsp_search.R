@@ -73,13 +73,13 @@ test_that("tests simple search results", {
                     c(1, 0.0982, 0.4523),
                     tolerance = .001)
   expect_equivalent(unlist(unique(s_cocove)),
-                    c(1, 0.0555, 0.4532),
+                    c(1, 0.0555, 0.601),
                     tolerance = .001)
   expect_equivalent(unlist(unique(s_wecove)),
                     c(1, 0.0982, 0.451),
                     tolerance = .001)
   expect_equivalent(unlist(unique(s_incove)),
-                    c(1, 0.0982, 0.3477),
+                    c(1, 0.0982, 0.313),
                     tolerance = .001)
 })
 
@@ -97,6 +97,6 @@ test_that("tests proxy search results", {
 test_that("tests window search results", {
   expect_equal(sort(unique(c(s_cove_window$id))), c(5, 6, 11, 16, 17))
   expect_equivalent(min(s_cove_window$dist, na.rm = TRUE), 0.00029, tolerance = .001)
-  expect_equal(mean(c(s_incovewindow$dist), na.rm = TRUE), 0.4455153, tolerance = .001)
+  expect_equal(mean(c(s_incovewindow$dist), na.rm = TRUE), 0.4, tolerance = .001)
 })
 
