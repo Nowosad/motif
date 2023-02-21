@@ -81,7 +81,7 @@ get_motifels_single_proxy = function(i, x_path, type, directions, window_size,
 
 merge_and_update = function(result, window_size, nr){
   update_id = function(multiplier, x, window_size, nr){
-    n = ifelse(window_size != 0, ceiling(nr / window_size), 1)
+    n = ifelse(window_size != 0, ceiling2(nr / window_size), 1)
     x[["id"]] = x[["id"]] + (multiplier * n)
     x
   }

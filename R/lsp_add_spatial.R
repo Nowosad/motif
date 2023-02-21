@@ -58,9 +58,6 @@ lsp_add_stars.default = function(x = NULL, window = NULL){
   }
 
   if (is.numeric(window) && window != 0){
-    x_nrow = nrow(x)
-    x_ncol = ncol(x)
-
     x_crs = sf::st_crs(x)
     x_bb = sf::st_bbox(x)
     x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]
@@ -149,8 +146,8 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
   cellshift = c(window_shift * x_delta_row,
                 window_shift * x_delta_col)
 
-  output_n_row = ceiling(abs((x_bb["xmax"] - x_bb["xmin"]) / cellshift[1]))
-  output_n_col = ceiling(abs((x_bb["ymin"] - x_bb["ymax"]) / cellshift[1]))
+  output_n_row = ceiling2(abs((x_bb["xmax"] - x_bb["xmin"]) / cellshift[1]))
+  output_n_col = ceiling2(abs((x_bb["ymin"] - x_bb["ymax"]) / cellshift[2]))
 
   new_xmax = x_bb["xmin"] + (output_n_row * cellshift[1])
   new_ymin = x_bb["ymax"] + (output_n_col * cellshift[2])
@@ -275,9 +272,6 @@ lsp_add_sf.default = function(x = NULL, window = NULL){
     if (inherits(x, "SpatRaster")){
       x = stars::st_as_stars(x)
     }
-    x_nrow = nrow(x)
-    x_ncol = ncol(x)
-
     x_crs = sf::st_crs(x)
     x_bb = sf::st_bbox(x)
     x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]

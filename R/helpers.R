@@ -14,3 +14,5 @@ normalize_signature = function(x, normalization){
     return(x / sum(x))
   }
 }
+
+ceiling2 = function(x) ceiling(signif(x))
