@@ -8,13 +8,14 @@ s_cove = lsp_search(
   threshold = 0.9
 )
 
-# s_cocove = lsp_search(
-#   c(landcover_ext, landform_ext),
-#   c(landcover, landform),
-#   type = "cocove",
-#   dist_fun = "jensen-shannon",
-#   threshold = 0.9
-# )
+s_cocove = lsp_search(
+  c(landcover_ext, landform_ext),
+  c(landcover, landform),
+  type = "cocove",
+  ordered = TRUE,
+  dist_fun = "jensen-shannon",
+  threshold = 0.9
+)
 
 s_wecove = lsp_search(
   c(landform_ext, random_ndvi_ext),
@@ -68,15 +69,13 @@ s_cove_window = lsp_search(
   window = ecoregions["id"]
 )
 
-print(unlist(unique(s_cocove)))
-
 test_that("tests simple search results", {
   expect_equivalent(unlist(unique(s_cove)),
                     c(1, 0.0982, 0.4523),
                     tolerance = .001)
-  # expect_equivalent(unlist(unique(s_cocove)),
-  #                   c(1, 0.0555, 0.601),
-  #                   tolerance = .001)
+  expect_equivalent(unlist(unique(s_cocove)),
+                    c(1, 0.0555, 0.453),
+                    tolerance = .001)
   expect_equivalent(unlist(unique(s_wecove)),
                     c(1, 0.0982, 0.451),
                     tolerance = .001)
