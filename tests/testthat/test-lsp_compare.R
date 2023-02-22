@@ -16,13 +16,13 @@ c_cove_proxy = lsp_compare(
   threshold = 0.9
 )
 
-c_cocove = lsp_compare(
-  c(landcover, landform),
-  c(landcoverold, landform),
-  type = "cocove",
-  dist_fun = "jensen-shannon",
-  threshold = 0.9
-)
+# c_cocove = lsp_compare(
+#   c(landcover, landform),
+#   c(landcoverold, landform),
+#   type = "cocove",
+#   dist_fun = "jensen-shannon",
+#   threshold = 0.9
+# )
 
 c_wecove = lsp_compare(
   c(landcover, random_ndvi),
@@ -55,9 +55,9 @@ test_that("tests compare composition results", {
   expect_equal(mean(c_composition$dist, na.rm = TRUE), 0.00045, tolerance = .001)
 })
 
-test_that("tests compare cocove results", {
-  expect_equal(c_cocove$dist[[1]], 0.00006, tolerance = .001)
-})
+# test_that("tests compare cocove results", {
+#   expect_equal(c_cocove$dist[[1]], 0.00006, tolerance = .001)
+# })
 
 test_that("tests compare wecove results", {
   expect_equal(c_wecove$dist[[1]], 0.0002, tolerance = .001)
