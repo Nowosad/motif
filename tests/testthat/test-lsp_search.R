@@ -68,6 +68,8 @@ s_cove_window = lsp_search(
   window = ecoregions["id"]
 )
 
+print(unlist(unique(s_cocove)))
+
 test_that("tests simple search results", {
   expect_equivalent(unlist(unique(s_cove)),
                     c(1, 0.0982, 0.4523),

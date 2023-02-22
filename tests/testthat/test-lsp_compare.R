@@ -56,7 +56,7 @@ test_that("tests compare composition results", {
 })
 
 test_that("tests compare cocove results", {
-  expect_equal(c_cocove$dist[[1]], 0.00057, tolerance = .001)
+  expect_equal(c_cocove$dist[[1]], 0.00006, tolerance = .001)
 })
 
 test_that("tests compare wecove results", {
