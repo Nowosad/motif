@@ -1,6 +1,6 @@
 citHeader("To cite motif in publications, please use:")
 
-citEntry(entry = "article",
+bibentry(bibtype = "Article",
   author = c(person("Jakub", "Nowosad")),
   title = "Motif: an open-source R tool for pattern-based spatial analysis",
   journal = "Landscape Ecology",
