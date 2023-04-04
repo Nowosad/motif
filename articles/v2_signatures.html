@@ -103,7 +103,7 @@
       <h1 data-toc-skip>Types of spatial patterns’ signatures</h1>
                         <h4 data-toc-skip class="author">Jakub Nowosad</h4>
             
-            <h4 data-toc-skip class="date">2023-02-22</h4>
+            <h4 data-toc-skip class="date">2023-04-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Nowosad/motif/blob/HEAD/vignettes/articles/v2_signatures.Rmd" class="external-link"><code>vignettes/articles/v2_signatures.Rmd</code></a></small>
       <div class="hidden name"><code>v2_signatures.Rmd</code></div>
@@ -170,7 +170,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    78  0.164  <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    79  0      <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    80  0      <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 1,070 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,070 more rows</span></span></span></code></pre></div>
 <p>The output is an object of class <code>lsp</code> with three columns:</p>
 <ul>
 <li>
@@ -208,7 +208,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    78  0.164  <span style="color: #949494;">&lt;dbl [1 × 28]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    79  0      <span style="color: #949494;">&lt;dbl [1 × 28]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    80  0      <span style="color: #949494;">&lt;dbl [1 × 28]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 1,070 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,070 more rows</span></span></span></code></pre></div>
 <p>This representation can be used to compare different local landscapes.</p>
 <p>Learn more about these representations at <a href="https://nowosad.github.io/comat/articles/coma.html" class="external-link uri">https://nowosad.github.io/comat/articles/coma.html</a>.</p>
 </div>
@@ -233,7 +233,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    78  0.164  <span style="color: #949494;">&lt;dbl [7 × 7]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    79  0      <span style="color: #949494;">&lt;dbl [7 × 7]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    80  0      <span style="color: #949494;">&lt;dbl [7 × 7]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 1,070 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,070 more rows</span></span></span></code></pre></div>
 <p>Weighted co-occurrence vector (<code>"wecove"</code>) is rearrangement of a weighted co-occurrence matrix into one-dimensional object:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wecove_output</span> <span class="op">=</span> <span class="fu"><a href="../reference/lsp_signature.html">lsp_signature</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">landcover</span>, <span class="va">random_ndvi</span><span class="op">)</span>,</span>
@@ -252,7 +252,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    78  0.164  <span style="color: #949494;">&lt;dbl [1 × 28]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    79  0      <span style="color: #949494;">&lt;dbl [1 × 28]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    80  0      <span style="color: #949494;">&lt;dbl [1 × 28]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 1,070 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,070 more rows</span></span></span></code></pre></div>
 <p>Learn more about these representations at <a href="https://nowosad.github.io/comat/articles/wecoma.html" class="external-link uri">https://nowosad.github.io/comat/articles/wecoma.html</a>.</p>
 </div>
 <div class="section level2">
@@ -289,7 +289,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    78  0.164  <span style="color: #949494;">&lt;dbl [1 × 7]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    79  0      <span style="color: #949494;">&lt;dbl [1 × 7]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    80  0      <span style="color: #949494;">&lt;dbl [1 × 7]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 1,070 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,070 more rows</span></span></span></code></pre></div>
 <p>By default, it is normalized to sum to 1:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">composition_output</span><span class="op">$</span><span class="va">signature</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
@@ -331,7 +331,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    78  0.164  <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    79  0      <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    80  0      <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 1,070 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,070 more rows</span></span></span></code></pre></div>
 <p>We can see that in the first local landscape we have 6429 non-NA cells.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_fun_output</span><span class="op">$</span><span class="va">signature</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>

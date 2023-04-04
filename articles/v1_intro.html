@@ -184,7 +184,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    39  0      <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    40  0      <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    41  0      <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 288 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 288 more rows</span></span></span></code></pre></div>
 <p>Now, we have one row per local landscape, where each local landscape is described by an id (<code>id</code>), the proportion of cells with <code>NA</code>s (<code>na_prop</code>), and a signature (<code>signature</code>). For example, the first signature looks like this:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">landcover_coma</span><span class="op">$</span><span class="va">signature</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
@@ -223,7 +223,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     8 0.072<span style="text-decoration: underline;">0</span>  <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     9 0.050<span style="text-decoration: underline;">8</span>  <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    10 0       <span style="color: #949494;">&lt;int [7 × 7]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 12 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 12 more rows</span></span></span></code></pre></div>
 <p>The output, <code>landcover_coma_e</code>, is also of the <code>lsp</code> class and contains three columns. The first column, <code>id</code>, has the same values as provided in the <code>window</code> argument above. The third column, <code>signature</code>, has a spatial signature for each polygon in the <code>ecoregions</code> dataset.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">landcover_coma_e</span><span class="op">$</span><span class="va">signature</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
