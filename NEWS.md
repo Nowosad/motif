@@ -1,3 +1,7 @@
+# motif 0.6.2
+
+* Improves handling of terra's `SpatRaster` class in `lsp_add_terra`
+
 # motif 0.6.1
 
 * `lsp_add_stars` and `lsp_add_terra` now do not drop the `signature` list-column, but restructures it into many raster layers
