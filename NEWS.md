@@ -1,3 +1,7 @@
+# motif 0.6.3
+
+* Adds an option to remove metadata information with `lsp_add_stars`, `lsp_add_terra`, and `lsp_add_sf`
+
 # motif 0.6.2
 
 * Improves handling of terra's `SpatRaster` class in `lsp_add_terra`

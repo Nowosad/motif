@@ -10,6 +10,8 @@
 #' @param x Object of class `stars` or `lsp`.
 #' For `stars`, `window` or `window_size` can be used.
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
+#' @param metadata Logical. Only when `x`` is of class `lsp`. If `TRUE`, the output object will have metadata ("id" and "na_prop").
+#' If `FALSE`, the output object will not have metadata ("id" and "na_prop").
 #'
 #' @return A `stars` object converted from the input object or a provided set of parameters
 #'
@@ -43,11 +45,11 @@
 #' @rdname lsp_add_stars
 #'
 #' @export
-lsp_add_stars = function(x = NULL, window = NULL) UseMethod("lsp_add_stars")
+lsp_add_stars = function(x = NULL, window = NULL, metadata = TRUE) UseMethod("lsp_add_stars")
 
 #' @name lsp_add_stars
 #' @export
-lsp_add_stars.default = function(x = NULL, window = NULL){
+lsp_add_stars.default = function(x = NULL, window = NULL, metadata = TRUE){
 
   if (length(window) == 2){
     window_shift = window[2]
@@ -97,28 +99,30 @@ lsp_add_stars.default = function(x = NULL, window = NULL){
 
 #' @name lsp_add_stars
 #' @export
-lsp_add_stars.lsp = function(x = NULL, window = NULL){
-  metadata = attr(x, "metadata")
-  if (metadata$use_window && is.null(window)){
+lsp_add_stars.lsp = function(x = NULL, window = NULL, metadata = TRUE){
+  metadata_attr = attr(x, "metadata")
+  if (metadata_attr$use_window && is.null(window)){
     stop("This function requires an sf object in the window argument for irregular local landscapes.", call. = FALSE)
   }
 
   if (is.null(window)){
-    output_stars = lsp_create_grid(x_crs = metadata$crs,
-                                   x_bb = metadata$bb,
-                                   x_delta_row = metadata$delta_y,
-                                   x_delta_col = metadata$delta_x,
-                                   window_shift = metadata$window_shift)
+    output_stars = lsp_create_grid(x_crs = metadata_attr$crs,
+                                   x_bb = metadata_attr$bb,
+                                   x_delta_row = metadata_attr$delta_y,
+                                   x_delta_col = metadata_attr$delta_x,
+                                   window_shift = metadata_attr$window_shift)
   } else {
     output_stars = stars::st_rasterize(window[1],
-                                 template = stars::st_as_stars(metadata$bb,
+                                 template = stars::st_as_stars(metadata_attr$bb,
                                                                values = NA_integer_,
-                                                               dx = metadata$delta_y,
-                                                               dy = metadata$delta_x))
+                                                               dx = metadata_attr$delta_y,
+                                                               dy = metadata_attr$delta_x))
   }
   x = lsp_restructure(x)
   output_stars = join_stars(output_stars, x, by = "id")
-
+  if (isFALSE(metadata)) {
+    output_stars = output_stars[- which(names(output_stars) %in% c("id", "na_prop"))]
+  }
   return(output_stars)
 }
 
@@ -142,7 +146,6 @@ join_stars = function(stars, df, by){
   }
   return(stars)
 }
-
 
 lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
 
@@ -185,7 +188,9 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
 #' @param x Object of class `stars` or `lsp`.
 #' For `stars`, `window` or `window_size` can be used.
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
-#'
+#' @param metadata Logical. Only when `x`` is of class `lsp`. If `TRUE`, the output object will have metadata ("id" and "na_prop").
+#' If `FALSE`, the output object will not have metadata ("id" and "na_prop").
+#' 
 #' @return A `terra` object converted from the input object or a provided set of parameters
 #'
 #' @examples
@@ -202,11 +207,11 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
 #' #plot(lc_cove_lsp["na_prop"])
 #'
 #' @export
-lsp_add_terra = function(x = NULL, window = NULL){
+lsp_add_terra = function(x = NULL, window = NULL, metadata = TRUE){
   if (!requireNamespace("terra", quietly = TRUE)){
     stop("package terra required, please install it first") # nocov
   }
-  output = lsp_add_stars(x = x, window = window)
+  output = lsp_add_stars(x = x, window = window, metadata = metadata)
   output_names = names(output)
   output = terra::rast(output)
   names(output) = output_names
@@ -225,7 +230,9 @@ lsp_add_terra = function(x = NULL, window = NULL){
 #' @param x Object of class `stars` or `lsp`.
 #' For `stars`, `window` or `window_size` can be used.
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
-#'
+#' @param metadata Logical. Only when `x`` is of class `lsp`. If `TRUE`, the output object will have metadata ("id" and "na_prop").
+#' If `FALSE`, the output object will not have metadata ("id" and "na_prop").
+#' 
 #' @return An `sf` object converted from the input object or a provided set of parameters
 #'
 #' @examples
@@ -257,11 +264,11 @@ lsp_add_terra = function(x = NULL, window = NULL){
 #' @rdname lsp_add_sf
 #'
 #' @export
-lsp_add_sf = function(x = NULL, window = NULL) UseMethod("lsp_add_sf")
+lsp_add_sf = function(x = NULL, window = NULL, metadata = TRUE) UseMethod("lsp_add_sf")
 
 #' @name lsp_add_sf
 #' @export
-lsp_add_sf.default = function(x = NULL, window = NULL){
+lsp_add_sf.default = function(x = NULL, window = NULL, metadata = TRUE){
 
   if (length(window) == 2){
     window_shift = window[2]
@@ -309,17 +316,17 @@ lsp_add_sf.default = function(x = NULL, window = NULL){
 
 #' @name lsp_add_sf
 #' @export
-lsp_add_sf.lsp = function(x = NULL, window = NULL){
-  metadata = attr(x, "metadata")
-  if (metadata$use_window && is.null(window)){
+lsp_add_sf.lsp = function(x = NULL, window = NULL, metadata = TRUE){
+  metadata_attr = attr(x, "metadata")
+  if (metadata_attr$use_window && is.null(window)){
     stop("This function requires an sf object in the window argument for irregular local landscapes.", call. = FALSE)
   }
   if (is.null(window)){
-    output_stars = lsp_create_grid(x_crs = metadata$crs,
-                                   x_bb = metadata$bb,
-                                   x_delta_row = metadata$delta_y,
-                                   x_delta_col = metadata$delta_x,
-                                   window_shift = metadata$window_shift)
+    output_stars = lsp_create_grid(x_crs = metadata_attr$crs,
+                                   x_bb = metadata_attr$bb,
+                                   x_delta_row = metadata_attr$delta_y,
+                                   x_delta_col = metadata_attr$delta_x,
+                                   window_shift = metadata_attr$window_shift)
 
     output_sf = sf::st_as_sf(output_stars)
   } else {
@@ -328,6 +335,8 @@ lsp_add_sf.lsp = function(x = NULL, window = NULL){
   output_sf = merge(x, output_sf, by = "id", all.x = TRUE)
   output_sf = tibble::as_tibble(output_sf)
   output_sf = sf::st_as_sf(output_sf)
-
+  if (isFALSE(metadata)){
+    output_sf = output_sf[, -which(names(output_sf) %in% c("id", "na_prop"))]
+  }
   return(output_sf)
 }
