@@ -118,7 +118,9 @@ lsp_add_stars.lsp = function(x = NULL, window = NULL, metadata = TRUE){
                                                                dx = metadata_attr$delta_y,
                                                                dy = metadata_attr$delta_x))
   }
-  x = lsp_restructure(x)
+  if ("signature" %in% names(x)) {
+    x = lsp_restructure(x)
+  }
   output_stars = join_stars(output_stars, x, by = "id")
   if (isFALSE(metadata)) {
     output_stars = output_stars[- which(names(output_stars) %in% c("id", "na_prop"))]
@@ -190,7 +192,7 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
 #' @param metadata Logical. Only when `x`` is of class `lsp`. If `TRUE`, the output object will have metadata ("id" and "na_prop").
 #' If `FALSE`, the output object will not have metadata ("id" and "na_prop").
-#' 
+#'
 #' @return A `terra` object converted from the input object or a provided set of parameters
 #'
 #' @examples
@@ -232,7 +234,7 @@ lsp_add_terra = function(x = NULL, window = NULL, metadata = TRUE){
 #' @param window Specifies areas for analysis. It can be either: `NULL`, a numeric value, or an `sf` object. If `window=NULL` calculations are performed for a whole area. If the `window` argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an `sf` object is provided, each feature (row) defines the extent of a local pattern. The `sf` object should have one attribute (otherwise, the first attribute is used as an id).
 #' @param metadata Logical. Only when `x`` is of class `lsp`. If `TRUE`, the output object will have metadata ("id" and "na_prop").
 #' If `FALSE`, the output object will not have metadata ("id" and "na_prop").
-#' 
+#'
 #' @return An `sf` object converted from the input object or a provided set of parameters
 #'
 #' @examples
