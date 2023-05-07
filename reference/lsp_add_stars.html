@@ -22,7 +22,7 @@ a stars object."><meta property="og:image" content="/logo.png"><!-- mathjax --><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.3</span>
       </span>
     </div>
 
@@ -88,13 +88,13 @@ a <code>stars</code> object.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lsp_add_stars</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, window <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lsp_add_stars</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, window <span class="op">=</span> <span class="cn">NULL</span>, metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for default</span></span>
-<span><span class="fu">lsp_add_stars</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, window <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu">lsp_add_stars</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, window <span class="op">=</span> <span class="cn">NULL</span>, metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for lsp</span></span>
-<span><span class="fu">lsp_add_stars</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, window <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">lsp_add_stars</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, window <span class="op">=</span> <span class="cn">NULL</span>, metadata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -106,6 +106,10 @@ For <code>stars</code>, <code>window</code> or <code>window_size</code> can be u
 
 <dt>window</dt>
 <dd><p>Specifies areas for analysis. It can be either: <code>NULL</code>, a numeric value, or an <code>sf</code> object. If <code>window=NULL</code> calculations are performed for a whole area. If the <code>window</code> argument is numeric, it is a length of the side of a square-shaped block of cells. Expressed in the numbers of cells, it defines the extent of a local pattern. If an <code>sf</code> object is provided, each feature (row) defines the extent of a local pattern. The <code>sf</code> object should have one attribute (otherwise, the first attribute is used as an id).</p></dd>
+
+
+<dt>metadata</dt>
+<dd><p>Logical. Only when <code>x`` is of class </code>lsp<code>. If </code>TRUE<code>, the output object will have metadata ("id" and "na_prop"). If </code>FALSE`, the output object will not have metadata ("id" and "na_prop").</p></dd>
 
 </dl></div>
     <div id="value">
