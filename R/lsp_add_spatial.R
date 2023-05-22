@@ -333,6 +333,7 @@ lsp_add_sf.lsp = function(x = NULL, window = NULL, metadata = TRUE){
     output_sf = sf::st_as_sf(output_stars)
   } else {
     output_sf = window
+    if (!("id" %in% colnames(output_sf))) output_sf$id = seq_len(nrow(output_sf))
   }
   output_sf = merge(x, output_sf, by = "id", all.x = TRUE)
   output_sf = tibble::as_tibble(output_sf)
