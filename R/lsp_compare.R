@@ -75,8 +75,12 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", ne
     y = stars::st_as_stars(y)
   }
   x_metadata = stars::st_dimensions(x)
+  y_metadata = stars::st_dimensions(y)
 
-  #test if x == y
+  if (!all.equal(x_metadata, y_metadata)){
+    stop("x and y objects must have the same dimensions", call. = FALSE)
+  }
+
   classes_x = determine_classes(x, window)
   classes_y = determine_classes(y, window)
 
