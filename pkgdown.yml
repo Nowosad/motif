@@ -1,12 +1,12 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.0.8
 pkgdown_sha: ~
 articles:
+  v1_intro: v1_intro.html
   v2_signatures: v2_signatures.html
   v3_search: v3_search.html
   v4_compare: v4_compare.html
   v5_cluster: v5_cluster.html
   v6_composition: v6_composition.html
-  v1_intro: v1_intro.html
-last_built: 2023-06-29T15:18Z
+last_built: 2024-04-14T15:40Z
 
