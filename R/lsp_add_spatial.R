@@ -104,9 +104,11 @@ lsp_add_stars.lsp = function(x = NULL, window = NULL, metadata = TRUE){
   if (metadata_attr$use_window && is.null(window)){
     stop("This function requires an sf object in the window argument for irregular local landscapes.", call. = FALSE)
   }
-  if (metadata_attr$window_shift == 0){
-    output_stars = stars::st_as_stars(metadata_attr$bb, nx = 1, ny = 1, values = 1)
-    names(output_stars) = "id"
+  if (!is.null(metadata_attr$window_shift)){
+    if (metadata_attr$window_shift == 0) {
+      output_stars = stars::st_as_stars(metadata_attr$bb, nx = 1, ny = 1, values = 1)
+      names(output_stars) = "id"
+    }
   } else if (is.null(window)){
     output_stars = lsp_create_grid(x_crs = metadata_attr$crs,
                                    x_bb = metadata_attr$bb,
