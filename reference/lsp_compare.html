@@ -21,7 +21,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.5</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
     <p>Compares two spatial datasets containing categorical raster data.
 It accepts a categorical raster dataset with one or more attributes, and compares it to the second dataset with the same attributes and dimensions.
 The both dataset are either compared to as whole areas, areas divided into regular windows, or areas divided into irregular windows.
-This function allows for several types of comparisons using different representations of spatial patterns, including "coma" (co-occurrence matrix), "cove" (co-occurrence vector), "cocoma" (co-located co-occurrence matrix), "cocove" (co-located co-occurrence vector), "wecoma" (weighted co-occurrence matrix), "wecove" (weighted co-occurrence vector), "incoma" (integrated co-occurrence matrix), "incove" (integrated co-occurrence vector). These representations are created for both datasets, and next a distance between them is calculated using a selected measure from the <code><a href="https://rdrr.io/pkg/philentropy/man/distance.html" class="external-link">philentropy::distance</a></code> function.
+This function allows for several types of comparisons using different representations of spatial patterns, including "coma" (co-occurrence matrix), "cove" (co-occurrence vector), "cocoma" (co-located co-occurrence matrix), "cocove" (co-located co-occurrence vector), "wecoma" (weighted co-occurrence matrix), "wecove" (weighted co-occurrence vector), "incoma" (integrated co-occurrence matrix), "incove" (integrated co-occurrence vector). These representations are created for both datasets, and next a distance between them is calculated using a selected measure from the <code><a href="https://drostlab.github.io/philentropy/reference/distance.html" class="external-link">philentropy::distance</a></code> function.
 Additional parameters, such as neighbourhood or normalization types, are also available.</p>
     </div>
 
@@ -121,7 +121,7 @@ Additional parameters, such as neighbourhood or normalization types, are also av
 
 
 <dt id="arg-dist-fun">dist_fun<a class="anchor" aria-label="anchor" href="#arg-dist-fun"></a></dt>
-<dd><p>Distance measure used. This function uses the <code><a href="https://rdrr.io/pkg/philentropy/man/distance.html" class="external-link">philentropy::distance</a></code> function in the background. Run <code><a href="https://rdrr.io/pkg/philentropy/man/getDistMethods.html" class="external-link">philentropy::getDistMethods()</a></code> to find possible distance measures.</p></dd>
+<dd><p>Distance measure used. This function uses the <code><a href="https://drostlab.github.io/philentropy/reference/distance.html" class="external-link">philentropy::distance</a></code> function in the background. Run <code><a href="https://drostlab.github.io/philentropy/reference/getDistMethods.html" class="external-link">philentropy::getDistMethods()</a></code> to find possible distance measures.</p></dd>
 
 
 <dt id="arg-window">window<a class="anchor" aria-label="anchor" href="#arg-window"></a></dt>
@@ -170,7 +170,7 @@ The default is "pdf".</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional arguments for the <code><a href="https://rdrr.io/pkg/philentropy/man/distance.html" class="external-link">philentropy::distance</a></code> function.</p></dd>
+<dd><p>Additional arguments for the <code><a href="https://drostlab.github.io/philentropy/reference/distance.html" class="external-link">philentropy::distance</a></code> function.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -229,7 +229,7 @@ For irregular windows, it is the values provided in the <code>window</code> argu
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
       </footer></div>

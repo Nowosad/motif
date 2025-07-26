@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   v1_intro: v1_intro.html
@@ -8,4 +8,4 @@ articles:
   articles/v4_compare: v4_compare.html
   articles/v5_cluster: v5_cluster.html
   articles/v6_composition: v6_composition.html
-last_built: 2024-08-23T14:11Z
+last_built: 2025-07-26T08:56Z

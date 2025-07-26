@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">motif</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.5</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@
                         <h4 data-toc-skip class="author">Jakub
 Nowosad</h4>
             
-            <h4 data-toc-skip class="date">2024-08-23</h4>
+            <h4 data-toc-skip class="date">2025-07-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Nowosad/motif/blob/main/vignettes/articles/v4_compare.Rmd" class="external-link"><code>vignettes/articles/v4_compare.Rmd</code></a></small>
       <div class="hidden name"><code>v4_compare.Rmd</code></div>
@@ -114,11 +114,9 @@ attaching necessary packages:</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: abind</span></span>
 <span><span class="co">#&gt; Loading required package: sf</span></span>
-<span><span class="co">#&gt; Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE</span></span>
+<span><span class="co">#&gt; Linking to GEOS 3.13.0, GDAL 3.8.5, PROJ 9.5.1; sf_use_s2() is TRUE</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-tmap.github.io/tmap/" class="external-link">tmap</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Breaking News: tmap 3.x is retiring. Please test v4, e.g. with</span></span>
-<span><span class="co">#&gt; remotes::install_github('r-tmap/tmap')</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span></span></code></pre></div>
 <p>Spatial patterns’ comparison requires two spatial objects. For this
 vignette, we read the <code>"raster/landcover2001.tif"</code> and
 <code>"raster/landcover2015.tif"</code> files.</p>
@@ -163,7 +161,12 @@ argument, with the value of 0 indicating no change, and larger values
 <code class="sourceCode R"><span><span class="va">my_breaks</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">1.01</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">compare_1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_raster.html" class="external-link">tm_raster</a></span><span class="op">(</span><span class="st">"dist"</span>, breaks <span class="op">=</span> <span class="va">my_breaks</span>, palette <span class="op">=</span> <span class="st">"-viridis"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">tmap v3 code detected</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[v3-&gt;v4]</span> `tm_tm_raster()`: migrate the argument(s) related to the scale of the</span></span>
+<span><span class="co">#&gt; visual variable `col` namely 'breaks', 'palette' (rename to 'values') to</span></span>
+<span><span class="co">#&gt; col.scale = tm_scale(&lt;HERE&gt;).</span></span></code></pre></div>
 <p><img src="v4_compare_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>Let’s see the local landscape with the largest change in a spatial
 pattern.</p>
@@ -218,7 +221,12 @@ ecoregions, with just two exceptions:</p>
 <span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">ecoregions</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_borders</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; stars object downsampled to 1390 by 720 cells. See tm_shape manual (argument raster.downsample)</span></span></code></pre></div>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">tmap v3 code detected</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[v3-&gt;v4]</span> `tm_tm_raster()`: migrate the argument(s) related to the scale of the</span></span>
+<span><span class="co">#&gt; visual variable `col` namely 'breaks', 'palette' (rename to 'values') to</span></span>
+<span><span class="co">#&gt; col.scale = tm_scale(&lt;HERE&gt;).</span></span>
+<span><span class="co">#&gt; stars object downsampled to 3680 by 1906 cells.</span></span></code></pre></div>
 <p><img src="v4_compare_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <p>Let’s see the ecoregion with the largest change in a spatial
 pattern.</p>
@@ -263,7 +271,7 @@ the north-east of the ecoregion.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
       </footer>
