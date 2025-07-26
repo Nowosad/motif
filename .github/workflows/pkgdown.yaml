@@ -36,7 +36,7 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("covr")
-          # install.packages("pkgdown", type = "binary")
+          install.packages("pkgdown", type = "binary")
           # options(repos = c(rspatial = 'https://r-spatial.r-universe.dev',
           #                   rspatial2 = 'https://rspatial.r-universe.dev',
           #                   CRAN = 'https://cloud.r-project.org'))
