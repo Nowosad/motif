@@ -41,7 +41,7 @@ jobs:
           #                   rspatial2 = 'https://rspatial.r-universe.dev',
           #                   CRAN = 'https://cloud.r-project.org'))
           # install.packages("sf")
-          # install.packages("tmap")
+          install.packages("tmap")
           # install.packages("terra")
 
         shell: Rscript {0}
