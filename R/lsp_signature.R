@@ -52,12 +52,25 @@
 #' landcover_comp = lsp_signature(landcover, type = "composition", threshold = 0.9)
 #' landcover_comp
 #' }
-lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 0.9, ordered = FALSE, repeated = FALSE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL){
-  if (inherits(x, "SpatRaster")){
+lsp_signature = function(
+  x,
+  type,
+  window = NULL,
+  neighbourhood = 4,
+  threshold = 0.9,
+  ordered = FALSE,
+  repeated = FALSE,
+  normalization = "pdf",
+  wecoma_fun = "mean",
+  wecoma_na_action = "replace",
+  classes = NULL
+) {
+  if (inherits(x, "SpatRaster")) {
+    x = terra::as.int(x) # to ensure that the data is stored as integers, not names of categories
     x = stars::st_as_stars(x)
   }
 
-# get metadata ------------------------------------------------------------
+  # get metadata ------------------------------------------------------------
   x_crs = sf::st_crs(x)
   x_bb = sf::st_bbox(x)
   x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]
@@ -68,8 +81,8 @@ lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 
 
   directions = as.matrix(neighbourhood)
 
-# prepare window ----------------------------------------------------------
-  if (is.null(window) && inherits(x, "stars_proxy")){
+  # prepare window ----------------------------------------------------------
+  if (is.null(window) && inherits(x, "stars_proxy")) {
     x = stars::st_as_stars(x)
   }
 
@@ -78,66 +91,72 @@ lsp_signature = function(x, type, window = NULL, neighbourhood = 4, threshold = 
   window_size = window_meta[["window_size"]]
   window_shift = window_meta[["window_shift"]]
 
-# prepare classes ---------------------------------------------------------
-  if (is.null(classes)){
+  # prepare classes ---------------------------------------------------------
+  if (is.null(classes)) {
     classes = determine_classes(x, window)
   }
-  if (inherits(classes, "numeric") || inherits(classes, "integer")){
+  if (inherits(classes, "numeric") || inherits(classes, "integer")) {
     classes = list(classes)
   }
 
-# prepare type ------------------------------------------------------------
-  if (is.function(type)){
-    f = type; type = "fun"
+  # prepare type ------------------------------------------------------------
+  if (is.function(type)) {
+    f = type
+    type = "fun"
   } else {
-    f = function(){}
+    f = function() {}
   }
 
-# calculate ---------------------------------------------------------------
-  if ((is.vector(window) && is.numeric(window)) || is.null(window)){
-    if (type == "composition" && length(x) > 1){
+  # calculate ---------------------------------------------------------------
+  if ((is.vector(window) && is.numeric(window)) || is.null(window)) {
+    if (type == "composition" && length(x) > 1) {
       warning("Only the first layer will be used", call. = FALSE)
     }
-    x = get_motifels_all(x,
-                     type = type,
-                     directions = directions,
-                     window_size = window_size,
-                     window_shift = window_shift,
-                     f = f,
-                     threshold = threshold,
-                     classes = classes,
-                     ordered = ordered,
-                     repeated = repeated,
-                     normalization = normalization,
-                     wecoma_fun = wecoma_fun,
-                     wecoma_na_action = wecoma_na_action,
-                     dimensions = stars::st_dimensions(x))
-
+    x = get_motifels_all(
+      x,
+      type = type,
+      directions = directions,
+      window_size = window_size,
+      window_shift = window_shift,
+      f = f,
+      threshold = threshold,
+      classes = classes,
+      ordered = ordered,
+      repeated = repeated,
+      normalization = normalization,
+      wecoma_fun = wecoma_fun,
+      wecoma_na_action = wecoma_na_action,
+      dimensions = stars::st_dimensions(x)
+    )
   } else {
-    x = get_polygons_all(x,
-                         type = type,
-                         directions = directions,
-                         window = window,
-                         f = f,
-                         threshold = threshold,
-                         classes = classes,
-                         ordered = ordered,
-                         repeated = repeated,
-                         normalization = normalization,
-                         wecoma_fun = wecoma_fun,
-                         wecoma_na_action = wecoma_na_action)
+    x = get_polygons_all(
+      x,
+      type = type,
+      directions = directions,
+      window = window,
+      f = f,
+      threshold = threshold,
+      classes = classes,
+      ordered = ordered,
+      repeated = repeated,
+      normalization = normalization,
+      wecoma_fun = wecoma_fun,
+      wecoma_na_action = wecoma_na_action
+    )
   }
 
-# add spatial metadata ----------------------------------------------------
-  if (!is.null(x)){
-    attr(x, "metadata") = c(attr(x, "metadata"),
-                            crs = list(x_crs),
-                            bb = list(x_bb),
-                            delta_x = x_delta_col,
-                            delta_y = x_delta_row,
-                            window_size = window_size,
-                            window_shift = window_shift,
-                            use_window = inherits(window, "matrix"))
+  # add spatial metadata ----------------------------------------------------
+  if (!is.null(x)) {
+    attr(x, "metadata") = c(
+      attr(x, "metadata"),
+      crs = list(x_crs),
+      bb = list(x_bb),
+      delta_x = x_delta_col,
+      delta_y = x_delta_row,
+      window_size = window_size,
+      window_shift = window_shift,
+      use_window = inherits(window, "matrix")
+    )
     return(structure(x, class = c("lsp", class(x))))
   }
 }

@@ -67,17 +67,34 @@
 #'     dist_fun = "jensen-shannon", window = ecoregions["id"])
 #' plot(c1["dist"])
 #' }
-lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = FALSE, repeated = FALSE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", ...){
-  if (inherits(x, "SpatRaster")){
+lsp_compare = function(
+  x,
+  y,
+  type,
+  dist_fun,
+  window = NULL,
+  output = "stars",
+  neighbourhood = 4,
+  threshold = 0.5,
+  ordered = FALSE,
+  repeated = FALSE,
+  normalization = "pdf",
+  wecoma_fun = "mean",
+  wecoma_na_action = "replace",
+  ...
+) {
+  if (inherits(x, "SpatRaster")) {
+    x = terra::as.int(x) # to ensure that the data is stored as integers, not names of categories
     x = stars::st_as_stars(x)
   }
-  if (inherits(y, "SpatRaster")){
+  if (inherits(y, "SpatRaster")) {
+    y = terra::as.int(y) # to ensure that the data is stored as integers, not names of categories
     y = stars::st_as_stars(y)
   }
   x_metadata = stars::st_dimensions(x)
   y_metadata = stars::st_dimensions(y)
 
-  if (!all.equal(x_metadata, y_metadata)){
+  if (!all.equal(x_metadata, y_metadata)) {
     stop("x and y objects must have the same dimensions", call. = FALSE)
   }
 
@@ -123,15 +140,20 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", ne
   output_x = output_x[output_x[["id"]] %in% joint_ids, ]
   output_y = output_y[output_y[["id"]] %in% joint_ids, ]
 
-  output_all = cbind(output_x[!names(output_x) == "signature"], output_y["na_prop_y"])
+  output_all = cbind(
+    output_x[!names(output_x) == "signature"],
+    output_y["na_prop_y"]
+  )
   # output_all = merge(output_x[!names(output_x) == "signature"],
   #                    output_y[!names(output_y) == "signature"],
   #                    by = "id")
   # unify signatures
   # attributes(output_x)
-  if (nrow(output_all) == 0){
-    stop("Cannot calculate signatures. Have you tried using a smaller `window` or a larger `threshold` value?",
-         call. = FALSE)
+  if (nrow(output_all) == 0) {
+    stop(
+      "Cannot calculate signatures. Have you tried using a smaller `window` or a larger `threshold` value?",
+      call. = FALSE
+    )
   }
 
   unit = "log2"
@@ -148,13 +170,19 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", ne
 
   #message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
-  if (output == "stars" || output == "terra"){
+  if (output == "stars" || output == "terra") {
     output_stars = lsp_add_stars(x_metadata, window = window)
 
-    output_stars$na_prop_x = output_all$na_prop_x[match(output_stars$id, output_all$id)]
-    output_stars$na_prop_y = output_all$na_prop_y[match(output_stars$id, output_all$id)]
+    output_stars$na_prop_x = output_all$na_prop_x[match(
+      output_stars$id,
+      output_all$id
+    )]
+    output_stars$na_prop_y = output_all$na_prop_y[match(
+      output_stars$id,
+      output_all$id
+    )]
     output_stars$dist = output_all$dist[match(output_stars$id, output_all$id)]
-    if (output == "stars"){
+    if (output == "stars") {
       return(output_stars)
     } else {
       output_names = names(output_stars)
@@ -162,11 +190,15 @@ lsp_compare = function(x, y, type, dist_fun, window = NULL, output = "stars", ne
       names(output_stars) = output_names
       return(output_stars)
     }
-  } else if (output == "sf"){
+  } else if (output == "sf") {
     #return sf
     output_sf = lsp_add_sf(x_metadata, window = window)
-    output_sf = merge(output_sf, output_all,
-                      by.x = names(output_sf)[1], by.y = "id")
+    output_sf = merge(
+      output_sf,
+      output_all,
+      by.x = names(output_sf)[1],
+      by.y = "id"
+    )
 
     return(output_sf)
   }

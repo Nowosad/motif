@@ -45,22 +45,24 @@
 #' @rdname lsp_add_stars
 #'
 #' @export
-lsp_add_stars = function(x = NULL, window = NULL, metadata = TRUE) UseMethod("lsp_add_stars")
+lsp_add_stars = function(x = NULL, window = NULL, metadata = TRUE) {
+  UseMethod("lsp_add_stars")
+}
 
 #' @name lsp_add_stars
 #' @export
-lsp_add_stars.default = function(x = NULL, window = NULL, metadata = TRUE){
-
-  if (length(window) == 2){
+lsp_add_stars.default = function(x = NULL, window = NULL, metadata = TRUE) {
+  if (length(window) == 2) {
     window_shift = window[2]
     window = window[1]
-  } else if (length(window) == 1){
+  } else if (length(window) == 1) {
     window = window[1]
     window_shift = window[1]
   }
 
-  if (is.numeric(window) && window != 0){
-    if (inherits(x, "SpatRaster")){
+  if (is.numeric(window) && window != 0) {
+    if (inherits(x, "SpatRaster")) {
+      x = terra::as.int(x) # to ensure that the data is stored as integers, not names of categories
       x = stars::st_as_stars(x)
     }
     x_crs = sf::st_crs(x)
@@ -68,30 +70,34 @@ lsp_add_stars.default = function(x = NULL, window = NULL, metadata = TRUE){
     x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]
     x_delta_col = stars::st_dimensions(x)[[2]][["delta"]]
 
-    output = lsp_create_grid(x_crs = x_crs,
-                             x_bb = x_bb,
-                             x_delta_row = x_delta_row,
-                             x_delta_col = x_delta_col,
-                             window_shift = window_shift)
+    output = lsp_create_grid(
+      x_crs = x_crs,
+      x_bb = x_bb,
+      x_delta_row = x_delta_row,
+      x_delta_col = x_delta_col,
+      window_shift = window_shift
+    )
     return(output)
-
-  } else if (is.null(window)){
+  } else if (is.null(window)) {
     x_bb = sf::st_bbox(x)
 
     output = stars::st_as_stars(x_bb, nx = 1, ny = 1, values = 1)
     names(output) = "id"
 
     return(output)
-
   } else {
     x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]
     x_delta_col = stars::st_dimensions(x)[[2]][["delta"]]
 
-    window = stars::st_rasterize(window,
-                                 template = stars::st_as_stars(sf::st_bbox(x),
-                                                               values = NA_integer_,
-                                                               dx = unname(x_delta_row),
-                                                               dy = unname(x_delta_col)))
+    window = stars::st_rasterize(
+      window,
+      template = stars::st_as_stars(
+        sf::st_bbox(x),
+        values = NA_integer_,
+        dx = unname(x_delta_row),
+        dy = unname(x_delta_col)
+      )
+    )
     names(window) = "id"
     return(window)
   }
@@ -99,52 +105,72 @@ lsp_add_stars.default = function(x = NULL, window = NULL, metadata = TRUE){
 
 #' @name lsp_add_stars
 #' @export
-lsp_add_stars.lsp = function(x = NULL, window = NULL, metadata = TRUE){
+lsp_add_stars.lsp = function(x = NULL, window = NULL, metadata = TRUE) {
   metadata_attr = attr(x, "metadata")
-  if (metadata_attr$use_window && is.null(window)){
-    stop("This function requires an sf object in the window argument for irregular local landscapes.", call. = FALSE)
+  if (metadata_attr$use_window && is.null(window)) {
+    stop(
+      "This function requires an sf object in the window argument for irregular local landscapes.",
+      call. = FALSE
+    )
   }
-  if (!is.null(metadata_attr$window_shift)){
+  if (!is.null(metadata_attr$window_shift)) {
     if (metadata_attr$window_shift == 0) {
-      output_stars = stars::st_as_stars(metadata_attr$bb, nx = 1, ny = 1, values = 1)
+      output_stars = stars::st_as_stars(
+        metadata_attr$bb,
+        nx = 1,
+        ny = 1,
+        values = 1
+      )
       names(output_stars) = "id"
-    } else if (is.null(window)){
-      output_stars = lsp_create_grid(x_crs = metadata_attr$crs,
-                                     x_bb = metadata_attr$bb,
-                                     x_delta_row = metadata_attr$delta_y,
-                                     x_delta_col = metadata_attr$delta_x,
-                                       window_shift = metadata_attr$window_shift)
+    } else if (is.null(window)) {
+      output_stars = lsp_create_grid(
+        x_crs = metadata_attr$crs,
+        x_bb = metadata_attr$bb,
+        x_delta_row = metadata_attr$delta_y,
+        x_delta_col = metadata_attr$delta_x,
+        window_shift = metadata_attr$window_shift
+      )
     }
   } else {
-    output_stars = stars::st_rasterize(window[1],
-                                 template = stars::st_as_stars(metadata_attr$bb,
-                                                               values = NA_integer_,
-                                                               dx = metadata_attr$delta_y,
-                                                               dy = metadata_attr$delta_x))
+    output_stars = stars::st_rasterize(
+      window[1],
+      template = stars::st_as_stars(
+        metadata_attr$bb,
+        values = NA_integer_,
+        dx = metadata_attr$delta_y,
+        dy = metadata_attr$delta_x
+      )
+    )
   }
   if ("signature" %in% names(x)) {
     x = lsp_restructure(x)
   }
   output_stars = join_stars(output_stars, x, by = "id")
   if (isFALSE(metadata)) {
-    output_stars = output_stars[- which(names(output_stars) %in% c("id", "na_prop"))]
+    output_stars = output_stars[
+      -which(names(output_stars) %in% c("id", "na_prop"))
+    ]
   }
   return(output_stars)
 }
 
-join_stars = function(stars, df, by){
+join_stars = function(stars, df, by) {
   true_dim = dim(stars[[by]])
   matched_ids = match(stars[[by]], df[[by]])
   # matched_ids = matched_ids[-1]
 
   nonid_colnames = colnames(df)[-which(colnames(df) == by)]
 
-  for (i in seq_along(nonid_colnames)){
+  for (i in seq_along(nonid_colnames)) {
     selected_colnames = nonid_colnames[i]
     selected_vals = df[[selected_colnames]][matched_ids]
-    if (inherits(selected_vals, "list")){
-      warning("Column ", selected_colnames, " is of a list class and will be dropped from the output object.",
-              call. = FALSE)
+    if (inherits(selected_vals, "list")) {
+      warning(
+        "Column ",
+        selected_colnames,
+        " is of a list class and will be dropped from the output object.",
+        call. = FALSE
+      )
     } else {
       stars[[selected_colnames]] = selected_vals
       dim(stars[[selected_colnames]]) = true_dim
@@ -153,10 +179,14 @@ join_stars = function(stars, df, by){
   return(stars)
 }
 
-lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
-
-  cellshift = c(window_shift * x_delta_row,
-                window_shift * x_delta_col)
+lsp_create_grid = function(
+  x_crs,
+  x_bb,
+  x_delta_row,
+  x_delta_col,
+  window_shift
+) {
+  cellshift = c(window_shift * x_delta_row, window_shift * x_delta_col)
 
   output_n_row = ceiling2(abs((x_bb["xmax"] - x_bb["xmin"]) / cellshift[1]))
   output_n_col = ceiling2(abs((x_bb["ymin"] - x_bb["ymax"]) / cellshift[2]))
@@ -171,10 +201,12 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
     ymax = unname(x_bb["ymax"])
   ))
 
-  output = stars::st_as_stars(output_bb,
-                       nx = unname(output_n_row),
-                       ny = unname(output_n_col),
-                       values = as.integer(seq_len(output_n_row * output_n_col)))
+  output = stars::st_as_stars(
+    output_bb,
+    nx = unname(output_n_row),
+    ny = unname(output_n_col),
+    values = as.integer(seq_len(output_n_row * output_n_col))
+  )
 
   output = sf::st_set_crs(output, value = x_crs)
   names(output) = "id"
@@ -213,8 +245,8 @@ lsp_create_grid = function(x_crs, x_bb, x_delta_row, x_delta_col, window_shift){
 #' #plot(lc_cove_lsp["na_prop"])
 #'
 #' @export
-lsp_add_terra = function(x = NULL, window = NULL, metadata = TRUE){
-  if (!requireNamespace("terra", quietly = TRUE)){
+lsp_add_terra = function(x = NULL, window = NULL, metadata = TRUE) {
+  if (!requireNamespace("terra", quietly = TRUE)) {
     stop("package terra required, please install it first") # nocov
   }
   output = lsp_add_stars(x = x, window = window, metadata = metadata)
@@ -270,22 +302,24 @@ lsp_add_terra = function(x = NULL, window = NULL, metadata = TRUE){
 #' @rdname lsp_add_sf
 #'
 #' @export
-lsp_add_sf = function(x = NULL, window = NULL, metadata = TRUE) UseMethod("lsp_add_sf")
+lsp_add_sf = function(x = NULL, window = NULL, metadata = TRUE) {
+  UseMethod("lsp_add_sf")
+}
 
 #' @name lsp_add_sf
 #' @export
-lsp_add_sf.default = function(x = NULL, window = NULL, metadata = TRUE){
-
-  if (length(window) == 2){
+lsp_add_sf.default = function(x = NULL, window = NULL, metadata = TRUE) {
+  if (length(window) == 2) {
     window_shift = window[2]
     window = window[1]
-  } else if (length(window) == 1){
+  } else if (length(window) == 1) {
     window = window[1]
     window_shift = window[1]
   }
 
-  if (is.numeric(window) && window != 0){
-    if (inherits(x, "SpatRaster")){
+  if (is.numeric(window) && window != 0) {
+    if (inherits(x, "SpatRaster")) {
+      x = terra::as.int(x) # to ensure that the data is stored as integers, not names of categories
       x = stars::st_as_stars(x)
     }
     x_crs = sf::st_crs(x)
@@ -293,16 +327,17 @@ lsp_add_sf.default = function(x = NULL, window = NULL, metadata = TRUE){
     x_delta_row = stars::st_dimensions(x)[[1]][["delta"]]
     x_delta_col = stars::st_dimensions(x)[[2]][["delta"]]
 
-    output = lsp_create_grid(x_crs = x_crs,
-                             x_bb = x_bb,
-                             x_delta_row = x_delta_row,
-                             x_delta_col = x_delta_col,
-                             window_shift = window_shift)
+    output = lsp_create_grid(
+      x_crs = x_crs,
+      x_bb = x_bb,
+      x_delta_row = x_delta_row,
+      x_delta_col = x_delta_col,
+      window_shift = window_shift
+    )
 
     output = sf::st_as_sf(output)
     return(output)
-
-  } else if (is.null(window)){
+  } else if (is.null(window)) {
     x_bb = sf::st_bbox(x)
     x_crs = sf::st_crs(x)
 
@@ -312,9 +347,7 @@ lsp_add_sf.default = function(x = NULL, window = NULL, metadata = TRUE){
     output = sf::st_as_sf(output)
 
     return(output)
-
   } else {
-
     # names(window) = "id"
     return(window)
   }
@@ -322,27 +355,34 @@ lsp_add_sf.default = function(x = NULL, window = NULL, metadata = TRUE){
 
 #' @name lsp_add_sf
 #' @export
-lsp_add_sf.lsp = function(x = NULL, window = NULL, metadata = TRUE){
+lsp_add_sf.lsp = function(x = NULL, window = NULL, metadata = TRUE) {
   metadata_attr = attr(x, "metadata")
-  if (metadata_attr$use_window && is.null(window)){
-    stop("This function requires an sf object in the window argument for irregular local landscapes.", call. = FALSE)
+  if (metadata_attr$use_window && is.null(window)) {
+    stop(
+      "This function requires an sf object in the window argument for irregular local landscapes.",
+      call. = FALSE
+    )
   }
-  if (is.null(window)){
-    output_stars = lsp_create_grid(x_crs = metadata_attr$crs,
-                                   x_bb = metadata_attr$bb,
-                                   x_delta_row = metadata_attr$delta_y,
-                                   x_delta_col = metadata_attr$delta_x,
-                                   window_shift = metadata_attr$window_shift)
+  if (is.null(window)) {
+    output_stars = lsp_create_grid(
+      x_crs = metadata_attr$crs,
+      x_bb = metadata_attr$bb,
+      x_delta_row = metadata_attr$delta_y,
+      x_delta_col = metadata_attr$delta_x,
+      window_shift = metadata_attr$window_shift
+    )
 
     output_sf = sf::st_as_sf(output_stars)
   } else {
     output_sf = window
-    if (!("id" %in% colnames(output_sf))) output_sf$id = seq_len(nrow(output_sf))
+    if (!("id" %in% colnames(output_sf))) {
+      output_sf$id = seq_len(nrow(output_sf))
+    }
   }
   output_sf = merge(x, output_sf, by = "id", all.x = TRUE)
   output_sf = tibble::as_tibble(output_sf)
   output_sf = sf::st_as_sf(output_sf)
-  if (isFALSE(metadata)){
+  if (isFALSE(metadata)) {
     output_sf = output_sf[, -which(names(output_sf) %in% c("id", "na_prop"))]
   }
   return(output_sf)

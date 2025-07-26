@@ -90,11 +90,29 @@
 #'   dist_fun = "jensen-shannon", threshold = 0.5, window = ecoregions["id"])
 #' plot(s2["dist"])
 #' }
-lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", neighbourhood = 4, threshold = 0.5, ordered = FALSE, repeated = FALSE, normalization = "pdf", wecoma_fun = "mean", wecoma_na_action = "replace", classes = NULL, ...){
-  if (inherits(x, "SpatRaster")){
+lsp_search = function(
+  x,
+  y,
+  type,
+  dist_fun,
+  window = NULL,
+  output = "stars",
+  neighbourhood = 4,
+  threshold = 0.5,
+  ordered = FALSE,
+  repeated = FALSE,
+  normalization = "pdf",
+  wecoma_fun = "mean",
+  wecoma_na_action = "replace",
+  classes = NULL,
+  ...
+) {
+  if (inherits(x, "SpatRaster")) {
+    x = terra::as.int(x) # to ensure that the data is stored as integers, not names of categories
     x = stars::st_as_stars(x)
   }
-  if (inherits(y, "SpatRaster")){
+  if (inherits(y, "SpatRaster")) {
+    y = terra::as.int(y) # to ensure that the data is stored as integers, not names of categories
     y = stars::st_as_stars(y)
   }
 
@@ -103,8 +121,8 @@ lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", nei
   y_metadata = stars::st_dimensions(y)
 
   # prepare classes ---------------------------------------------------------
-  if (is.null(classes)){
-    if (inherits(x, "stars_proxy")){
+  if (is.null(classes)) {
+    if (inherits(x, "stars_proxy")) {
       x = stars::st_as_stars(x)
     }
     classes_x = determine_classes(x, window)
@@ -114,7 +132,7 @@ lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", nei
     classes = lapply(classes, unique)
     classes = lapply(classes, sort)
   }
-  if (inherits(classes, "numeric") || inherits(classes, "integer")){
+  if (inherits(classes, "numeric") || inherits(classes, "integer")) {
     classes = list(classes)
   }
   # y signature -------------------------------------------------------------
@@ -162,7 +180,7 @@ lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", nei
   # message("Metric: '", dist_fun, "' using unit: '", unit, "'.")
 
   # prepare result ----------------------------------------------------------
-  if (output == "stars" || output == "terra"){
+  if (output == "stars" || output == "terra") {
     output_y$signature = NULL
     output_stars = lsp_add_stars(y_metadata, window = window)
 
@@ -174,7 +192,7 @@ lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", nei
     # output_stars$dist[which(output_stars$id %in% output$id)] = output$dist
     output_stars$dist = output_y$dist[match(output_stars$id, output_y$id)]
 
-    if (output == "stars"){
+    if (output == "stars") {
       return(output_stars)
     } else {
       output_names = names(output_stars)
@@ -182,12 +200,15 @@ lsp_search = function(x, y, type, dist_fun, window = NULL, output = "stars", nei
       names(output_stars) = output_names
       return(output_stars)
     }
-
-  } else if (output == "sf"){
+  } else if (output == "sf") {
     #return sf
     output_sf = lsp_add_sf(y_metadata, window = window)
-    output_sf = merge(output_sf, output_y,
-                      by.x = names(output_sf)[1], by.y = "id")
+    output_sf = merge(
+      output_sf,
+      output_y,
+      by.x = names(output_sf)[1],
+      by.y = "id"
+    )
     return(output_sf)
   }
 }

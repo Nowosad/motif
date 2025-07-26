@@ -1,3 +1,7 @@
+# motif 0.6.5
+
+* Forces dropping categories internally from the `SpatRaster` objects
+
 # motif 0.6.4
 
 * Fixes option of creating spatial `lsp` objects when the window size is 0
